@@ -1,0 +1,607 @@
+/* Master Category Design System - Consistent Premium Look */
+:root {
+    --primary-blue: #2563eb;
+    --primary-hover: #1d4ed8;
+    --success-green: #10b981;
+    --accent-red: #ef4444;
+    --dark-navy: #0f172a;
+    --slate-800: #1e293b;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-400: #94a3b8;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-navy);
+    font-family: 'Poppins', sans-serif;
+    color: var(--white);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 95%;
+}
+
+/* Header & Nav - Dark Theme */
+.main-header {
+    background: var(--dark-navy);
+    padding: 0.8rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--primary-blue);
+}
+
+.logo-accent {
+    color: var(--primary-blue);
+}
+
+.nav-menu ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    color: var(--primary-blue);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-login,
+.btn-register {
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.btn-login {
+    background: var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-register {
+    border: 2px solid var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-register:hover {
+    background: var(--primary-blue);
+}
+
+/* Category Hero Header */
+.category-header {
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85));
+    padding: 100px 0;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+.category-header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+.category-header p {
+    font-size: 1.3rem;
+    color: var(--slate-400);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Internal Hero Section (If any) */
+.hero-section {
+    background: var(--white);
+    color: var(--slate-800);
+    padding: 70px 0;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.hero-section h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    color: var(--slate-600);
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+/* Stats */
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    background: var(--dark-navy);
+    padding: 25px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--slate-800);
+}
+
+.stat-box .number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    display: block;
+}
+
+.stat-box .label {
+    font-size: 0.9rem;
+    color: var(--white);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* Content Sections */
+.section-title {
+    text-align: center;
+    color: var(--white);
+    font-size: 2.4rem;
+    margin: 80px 0 20px;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 6px;
+    background: var(--primary-blue);
+    margin: 20px auto 50px;
+    border-radius: 10px;
+}
+
+/* Job Cards Grid */
+.job-list,
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 35px;
+    margin-bottom: 100px;
+}
+
+.job-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-left: 12px solid var(--primary-blue);
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.job-card:hover {
+    transform: translateY(-15px) scale(1.02);
+}
+
+.job-card-tag {
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary-blue);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.job-title {
+    font-size: 1.6rem;
+    color: var(--slate-800);
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.job-title i {
+    color: var(--primary-blue);
+    margin-right: 12px;
+}
+
+.company {
+    font-size: 1.15rem;
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.location {
+    font-size: 1rem;
+    color: var(--slate-400);
+    margin-bottom: 15px;
+}
+
+.salary {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--success-green);
+    margin-bottom: 25px;
+}
+
+.details {
+    font-size: 1rem;
+    color: var(--slate-600);
+    margin-bottom: 35px;
+    flex-grow: 1;
+}
+
+.apply-btn {
+    display: block;
+    width: 100%;
+    background: var(--primary-blue);
+    color: var(--white) !important;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 750;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 1.1rem;
+}
+
+.apply-btn:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Other Sections (Skills, Certs etc) */
+.skills-section,
+.career-path-section,
+.certifications-section {
+    background: var(--slate-800);
+    padding: 60px 40px;
+    margin-top: 40px;
+    border-radius: 30px;
+    border: 1px solid var(--slate-700);
+    margin-bottom: 60px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.skill-category h3 {
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skill-category ul {
+    list-style: none;
+}
+
+.skill-category ul li {
+    margin-bottom: 12px;
+    color: var(--slate-400);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.skill-category ul li::before {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--primary-blue);
+    font-size: 0.8rem;
+}
+
+.career-path-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.career-level {
+    padding: 25px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 20px;
+    border-left: 5px solid var(--primary-blue);
+    transition: 0.3s;
+}
+
+.career-level:hover {
+    background: rgba(15, 23, 42, 0.6);
+    transform: translateX(10px);
+}
+
+.career-level h3 {
+    color: var(--white);
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.career-level h3 i {
+    color: var(--primary-blue);
+}
+
+.career-level p {
+    color: var(--slate-400);
+    font-size: 1rem;
+}
+
+.career-level p strong {
+    color: var(--success-green);
+}
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.cert-card {
+    background: rgba(15, 23, 42, 0.4);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+.cert-card:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-10px);
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.cert-card i {
+    font-size: 2.5rem;
+    color: var(--primary-blue);
+    margin-bottom: 20px;
+}
+
+.cert-card h3 {
+    color: var(--white);
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.cert-card p {
+    color: var(--slate-400);
+    font-size: 0.95rem;
+}
+
+/* Salary Section Styling */
+.salary-section,
+.companies-section {
+    background: var(--slate-800);
+    padding: 60px 40px;
+    margin-top: 40px;
+    border-radius: 30px;
+    border: 1px solid var(--slate-700);
+    margin-bottom: 60px;
+}
+
+.salary-table {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.salary-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    padding: 22px 35px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 18px;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.salary-row:hover:not(.header) {
+    background: rgba(15, 23, 42, 0.6);
+    transform: translateX(10px);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.salary-row.header {
+    background: var(--primary-blue);
+    font-weight: 800;
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+}
+
+.salary-row div {
+    color: var(--slate-400);
+    font-weight: 500;
+}
+
+.salary-row.header div {
+    color: var(--white);
+}
+
+.salary-row div:last-child {
+    color: var(--success-green);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.salary-row.header div:last-child {
+    color: var(--white);
+    font-size: 0.85rem;
+}
+
+/* Companies Grid Styling */
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 35px;
+}
+
+.company-logo {
+    background: rgba(15, 23, 42, 0.4);
+    padding: 40px 25px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--white);
+    border: 1px solid var(--slate-700);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-height: 120px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.company-logo:hover {
+    border-color: var(--primary-blue);
+    transform: translateY(-12px);
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: var(--primary-blue);
+}
+
+@media (max-width: 768px) {
+    .job-list {
+        grid-template-columns: 1fr;
+    }
+
+    .category-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .skills-grid,
+    .cert-grid,
+    .companies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skills-section,
+    .career-path-section,
+    .certifications-section,
+    .salary-section,
+    .companies-section {
+        padding: 40px 20px;
+    }
+
+    .salary-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        text-align: center;
+        padding: 25px;
+    }
+
+    .salary-row.header {
+        display: none;
+    }
+
+    .salary-row div::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.75rem;
+        color: var(--primary-blue);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        font-weight: 700;
+    }
+}
+
+/* Footer Styling */
+.main-footer {
+    background: var(--dark-navy);
+    padding: 60px 0 30px;
+    border-top: 1px solid var(--slate-800);
+    margin-top: 80px;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 25px;
+}
+
+.footer-links a {
+    color: var(--slate-400);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--primary-blue);
+}
+
+.main-footer p {
+    color: var(--slate-600);
+    font-size: 0.85rem;
+}

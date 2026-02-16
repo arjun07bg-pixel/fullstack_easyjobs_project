@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Applications Status - EasyJobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/dashboard.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ Main ============ -->
+    <main class="container">
+
+        <h2 id="dashboard-title">Dashboard</h2>
+        <p class="subtitle" id="dashboard-subtitle">Overview of your activity</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr id="table-header-row">
+                        <!-- Headers will be injected by JS -->
+                        <th>Loading...</th>
+                    </tr>
+                </thead>
+                <tbody id="applications-body">
+                    <!-- Dynamic Content will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/dashboard.js"></script>
+</body>
+
+</html>

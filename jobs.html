@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Find Jobs | EasyJobs - Simple, Fast, Convenient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/jobs.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/jobs.html" class="nav-link active">Find Jobs</a></li>
+                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar">
+            <div class="filter-section">
+                <h3><i class="fas fa-search-plus"></i> Search Filters</h3>
+                <div class="search-box">
+                    <input type="text" id="keyword-search" placeholder="Keywords (e.g. React, UX)">
+                </div>
+                <div class="search-box">
+                    <input type="text" id="location-search" placeholder="Location (City, State)">
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-layer-group"></i> Experience Level</h3>
+                <select id="exp-select">
+                    <option value="">Any Experience</option>
+                    <option value="0">Fresher (0-1 year)</option>
+                    <option value="1">Junior (1-2 years)</option>
+                    <option value="3">Mid-Level (3-5 years)</option>
+                    <option value="5">Senior (5+ years)</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-briefcase"></i> Job Type</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="job_type" value="Full Time"> Full Time</label>
+                    <label><input type="checkbox" name="job_type" value="Part Time"> Part Time</label>
+                    <label><input type="checkbox" name="job_type" value="Contract"> Contract</label>
+                    <label><input type="checkbox" name="job_type" value="Internship"> Internship</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-house-laptop"></i> Work Mode</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="work_mode" value="Office"> On-site</label>
+                    <label><input type="checkbox" name="work_mode" value="Remote"> Remote</label>
+                    <label><input type="checkbox" name="work_mode" value="Hybrid"> Hybrid</label>
+                </div>
+            </div>
+
+            <button class="apply-btn" id="applyFiltersBtn">Apply Filters <i class="fas fa-filter"></i></button>
+            <button class="clear-btn" id="clearAllBtn">Clear All Filters</button>
+        </aside>
+
+        <!-- Jobs Section -->
+        <section class="jobs-section">
+            <div class="jobs-header">
+                <div>
+                    <h2>Available Jobs</h2>
+                    <p class="jobs-count" id="jobs-count-text">Loading jobs...</p>
+                </div>
+                <select class="sort-dropdown">
+                    <option>Most Recent</option>
+                    <option>Salary: High to Low</option>
+                    <option>Salary: Low to High</option>
+                    <option>Experience Level</option>
+                </select>
+            </div>
+
+            <!-- Dynamic Jobs Container -->
+            <div id="jobs-container">
+                <div style="text-align: center; padding: 60px 20px; grid-column: 1/-1;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">⏳</div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Loading Jobs...</h3>
+                    <p style="color: #666;">Please wait while we fetch the latest job openings for you.</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination-container"></div>
+        </section>
+    </div>
+
+    <!-- Featured Categories Section -->
+    <section class="content-section featured-categories"
+        style="background: var(--bg-light); border-top: 1px solid #e0e7ff; padding: 60px 0;">
+        <div class="container">
+            <h2 class="section-title">Explore Top Categories</h2>
+            <p class="section-subtitle">Browse jobs by the skills that matter most to you.</p>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <i class="fas fa-laptop-code category-icon"></i>
+                    <h3>IT & Software</h3>
+                    <p>3,200+ Openings</p>
+                    <a href="/IT_software.html" class="btn-view-jobs">View Openings <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+
+                <div class="category-card">
+                    <i class="fas fa-chart-line category-icon"></i>
+                    <h3>Sales & Marketing</h3>
+                    <p>1,800+ Openings</p>
+                    <a href="/sales&marketing.html" class="btn-view-jobs">View Openings <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+
+                <div class="category-card">
+                    <i class="fas fa-dollar-sign category-icon"></i>
+                    <h3>Finance & Accounting</h3>
+                    <p>1,100+ Openings</p>
+                    <a href="/Finance&accounting.html" class="btn-view-jobs">View Openings <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+
+                <div class="category-card">
+                    <i class="fas fa-tools category-icon"></i>
+                    <h3>Engineering</h3>
+                    <p>2,500+ Openings</p>
+                    <a href="/Engineering.html" class="btn-view-jobs">View Openings <i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="/dashboard.html">Employer Dashboard</a>
+                <a href="/contact.html">Contact</a>
+            </div>
+            <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
+        </div>
+    </footer>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/jobs.js"></script>
+</body>
+
+</html>

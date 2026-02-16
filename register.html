@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Jobs - Sign Up</title>
+    <link rel="stylesheet" href="/styles/register.css">
+</head>
+
+<body>
+    <div class="signup-wrapper">
+        <div class="image-section">
+            <div class="image-content">
+                <div class="illustration"></div>
+                <h2>Join Easy Jobs Today</h2>
+                <p>Connect with thousands of employers and discover your perfect career opportunity</p>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="logo-section">
+                <div class="logo"><a href="/" style="text-decoration: none; color: inherit;">Easy Jobs</a>
+                    <div class="tagline">Find Your Dream Career</div>
+                </div>
+
+                <div class="signup-header">
+                    <h2>Create Account</h2>
+                    <p>Start your journey to find the perfect job</p>
+                </div>
+
+                <div id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" name="firstname" placeholder="First name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Last name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Create password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmpassword">Confirm Password</label>
+                            <input type="password" id="confirmpassword" name="confirmpassword"
+                                placeholder="Confirm password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="usertype">I am a</label>
+                        <select id="usertype" name="usertype">
+                            <option value="">Select user type</option>
+                            <option value="jobseeker">Job Seeker</option>
+                            <option value="employer">Employer</option>
+                        </select>
+                    </div>
+
+                    <label class="terms-checkbox">
+                        <input type="checkbox" id="terms" name="terms">
+                        <span>I agree to the <a href="terms">Terms & Conditions</a> and <a href="privacy">Privacy
+                                Policy</a></span>
+                    </label>
+
+                    <button type="button" id="createAccountBtn" class="signup-btn">Create Account</button>
+                </div>
+
+                <div class="divider">
+                    <span>OR SIGN UP WITH</span>
+                </div>
+
+                <div class="login-link">
+                    Already have an account? <a href="/login.html">Login</a>
+                </div>
+            </div>
+        </div>
+        <script src="/javascript/register.js"></script>
+</body>
+
+</html>
+

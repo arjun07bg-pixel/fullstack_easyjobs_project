@@ -1,0 +1,149 @@
+/* Universal Search Section Styling for Category Pages */
+/* Works for: IT & Software, Sales & Marketing, Finance & Accounting, Engineering */
+
+.search-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2.5rem;
+    border-radius: 20px;
+    margin: 2rem 0 3rem 0;
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+}
+
+.search-title {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.search-title i {
+    font-size: 1.5rem;
+}
+
+.search-title .tamil-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.search-box-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1.2rem 3.5rem 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: white;
+    background: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+}
+
+.clear-search {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clear-search:hover {
+    background: #dc2626;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.search-results-info {
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tamil-info {
+    opacity: 0.85;
+    font-size: 0.95rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-section {
+        padding: 1.5rem;
+        margin: 1.5rem 0 2rem 0;
+    }
+
+    .search-title {
+        font-size: 1.4rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .search-title .tamil-text {
+        font-size: 1rem;
+    }
+
+    .search-input {
+        padding: 1rem 3rem 1rem 1rem;
+        font-size: 1rem;
+    }
+
+    .clear-search {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .search-results-info {
+        font-size: 0.95rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Highlight Animation */
+@keyframes highlight {
+
+    0%,
+    100% {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: rgba(102, 126, 234, 0.1);
+    }
+}
+
+.job-card.highlight {
+    animation: highlight 1.5s ease;
+}

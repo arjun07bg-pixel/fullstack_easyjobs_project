@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Profile | EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/profile.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/profile.html" class="nav-link active">Profile</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-main">
+        <div class="container">
+            <div class="profile-grid">
+                <!-- Left: Form -->
+                <div class="profile-form-area">
+                    <form id="profileForm">
+                        <div class="profile-card">
+                            <h2><i class="fas fa-user-edit"></i> Personal Information</h2>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" id="firstName" placeholder="First Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" id="lastName" placeholder="Last Name" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" id="email" placeholder="Email" readonly
+                                        style="background: #f1f5f9;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" id="phone" placeholder="Phone Number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Location</label>
+                                <input type="text" id="location" placeholder="City, State, Country">
+                            </div>
+                            <div class="form-group">
+                                <label>Short Bio / Summary</label>
+                                <textarea id="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h2><i class="fas fa-briefcase"></i> Professional Details</h2>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Total Experience (Years)</label>
+                                    <input type="number" id="experience" placeholder="e.g. 5">
+                                </div>
+                                <div class="form-group">
+                                    <label>Current/Expected Salary (LPA)</label>
+                                    <input type="number" id="salary" placeholder="e.g. 12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Skills (Comma Separated)</label>
+                                <input type="text" id="skills" placeholder="React, Node.js, Python, SQL">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="save-btn" id="saveProfileBtn">Update Professional Profile</button>
+                    </form>
+                </div>
+
+                <!-- Right: Photo & Resume -->
+                <div class="profile-stats-area">
+                    <div class="profile-card avatar-section">
+                        <h2><i class="fas fa-camera"></i> Profile Picture</h2>
+                        <div class="avatar-huge" id="profileImagePreview">
+                            <i class="fas fa-user"></i>
+                            <div class="upload-overlay" onclick="document.getElementById('photoInput').click()">Change
+                            </div>
+                        </div>
+                        <input type="file" id="photoInput" hidden accept="image/*">
+                        <p style="font-size: 0.85rem; color: #64748b;">JPG or PNG, Max 2MB</p>
+                    </div>
+
+                    <div class="profile-card">
+                        <h2><i class="fas fa-file-pdf"></i> Resume / CV</h2>
+                        <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">Upload your latest resume so
+                            employers can find you.</p>
+                        <input type="file" id="resumeInput" hidden accept=".pdf,.doc,.docx">
+                        <button class="save-btn" style="background: #f4f7fe; color: #2563eb; border: 1px solid #bfdbfe;"
+                            onclick="document.getElementById('resumeInput').click()">
+                            <i class="fas fa-upload"></i> Upload New Resume
+                        </button>
+                        <div class="resume-status" id="resume-status">
+                            <div class="status-dot"></div>
+                            <span id="resume-name">No resume uploaded yet</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h2><i class="fas fa-chart-line"></i> Profile Strength</h2>
+                        <div class="strength-container">
+                            <div class="strength-bar-bg">
+                                <div id="profile-strength-bar" class="strength-bar-fill"></div>
+                            </div>
+                            <div class="strength-text">
+                                <span id="strength-label">Calculating...</span>
+                                <span id="strength-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="main-footer" style="background: #1e293b; color: white; padding: 40px 0; margin-top: 50px;">
+        <div class="container">
+            <div class="footer-links" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+                <a href="#" style="color: #94a3b8;">Privacy Policy</a>
+                <a href="#" style="color: #94a3b8;">Terms of Service</a>
+                <a href="/dashboard.html" style="color: #94a3b8;">Manage Applications</a>
+            </div>
+            <p style="text-align: center; color: #64748b; font-size: 0.9rem;">&copy; 2026 EasyJobs. Built for your
+                success.</p>
+        </div>
+    </footer>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/profile.js"></script>
+</body>
+
+</html>

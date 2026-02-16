@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply - EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/apply_home.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/jobs.html" class="nav-link active">Find Jobs</a></li>
+                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/">Home</a> / <a href="/jobs.html">Jobs</a> / <span id="job-title-crumb">Job Application</span>
+    </div>
+
+    <!-- Main Container -->
+    <div class="job-page-layout">
+        <!-- Job Details Section (Left Side) -->
+        <div class="job-details-section">
+            <div class="job-header">
+                <div class="company-info">
+                    <div class="company-logo" id="company-logo-char">?</div>
+                    <div class="company-details">
+                        <p class="company-name" id="detailed-company-name">Company Name</p>
+                        <h1 id="detailed-job-title">Job Title</h1>
+                        <p class="job-location" id="detailed-location">📍 Location</p>
+                    </div>
+                </div>
+                <button class="save-job-btn" id="saveJobBtn">
+                    <i class="far fa-bookmark"></i> Save Job
+                </button>
+            </div>
+
+            <div class="job-meta">
+                <div class="meta-item"><i class="fas fa-briefcase"></i> <span id="detailed-exp">Experience</span></div>
+                <div class="meta-item"><i class="fas fa-money-bill-wave"></i> <span id="detailed-salary">Salary</span>
+                </div>
+                <div class="meta-item"><i class="fas fa-clock"></i> <span id="detailed-type">Job Type</span></div>
+                <div class="meta-item"><i class="fas fa-home"></i> <span id="detailed-mode">Work Mode</span></div>
+            </div>
+
+            <div class="job-tags" id="skills-container">
+                <!-- Skills will be injected here -->
+            </div>
+
+            <div class="job-content">
+                <h2><i class="fas fa-file-alt"></i> Job Description</h2>
+                <div id="detailed-description">
+                    <p>Loading job details...</p>
+                </div>
+
+                <!-- Key Responsibilities -->
+                <h2><i class="fas fa-tasks"></i> Key Responsibilities</h2>
+                <div id="responsibilities-section">
+                    <ul>
+                        <li>Design, develop, and maintain high-quality software applications</li>
+                        <li>Collaborate with cross-functional teams to define and implement new features</li>
+                        <li>Write clean, maintainable, and efficient code</li>
+                        <li>Participate in code reviews and provide constructive feedback</li>
+                        <li>Troubleshoot and debug applications to optimize performance</li>
+                    </ul>
+                </div>
+
+                <!-- Required Skills -->
+                <h2><i class="fas fa-check-circle"></i> Required Skills & Qualifications</h2>
+                <div id="requirements-section">
+                    <ul>
+                        <li>Bachelor's degree in Computer Science or related field</li>
+                        <li>Proven experience in software development</li>
+                        <li>Strong problem-solving and analytical skills</li>
+                        <li>Excellent communication and teamwork abilities</li>
+                        <li>Ability to work in a fast-paced environment</li>
+                    </ul>
+                </div>
+
+                <!-- Benefits -->
+                <h2><i class="fas fa-gift"></i> Benefits & Perks</h2>
+                <div id="benefits-section">
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="fas fa-heartbeat"></i>
+                            <span>Health Insurance</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-plane"></i>
+                            <span>Paid Time Off</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Learning & Development</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-laptop"></i>
+                            <span>Work From Home</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-utensils"></i>
+                            <span>Free Meals</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-dumbbell"></i>
+                            <span>Gym Membership</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Company -->
+                <h2><i class="fas fa-building"></i> About the Company</h2>
+                <div id="company-overview-section">
+                    <p id="detailed-company-description">We are a leading organization in our industry, committed to
+                        innovation and excellence. Join our team of talented professionals and make a real impact!</p>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="additional-info">
+                    <div class="info-row">
+                        <span class="info-label"><i class="fas fa-calendar-alt"></i> Posted:</span>
+                        <span id="posted-date">Recently</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label"><i class="fas fa-users"></i> Applicants:</span>
+                        <span id="applicant-count">Be among the first to apply</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label"><i class="fas fa-hashtag"></i> Job ID:</span>
+                        <span id="job-id-display">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar (Right Side) - Application Form -->
+        <div class="sidebar">
+            <div class="application-form">
+                <h3><i class="fas fa-paper-plane"></i> Apply for this Job</h3>
+                <p class="form-subtitle">Fill in your details to apply</p>
+
+                <form id="applyForm">
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <input type="text" id="full_name" placeholder="Enter your full name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" placeholder="your.email@example.com" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Location <span class="required">*</span></label>
+                        <input type="text" id="location" placeholder="City, State" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Experience (Years) <span class="required">*</span></label>
+                        <select id="experience" required>
+                            <option value="">Select experience</option>
+                            <option value="0">Fresher (0 years)</option>
+                            <option value="1">1 year</option>
+                            <option value="2">2 years</option>
+                            <option value="3">3 years</option>
+                            <option value="4">4 years</option>
+                            <option value="5">5+ years</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Salary (LPA)</label>
+                        <input type="number" id="salary" placeholder="e.g. 5" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notice Period (Days)</label>
+                        <select id="notice_period">
+                            <option value="0">Immediate</option>
+                            <option value="15">15 Days</option>
+                            <option value="30">30 Days</option>
+                            <option value="60">60 Days</option>
+                            <option value="90">90 Days</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cover Letter</label>
+                        <textarea id="cover_letter" placeholder="Why are you a good fit for this role?"
+                            rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Portfolio Link (Optional)</label>
+                        <input type="url" id="portfolio_link" placeholder="https://..." />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Resume <span class="required">*</span></label>
+                        <label class="file-upload">
+                            <div class="file-upload-icon">📄</div>
+                            <div class="file-upload-text" id="file-name-display">Click to upload your resume</div>
+                            <div class="file-upload-hint">PDF, DOC, DOCX (Max 5MB)</div>
+                            <input type="file" id="resume" accept=".pdf,.doc,.docx" required />
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+
+                    <p class="privacy-note">
+                        <i class="fas fa-lock"></i> Your information is secure and will only be shared with the
+                        employer.
+                    </p>
+                </form>
+            </div>
+
+            <!-- Quick Tips -->
+            <div class="quick-tips">
+                <h4><i class="fas fa-lightbulb"></i> Application Tips</h4>
+                <ul>
+                    <li>✓ Update your resume with latest experience</li>
+                    <li>✓ Write a personalized cover letter</li>
+                    <li>✓ Highlight relevant skills</li>
+                    <li>✓ Double-check contact information</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Message -->
+    <div id="message-overlay" class="message-overlay" style="display: none;">
+        <div class="message-box">
+            <div class="message-icon" id="message-icon">✓</div>
+            <h3 id="message-title">Success!</h3>
+            <p id="message-text">Your application has been submitted successfully.</p>
+            <button onclick="closeMessage()" class="message-btn">OK</button>
+        </div>
+    </div>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/apply.js"></script>
+    <script>
+        // Close message function
+        function closeMessage() {
+            document.getElementById('message-overlay').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
