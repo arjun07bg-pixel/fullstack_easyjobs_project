@@ -230,6 +230,15 @@ body {
     color: white;
 }
 
+.comp-save-btn {
+    transition: all 0.2s ease;
+}
+
+.comp-save-btn:hover {
+    color: #1d4ed8 !important;
+    transform: scale(1.1);
+}
+
 /* Banner Styling */
 .header-banner {
     padding: 100px 20px;

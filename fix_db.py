@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 
@@ -6,52 +7,71 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 def fix_database():
-    if not DATABASE_URL:
-        print("No DATABASE_URL found. Skipping PostgreSQL fix.")
-        return
+    # 1. Always check and fix the local SQLite if it exists
+    sqlite_db = "easyjobs.db"
+    if os.path.exists(sqlite_db):
+        print(f"Applying fix to local SQLite: {sqlite_db}")
+        conn = sqlite3.connect(sqlite_db)
+        cursor = conn.cursor()
+        
+        columns_to_add = [
+            ("phone_number", "TEXT DEFAULT 'Not Provided'"),
+            ("image", "TEXT"),
+            ("bio", "TEXT"),
+            ("location", "TEXT"),
+            ("experience", "INTEGER"),
+            ("salary", "INTEGER"),
+            ("skills", "TEXT"),
+            ("resume_url", "TEXT")
+        ]
+        
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users'")
+        if cursor.fetchone():
+            cursor.execute("PRAGMA table_info(users)")
+            existing = [col[1] for col in cursor.fetchall()]
+            for col_name, col_type in columns_to_add:
+                if col_name not in existing:
+                    print(f"Adding column '{col_name}' to SQLite users...")
+                    try:
+                        cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
+                    except Exception as e:
+                        print(f"Error adding {col_name} to SQLite: {e}")
+            conn.commit()
+        conn.close()
+        print("SQLite fix done.")
 
-    try:
-        engine = create_engine(DATABASE_URL)
-        with engine.connect() as conn:
-            # 1. Add missing columns with correct types
-            columns_to_handle = [
-                ("bio", "TEXT"),
-                ("location", "VARCHAR(100)"),
-                ("experience", "INTEGER"),
-                ("salary", "INTEGER"),
-                ("skills", "TEXT"),
-                ("resume_url", "TEXT")
-            ]
-            
-            for col_name, col_type in columns_to_handle:
-                try:
-                    # Check if column exists
-                    query = text(f"SELECT column_name FROM information_schema.columns WHERE table_name='users' AND column_name='{col_name}'")
-                    result = conn.execute(query).fetchone()
-                    
-                    if not result:
-                        print(f"Adding missing column: {col_name}")
-                        conn.execute(text(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}"))
-                        conn.commit()
-                    else:
-                        # Ensure columns that should be TEXT are TEXT (upgrading from VARCHAR)
-                        if col_type == "TEXT":
-                            conn.execute(text(f"ALTER TABLE users ALTER COLUMN {col_name} TYPE TEXT"))
+    # 2. Handle PostgreSQL if configured
+    if DATABASE_URL and DATABASE_URL.startswith("postgresql"):
+        print(f"Checking PostgreSQL at: {DATABASE_URL}")
+        try:
+            engine = create_engine(DATABASE_URL)
+            with engine.connect() as conn:
+                columns_to_handle = [
+                    ("phone_number", "VARCHAR(20) DEFAULT 'Not Provided'"),
+                    ("image", "TEXT"),
+                    ("bio", "TEXT"),
+                    ("location", "VARCHAR(100)"),
+                    ("experience", "INTEGER"),
+                    ("salary", "INTEGER"),
+                    ("skills", "TEXT"),
+                    ("resume_url", "TEXT")
+                ]
+                
+                for col_name, col_type in columns_to_handle:
+                    try:
+                        # Use a more generic query that works for Postgres
+                        check_query = text(f"SELECT column_name FROM information_schema.columns WHERE table_name='users' AND column_name='{col_name}'")
+                        result = conn.execute(check_query).fetchone()
+                        
+                        if not result:
+                            print(f"Adding missing column: {col_name} to PostgreSQL")
+                            conn.execute(text(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}"))
                             conn.commit()
-
-                except Exception as col_e:
-                    print(f"Error handling column {col_name}: {col_e}")
-
-            # 2. Specifically upgrade 'image' column to TEXT if it exists as VARCHAR
-            try:
-                conn.execute(text("ALTER TABLE users ALTER COLUMN image TYPE TEXT"))
-                conn.commit()
-            except:
-                pass
-
-    except Exception as e:
-        print(f"Database Fix Error: {e}")
-        pass
+                    except Exception as col_e:
+                        print(f"Error handling PostgreSQL column {col_name}: {col_e}")
+            print("PostgreSQL fix completed.")
+        except Exception as e:
+            print(f"PostgreSQL Fix Error: {e}")
 
 if __name__ == "__main__":
     fix_database()

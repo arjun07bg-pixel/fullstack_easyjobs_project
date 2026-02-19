@@ -13,6 +13,13 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 from core.security import get_password_hash
 
+# ---------------- GET ALL USERS (Admin) ----------------
+@router.get("/", response_model=list[UserOut])
+def get_all_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
+
+
+
 @router.post("/signup", response_model=UserOut, status_code=status.HTTP_201_CREATED)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
 

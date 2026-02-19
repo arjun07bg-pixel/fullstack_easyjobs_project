@@ -14,38 +14,53 @@ function updateNavbarProfile() {
     const user = JSON.parse(userString);
     const photo = localStorage.getItem("userProfilePhoto");
 
-    // 1. Handle Category Pages Navbar (.category-navbar)
-    const navLinks = document.querySelector(".category-navbar .nav-links");
-    if (navLinks) {
-        // Find the Profile link
-        const profileLink = Array.from(navLinks.querySelectorAll("a")).find(a => a.href.includes("profile"));
+    // 1. Handle General Navbars (.nav-menu, .category-navbar, .nav-links)
+    const menus = document.querySelectorAll(".nav-menu ul, .category-navbar .nav-links, .nav-links ul");
 
-        if (profileLink) {
+    menus.forEach(menu => {
+        // Find Profile link
+        const profileLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("profile.html") || a.textContent.toLowerCase().includes("profile"));
+
+        if (profileLink && !menu.querySelector(".nav-avatar-item")) {
+            // Ensure Saved Jobs icon exists
+            const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("saved_jobs.html"));
+            if (!hasSavedJobs) {
+                const savedJobsLi = document.createElement("li");
+                savedJobsLi.innerHTML = `<a href="/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
+                menu.insertBefore(savedJobsLi, profileLink.parentElement);
+            }
+
+            // Ensure My Applications exists
+            const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("my_applications.html"));
+            if (!hasMyApps && !menu.classList.contains('no-apps-link')) {
+                const myAppsLi = document.createElement("li");
+                myAppsLi.innerHTML = `<a href="/my_applications.html" class="nav-link">My Applications</a>`;
+                menu.insertBefore(myAppsLi, profileLink.parentElement);
+            }
+
             // Create Avatar Element
             const avatarContainer = document.createElement("li");
+            avatarContainer.classList.add("nav-avatar-item");
             avatarContainer.style.display = "flex";
             avatarContainer.style.alignItems = "center";
-            avatarContainer.style.gap = "8px";
+            avatarContainer.style.gap = "10px";
+            avatarContainer.style.paddingLeft = "10px";
 
             // Avatar Image
             const img = document.createElement("img");
-            if (photo) {
-                img.src = photo;
-            } else {
-                img.src = "https://ui-avatars.com/api/?name=" + user.first_name + "&background=random";
-            }
-            img.style.width = "30px";
-            img.style.height = "30px";
+            img.src = photo || ("https://ui-avatars.com/api/?name=" + user.first_name + "&background=random");
+            img.style.width = "32px";
+            img.style.height = "32px";
             img.style.borderRadius = "50%";
             img.style.objectFit = "cover";
             img.style.border = "2px solid #2563eb";
 
             // Link Text
             const link = document.createElement("a");
-            link.href = "profile.html";
+            link.href = "/profile.html";
             link.innerText = user.first_name;
+            link.classList.add("nav-link");
             link.style.fontWeight = "600";
-            link.style.color = "#334155";
 
             avatarContainer.appendChild(img);
             avatarContainer.appendChild(link);
@@ -53,7 +68,7 @@ function updateNavbarProfile() {
             // Replace existing "Profile" link with Avatar
             profileLink.parentElement.replaceWith(avatarContainer);
         }
-    }
+    });
 
     // 2. Handle Dashboard Header
     const dashboardHeader = document.querySelector(".dashboard-header");

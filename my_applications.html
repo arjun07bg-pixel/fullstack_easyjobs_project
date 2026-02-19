@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Applications - EasyJobs</title>
+    <meta name="description" content="Track all your job applications in one place on EasyJobs." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/index.css" />
+    <link rel="stylesheet" href="/styles/my_applications.css" />
+    <link rel="stylesheet" href="/styles/global_font.css">
+
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalScale 0.3s ease-out;
+        }
+
+        @keyframes modalScale {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px 30px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modal-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .modal-field {
+            padding: 12px 0;
+        }
+
+        .mf-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .mf-value {
+            font-size: 0.95rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/" class="logo">
+                <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/my_applications.html" class="nav-link active">My Applications</a></li>
+                    <li><a href="/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons" id="auth-buttons">
+                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== PAGE TITLE BAR ===== -->
+    <div class="page-title-bar">
+        <div class="ptb-inner">
+            <div class="ptb-left">
+                <h1><i class="fas fa-file-alt"></i> My Applications</h1>
+                <p>Track the status of all your job applications</p>
+            </div>
+            <a href="/jobs.html" class="ptb-browse-btn"><i class="fas fa-search"></i> Browse More Jobs</a>
+        </div>
+    </div>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="myapp-layout">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="myapp-sidebar">
+
+            <!-- Summary Card -->
+            <div class="sidebar-card summary-card">
+                <h3 class="sidebar-card-title"><i class="fas fa-chart-bar"></i> Summary</h3>
+                <div class="summary-list">
+                    <div class="summary-row" id="sum-total">
+                        <span class="sum-label">Total Applied</span>
+                        <span class="sum-count" id="total-count">0</span>
+                    </div>
+                    <div class="summary-row review" id="sum-review">
+                        <span class="sum-label"><i class="fas fa-clock"></i> Under Review</span>
+                        <span class="sum-count" id="applied-count">0</span>
+                    </div>
+                    <div class="summary-row shortlisted" id="sum-shortlisted">
+                        <span class="sum-label"><i class="fas fa-check-circle"></i> Shortlisted</span>
+                        <span class="sum-count" id="shortlisted-count">0</span>
+                    </div>
+                    <div class="summary-row rejected" id="sum-rejected">
+                        <span class="sum-label"><i class="fas fa-times-circle"></i> Not Selected</span>
+                        <span class="sum-count" id="rejected-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="sidebar-card filter-card">
+                <h3 class="sidebar-card-title"><i class="fas fa-filter"></i> Filter by Status</h3>
+                <div class="filter-list">
+                    <button class="side-filter-btn active" data-filter="all" id="filter-all">
+                        <i class="fas fa-th-list"></i> All Applications
+                    </button>
+                    <button class="side-filter-btn" data-filter="applied" id="filter-applied">
+                        <i class="fas fa-clock"></i> Under Review
+                    </button>
+                    <button class="side-filter-btn" data-filter="shortlisted" id="filter-shortlisted">
+                        <i class="fas fa-check-circle"></i> Shortlisted
+                    </button>
+                    <button class="side-filter-btn" data-filter="rejected" id="filter-rejected">
+                        <i class="fas fa-times-circle"></i> Not Selected
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="myapp-main">
+            <!-- Search Bar -->
+            <div class="myapp-search-bar">
+                <div class="msb-left">
+                    <i class="fas fa-search msb-icon"></i>
+                    <input type="text" id="app-search" placeholder="Search by company name or job title..." />
+                </div>
+                <span class="msb-count" id="result-count">Loading...</span>
+            </div>
+
+            <div id="loading-state" class="state-box">
+                <div class="loader-ring"></div>
+                <p>Fetching your applications...</p>
+            </div>
+
+            <div id="login-required" class="state-box" style="display:none;">
+                <div class="state-icon lock"><i class="fas fa-lock"></i></div>
+                <h3>Login Required</h3>
+                <p>Please log in to see your job applications.</p>
+                <div class="state-actions">
+                    <a href="/login.html" class="sa-btn primary">Login</a>
+                </div>
+            </div>
+
+            <div id="empty-state" class="state-box" style="display:none;">
+                <div class="state-icon folder"><i class="fas fa-folder-open"></i></div>
+                <h3>No Applications Yet</h3>
+                <a href="/jobs.html" class="sa-btn primary">Browse Jobs</a>
+            </div>
+
+            <div id="no-results" class="state-box" style="display:none;">
+                <h3>No Matching Applications</h3>
+                <button class="sa-btn outline" onclick="resetFilters()">Reset Filters</button>
+            </div>
+
+            <div id="applications-list" style="display:none; flex-direction:column; gap:15px;">
+                <!-- Cards injected by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <div class="modal-avatar" id="modal-avatar">?</div>
+                <div class="modal-header-info">
+                    <h3 id="modal-job-title" style="margin:0; font-size:1.2rem;">Job Title</h3>
+                    <p id="modal-company-name" style="margin:4px 0 0 0; font-size:0.9rem; color:#64748b;"><i
+                            class="fas fa-building"></i> Company Name</p>
+                </div>
+            </div>
+
+            <div class="modal-body" style="padding:24px 30px;">
+                <h4
+                    style="margin:0 0 15px 0; font-size:0.9rem; border-bottom:1px solid #f1f5f9; padding-bottom:8px; color:#64748b; text-transform:uppercase;">
+                    Submission Details</h4>
+                <div class="modal-grid" id="modal-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <!-- Filled by JS -->
+                </div>
+
+                <div id="modal-cover-section" style="margin-top:25px; padding-top:20px; border-top:1px solid #f1f5f9;">
+                    <h4 style="margin:0 0 10px 0; font-size:0.9rem; color:#64748b; text-transform:uppercase;">Cover
+                        Letter</h4>
+                    <p id="modal-cover-text"
+                        style="font-size:0.9rem; color:#475569; line-height:1.6; background:#f8fafc; padding:15px; border-radius:8px; border-left:4px solid #2563eb; white-space: pre-wrap;">
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-footer"
+                style="padding:20px 30px; border-top:1px solid #f1f5f9; display:flex; justify-content:flex-end; gap:12px; background:#fafafa;">
+                <button class="sa-btn outline" id="modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/jobs.html">Find Jobs</a>
+                <a href="/contact.html">Contact Us</a>
+            </div>
+            <p>&copy; 2026 EasyJobs Portal. Built for Professionals.</p>
+        </div>
+    </footer>
+
+    <script src="/javascript/index.js"></script>
+    <script src="/javascript/my_applications.js"></script>
+</body>
+
+</html>

@@ -1,10 +1,11 @@
 // Detect if we're running on the same host as the backend or via Live Server
 const getBaseURL = () => {
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    // If we're on port 8000, we can use relative URLs, but for safety we use absolute
-    return `http://127.0.0.1:8000/api`;
+    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return `http://127.0.0.1:8000/api`;
+    }
+    return "/api";
 };
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = getBaseURL();
 
 document.addEventListener("DOMContentLoaded", () => {
     const createAccountBtn = document.getElementById("createAccountBtn");

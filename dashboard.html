@@ -1,64 +1,378 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- Instant Security Check -->
+    <script>
+        (function () {
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
+            if (user.role !== "admin") {
+                window.location.replace("/login.html");
+                document.documentElement.style.display = "none"; // Hide completely
+            }
+        })();
+    </script>
+
+    <style>
+        /* Hide body until JS confirms admin role to prevent flash of content */
+        body {
+            display: none;
+        }
+
+        body.admin-confirmed {
+            display: flex;
+        }
+    </style>
 
     <meta charset="UTF-8">
-    <title>Applications Status - EasyJobs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EasyJobs</title>
+    <meta name="description" content="EasyJobs Admin Dashboard - Manage all applications, users and jobs.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles/index.css">
     <link rel="stylesheet" href="/styles/dashboard.css">
 </head>
 
 <body>
-    <header class="main-header sticky">
-        <div class="container header-content">
-            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
 
-            <nav class="nav-menu">
-                <ul>
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
-                    <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
-                    <li><a href="/profile.html" class="nav-link">Profile</a></li>
-                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
-                    <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
-                </ul>
-            </nav>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="admin-sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                <path d="M13 11V8C13 6.343 14.343 5 16 5H24C25.657 5 27 6.343 27 8V11" stroke="white" stroke-width="3"
+                    stroke-linecap="round" />
+                <rect x="4" y="11" width="32" height="24" rx="5" fill="#3b82f6" />
+                <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            <span class="brand-text">Easy<span>Jobs</span></span>
+        </div>
 
-            <div class="auth-buttons">
-                <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
-                <a href="/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <div class="sidebar-admin-info">
+            <div class="admin-avatar"><i class="fas fa-user-shield"></i></div>
+            <div>
+                <div class="admin-name" id="sb-admin-name">Admin</div>
+                <div class="admin-badge">Super Admin</div>
             </div>
         </div>
-    </header>
 
-    <!-- ============ Main ============ -->
-    <main class="container">
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main</div>
+            <a href="#" class="sn-link active" data-tab="overview" id="tab-overview">
+                <i class="fas fa-tachometer-alt"></i> Overview
+            </a>
+            <a href="#" class="sn-link" data-tab="applications" id="tab-applications">
+                <i class="fas fa-file-alt"></i> All Applications
+                <span class="sn-badge" id="sb-app-count">0</span>
+            </a>
+            <a href="#" class="sn-link" data-tab="users" id="tab-users">
+                <i class="fas fa-users"></i> All Users
+                <span class="sn-badge" id="sb-user-count">0</span>
+            </a>
+            <a href="#" class="sn-link" data-tab="post-job" id="tab-post-job">
+                <i class="fas fa-plus-circle"></i> Post a Job
+            </a>
 
-        <h2 id="dashboard-title">Dashboard</h2>
-        <p class="subtitle" id="dashboard-subtitle">Overview of your activity</p>
+            <div class="nav-section-label">Quick Links</div>
+            <a href="/" class="sn-link" target="_blank">
+                <i class="fas fa-home"></i> View Website
+            </a>
+            <a href="/jobs.html" class="sn-link" target="_blank">
+                <i class="fas fa-briefcase"></i> Job Listings
+            </a>
+        </nav>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr id="table-header-row">
-                        <!-- Headers will be injected by JS -->
-                        <th>Loading...</th>
-                    </tr>
-                </thead>
-                <tbody id="applications-body">
-                    <!-- Dynamic Content will be loaded here -->
-                </tbody>
-            </table>
+        <button class="sidebar-logout" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </aside>
+
+    <!-- ===== MAIN PANEL ===== -->
+    <div class="admin-main">
+
+        <!-- Top bar -->
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <div>
+                    <h1 id="page-title">Admin Dashboard</h1>
+                    <p id="page-subtitle">Welcome back, Admin! Here's today's overview.</p>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-time" id="topbar-time"></div>
+                <div class="topbar-admin"><i class="fas fa-user-shield"></i> <span id="tb-admin-name">Admin</span></div>
+            </div>
+        </header>
+
+        <!-- ── OVERVIEW TAB ── -->
+        <section class="tab-section active" id="tab-overview">
+
+            <!-- Stat cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-total-apps">—</div>
+                        <div class="stat-label">Total Applications</div>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-shortlisted">—</div>
+                        <div class="stat-label">Shortlisted</div>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-under-review">—</div>
+                        <div class="stat-label">Under Review</div>
+                    </div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-rejected">—</div>
+                        <div class="stat-label">Not Selected</div>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-total-users">—</div>
+                        <div class="stat-label">Registered Users</div>
+                    </div>
+                </div>
+                <div class="stat-card teal">
+                    <div class="stat-icon"><i class="fas fa-building"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-num" id="stat-companies">—</div>
+                        <div class="stat-label">Companies Applied</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Applications -->
+            <div class="section-box">
+                <div class="section-box-header">
+                    <h2><i class="fas fa-list-ul"></i> Recent Applications</h2>
+                    <button class="view-all-btn" onclick="switchTab('applications')">View All</button>
+                </div>
+                <div class="table-responsive">
+                    <table id="recent-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Candidate</th>
+                                <th>Email</th>
+                                <th>Company</th>
+                                <th>Job Title</th>
+                                <th>Experience</th>
+                                <th>Status</th>
+                                <th>Applied</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-tbody">
+                            <tr>
+                                <td colspan="8" class="table-loading">
+                                    <div class="mini-loader"></div> Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ALL APPLICATIONS TAB ── -->
+        <section class="tab-section" id="tab-applications">
+            <div class="section-box">
+                <div class="section-box-header">
+                    <h2><i class="fas fa-file-alt"></i> All Applications</h2>
+                    <div class="header-controls">
+                        <div class="search-wrap">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="app-search" placeholder="Search candidate, company..." />
+                        </div>
+                        <select id="status-filter" class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="applied">Under Review</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="rejected">Not Selected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="all-apps-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Candidate</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>Job Title</th>
+                                <th>Location</th>
+                                <th>Experience</th>
+                                <th>Salary (LPA)</th>
+                                <th>Notice (days)</th>
+                                <th>Status</th>
+                                <th>Applied On</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-apps-tbody">
+                            <tr>
+                                <td colspan="13" class="table-loading">
+                                    <div class="table-loading-content">
+                                        <div class="mini-loader"></div> Loading all applications...
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── USERS TAB ── -->
+        <section class="tab-section" id="tab-users">
+            <div class="section-box">
+                <div class="section-box-header">
+                    <h2><i class="fas fa-users"></i> Registered Users</h2>
+                    <div class="search-wrap">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="user-search" placeholder="Search by name or email..." />
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Location</th>
+                                <th>Experience</th>
+                                <th>Skills</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <tr>
+                                <td colspan="8" class="table-loading">
+                                    <div class="mini-loader"></div> Loading...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── POST JOB TAB ── -->
+        <section class="tab-section" id="tab-post-job">
+            <div class="section-box">
+                <div class="section-box-header">
+                    <h2><i class="fas fa-plus-circle"></i> Post a New Job</h2>
+                </div>
+                <div style="padding: 24px;">
+                    <form id="post-job-form" class="admin-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Job Title*</label>
+                                <input type="text" id="pj-title" required
+                                    placeholder="e.g. Senior Frontend Developer" />
+                            </div>
+                            <div class="form-group">
+                                <label>Company Name*</label>
+                                <input type="text" id="pj-company" required placeholder="e.g. Google" />
+                            </div>
+                            <div class="form-group">
+                                <label>Location*</label>
+                                <input type="text" id="pj-location" required placeholder="e.g. Bangalore, India" />
+                            </div>
+                            <div class="form-group">
+                                <label>Experience Level (Years)*</label>
+                                <input type="number" id="pj-exp" required placeholder="e.g. 3" />
+                            </div>
+                            <div class="form-group">
+                                <label>Job Type*</label>
+                                <select id="pj-type" required>
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Salary (LPA)*</label>
+                                <input type="number" id="pj-salary" required placeholder="e.g. 15" />
+                            </div>
+                            <div class="form-group">
+                                <label>Work Mode*</label>
+                                <select id="pj-mode" required>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Onsite">Onsite</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label>Job Description*</label>
+                            <textarea id="pj-desc" rows="6" required
+                                placeholder="Detailed job description..."></textarea>
+                        </div>
+                        <div style="margin-top: 24px;">
+                            <button type="submit" class="btn-primary" id="pj-submit">Post Job Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /.admin-main -->
+
+    <!-- ===== DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box" id="modal-box">
+            <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <div class="modal-avatar" id="modal-avatar">?</div>
+                <div>
+                    <h3 id="modal-name">Candidate Name</h3>
+                    <p id="modal-company"></p>
+                </div>
+                <span class="status-badge" id="modal-status-badge">Applied</span>
+            </div>
+            <div class="modal-grid" id="modal-grid">
+                <!-- Filled by JS -->
+            </div>
+            <div class="modal-cover" id="modal-cover-section">
+                <h4><i class="fas fa-quote-left"></i> Cover Letter</h4>
+                <p id="modal-cover-text"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="action-buttons">
+                    <button class="btn-action shortlist" id="btn-shortlist"><i class="fas fa-check"></i> Shortlist
+                        Candidate</button>
+                    <button class="btn-action reject" id="btn-reject"><i class="fas fa-times"></i> Reject
+                        Candidate</button>
+                </div>
+                <div class="secondary-actions">
+                    <a href="#" id="modal-resume-link" class="resume-link" target="_blank"><i
+                            class="fas fa-file-pdf"></i> Download Resume</a>
+                    <button class="btn-delete-app" id="btn-delete-app"><i class="fas fa-trash-alt"></i> Delete
+                        Application</button>
+                </div>
+            </div>
         </div>
+    </div>
 
-    </main>
-
-    <script src="/javascript/index.js"></script>
     <script src="/javascript/dashboard.js"></script>
 </body>
 

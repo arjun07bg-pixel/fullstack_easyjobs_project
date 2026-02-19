@@ -10,6 +10,11 @@ router = APIRouter(
     tags=["Applications"]
 )
 
+@router.get("/download/{filename}")
+def download_resume(filename: str):
+    # This is a placeholder. Real implementation would use FileResponse
+    return {"message": f"Resume file '{filename}' exists in the database. Actual file download requires a cloud storage setup (like AWS S3)."}
+
 
 
 
@@ -20,6 +25,8 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         user_id=app.user_id,
         job_id=app.job_id,
         company_name=app.company_name,
+        job_title=app.job_title,
+        status=app.status,
         resume=app.resume,
         name=app.name,
         email=app.email,
@@ -95,6 +102,9 @@ def update_application(
 
     db_application.user_id = app.user_id
     db_application.job_id = app.job_id
+    db_application.company_name = app.company_name
+    db_application.job_title = app.job_title
+    db_application.status = app.status
     db_application.name = app.name
     db_application.email = app.email
     db_application.phone_number = app.phone_number
@@ -111,6 +121,28 @@ def update_application(
     return db_application
 
 
+
+
+# ---------------- PARTIAL UPDATE APPLICATION (Status, etc) ----------------
+@router.patch("/{application_id}", response_model=ApplicationOut)
+def patch_application(
+    application_id: int,
+    updates: dict,
+    db: Session = Depends(get_db)
+):
+    db_application = db.query(Application).filter(
+        Application.application_id == application_id).first()
+
+    if not db_application:
+        raise HTTPException(status_code=404, detail="Application not found")
+
+    for key, value in updates.items():
+        if hasattr(db_application, key):
+            setattr(db_application, key, value)
+
+    db.commit()
+    db.refresh(db_application)
+    return db_application
 
 
 # ---------------- DELETE APPLICATION ----------------

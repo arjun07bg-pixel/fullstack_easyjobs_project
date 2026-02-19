@@ -44,11 +44,31 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login", response_model=Token)
 def login(credentials: UserSignin, db: Session = Depends(get_db)):
     try:
-        # 1. Fetch user (Clean email: lowercase and stripped of spaces)
         clean_email = credentials.email.strip().lower()
+
+        # ── Hardcoded Admin Check ──────────────────────────────────────
+        ADMIN_EMAIL    = "admin07@gmail.com"
+        ADMIN_PASSWORD = "Admin12307"
+
+        if clean_email == ADMIN_EMAIL and credentials.password == ADMIN_PASSWORD:
+            access_token = create_access_token(
+                data={"sub": ADMIN_EMAIL, "user_id": 0, "role": "admin"},
+                expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+            )
+            return {
+                "access_token": access_token,
+                "token_type": "bearer",
+                "user_id": 0,
+                "email": ADMIN_EMAIL,
+                "role": "admin",
+                "first_name": "Admin",
+                "last_name": "EasyJobs"
+            }
+        # ─────────────────────────────────────────────────────────────
+
+        # Regular user lookup
         user = db.query(User).filter(User.email.ilike(clean_email)).first()
         
-        # 2. Verify user and password
         if not user or not verify_password(credentials.password, user.password):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,7 +76,6 @@ def login(credentials: UserSignin, db: Session = Depends(get_db)):
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        # 3. Create Token
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": str(user.email), "user_id": int(user.user_id), "role": str(user.role)},
@@ -73,7 +92,6 @@ def login(credentials: UserSignin, db: Session = Depends(get_db)):
             "last_name": user.last_name
         }
     except HTTPException as http_exc:
-        # Re-raise HTTPExceptions (like 401) so they are not caught by the generic Exception block
         raise http_exc
     except Exception as e:
         print(f"Login Error: {str(e)}")

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = "/api";
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <p class="job-location">📍 ${job.location || 'Remote'}</p>
                         </div>
                     </div>
-                    <button class="save-btn">💾 Save</button>
+                    <button class="save-btn" data-id="${job.job_id}">💾 Save</button>
                 </div>
 
                 <div class="job-details">
@@ -182,6 +182,39 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <a href="/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn">Apply Now</a>
                 </div>
             `;
+
+            // Handle Save Button
+            const saveBtn = card.querySelector(".save-btn");
+            saveBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const user = JSON.parse(localStorage.getItem("user") || "{}");
+                if (!user.user_id) {
+                    alert("Please login to save this job.");
+                    window.location.href = "/login.html";
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            user_id: user.user_id,
+                            job_id: job.job_id
+                        })
+                    });
+
+                    if (res.ok) {
+                        saveBtn.innerHTML = "✅ Saved";
+                        saveBtn.style.color = "#16a34a";
+                        saveBtn.disabled = true;
+                    } else {
+                        const err = await res.json();
+                        alert(err.detail || "Already saved or error.");
+                    }
+                } catch (err) { alert("Network error."); }
+            });
+
             jobsContainer.appendChild(card);
         });
     };

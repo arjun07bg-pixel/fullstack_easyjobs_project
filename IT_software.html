@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,16 +7,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IT Software Jobs | EasyJobs - Find Your Dream Developer Career</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/styles/index.css">
   <link rel="stylesheet" href="/styles/premium_category.css">
+  <link rel="stylesheet" href="/styles/global_font.css">
+
 </head>
 
 <body>
 
   <header class="main-header sticky">
     <div class="container header-content">
-      <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+      <a href="/" class="logo">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white" stroke-width="3"
+            stroke-linecap="round" />
+          <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+          <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        Easy<span class="logo-accent">Jobs</span>
+      </a>
 
       <nav class="nav-menu">
         <ul>
@@ -61,9 +73,16 @@
 
     <div class="container">
       <h2 class="section-title">Featured IT & Software Positions</h2>
+      <p class="section-subtitle"
+        style="text-align: center; color: var(--slate-400); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
+        Handpicked high-impact roles at world-class technology companies.</p>
+
       <section class="job-list">
-        <article class="job-card">
+        <article class="job-card" data-id="201">
           <div class="job-card-tag">New Post</div>
+          <button class="save-job-btn" onclick="saveJob(201, this)"
+            style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--slate-400); font-size: 1.2rem; cursor: pointer; z-index: 20; transition: 0.3s;"><i
+              class="far fa-bookmark"></i></button>
           <div class="job-title"><i class="fas fa-laptop-code"></i> Senior Frontend Developer</div>
           <div class="company">Google India</div>
           <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
@@ -462,7 +481,9 @@
   </footer>
 
   <script src="/javascript/index.js"></script>
+  <script src="/javascript/navbar_manager.js"></script>
   <script src="/javascript/category_search.js"></script>
+
 </body>
 
 </html>

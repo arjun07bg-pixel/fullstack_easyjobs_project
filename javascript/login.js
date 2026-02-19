@@ -1,7 +1,11 @@
 const getBaseURL = () => {
-    return `http://127.0.0.1:8000/api`;
+    // Smart detection: Use port 8000 if we are on a different port (like Live Server 5500/5509)
+    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return `http://127.0.0.1:8000/api`;
+    }
+    return "/api";
 };
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = getBaseURL();
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
@@ -55,8 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     const data = await response.json();
                     localStorage.setItem("token", data.access_token);
                     localStorage.setItem("user", JSON.stringify(data));
-                    alert("Login successful! Redirecting...");
-                    window.location.href = "/dashboard.html";
+
+                    // Admin → dashboard, others → home
+                    if (data.role === "admin") {
+                        window.location.href = "/dashboard.html";
+                    } else {
+                        window.location.href = "/";
+                    }
                 } else {
                     if (contentType && contentType.includes("application/json")) {
                         const error = await response.json();

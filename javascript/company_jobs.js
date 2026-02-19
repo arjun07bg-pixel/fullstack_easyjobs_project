@@ -57,7 +57,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const card = document.createElement("div");
                     card.className = "job-card";
                     card.innerHTML = `
-                        <h3>${job.job_title}</h3>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3>${job.job_title}</h3>
+                            <button class="comp-save-btn" data-id="${job.job_id}" style="background:none; border:none; color:#2563eb; cursor:pointer; font-size:1.1rem; padding:5px;"><i class="far fa-bookmark"></i> Save</button>
+                        </div>
                         <p class="job-meta">
                             <span class="location">📍 ${job.location || 'Remote'}</span> |
                             <span class="type">${job.job_type || 'Full-Time'}</span> |
@@ -70,6 +73,34 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
                         <a href="/apply_home.html?job_id=${job.job_id}" class="apply-link">View Details & Apply</a>
                     `;
+
+                    // Handle Save
+                    const saveBtn = card.querySelector(".comp-save-btn");
+                    saveBtn.addEventListener("click", async (e) => {
+                        e.preventDefault();
+                        const user = JSON.parse(localStorage.getItem("user") || "{}");
+                        if (!user.user_id) {
+                            alert("Please login to save this job.");
+                            window.location.href = "/login.html";
+                            return;
+                        }
+
+                        try {
+                            const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ user_id: user.user_id, job_id: job.job_id })
+                            });
+                            if (res.ok) {
+                                saveBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                                alert("Job saved successfully!");
+                            } else {
+                                const err = await res.json();
+                                alert(err.detail || "Error saving job.");
+                            }
+                        } catch (err) { alert("Network error."); }
+                    });
+
                     jobListings.appendChild(card);
                 });
             }

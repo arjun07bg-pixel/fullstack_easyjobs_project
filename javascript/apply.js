@@ -1,4 +1,10 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const getAPIURL = () => {
+    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return `http://127.0.0.1:8000/api`;
+    }
+    return "/api";
+};
+const API_BASE_URL = getAPIURL();
 
 document.addEventListener("DOMContentLoaded", async () => {
     const applyForm = document.getElementById("applyForm");
@@ -446,6 +452,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 user_id: user.user_id,
                 job_id: parseInt(jobId),
                 company_name: currentJobDetails ? currentJobDetails.company_name : "Unknown",
+                job_title: currentJobDetails ? currentJobDetails.job_title : "Unknown",
+                status: "applied",
                 name: document.getElementById("full_name").value.trim(),
                 email: document.getElementById("email").value.trim(),
                 phone_number: document.getElementById("phone").value.trim(),

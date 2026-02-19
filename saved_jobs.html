@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Jobs - EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .header i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .jobs-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .job-info h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+            color: #0f172a;
+        }
+
+        .job-info p {
+            margin: 4px 0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .meta-tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-apply {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-unsave {
+            background: #fef2f2;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+        <div class="header">
+            <i class="fas fa-bookmark"></i>
+            <h1>My Saved Jobs</h1>
+        </div>
+
+        <div id="saved-jobs-container" class="jobs-list">
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading your saved jobs...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000/api";
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+        if (!user.user_id) {
+            window.location.href = "/login.html";
+        }
+
+        async function fetchSavedJobs() {
+            const container = document.getElementById("saved-jobs-container");
+            try {
+                const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}`);
+                const jobs = await res.json();
+
+                if (jobs.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="far fa-bookmark"></i>
+                            <p>You haven't saved any jobs yet.</p>
+                            <a href="/jobs.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:20px auto;">Browse Jobs</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = jobs.map(job => `
+                    <div class="job-card" id="job-${job.job_id}">
+                        <div class="job-info">
+                            <h3>${job.job_title}</h3>
+                            <p><i class="fas fa-building"></i> ${job.company_name}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                            <div class="job-meta">
+                                <span class="meta-tag">${job.job_type}</span>
+                                <span class="meta-tag">${job.work_mode}</span>
+                                <span class="meta-tag">₹${job.salary} LPA</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <a href="/apply_home.html?job_id=${job.job_id}" class="btn btn-apply">Apply Now</a>
+                            <button onclick="unsaveJob(${job.job_id})" class="btn btn-unsave"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
+                    </div>
+                `).join("");
+
+            } catch (err) {
+                container.innerHTML = `<div class="empty-state"><p>Error loading jobs. Please try again.</p></div>`;
+            }
+        }
+
+        async function unsaveJob(jobId) {
+            if (!confirm("Remove this job from your saved list?")) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}/${jobId}`, {
+                    method: "DELETE"
+                });
+                if (res.ok) {
+                    document.getElementById(`job-${jobId}`).remove();
+                    if (document.querySelectorAll(".job-card").length === 0) {
+                        fetchSavedJobs();
+                    }
+                }
+            } catch (err) {
+                alert("Failed to remove job.");
+            }
+        }
+
+        fetchSavedJobs();
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,23 +10,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="/styles/global_font.css">
+
 </head>
 
-<body>l
+<body>
     <!-- Header Section  -->
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+            <a href="/" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
 
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/" class="nav-link active">Home</a></li>
                     <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
                     <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/my_applications.html" class="nav-link">My Applications</a></li>
                     <li><a href="/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
-
                 </ul>
             </nav>
 
@@ -40,29 +53,33 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container hero-content">
-            <p class="tagline">YOUR CAREER, MADE EASY</p>
-            <h1>Find Your<strong> Dream Job</strong> Today</h1>
-            <h3>Discover thousands of <strong>opportunities from top companies</strong> worldwide</h3>
+            <div class="hero-text">
+                <p class="tagline">YOUR CAREER, MADE EASY</p>
+                <h1>Find Your<strong> Dream Job</strong> Today</h1>
+                <h3>Discover thousands of <strong>opportunities from top companies</strong> worldwide</h3>
 
-            <form class="job-search-form">
-                <div class="search-input-group">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Job Title, Skills, or Keyword" class="search-input keyword-input">
+                <form class="job-search-form">
+                    <div class="search-input-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Job Title, Skills, or Keyword"
+                            class="search-input keyword-input">
+                    </div>
+
+                    <div class="search-input-group">
+                        <i class="fas fa-map-marker-alt search-icon"></i>
+                        <input type="text" placeholder="Location (City, Remote)" class="search-input location-input">
+                    </div>
+
+                    <button type="submit" class="btn-search">Search <i class="fas fa-arrow-right"></i></button>
+                </form>
+
+                <div class="stats-bar">
+                    <div class="stat-item"><strong>15,000+</strong> Live Jobs</div>
+                    <div class="stat-item"><strong>500+</strong> Top Companies</div>
+                    <div class="stat-item"><strong>98%</strong> Success Rate</div>
                 </div>
-
-                <div class="search-input-group">
-                    <i class="fas fa-map-marker-alt search-icon"></i>
-                    <input type="text" placeholder="Location (City, Remote)" class="search-input location-input">
-                </div>
-
-                <button type="submit" class="btn-search">Search <i class="fas fa-arrow-right"></i></button>
-            </form>
-
-            <div class="stats-bar">
-                <div class="stat-item"><strong>15,000+</strong> Live Jobs</div>
-                <div class="stat-item"><strong>500+</strong> Top Companies</div>
-                <div class="stat-item"><strong>98%</strong> Success Rate</div>
             </div>
+
         </div>
     </section>
 

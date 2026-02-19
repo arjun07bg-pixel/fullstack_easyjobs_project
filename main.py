@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 from database.database import Base, engine
-from routers import users, admins, jobs, applications, filters, status, companies, top_com_filters, auth, contact
+from routers import users, admins, jobs, applications, filters, status, companies, top_com_filters, auth, contact, saved_jobs
 
 
 from fastapi import FastAPI, Request, HTTPException
@@ -139,8 +139,18 @@ async def read_apply(request: Request):
 @app.get("/application_status")
 @app.get("/application_status.html")
 async def read_app_status(request: Request):
-    # Use dashboard.html as the primary application status tracking page
     return templates.TemplateResponse("dashboard.html", {"request": request})
+
+@app.get("/dashboard")
+@app.get("/dashboard.html")
+async def read_dashboard(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})
+
+@app.get("/my-applications")
+@app.get("/my_applications")
+@app.get("/my_applications.html")
+async def read_my_applications(request: Request):
+    return templates.TemplateResponse("my_applications.html", {"request": request})
 
 @app.get("/engineering")
 @app.get("/Engineering.html")
@@ -185,6 +195,7 @@ app.include_router(filters.router, prefix="/api")
 app.include_router(status.router, prefix="/api")
 app.include_router(top_com_filters.router, prefix="/api")
 app.include_router(contact.router, prefix="/api")
+app.include_router(saved_jobs.router, prefix="/api")
 
 # --- DYNAMIC CATCH-ALL ROUTE ---
 # Handles any page requested automatically in root or Top_com folder.

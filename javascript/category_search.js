@@ -48,13 +48,45 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const article = document.createElement("article");
                     article.className = "job-card";
                     article.innerHTML = `
-                        <div class="job-title"><i class="fas fa-briefcase"></i> ${job.job_title}</div>
+                        <div class="job-card-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div class="job-title"><i class="fas fa-briefcase"></i> ${job.job_title}</div>
+                            <button class="cat-save-btn" data-id="${job.job_id}" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem; transition:0.3s;"><i class="far fa-bookmark"></i></button>
+                        </div>
                         <div class="company">${job.company_name}</div>
                         <div class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</div>
                         <div class="salary">₹${job.salary} LPA</div>
                         <p class="details">${cleanDescription(job.description)}</p>
                         <a href="/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&salary=${encodeURIComponent(job.salary)}&desc=${encodeURIComponent(job.description)}" class="apply-btn">Apply Now</a>
                     `;
+
+                    // Handle Save
+                    const saveBtn = article.querySelector(".cat-save-btn");
+                    saveBtn.addEventListener("click", async (e) => {
+                        e.preventDefault();
+                        const user = JSON.parse(localStorage.getItem("user") || "{}");
+                        if (!user.user_id) {
+                            alert("Please login to save this job.");
+                            window.location.href = "/login.html";
+                            return;
+                        }
+
+                        try {
+                            const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ user_id: user.user_id, job_id: job.job_id })
+                            });
+                            if (res.ok) {
+                                saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
+                                saveBtn.style.color = "#2563eb";
+                                alert("Job saved successfully!");
+                            } else {
+                                const err = await res.json();
+                                alert(err.detail || "Error saving job.");
+                            }
+                        } catch (err) { alert("Network error."); }
+                    });
+
                     jobList.prepend(article);
                 });
             }

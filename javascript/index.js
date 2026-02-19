@@ -29,13 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
             ? `<img src="${userPhoto}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">`
             : `<i class="fas fa-user-circle" style="font-size: 1.8rem; color: rgba(255,255,255,0.8);"></i>`;
 
+        const dashboardLink = user.role === 'admin'
+            ? `<a href="/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+            : '';
+
         authButtons.innerHTML = `
             <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="/saved_jobs.html" style="color: #cbd5e1; font-size: 1.1rem; transition: 0.3s;" title="Saved Jobs">
+                    <i class="fas fa-bookmark"></i>
+                </a>
                 <a href="/profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.3s; padding: 5px 10px; border-radius: 50px;">
                     ${avatarHtml}
                     <span style="font-weight: 600; color: white; display: none; @media (min-width: 600px) { display: inline; }">Hi, ${user.first_name}!</span>
                 </a>
-                <a href="/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>
+                ${dashboardLink}
                 <button id="logoutBtn" style="background: rgba(239, 68, 68, 0.9); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 0.9rem;">Logout</button>
             </div>
         `;
