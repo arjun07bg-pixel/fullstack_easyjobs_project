@@ -666,3 +666,50 @@ ul {
         margin-left: 5px;
     }
 }
+
+/* --- Breadcrumb (Global) --- */
+.breadcrumb {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 40px;
+    font-size: 14px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb a {
+    color: var(--primary-blue);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.breadcrumb a i {
+    font-size: 12px;
+}
+
+.breadcrumb a:hover {
+    color: var(--hover-blue);
+    text-decoration: none;
+}
+
+.breadcrumb .separator {
+    color: #cbd5e1;
+    margin: 0 5px;
+}
+
+.breadcrumb .current {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb {
+        padding: 0 20px;
+        margin: 15px auto;
+    }
+}

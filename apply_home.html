@@ -38,9 +38,12 @@
         </div>
     </header>
 
-    <!-- Breadcrumb -->
     <div class="breadcrumb">
-        <a href="/">Home</a> / <a href="/jobs.html">Jobs</a> / <span id="job-title-crumb">Job Application</span>
+        <a href="/"><i class="fas fa-chevron-left"></i> Back to Home</a>
+        <span class="separator">/</span>
+        <a href="/jobs.html">Jobs</a>
+        <span class="separator">/</span>
+        <span class="current" id="job-title-crumb">Job Application</span>
     </div>
 
     <!-- Main Container -->
@@ -62,11 +65,14 @@
             </div>
 
             <div class="job-meta">
-                <div class="meta-item"><i class="fas fa-briefcase"></i> <span id="detailed-exp">Experience</span></div>
+                <div class="meta-item"><i class="fas fa-briefcase"></i> <span id="detailed-exp">Experience</span>
+                </div>
                 <div class="meta-item"><i class="fas fa-money-bill-wave"></i> <span id="detailed-salary">Salary</span>
                 </div>
-                <div class="meta-item"><i class="fas fa-clock"></i> <span id="detailed-type">Job Type</span></div>
-                <div class="meta-item"><i class="fas fa-home"></i> <span id="detailed-mode">Work Mode</span></div>
+                <div class="meta-item"><i class="fas fa-clock"></i> <span id="detailed-type">Job Type</span>
+                </div>
+                <div class="meta-item"><i class="fas fa-home"></i> <span id="detailed-mode">Work Mode</span>
+                </div>
             </div>
 
             <div class="job-tags" id="skills-container">
@@ -137,8 +143,10 @@
                 <!-- About Company -->
                 <h2><i class="fas fa-building"></i> About the Company</h2>
                 <div id="company-overview-section">
-                    <p id="detailed-company-description">We are a leading organization in our industry, committed to
-                        innovation and excellence. Join our team of talented professionals and make a real impact!</p>
+                    <p id="detailed-company-description">We are a leading organization in our industry,
+                        committed to
+                        innovation and excellence. Join our team of talented professionals and make a real
+                        impact!</p>
                 </div>
 
                 <!-- Additional Info -->
@@ -230,7 +238,8 @@
                         <label>Upload Resume <span class="required">*</span></label>
                         <label class="file-upload">
                             <div class="file-upload-icon">📄</div>
-                            <div class="file-upload-text" id="file-name-display">Click to upload your resume</div>
+                            <div class="file-upload-text" id="file-name-display">Click to upload your resume
+                            </div>
                             <div class="file-upload-hint">PDF, DOC, DOCX (Max 5MB)</div>
                             <input type="file" id="resume" accept=".pdf,.doc,.docx" required />
                         </label>
