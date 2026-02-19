@@ -37,7 +37,7 @@ h2 {
 .table-wrapper {
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
 }
 
@@ -50,7 +50,8 @@ thead {
     background: #f1f5f9;
 }
 
-th, td {
+th,
+td {
     padding: 14px 16px;
     text-align: left;
     font-size: 14px;
@@ -97,7 +98,9 @@ tbody tr:hover {
 
 /* ============ Responsive ============ */
 @media (max-width: 768px) {
-    th, td {
+
+    th,
+    td {
         font-size: 13px;
         padding: 12px;
     }

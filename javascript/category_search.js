@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const article = document.createElement("article");
                     article.className = "job-card";
                     article.innerHTML = `
-                        <div class="job-card-tag">NEW POST</div>
                         <div class="job-title"><i class="fas fa-briefcase"></i> ${job.job_title}</div>
                         <div class="company">${job.company_name}</div>
                         <div class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</div>
