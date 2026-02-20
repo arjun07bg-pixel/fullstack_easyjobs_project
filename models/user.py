@@ -18,6 +18,15 @@ class User(Base):
     salary = Column(Integer, nullable=True) # in LPA
     skills = Column(Text, nullable=True) # comma separated
     resume_url = Column(Text, nullable=True)
+    
+    # New Fields for Comprehensive Profile
+    education = Column(Text, nullable=True) # JSON or comma separated details
+    projects = Column(Text, nullable=True)
+    linkedin_url = Column(String(255), nullable=True)
+    github_url = Column(String(255), nullable=True)
+    gender = Column(String(20), nullable=True)
+    dob = Column(String(50), nullable=True)
+    designation = Column(String(100), nullable=True)
 
 
 

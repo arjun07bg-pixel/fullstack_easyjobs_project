@@ -29,7 +29,7 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=list[JobOut])
 def get_jobs(skip: int = 0, limit: int = 50, db: Session = Depends(get_db)):
-    return db.query(Job).offset(skip).limit(limit).all()
+    return db.query(Job).order_by(Job.job_id.desc()).offset(skip).limit(limit).all()
 
 
 @router.get("/{job_id}", response_model=JobOut)

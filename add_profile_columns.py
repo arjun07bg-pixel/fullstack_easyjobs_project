@@ -5,13 +5,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+SQLITE_DB = "easyjobs.db"
 
-def fix_database():
-    # 1. Always check and fix the local SQLite if it exists
-    sqlite_db = "easyjobs.db"
-    if os.path.exists(sqlite_db):
-        print(f"Applying fix to local SQLite: {sqlite_db}")
-        conn = sqlite3.connect(sqlite_db)
+def update_database():
+    # 1. Update SQLite
+    if os.path.exists(SQLITE_DB):
+        print(f"--- Updating SQLite: {SQLITE_DB} ---")
+        conn = sqlite3.connect(SQLITE_DB)
         cursor = conn.cursor()
         
         columns_to_add = [
@@ -32,24 +32,19 @@ def fix_database():
             ("designation", "TEXT")
         ]
         
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users'")
-        if cursor.fetchone():
-            cursor.execute("PRAGMA table_info(users)")
-            existing = [col[1] for col in cursor.fetchall()]
-            for col_name, col_type in columns_to_add:
-                if col_name not in existing:
-                    print(f"Adding column '{col_name}' to SQLite users...")
-                    try:
-                        cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
-                    except Exception as e:
-                        print(f"Error adding {col_name} to SQLite: {e}")
-            conn.commit()
+        for col_name, col_type in columns_to_add:
+            try:
+                cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
+                print(f"Added column: {col_name} to SQLite")
+            except sqlite3.OperationalError:
+                print(f"Column '{col_name}' already exists in SQLite")
+                
+        conn.commit()
         conn.close()
-        print("SQLite fix done.")
 
-    # 2. Handle PostgreSQL if configured
+    # 2. Update PostgreSQL if configured
     if DATABASE_URL and DATABASE_URL.startswith("postgresql"):
-        print(f"Checking PostgreSQL at: {DATABASE_URL.split('@')[-1]}")
+        print(f"\n--- Updating PostgreSQL: {DATABASE_URL.split('@')[-1]} ---")
         try:
             engine = create_engine(DATABASE_URL)
             with engine.connect() as conn:
@@ -73,18 +68,21 @@ def fix_database():
                 
                 for col_name, col_type in columns_to_handle:
                     try:
+                        # Check if column exists
                         check_query = text(f"SELECT column_name FROM information_schema.columns WHERE table_name='users' AND column_name='{col_name}'")
                         result = conn.execute(check_query).fetchone()
                         
                         if not result:
-                            print(f"Adding missing column: {col_name} to PostgreSQL")
-                            conn.execute(text(f"alter table users add column {col_name} {col_type}"))
+                            print(f"Adding column '{col_name}' to PostgreSQL...")
+                            conn.execute(text(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}"))
                             conn.commit()
+                        else:
+                            print(f"Column '{col_name}' already exists in PostgreSQL")
                     except Exception as col_e:
                         print(f"Error handling PostgreSQL column {col_name}: {col_e}")
-            print("PostgreSQL fix completed.")
+            print("PostgreSQL update complete.")
         except Exception as e:
-            print(f"PostgreSQL Fix Error: {e}")
+            print(f"PostgreSQL Connection/Update Error: {e}")
 
 if __name__ == "__main__":
-    fix_database()
+    update_database()

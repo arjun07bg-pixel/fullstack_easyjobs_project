@@ -20,9 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         phone: document.getElementById("phone"),
         location: document.getElementById("location"),
         bio: document.getElementById("bio"),
+        designation: document.getElementById("designation"),
         experience: document.getElementById("experience"),
         salary: document.getElementById("salary"),
         skills: document.getElementById("skills"),
+        education: document.getElementById("education"),
+        projects: document.getElementById("projects"),
+        linkedinUrl: document.getElementById("linkedinUrl"),
+        githubUrl: document.getElementById("githubUrl"),
+        gender: document.getElementById("gender"),
+        dob: document.getElementById("dob"),
         photoInput: document.getElementById("photoInput"),
         resumeInput: document.getElementById("resumeInput"),
         photoPreview: document.getElementById("profileImagePreview"),
@@ -37,7 +44,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updateStrength = () => {
         const fields = [
             pref.firstName, pref.lastName, pref.phone, pref.location,
-            pref.bio, pref.experience, pref.salary, pref.skills
+            pref.bio, pref.designation, pref.experience, pref.salary,
+            pref.skills, pref.education, pref.projects, pref.linkedinUrl,
+            pref.githubUrl, pref.gender, pref.dob
         ];
 
         let filled = 0;
@@ -47,11 +56,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
-        // Add 1 for the existing user (email) and maybe photo/resume
-        filled += 1; // Email is always there
+        // Add for email (always), photo, and resume
+        filled += 1; // Email
         const user = JSON.parse(localStorage.getItem("user") || "{}");
-        if (user.image || tempPhotoData) filled++;
-        if (user.resume_url || tempResumeName) filled++;
+        if ((user.image && user.image.trim() !== "") || tempPhotoData) filled++;
+        if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
 
         const totalFields = fields.length + 3; // + email, photo, resume
         const percent = Math.round((filled / totalFields) * 100);
@@ -59,11 +68,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.strengthBar) pref.strengthBar.style.width = percent + "%";
         if (pref.strengthPercent) pref.strengthPercent.innerText = percent + "%";
 
+        // Update Header Elements
+        const headerPercent = document.getElementById("header-strength-percent");
+        if (headerPercent) headerPercent.innerText = percent + "%";
+
         if (pref.strengthLabel) {
-            if (percent < 40) pref.strengthLabel.innerText = "Weak Profile";
-            else if (percent < 70) pref.strengthLabel.innerText = "Good Start";
-            else if (percent < 90) pref.strengthLabel.innerText = "Strong Profile";
-            else pref.strengthLabel.innerText = "Excellent!";
+            if (percent < 30) pref.strengthLabel.innerText = "Needs Attention";
+            else if (percent < 60) pref.strengthLabel.innerText = "Getting There";
+            else if (percent < 85) pref.strengthLabel.innerText = "Strong Profile";
+            else if (percent < 100) pref.strengthLabel.innerText = "Almost Complete!";
+            else pref.strengthLabel.innerText = "100% Complete! \u{1F3C6}";
         }
     };
 
@@ -88,9 +102,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.phone) pref.phone.value = user.phone_number || "";
         if (pref.location) pref.location.value = user.location || "";
         if (pref.bio) pref.bio.value = user.bio || "";
+        if (pref.designation) pref.designation.value = user.designation || "";
         if (pref.experience) pref.experience.value = user.experience || "";
         if (pref.salary) pref.salary.value = user.salary || "";
         if (pref.skills) pref.skills.value = user.skills || "";
+        if (pref.education) pref.education.value = user.education || "";
+        if (pref.projects) pref.projects.value = user.projects || "";
+        if (pref.linkedinUrl) pref.linkedinUrl.value = user.linkedin_url || "";
+        if (pref.githubUrl) pref.githubUrl.value = user.github_url || "";
+        if (pref.gender) pref.gender.value = user.gender || "";
+        if (pref.dob) pref.dob.value = user.dob || "";
+
+        // Update Header
+        const headerName = document.getElementById("header-full-name");
+        const headerSub = document.getElementById("header-designation-location");
+        if (headerName) headerName.innerText = `${user.first_name} ${user.last_name || ""}`;
+        if (headerSub) {
+            headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
+        }
 
         if (user.image && pref.photoPreview && user.image.trim() !== "") {
             pref.photoPreview.innerHTML = `<img src="${user.image}" alt="Profile">`;
@@ -140,12 +169,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Add event listeners to input fields to update strength bar in real-time
-    const inputs = [pref.firstName, pref.lastName, pref.phone, pref.location, pref.bio, pref.experience, pref.salary, pref.skills];
-    inputs.forEach(input => {
-        if (input) {
-            input.addEventListener("input", updateStrength);
-            input.addEventListener("change", updateStrength);
-        }
+    const allInputs = Object.values(pref).filter(el => el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT"));
+    allInputs.forEach(input => {
+        input.addEventListener("input", updateStrength);
+        input.addEventListener("change", updateStrength);
     });
 
     // 4. Handle Save Profile
@@ -161,9 +188,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                 phone_number: pref.phone.value.trim(),
                 location: pref.location.value.trim(),
                 bio: pref.bio.value.trim(),
+                designation: pref.designation.value.trim(),
                 experience: parseInt(pref.experience.value) || 0,
                 salary: parseInt(pref.salary.value) || 0,
                 skills: pref.skills.value.trim(),
+                education: pref.education.value.trim(),
+                projects: pref.projects.value.trim(),
+                linkedin_url: pref.linkedinUrl.value.trim(),
+                github_url: pref.githubUrl.value.trim(),
+                gender: pref.gender.value,
+                dob: pref.dob.value,
                 image: tempPhotoData || (currentUserData.image || ""),
                 resume_url: tempResumeName || (currentUserData.resume_url || "")
             };

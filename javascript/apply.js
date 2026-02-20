@@ -29,6 +29,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (user) {
         if (document.getElementById("full_name")) document.getElementById("full_name").value = `${user.first_name} ${user.last_name || ''}`.trim();
         if (document.getElementById("email")) document.getElementById("email").value = user.email || "";
+        if (document.getElementById("phone") && user.phone_number) document.getElementById("phone").value = user.phone_number;
+        if (document.getElementById("location") && user.location) document.getElementById("location").value = user.location;
+        if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
+        if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
+
+        // If user already has a resume_url, we could ideally show it, but for now let's just pre-fill text fields
     }
 
     // UI elements to fill

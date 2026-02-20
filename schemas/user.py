@@ -26,6 +26,13 @@ class UserUpdate(BaseModel):
     salary: Optional[int] = None
     skills: Optional[str] = None
     resume_url: Optional[str] = None
+    education: Optional[str] = None
+    projects: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
+    gender: Optional[str] = None
+    dob: Optional[str] = None
+    designation: Optional[str] = None
 
 class UserOut(BaseModel):
     user_id: int
@@ -41,6 +48,13 @@ class UserOut(BaseModel):
     salary: Optional[int] = None
     skills: Optional[str] = None
     resume_url: Optional[str] = None
+    education: Optional[str] = None
+    projects: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
+    gender: Optional[str] = None
+    dob: Optional[str] = None
+    designation: Optional[str] = None
 
     class Config:
         from_attributes = True

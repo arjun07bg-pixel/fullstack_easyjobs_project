@@ -2,29 +2,40 @@
 <html lang="en">
 
 <head>
-    
     <meta charset="UTF-8">
-    <title>Post a Job</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job | EasyJobs Employer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/styles/index.css">
     <link rel="stylesheet" href="/styles/Postjob_home.css">
     <link rel="stylesheet" href="/styles/global_font.css">
-
 </head>
 
 <body>
+    <!-- Header Section  -->
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+            <a href="/" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
 
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/" class="nav-link">Home</a></li>
                     <li><a href="/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
                     <li><a href="/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/my_applications.html" class="nav-link">My Applications</a></li>
                     <li><a href="/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/Guidance.html" class="nav-link">Guidance</a></li>
@@ -39,74 +50,91 @@
     </header>
 
     <div class="page-wrapper">
-
         <div class="job-form-container">
-            <h2>Post a Job</h2>
-            <p class="subtitle">Fill the details to post a new job opening</p>
+            <div class="form-header">
+                <i class="fas fa-bullhorn post-icon"></i>
+                <h2>Post a Job</h2>
+                <p class="subtitle">Reach thousands of qualified candidates</p>
+            </div>
 
-            <form>
-                <div class="form-group">
-                    <label>Job Title *</label>
-                    <input type="text" placeholder="e.g. Frontend Developer" required>
+            <form id="post-job-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="job-title">Job Title *</label>
+                        <input type="text" id="job-title" placeholder="e.g. Frontend Developer" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company-name">Company Name *</label>
+                        <input type="text" id="company-name" placeholder="e.g. Google" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-location">Location *</label>
+                        <input type="text" id="job-location" placeholder="City or 'Remote'" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-type">Job Type *</label>
+                        <select id="job-type" required>
+                            <option value="" disabled selected>Select job type</option>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="work-mode">Work Mode *</label>
+                        <select id="work-mode" required>
+                            <option value="" disabled selected>Select work mode</option>
+                            <option value="Office">Office (On-site)</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exp-level">Experience (Years) *</label>
+                        <input type="number" id="exp-level" placeholder="e.g. 2" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salary-range">Salary (LPA) *</label>
+                        <input type="number" id="salary-range" placeholder="e.g. 12" min="0" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Company Name *</label>
-                    <input type="text" placeholder="e.g. EasyJobs Pvt Ltd" required>
+                    <label for="job-desc">Job Description *</label>
+                    <textarea id="job-desc" placeholder="Details about the role, responsibilities, etc..."
+                        required></textarea>
                 </div>
 
-                <div class="form-group">
-                    <label>Job Location *</label>
-                    <input type="text" placeholder="City, State" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Job Type *</label>
-                    <select required>
-                        <option value="">Select job type</option>
-                        <option>Full Time</option>
-                        <option>Part Time</option>
-                        <option>Internship</option>
-                        <option>Contract</option>
-                        <option>Remote</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Experience Required *</label>
-                    <select required>
-                        <option value="">Select experience</option>
-                        <option>0 - 1 years</option>
-                        <option>1 - 3 years</option>
-                        <option>3 - 5 years</option>
-                        <option>5+ years</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Salary Range (LPA)</label>
-                    <input type="text" placeholder="e.g. 3 - 6 LPA">
-                </div>
-
-                <div class="form-group">
-                    <label>Job Description *</label>
-                    <textarea placeholder="Enter full job description..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Skills Required *</label>
-                    <input type="text" placeholder="e.g. HTML, CSS, JavaScript" required>
-                </div>
-
-                <button type="submit" class="post-btn">Post Job</button>
+                <button type="submit" class="post-btn" id="submit-btn">
+                    <span>Post Job Opportunity</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </form>
         </div>
-
     </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="/dashboard.html">Employer Dashboard</a>
+                <a href="/contact.html">Contact</a>
+            </div>
+            <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
+        </div>
+    </footer>
 
     <script src="/javascript/index.js"></script>
     <script src="/javascript/postjob.js"></script>
 </body>
 
 </html>
-

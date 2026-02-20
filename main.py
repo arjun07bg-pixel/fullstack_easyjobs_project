@@ -172,6 +172,11 @@ async def read_finance(request: Request):
 async def read_marketing(request: Request):
     return templates.TemplateResponse("sales&marketing.html", {"request": request})
 
+@app.get("/internship")
+@app.get("/internship.html")
+async def read_internship(request: Request):
+    return templates.TemplateResponse("internship.html", {"request": request})
+
 @app.get("/accenture-jobs")
 async def read_accenture(request: Request):
     # It was moved to Top_com/Accenture.html

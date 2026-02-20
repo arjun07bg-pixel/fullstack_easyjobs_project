@@ -1,4 +1,10 @@
-const API_BASE_URL = "/api";
+const getBaseURL = () => {
+    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        return `http://127.0.0.1:8000/api`;
+    }
+    return "/api";
+};
+const API_BASE_URL = getBaseURL();
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -14,13 +20,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Initialize filters from URL parameters
     const initialKeyword = urlParams.get("keyword") || "";
     const initialLocation = urlParams.get("location") || "";
+    const initialType = urlParams.get("type") || "";
 
     if (initialKeyword) document.getElementById("keyword-search").value = initialKeyword;
     if (initialLocation) document.getElementById("location-search").value = initialLocation;
 
+    // Set initial checkboxes for job type if present in URL
+    if (initialType) {
+        const typeCheckboxes = document.querySelectorAll('input[name="job_type"]');
+        typeCheckboxes.forEach(cb => {
+            if (cb.value === initialType) cb.checked = true;
+        });
+    }
+
     let currentFilters = {
         keyword: initialKeyword,
-        location: initialLocation
+        location: initialLocation,
+        job_type: initialType
     };
 
     // Extra 10 Static Jobs to ensure content is always present
@@ -34,7 +50,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         { job_id: 1007, job_title: "Cloud Architect", company_name: "LTIMindtree", location: "Mumbai", experience_level: 5, salary: 22, job_type: "Full Time", work_mode: "Hybrid", description: "Architect and manage AWS/Azure infrastructure for enterprise clients. Strong focus on security and cost-optimization." },
         { job_id: 1008, job_title: "DevOps Engineer", company_name: "Tech Mahindra", location: "Pune", experience_level: 3, salary: 14, job_type: "Full Time", work_mode: "Hybrid", description: "Implement CI/CD pipelines and manage containerized applications using Kubernetes and Docker." },
         { job_id: 1009, job_title: "Cybersecurity Analyst", company_name: "Cognizant", location: "Bangalore", experience_level: 2, salary: 11, job_type: "Full Time", work_mode: "Office", description: "Protect our clients' digital assets from high-level threats. Experience in network security and ethical hacking is required." },
-        { job_id: 1010, job_title: "Product Manager", company_name: "Reliance Jio", location: "Mumbai", experience_level: 5, salary: 25, job_type: "Full Time", work_mode: "Office", description: "Lead product strategy for next-gen consumer applications. Strong analytical and communication skills are mandatory." }
+        { job_id: 1010, job_title: "Product Manager", company_name: "Reliance Jio", location: "Mumbai", experience_level: 5, salary: 25, job_type: "Full Time", work_mode: "Office", description: "Lead product strategy for next-gen consumer applications. Strong analytical and communication skills are mandatory." },
+        { job_id: 1011, job_title: "Software Engineering Intern", company_name: "Google", location: "Bangalore", experience_level: 0, salary: 1, job_type: "Internship", work_mode: "Hybrid", description: "Learn state-of-the-art software development practices. Work on real-world projects with expert mentors." },
+        { job_id: 1012, job_title: "Data Science Intern", company_name: "Microsoft", location: "Hyderabad", experience_level: 0, salary: 1, job_type: "Internship", work_mode: "Remote", description: "Apply statistical and machine learning models to real datasets. Assist in data cleaning and analysis." }
     ];
 
     const fetchJobs = async (page = 1, filters = {}) => {
