@@ -95,6 +95,12 @@ async def test_registration(request: Request):
 async def read_dashboard(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
+@app.get("/application-status")
+@app.get("/application_status")
+@app.get("/application_status.html")
+async def read_app_status(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})
+
 @app.get("/jobs")
 @app.get("/jobs.html")
 async def read_jobs(request: Request):
@@ -134,17 +140,6 @@ async def read_profile(request: Request):
 @app.api_route("/apply_home.html", methods=["GET", "POST"])
 async def read_apply(request: Request):
     return templates.TemplateResponse("apply_home.html", {"request": request})
-
-@app.get("/application-status")
-@app.get("/application_status")
-@app.get("/application_status.html")
-async def read_app_status(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
-
-@app.get("/dashboard")
-@app.get("/dashboard.html")
-async def read_dashboard(request: Request):
-    return templates.TemplateResponse("dashboard.html", {"request": request})
 
 @app.get("/my-applications")
 @app.get("/my_applications")
