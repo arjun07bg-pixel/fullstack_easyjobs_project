@@ -18,6 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Global Header Search Handler
+    const headerSearchForm = document.querySelector(".header-search-form");
+    const headerSearchInput = document.querySelector(".header-search-input");
+
+    if (headerSearchForm && headerSearchInput) {
+        headerSearchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const keyword = headerSearchInput.value.trim();
+            if (keyword) {
+                window.location.href = `/jobs.html?keyword=${encodeURIComponent(keyword)}`;
+            }
+        });
+    }
+
     // Auth state check
     const user = JSON.parse(localStorage.getItem("user"));
     const authButtons = document.querySelector(".auth-buttons");

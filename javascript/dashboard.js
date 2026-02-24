@@ -96,23 +96,27 @@ function guardAdmin() {
 
 /* ─── SWITCHING TABS ────────────────────────── */
 function switchTab(tabName) {
-    document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
-    document.querySelectorAll(".sn-link").forEach(l => l.classList.remove("active"));
+    // New structure uses .tab-content and .nav-item
+    document.querySelectorAll(".tab-content").forEach(s => s.style.display = "none");
+    document.querySelectorAll(".nav-item").forEach(l => l.classList.remove("active"));
 
     const section = document.getElementById("tab-" + tabName);
-    const link = document.querySelector(`[data-tab="${tabName}"]`);
-    if (section) section.classList.add("active");
+    const link = document.querySelector(`[onclick*="switchTab('${tabName}')"]`);
+
+    if (section) section.style.display = "block";
     if (link) link.classList.add("active");
 
     const titles = {
-        overview: ["Admin Dashboard", "Welcome back, Admin! Here's today's overview."],
-        applications: ["All Applications", "Full list of every application submitted."],
-        users: ["Registered Users", "All users who have signed up on EasyJobs."],
-        "post-job": ["Post a Job", "Add a new job vacancy to the portal."],
+        overview: ["Recruiter Dashboard", "Manage your hires and internship listings."],
+        applications: ["All Applicants", "Review every candidate who applied for your openings."],
+        users: ["User Database", "Browse all registered candidates on the platform."],
+        "post-job": ["Post Opening", "Add a new internship or job vacancy."],
     };
     const [t, s] = titles[tabName] || ["Dashboard", ""];
-    setText("page-title", t);
-    setText("page-subtitle", s);
+    const titleEl = document.getElementById("page-title");
+    const subEl = document.getElementById("page-subtitle");
+    if (titleEl) titleEl.textContent = t;
+    if (subEl) subEl.textContent = s;
 }
 
 window.switchTab = switchTab;
@@ -218,29 +222,28 @@ function renderRecentTable() {
         .slice(0, 10);
 
     if (recent.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="table-loading"><div class="table-loading-content">No applications yet.</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#999;">No applications yet.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = recent.map((app, i) => {
         const nm = app.name || "—";
         const st = getStatus(app);
-        const g = grad(nm);
         return `
 <tr>
-    <td>${i + 1}</td>
     <td>
-        <div class="cand-cell">
-            <div class="cand-avatar" style="background:linear-gradient(135deg,${g})">${initials(nm)}</div>
-            <span class="cand-name">${nm}</span>
+        <div class="candidate-info">
+            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-details">
+                <span class="name">${nm}</span>
+                <span class="email">${app.email}</span>
+            </div>
         </div>
     </td>
-    <td>${v(app.email)}</td>
-    <td>${v(app.company_name)}</td>
-    <td>${v(app.job_title)}</td>
-    <td>${app.Total_Experience != null ? app.Total_Experience + " yr" : "—"}</td>
-    <td>${statusBadge(app)}</td>
+    <td><span style="font-weight:600; color:#444;">${app.job_title}</span></td>
     <td>${fmtDate(app.applied_at)}</td>
+    <td>${app.Total_Experience != null ? app.Total_Experience + " yr" : "Fresher"}</td>
+    <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}"><i class="fas ${st.icon}"></i> ${st.label}</span></td>
 </tr>`;
     }).join("");
 }
@@ -251,33 +254,29 @@ function renderAllApps(data) {
     if (!tbody) return;
 
     if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="13" class="table-loading"><div class="table-loading-content">No applications found.</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#999;">No applications found.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = data.map((app, i) => {
         const nm = app.name || "—";
-        const g = grad(nm);
+        const st = getStatus(app);
         return `
 <tr>
-    <td>${i + 1}</td>
     <td>
-        <div class="cand-cell">
-            <div class="cand-avatar" style="background:linear-gradient(135deg,${g})">${initials(nm)}</div>
-            <span class="cand-name">${nm}</span>
+        <div class="candidate-info">
+            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-details">
+                <span class="name">${nm}</span>
+                <span class="email">${app.email}</span>
+            </div>
         </div>
     </td>
-    <td>${v(app.email)}</td>
+    <td>${app.job_title} at <strong>${app.company_name}</strong></td>
     <td>${v(app.phone_number)}</td>
-    <td><strong>${v(app.company_name)}</strong></td>
-    <td>${v(app.job_title)}</td>
     <td>${v(app.Current_Location)}</td>
-    <td>${app.Total_Experience != null ? app.Total_Experience + " yr" : "—"}</td>
-    <td>${app.Current_salary != null ? "₹" + app.Current_salary : "—"}</td>
-    <td>${app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate" : app.Notice_Period + "d") : "—"}</td>
-    <td>${statusBadge(app)}</td>
-    <td>${fmtDate(app.applied_at)}</td>
-    <td><button class="det-btn" onclick="openModal(${app.application_id})"><i class="fas fa-eye"></i> View</button></td>
+    <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}">${st.label}</span></td>
+    <td><a href="#" class="view-btn" onclick="openModal(${app.application_id})">VIEW DETAIL <i class="fas fa-arrow-right"></i></a></td>
 </tr>`;
     }).join("");
 }
@@ -288,28 +287,25 @@ function renderUsers(data) {
     if (!tbody) return;
 
     if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="table-loading"><div class="table-loading-content">No users found.</div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#999;">No users found.</td></tr>`;
         return;
     }
 
     tbody.innerHTML = data.map((u, i) => {
-        const nm = `${u.first_name || ""} ${u.last_name || ""}`.trim() || "—";
-        const g = grad(nm);
-        const roleCls = u.role === "admin" ? "sb shortlisted" : u.role === "employer" ? "sb interview" : "sb applied";
+        const nm = `${u.first_name || ""} ${u.last_name || ""}`.trim() || "User";
         return `
 <tr>
-    <td>${i + 1}</td>
     <td>
-        <div class="cand-cell">
-            <div class="cand-avatar" style="background:linear-gradient(135deg,${g})">${initials(nm)}</div>
-            <span class="cand-name">${nm}</span>
+        <div class="candidate-info">
+            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-details">
+                <span class="name">${nm}</span>
+            </div>
         </div>
     </td>
     <td>${v(u.email)}</td>
-    <td>${v(u.phone_number)}</td>
-    <td><span class="${roleCls}">${u.role || "user"}</span></td>
+    <td><span class="status-label ${u.role === 'admin' ? 'status-shortlisted' : 'status-pending'}">${u.role || "user"}</span></td>
     <td>${v(u.location)}</td>
-    <td>${u.experience != null ? u.experience + " yr" : "—"}</td>
     <td>${v(u.skills)}</td>
 </tr>`;
     }).join("");

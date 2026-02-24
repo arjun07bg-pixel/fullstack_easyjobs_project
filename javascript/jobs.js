@@ -190,7 +190,57 @@ document.addEventListener("DOMContentLoaded", async () => {
         { job_id: 1147, job_title: "Project Manager", company_name: "Accenture", location: "Mumbai", experience_level: 5, salary: 22, job_type: "Full Time", work_mode: "Office", description: "Lead delivery teams for complex technology modernization programs." },
         { job_id: 1148, job_title: "System Admin", company_name: "Oracle", location: "Bangalore", experience_level: 4, salary: 16, job_type: "Full Time", work_mode: "Office", description: "Support global infrastructure for cloud computing leaders." },
         { job_id: 1149, job_title: "HR Manager", company_name: "Cognizant", location: "Chennai", experience_level: 5, salary: 15, job_type: "Full Time", work_mode: "Office", description: "Handle senior recruitment and talent management for IT sectors." },
-        { job_id: 1150, job_title: "Software Developer", company_name: "Reliance Jio", location: "Mumbai", experience_level: 2, salary: 12, job_type: "Full Time", work_mode: "Office", description: "Work on cutting-edge telecom and 5G software solutions." }
+        { job_id: 1150, job_title: "Software Developer", company_name: "Reliance Jio", location: "Mumbai", experience_level: 2, salary: 12, job_type: "Full Time", work_mode: "Office", description: "Work on cutting-edge telecom and 5G software solutions." },
+        { job_id: 1151, job_title: "Cyber Security Lead", company_name: "CISCO", location: "Bangalore", experience_level: 8, salary: 42, job_type: "Full Time", work_mode: "Office", description: "Lead the security architecture and incident response teams for global network infrastructure." },
+        { job_id: 1152, job_title: "Cloud Support Engineer", company_name: "AWS India", location: "Hyderabad", experience_level: 2, salary: 14, job_type: "Full Time", work_mode: "Hybrid", description: "Resolve complex technical issues for AWS customers using a wide range of cloud services." },
+        { job_id: 1153, job_title: "Digital Strategist", company_name: "HubSpot", location: "Remote", experience_level: 4, salary: 18, job_type: "Full Time", work_mode: "Remote", description: "Develop and implement complex inbound marketing strategies for international corporate clients." },
+        { job_id: 1154, job_title: "Senior UX Researcher", company_name: "Canva", location: "Remote", experience_level: 5, salary: 22, job_type: "Full Time", work_mode: "Remote", description: "Conduct deep user research to drive the product roadmap for world-leading design tools." },
+        { job_id: 1155, job_title: "Logistics Operations Specialist", company_name: "Amazon India", location: "Mumbai", experience_level: 3, salary: 11, job_type: "Full Time", work_mode: "On-site", description: "Manage large-scale delivery networks and ensure peak operational efficiency in urban hubs." },
+        { job_id: 1156, job_title: "Infrastructure Engineer", company_name: "IBM", location: "Chennai", experience_level: 4, salary: 15, job_type: "Full Time", work_mode: "Office", description: "Maintain and optimize large-scale server environments for banking and finance clients." },
+        { job_id: 1157, job_title: "Frontend Developer (React)", company_name: "Razorpay", location: "Bangalore", experience_level: 2, salary: 20, job_type: "Full Time", work_mode: "Hybrid", description: "Build elegant and performant web interfaces for India's best payment experience." },
+        { job_id: 1158, job_title: "Content Manager", company_name: "Netflix India", location: "Mumbai", experience_level: 5, salary: 28, job_type: "Full Time", work_mode: "Remote", description: "Oversee the localized content strategy and creative writing for the Indian market." },
+        { job_id: 1159, job_title: "Junior Data Analyst", company_name: "Swiggy", location: "Bangalore", experience_level: 1, salary: 9, job_type: "Full Time", work_mode: "Office", description: "Extract actionable insights from supply and demand data to optimize food delivery times." },
+        { job_id: 1160, job_title: "Product Lead", company_name: "CRED", location: "Bangalore", experience_level: 7, salary: 55, job_type: "Full Time", work_mode: "Office", description: "Drive the vision and execution for high-trust financial products at massive scale." },
+        { job_id: 1161, job_title: "AI Engineer", company_name: "OpenAI", location: "Remote", experience_level: 4, salary: 120, job_type: "Full Time", work_mode: "Remote", description: "Develop and fine-tune large language models for global applications." },
+        { job_id: 1162, job_title: "Robotics Engineer", company_name: "Tesla India", location: "Pune", experience_level: 5, salary: 45, job_type: "Full Time", work_mode: "Office", description: "Design robotic systems for automated manufacturing and EV assembly lines." },
+        { job_id: 1163, job_title: "Sustainability Consultant", company_name: "Tata Power", location: "Mumbai", experience_level: 3, salary: 18, job_type: "Full Time", work_mode: "Hybrid", description: "Advise on renewable energy integration and carbon footprint reduction strategies." },
+        { job_id: 1164, job_title: "Growth Manager", company_name: "Zomato", location: "Gurgaon", experience_level: 5, salary: 30, job_type: "Full Time", work_mode: "Office", description: "Lead customer acquisition and retention strategies for the food delivery platform." },
+        { job_id: 1165, job_title: "iOS Architect", company_name: "Apple", location: "Hyderabad", experience_level: 10, salary: 85, job_type: "Full Time", work_mode: "Office", description: "Lead the technical architecture for core iOS applications and frameworks." },
+        { job_id: 1166, job_title: "Blockchain Architect", company_name: "Polygon", location: "Remote", experience_level: 6, salary: 70, job_type: "Full Time", work_mode: "Remote", description: "Design layer-2 scaling solutions and high-performance smart contract systems." },
+        { job_id: 1167, job_title: "Network Lead", company_name: "Reliance Jio", location: "Navi Mumbai", experience_level: 8, salary: 38, job_type: "Full Time", work_mode: "Office", description: "Manage large-scale 5G core network infrastructure and performance." },
+        { job_id: 1168, job_title: "UX Director", company_name: "Flipkart", location: "Bangalore", experience_level: 12, salary: 95, job_type: "Full Time", work_mode: "Hybrid", description: "Shape the future of e-commerce experience for millions of Indian shoppers." },
+        { job_id: 1169, job_title: "SpaceTech Engineer", company_name: "Skyroot Aerospace", location: "Hyderabad", experience_level: 4, salary: 28, job_type: "Full Time", work_mode: "On-site", description: "Lead development of propulsion systems for low-earth orbit rocket launches." },
+        { job_id: 1170, job_title: "Quant Analyst", company_name: "Zerodha", location: "Bangalore", experience_level: 3, salary: 40, job_type: "Full Time", work_mode: "Office", description: "Develop mathematical models for risk assessment and algorithmic trading." },
+        { job_id: 1171, job_title: "Security Specialist", company_name: "Paytm", location: "Noida", experience_level: 5, salary: 32, job_type: "Full Time", work_mode: "Office", description: "Conduct depth penetration testing and security audits for fintech applications." },
+        { job_id: 1172, job_title: "Content Lead", company_name: "SpotiFy", location: "Mumbai", experience_level: 6, salary: 26, job_type: "Full Time", work_mode: "Hybrid", description: "Lead the podcast and music content strategy for the Indian subcontinent." },
+        { job_id: 1173, job_title: "EV Systems Designer", company_name: "Ola Electric", location: "Bangalore", experience_level: 4, salary: 24, job_type: "Full Time", work_mode: "Office", description: "Design high-efficiency battery management systems for electric scooters." },
+        { job_id: 1174, job_title: "Cloud Consultant", company_name: "Google Cloud", location: "Bangalore", experience_level: 5, salary: 50, job_type: "Full Time", work_mode: "Hybrid", description: "Help enterprise clients digitally transform using GCP's advanced data analytics." },
+        { job_id: 1175, job_title: "Product Marketing Manager", company_name: "Freshworks", location: "Chennai", experience_level: 5, salary: 24, job_type: "Full Time", work_mode: "Remote", description: "Define product positioning and go-to-market strategies for SaaS platforms." },
+        { job_id: 1176, job_title: "Backend Engineer (Go)", company_name: "Swiggy", location: "Bangalore", experience_level: 3, salary: 22, job_type: "Full Time", work_mode: "Office", description: "Build high-concurrency order management systems using Go and Kafka." },
+        { job_id: 1177, job_title: "Operations Director", company_name: "Delhivery", location: "Gurgaon", experience_level: 10, salary: 60, job_type: "Full Time", work_mode: "On-site", description: "Manage national-scale supply chain and automated sorting facilities." },
+        { job_id: 1178, job_title: "Lead Game Developer", company_name: "Dream11", location: "Mumbai", experience_level: 6, salary: 55, job_type: "Full Time", work_mode: "Hybrid", description: "Architect real-time multiplayer gaming experiences for millions of users." },
+        { job_id: 1179, job_title: "Financial Risk Lead", company_name: "HDFC Bank", location: "Mumbai", experience_level: 8, salary: 45, job_type: "Full Time", work_mode: "Office", description: "Manage credit risk and regulatory compliance for corporate lending divisions." },
+        { job_id: 1180, job_title: "Site Reliability Lead", company_name: "Atlassian", location: "Remote", experience_level: 7, salary: 75, job_type: "Full Time", work_mode: "Remote", description: "Scale global infrastructure for Jira and Confluence with focus on 99.9% uptime." },
+        { job_id: 1181, job_title: "Full Stack Intern", company_name: "Meta India", location: "Bangalore", experience_level: 0, salary: 5, job_type: "Internship", work_mode: "Hybrid", description: "Work with the product engineering teams to build social experiences for billions." },
+        { job_id: 1182, job_title: "AR/VR Engineer", company_name: "Snap Inc.", location: "Mumbai", experience_level: 3, salary: 45, job_type: "Full Time", work_mode: "Office", description: "Develop cutting-edge augmented reality lenses and camera experiences for Snapchat." },
+        { job_id: 1183, job_title: "Data Privacy Lead", company_name: "WhatsApp", location: "Hyderabad", experience_level: 8, salary: 80, job_type: "Full Time", work_mode: "Hybrid", description: "Oversee data protection and encryption standards for the world's leading messaging app." },
+        { job_id: 1184, job_title: "Cloud Security Architect", company_name: "Palo Alto Networks", location: "Bangalore", experience_level: 6, salary: 55, job_type: "Full Time", work_mode: "Office", description: "Architect zero-trust security solutions for enterprise cloud environments." },
+        { job_id: 1185, job_title: "Fintech Product Lead", company_name: "Stripe", location: "Remote", experience_level: 7, salary: 90, job_type: "Full Time", work_mode: "Remote", description: "Lead the expansion of payment infrastructure for internet businesses across Asia." },
+        { job_id: 1186, job_title: "Hardware Design Engineer", company_name: "Intel", location: "Bangalore", experience_level: 4, salary: 35, job_type: "Full Time", work_mode: "On-site", description: "Design and verify next-generation processor architectures and chipsets." },
+        { job_id: 1187, job_title: "AI Ethics Researcher", company_name: "Anthropic", location: "Remote", experience_level: 5, salary: 110, job_type: "Full Time", work_mode: "Remote", description: "Research and implement safety protocols for large-scale generative AI models." },
+        { job_id: 1188, job_title: "Logistics Strategy Lead", company_name: "Blue Dart", location: "Mumbai", experience_level: 6, salary: 28, job_type: "Full Time", work_mode: "Office", description: "Optimize national air and surface logistics networks for peak e-commerce demand." },
+        { job_id: 1189, job_title: "HealthTech Product Manager", company_name: "Practo", location: "Bangalore", experience_level: 4, salary: 32, job_type: "Full Time", work_mode: "Hybrid", description: "Drive the roadmap for digital healthcare solutions connecting millions of patients." },
+        { job_id: 1190, job_title: "Agritech Software Lead", company_name: "Ninjacart", location: "Bangalore", experience_level: 5, salary: 26, job_type: "Full Time", work_mode: "Office", description: "Build tech solutions to modernize the agricultural supply chain from farm to fork." },
+        { job_id: 1191, job_title: "EdTech Content Director", company_name: "Unacademy", location: "Bangalore", experience_level: 8, salary: 42, job_type: "Full Time", work_mode: "Hybrid", description: "Over-see the pedagogical content strategy for top-tier competitive exam preparation." },
+        { job_id: 1192, job_title: "Game Engine Developer", company_name: "Epic Games", location: "Pune", experience_level: 5, salary: 65, job_type: "Full Time", work_mode: "Office", description: "Contribute to the development of Unreal Engine and the future of real-time 3D." },
+        { job_id: 1193, job_title: "Search Algorithm Lead", company_name: "Microsoft Bing", location: "Hyderabad", experience_level: 7, salary: 75, job_type: "Full Time", work_mode: "Hybrid", description: "Optimize search relevance and AI integration for the next generation of Bing." },
+        { job_id: 1194, job_title: "VR/AR UI Designer", company_name: "Unity Technologies", location: "Remote", experience_level: 4, salary: 40, job_type: "Full Time", work_mode: "Remote", description: "Design immersive user interfaces for the world's leading real-time 3D engine." },
+        { job_id: 1195, job_title: "Automotive Software Lead", company_name: "Mahindra Electric", location: "Bangalore", experience_level: 6, salary: 32, job_type: "Full Time", work_mode: "Office", description: "Lead the development of embedded software for next-gen electric vehicle platforms." },
+        { job_id: 1196, job_title: "Telecom Policy Manager", company_name: "Airtel India", location: "Gurgaon", experience_level: 8, salary: 35, job_type: "Full Time", work_mode: "Office", description: "Manage regulatory compliance and spectrum policy for national 5G rollouts." },
+        { job_id: 1197, job_title: "E-sports Manager", company_name: "Fnatic India", location: "Mumbai", experience_level: 4, salary: 18, job_type: "Full Time", work_mode: "Hybrid", description: "Manage professional gaming teams and brand partnerships in the Indian market." },
+        { job_id: 1198, job_title: "Blockchain Legal Consultant", company_name: "Chainalysis", location: "Remote", experience_level: 6, salary: 50, job_type: "Full Time", work_mode: "Remote", description: "Provide legal expertise on cryptocurrency regulations and financial forensics." },
+        { job_id: 1199, job_title: "Venture Capital Analyst", company_name: "Sequoia Capital", location: "Bangalore", experience_level: 3, salary: 55, job_type: "Full Time", work_mode: "Office", description: "Identify and analyze high-growth technology startups for potential investment." },
+        { job_id: 1200, job_title: "Space Operations Specialist", company_name: "ISRO (Contract)", location: "Sriharikota", experience_level: 5, salary: 24, job_type: "Full Time", work_mode: "On-site", description: "Support ground operations for satellite launches and space exploration missions." }
     ];
 
 
@@ -200,11 +250,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             currentFilters = filters;
             const skip = (page - 1) * jobsPerPage;
 
-            let jobs = [];
-            let totalJobs = extraJobs.length;
-
+            // 1. Fetch matching API jobs (we'll fetch a larger set to handle combining, 
+            // but for simplicity in this project, let's fetch all matching and paginate on client)
+            let apiJobs = [];
             try {
-                let url = `${API_BASE_URL}/jobs/?skip=${skip}&limit=${jobsPerPage}`;
+                let url = `${API_BASE_URL}/jobs/`;
                 const hasFilters = filters.keyword || filters.location || filters.experience_level || filters.job_type || filters.work_mode;
 
                 if (hasFilters) {
@@ -214,61 +264,47 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if (filters.experience_level) params.append("experience_level", filters.experience_level);
                     if (filters.job_type) params.append("job_type", filters.job_type);
                     if (filters.work_mode) params.append("work_mode", filters.work_mode);
-                    params.append("skip", skip);
-                    params.append("limit", jobsPerPage);
                     url = `${API_BASE_URL}/filters/jobs?${params.toString()}`;
                 }
 
                 const response = await fetch(url);
                 if (response.ok) {
-                    const apiJobs = await response.json();
-
-                    // Fetch total count
-                    const totalRes = await fetch(`${API_BASE_URL}/jobs/`);
-                    if (totalRes.ok) {
-                        const allJobs = await totalRes.json();
-                        totalJobs = allJobs.length + extraJobs.length;
-                    }
-
-                    // Merge with static jobs that match filters
-                    const filteredExtra = extraJobs.filter(j => {
-                        const matchesKey = !filters.keyword || j.job_title.toLowerCase().includes(filters.keyword.toLowerCase()) || j.company_name.toLowerCase().includes(filters.keyword.toLowerCase());
-                        const matchesLoc = !filters.location || j.location.toLowerCase().includes(filters.location.toLowerCase());
-                        const matchesExp = !filters.experience_level || j.experience_level >= parseInt(filters.experience_level);
-                        const matchesType = !filters.job_type || j.job_type === filters.job_type;
-                        const matchesMode = !filters.work_mode || j.work_mode === filters.work_mode;
-                        return matchesKey && matchesLoc && matchesExp && matchesType && matchesMode;
-                    });
-
-                    // Combine them
-                    const combined = [...apiJobs, ...filteredExtra];
-                    const start = (page - 1) * jobsPerPage;
-                    jobs = combined.slice(start, start + jobsPerPage);
-                } else {
-                    throw new Error("API Failure");
+                    apiJobs = await response.json();
                 }
             } catch (e) {
-                console.log("Serving static jobs only due to API error/empty state");
-                const filteredExtra = extraJobs.filter(j => {
-                    const matchesKey = !filters.keyword || j.job_title.toLowerCase().includes(filters.keyword.toLowerCase()) || j.company_name.toLowerCase().includes(filters.keyword.toLowerCase());
-                    const matchesLoc = !filters.location || j.location.toLowerCase().includes(filters.location.toLowerCase());
-                    const matchesExp = !filters.experience_level || j.experience_level >= parseInt(filters.experience_level);
-                    const matchesType = !filters.job_type || j.job_type === filters.job_type;
-                    const matchesMode = !filters.work_mode || j.work_mode === filters.work_mode;
-                    return matchesKey && matchesLoc && matchesExp && matchesType && matchesMode;
-                });
-                totalJobs = filteredExtra.length;
-                jobs = filteredExtra.slice((page - 1) * jobsPerPage, page * jobsPerPage);
+                console.error("API Fetch failed, using static data only.", e);
             }
 
-            renderJobs(jobs);
-            renderPagination(totalJobs);
+            // 2. Filter static jobs
+            const filteredExtra = extraJobs.filter(j => {
+                const q = (filters.keyword || "").toLowerCase();
+                const l = (filters.location || "").toLowerCase();
+                const matchesKey = !q || j.job_title.toLowerCase().includes(q) || j.company_name.toLowerCase().includes(q);
+                const matchesLoc = !l || j.location.toLowerCase().includes(l);
+                const matchesExp = !filters.experience_level || j.experience_level >= parseInt(filters.experience_level);
+                const matchesType = !filters.job_type || j.job_type === filters.job_type;
+                const matchesMode = !filters.work_mode || j.work_mode === filters.work_mode;
+                return matchesKey && matchesLoc && matchesExp && matchesType && matchesMode;
+            });
+
+            // 3. Combine and Paginate
+            const allMatching = [...apiJobs, ...filteredExtra];
+            const jobsToDisplay = allMatching.slice(skip, skip + jobsPerPage);
+
+            renderJobs(jobsToDisplay);
+            renderPagination(allMatching.length);
+
+            if (countText) {
+                countText.innerText = `Showing ${allMatching.length} matches`;
+            }
+
         } catch (error) {
-            console.error("Fetch Error:", error);
-            jobsContainer.innerHTML = `<div class="no-jobs">Error loading jobs. Please try again.</div>`;
+            console.error("Error in fetchJobs:", error);
+            if (jobsContainer) jobsContainer.innerHTML = "<p class='error-msg'>Something went wrong while fetching jobs.</p>";
         }
     };
 
+    // Move renderJobs outside fetchJobs to be clean
     const renderJobs = (jobs) => {
         jobsContainer.innerHTML = "";
 

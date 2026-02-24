@@ -194,8 +194,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             company_description: staticCompanyDesc || "We are a leading organization in our industry, committed to innovation and excellence.",
             location: urlParams.get("location") || "Remote",
             experience_level: urlParams.get("experience") || urlParams.get("exp") || "Not Specified",
-            salary: urlParams.get("salary") || "Not Disclosed",
-            job_type: urlParams.get("type") || "Full Time",
+            salary: urlParams.get("salary") || urlParams.get("stipend") || "Not Disclosed",
+            job_type: urlParams.get("type") || (urlParams.get("stipend") ? "Internship" : "Full Time"),
             work_mode: urlParams.get("mode") || "Hybrid",
             description: sectionContent
         };
