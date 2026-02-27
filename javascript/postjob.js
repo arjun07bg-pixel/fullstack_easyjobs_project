@@ -17,28 +17,36 @@ document.addEventListener("DOMContentLoaded", () => {
             // Collect data from the new IDs
             const jobTitle = document.getElementById("job-title").value;
             const companyName = document.getElementById("company-name").value;
+            const category = document.getElementById("job-category").value;
+            const vacancies = document.getElementById("vacancies").value;
             const location = document.getElementById("job-location").value;
             const jobType = document.getElementById("job-type").value;
             const workMode = document.getElementById("work-mode").value;
             const experience = document.getElementById("exp-level").value;
             const salary = document.getElementById("salary-range").value;
+            const deadline = document.getElementById("deadline").value;
+            const website = document.getElementById("company-website").value;
+            const applyLink = document.getElementById("apply-link").value;
+            const skills = document.getElementById("required-skills").value;
             const description = document.getElementById("job-desc").value;
-
-            // Simple validation
-            if (!jobTitle || !companyName || !location || !jobType || !workMode || !description) {
-                alert("Please fill in all required fields.");
-                return;
-            }
+            const benefits = document.getElementById("benefits").value;
 
             const formData = {
                 job_title: jobTitle,
                 company_name: companyName,
+                category: category,
+                vacancies: parseInt(vacancies) || 1,
                 location: location,
                 job_type: jobType,
                 work_mode: workMode,
                 experience_level: parseInt(experience) || 0,
-                salary: parseInt(salary) || 0,
-                description: description
+                salary_lpa: parseInt(salary) || 0,
+                deadline: deadline,
+                company_website: website,
+                apply_link: applyLink,
+                required_skills: skills,
+                description: description,
+                benefits: benefits
             };
 
             // Loading state

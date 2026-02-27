@@ -83,21 +83,25 @@
                         <span class="sum-label"><i class="fas fa-inbox"></i> Total Applied</span>
                         <span class="sum-count" id="cnt-total">–</span>
                     </div>
-                    <div class="summary-row review">
-                        <span class="sum-label"><i class="fas fa-clock"></i> Under Review</span>
-                        <span class="sum-count" id="cnt-review">–</span>
+                    <div class="summary-row" style="color:#2563eb;">
+                        <span class="sum-label"><i class="fas fa-paper-plane"></i> Applied</span>
+                        <span class="sum-count" id="cnt-applied">0</span>
                     </div>
-                    <div class="summary-row shortlisted">
-                        <span class="sum-label"><i class="fas fa-star"></i> Shortlisted</span>
-                        <span class="sum-count" id="cnt-shortlisted">–</span>
+                    <div class="summary-row review">
+                        <span class="sum-label"><i class="fas fa-search"></i> Reviewed</span>
+                        <span class="sum-count" id="cnt-review">0</span>
                     </div>
                     <div class="summary-row" style="color:#b45309;">
-                        <span class="sum-label"><i class="fas fa-user-check"></i> Interview</span>
-                        <span class="sum-count" id="cnt-interview">–</span>
+                        <span class="sum-label"><i class="fas fa-user-check"></i> Interviewing</span>
+                        <span class="sum-count" id="cnt-interview">0</span>
+                    </div>
+                    <div class="summary-row shortlisted">
+                        <span class="sum-label"><i class="fas fa-check-circle"></i> Selected</span>
+                        <span class="sum-count" id="cnt-shortlisted">0</span>
                     </div>
                     <div class="summary-row rejected">
                         <span class="sum-label"><i class="fas fa-times-circle"></i> Not Selected</span>
-                        <span class="sum-count" id="cnt-rejected">–</span>
+                        <span class="sum-count" id="cnt-rejected">0</span>
                     </div>
                 </div>
             </div>
@@ -114,12 +118,15 @@
                     <button class="side-filter-btn" data-filter="applied" onclick="filterCards('applied', this)">
                         <i class="fas fa-paper-plane"></i> Applied
                     </button>
-                    <button class="side-filter-btn" data-filter="shortlisted"
-                        onclick="filterCards('shortlisted', this)">
-                        <i class="fas fa-star"></i> Shortlisted
+                    <button class="side-filter-btn" data-filter="reviewed" onclick="filterCards('reviewed', this)">
+                        <i class="fas fa-search"></i> Reviewed
                     </button>
                     <button class="side-filter-btn" data-filter="interview" onclick="filterCards('interview', this)">
-                        <i class="fas fa-user-check"></i> Interview
+                        <i class="fas fa-user-check"></i> Interviewing
+                    </button>
+                    <button class="side-filter-btn" data-filter="shortlisted"
+                        onclick="filterCards('shortlisted', this)">
+                        <i class="fas fa-check-circle"></i> Selected
                     </button>
                     <button class="side-filter-btn" data-filter="rejected" onclick="filterCards('rejected', this)">
                         <i class="fas fa-times-circle"></i> Not Selected
@@ -257,11 +264,43 @@
         /* status → badge config */
         function getStatusConfig(rawStatus) {
             const s = (rawStatus || 'applied').toLowerCase();
-            if (s.includes('short')) return { key: 'shortlisted', cls: 'shortlisted', icon: 'fas fa-star', text: 'Shortlisted', stripe: 'green' };
-            if (s.includes('interv')) return { key: 'interview', cls: 'interview', icon: 'fas fa-user-check', text: 'Interview', stripe: 'orange' };
+            if (s.includes('short') || s.includes('hire') || s.includes('select'))
+                return { key: 'shortlisted', cls: 'shortlisted', icon: 'fas fa-check-circle', text: 'Selected', stripe: 'green', stage: 4 };
+            if (s.includes('interv'))
+                return { key: 'interview', cls: 'interview', icon: 'fas fa-user-check', text: 'Interviewing', stripe: 'orange', stage: 3 };
+            if (s.includes('review'))
+                return { key: 'reviewed', cls: 'reviewed', icon: 'fas fa-search', text: 'Reviewed', stripe: 'blue', stage: 2 };
             if (s.includes('reject') || s.includes('not sel'))
-                return { key: 'rejected', cls: 'rejected', icon: 'fas fa-times-circle', text: 'Not Selected', stripe: 'red' };
-            return { key: 'applied', cls: 'applied', icon: 'fas fa-paper-plane', text: 'Applied', stripe: 'blue' };
+                return { key: 'rejected', cls: 'rejected', icon: 'fas fa-times-circle', text: 'Not Selected', stripe: 'red', stage: 4 };
+
+            return { key: 'applied', cls: 'applied', icon: 'fas fa-paper-plane', text: 'Applied', stripe: 'blue', stage: 1 };
+        }
+
+        function getTrackerHTML(currentStage, isRejected) {
+            const stages = [
+                { id: 1, label: 'Applied' },
+                { id: 2, label: 'Reviewed' },
+                { id: 3, label: 'Interview' },
+                { id: 4, label: isRejected ? 'Rejected' : 'Selected' }
+            ];
+
+            return `
+            <div class="app-status-tracker">
+                ${stages.map(s => {
+                let cls = 'tracker-step';
+                if (s.id < currentStage) cls += ' completed';
+                if (s.id === currentStage) {
+                    cls += ' active';
+                    if (isRejected && s.id === 4) cls += ' rejected';
+                    else if (!isRejected && s.id === 4) cls += ' hired';
+                }
+                return `
+                    <div class="${cls}">
+                        <div class="tracker-dot"></div>
+                        <span class="tracker-label">${s.label}</span>
+                    </div>`;
+            }).join('')}
+            </div>`;
         }
 
         /* ─── render a single card ─── */
@@ -291,6 +330,10 @@
                                 <span class="app-meta-chip"><i class="fas fa-map-marker-alt"></i> ${app.location || 'India'}</span>
                                 <span class="app-meta-chip"><i class="fas fa-briefcase"></i> ${app.job_type || 'Full-time'}</span>
                             </div>
+                            
+                            <!-- Status Tracker (Vinnappa Nilai) -->
+                            ${getTrackerHTML(sc.stage, sc.key === 'rejected')}
+
                             <p class="app-cover-snippet">
                                 <i class="fas fa-quote-left" style="font-size:0.65rem;margin-right:4px;"></i>
                                 ${app.cover_note || 'No cover note submitted.'}
@@ -323,18 +366,18 @@
         let ALL_APPS = [];
 
         function updateCounts(apps) {
-            const c = { total: apps.length, review: 0, shortlisted: 0, interview: 0, rejected: 0 };
+            const c = { total: apps.length, applied: 0, reviewed: 0, interview: 0, shortlisted: 0, rejected: 0 };
             apps.forEach(a => {
                 const sc = getStatusConfig(a.status);
-                if (sc.key === 'shortlisted') c.shortlisted++;
-                else if (sc.key === 'interview') c.interview++;
-                else if (sc.key === 'rejected') c.rejected++;
-                else c.review++;
+                if (c.hasOwnProperty(sc.key)) {
+                    c[sc.key]++;
+                }
             });
             document.getElementById('cnt-total').textContent = c.total;
-            document.getElementById('cnt-review').textContent = c.review;
-            document.getElementById('cnt-shortlisted').textContent = c.shortlisted;
+            document.getElementById('cnt-applied').textContent = c.applied;
+            document.getElementById('cnt-review').textContent = c.reviewed;
             document.getElementById('cnt-interview').textContent = c.interview;
+            document.getElementById('cnt-shortlisted').textContent = c.shortlisted;
             document.getElementById('cnt-rejected').textContent = c.rejected;
         }
 
@@ -413,7 +456,7 @@
                 if (!apps || apps.length === 0) {
                     document.getElementById('state-empty').style.display = 'flex';
                     document.getElementById('result-count').textContent = '0 applications';
-                    ['cnt-total', 'cnt-review', 'cnt-shortlisted', 'cnt-interview', 'cnt-rejected'].forEach(id => {
+                    ['cnt-total', 'cnt-applied', 'cnt-review', 'cnt-shortlisted', 'cnt-interview', 'cnt-rejected'].forEach(id => {
                         document.getElementById(id).textContent = '0';
                     });
                     return;

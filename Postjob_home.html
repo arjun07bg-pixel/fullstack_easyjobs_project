@@ -42,7 +42,7 @@
                 </ul>
             </nav>
 
-            
+
 
             <div class="auth-buttons">
                 <a href="/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
@@ -61,6 +61,11 @@
 
             <form id="post-job-form">
                 <div class="form-grid">
+                    <!-- SECTION 1: BASIC INFO -->
+                    <div class="section-title full-width">
+                        <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                    </div>
+
                     <div class="form-group">
                         <label for="job-title">Job Title *</label>
                         <input type="text" id="job-title" placeholder="e.g. Frontend Developer" required>
@@ -69,6 +74,29 @@
                     <div class="form-group">
                         <label for="company-name">Company Name *</label>
                         <input type="text" id="company-name" placeholder="e.g. Google" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-category">Category *</label>
+                        <select id="job-category" required>
+                            <option value="" disabled selected>Select category</option>
+                            <option value="IT & Software">IT & Software</option>
+                            <option value="Sales & Marketing">Sales & Marketing</option>
+                            <option value="Finance & Accounting">Finance & Accounting</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Design">Design</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vacancies">Number of Vacancies *</label>
+                        <input type="number" id="vacancies" placeholder="e.g. 5" min="1" required>
+                    </div>
+
+                    <!-- SECTION 2: LOGISTICS -->
+                    <div class="section-title full-width">
+                        <h3><i class="fas fa-map-marker-alt"></i> Location & Type</h3>
                     </div>
 
                     <div class="form-group">
@@ -98,24 +126,71 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="exp-level">Experience (Years) *</label>
+                        <label for="exp-level">Experience Required (Years) *</label>
                         <input type="number" id="exp-level" placeholder="e.g. 2" min="0" required>
                     </div>
 
+                    <!-- SECTION 3: COMPENSATION & TIMING -->
+                    <div class="section-title full-width">
+                        <h3><i class="fas fa-dollar-sign"></i> Compensation & Timing</h3>
+                    </div>
+
                     <div class="form-group">
-                        <label for="salary-range">Salary (LPA) *</label>
+                        <label for="salary-range">Expected Salary (LPA) *</label>
                         <input type="number" id="salary-range" placeholder="e.g. 12" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deadline">Application Deadline *</label>
+                        <input type="date" id="deadline" required>
+                    </div>
+
+                    <!-- SECTION 4: LINKS & SKILLS -->
+                    <div class="section-title full-width">
+                        <h3><i class="fas fa-link"></i> Links & Skills</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company-website">Company Website</label>
+                        <input type="url" id="company-website" placeholder="https://www.company.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apply-link">Direct Application Link *</label>
+                        <input type="url" id="apply-link" placeholder="https://careers.company.com/job/123" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="required-skills">Skills Required (Comma separated) *</label>
+                        <input type="text" id="required-skills" placeholder="e.g. React, Node.js, AWS, Python" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="job-desc">Job Description *</label>
-                    <textarea id="job-desc" placeholder="Details about the role, responsibilities, etc..."
+                    <textarea id="job-desc"
+                        placeholder="Details about the role, responsibilities, culture, and requirements..."
                         required></textarea>
                 </div>
 
+                <!-- SECTION 5: EXTRA BENEFITS -->
+                <div class="form-group">
+                    <label for="benefits">Benefits & Perks (Optional)</label>
+                    <textarea id="benefits"
+                        placeholder="e.g. Health Insurance, Flexible Hours, Free Gym, Stock Options..."
+                        style="min-height: 80px;"></textarea>
+                </div>
+
+                <div class="agreement">
+                    <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" required style="width: auto; margin-top: 4px;">
+                        <span style="font-size: 13px; color: #64748b;">I agree that the information provided is accurate
+                            and follows the platform's guidelines.</span>
+                    </label>
+                </div>
+
                 <button type="submit" class="post-btn" id="submit-btn">
-                    <span>Post Job Opportunity</span>
+                    <span>Publish Job Opportunity</span>
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </form>

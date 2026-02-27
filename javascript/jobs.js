@@ -279,7 +279,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const filteredExtra = extraJobs.filter(j => {
                 const q = (filters.keyword || "").toLowerCase();
                 const l = (filters.location || "").toLowerCase();
-                const matchesKey = !q || j.job_title.toLowerCase().includes(q) || j.company_name.toLowerCase().includes(q);
+                const qParts = q.split(/\s+/).filter(p => p.length > 0);
+                const matchesKey = !q || qParts.every(part => j.job_title.toLowerCase().includes(part) || j.company_name.toLowerCase().includes(part));
                 const matchesLoc = !l || j.location.toLowerCase().includes(l);
                 const matchesExp = !filters.experience_level || j.experience_level >= parseInt(filters.experience_level);
                 const matchesType = !filters.job_type || j.job_type === filters.job_type;
@@ -323,6 +324,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const getSkillsByTitle = (title) => {
                 const t = title.toLowerCase();
+                if (t.includes("qa") || t.includes("test") || t.includes("quality")) return ["Selenium", "JIRA", "Automation", "Manual Testing", "Test Plans"];
                 if (t.includes("engineer") || t.includes("developer")) return ["React", "JavaScript", "TypeScript", "Node.js", "Docker"];
                 if (t.includes("data")) return ["Python", "SQL", "Pandas", "Scikit-Learn", "Tableau"];
                 if (t.includes("designer") || t.includes("ux")) return ["Figma", "Adobe XD", "Sketch", "UI Design", "UX Research"];

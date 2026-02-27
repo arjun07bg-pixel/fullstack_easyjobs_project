@@ -65,6 +65,29 @@
     margin-bottom: 8px;
 }
 
+.section-title {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #eff6ff;
+    padding-bottom: 8px;
+}
+
+.section-title h3 {
+    font-size: 16px;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.agreement {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px dashed #cbd5e1;
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {

@@ -34,10 +34,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const filteredJobs = allJobs.filter(job => {
                 const text = (job.job_title + " " + job.description).toLowerCase();
-                if (category === "software") return text.includes("software") || text.includes("developer") || text.includes("it");
+                if (category === "software") return text.includes("software") || text.includes("developer") || text.includes("it") || text.includes("qa") || text.includes("test");
                 if (category === "marketing") return text.includes("marketing") || text.includes("sales") || text.includes("ad");
                 if (category === "finance") return text.includes("finance") || text.includes("account") || text.includes("bank");
-                if (category === "engineering") return text.includes("engineer") || text.includes("civil") || text.includes("mechanical");
+                if (category === "engineering") return text.includes("engineer") || text.includes("civil") || text.includes("mechanical") || text.includes("qa") || text.includes("test");
                 return false;
             });
 

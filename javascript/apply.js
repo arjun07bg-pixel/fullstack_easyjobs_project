@@ -329,6 +329,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Helper to generate dynamic skills based on title
     const getSkills = (title) => {
         const t = title.toLowerCase();
+        if (t.includes("qa") || t.includes("test") || t.includes("quality")) {
+            return ["Selenium", "JIRA", "Automation", "Manual Testing", "Test Plans", "Bug Tracking", "SDLC"];
+        }
         if (t.includes("engineer") || t.includes("developer") || t.includes("software")) {
             return ["React", "Node.js", "TypeScript", "JavaScript", "Python", "SQL", "Git", "Docker", "AWS"];
         } else if (t.includes("designer") || t.includes("ux") || t.includes("ui")) {
