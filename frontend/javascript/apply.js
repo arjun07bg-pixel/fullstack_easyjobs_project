@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentJobDetails = null;
 
-    if (!jobId && window.jobContext) {
+    if (window.jobContext && !jobId) {
         console.log("📝 Using job context from window.jobContext");
         jobId = window.jobContext.job_id;
         currentJobDetails = window.jobContext;
@@ -227,19 +227,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Move UI filling to a helper function
     function fillUI(job) {
-        if (elements.crumb) elements.crumb.innerText = job.job_title;
-        if (elements.title) elements.title.innerText = job.job_title;
-        if (elements.company) elements.company.innerText = job.company_name;
+        if (!job) return;
+        if (elements.crumb) elements.crumb.innerText = job.job_title || "Job Application";
+        if (elements.title) elements.title.innerText = job.job_title || "Position";
+        if (elements.company) elements.company.innerText = job.company_name || "Company";
         if (elements.location) elements.location.innerText = `📍 ${job.location || 'Remote'}`;
+
+        // Handle Salary vs Stipend
+        const isInternship = (job.job_type && job.job_type.toLowerCase() === 'internship') ||
+            (job.job_title && job.job_title.toLowerCase().includes('intern'));
+
+        if (elements.salary) {
+            const rawVal = job.salary || job.stipend || 'Not Disclosed';
+            if (!isNaN(rawVal)) {
+                elements.salary.innerText = isInternship ? `₹${rawVal} /month` : `₹${rawVal} LPA`;
+            } else {
+                elements.salary.innerText = rawVal;
+            }
+        }
+
         if (elements.exp) elements.exp.innerText = job.experience_level !== null ? (typeof job.experience_level === 'number' ? `${job.experience_level}+ years experience` : job.experience_level) : 'Fresher/All Levels';
-        if (elements.salary) elements.salary.innerText = job.salary && !isNaN(job.salary) ? `₹${job.salary} LPA` : job.salary || 'Salary Not Disclosed';
-        if (elements.type) elements.type.innerText = job.job_type || 'Full Time';
+        if (elements.type) elements.type.innerText = job.job_type || (isInternship ? 'Internship' : 'Full Time');
         if (elements.mode) elements.mode.innerText = job.work_mode || 'Hybrid';
         if (elements.desc) elements.desc.innerHTML = job.description || '<p>We are looking for talented individuals to join our team. Apply now to know more about this exciting opportunity!</p>';
         if (elements.logo) elements.logo.innerText = job.company_name ? job.company_name.charAt(0).toUpperCase() : '?';
         if (elements.companyDesc) elements.companyDesc.innerText = job.company_description || "We are a leading organization in our industry, committed to innovation and excellence.";
         if (elements.skills) {
-            const skills = getSkills(job.job_title);
+            const skills = getSkills(job.job_title || "");
             elements.skills.innerHTML = skills.map(s => `<span class="skill-tag">${s}</span>`).join("");
         }
     }
@@ -337,25 +351,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
     document.head.appendChild(style);
 
-    // Helper to generate dynamic skills based on title
-    const getSkills = (title) => {
-        const t = title.toLowerCase();
-        if (t.includes("qa") || t.includes("test") || t.includes("quality")) {
-            return ["Selenium", "JIRA", "Automation", "Manual Testing", "Test Plans", "Bug Tracking", "SDLC"];
-        }
-        if (t.includes("engineer") || t.includes("developer") || t.includes("software")) {
-            return ["React", "Node.js", "TypeScript", "JavaScript", "Python", "SQL", "Git", "Docker", "AWS"];
-        } else if (t.includes("designer") || t.includes("ux") || t.includes("ui")) {
-            return ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research", "Interaction Design", "Wireframing"];
-        } else if (t.includes("data") || t.includes("scientist") || t.includes("analyst")) {
-            return ["Python", "R", "SQL", "TensorFlow", "Pandas", "Machine Learning", "Statistics", "Excel"];
-        } else if (t.includes("marketing") || t.includes("sales")) {
-            return ["Digital Marketing", "SEO", "SEM", "Content Marketing", "Analytics", "CRM", "Social Media"];
-        } else if (t.includes("finance") || t.includes("account")) {
-            return ["Accounting", "Financial Analysis", "Excel", "Tally", "GST", "Taxation", "SAP"];
-        }
-        return ["Communication", "Problem Solving", "Teamwork", "Adaptability", "Time Management"];
-    };
 
     // Fetch and Display Job Details
     const fetchJobDetails = async () => {
@@ -386,11 +381,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return null;
     };
 
-    let jobDetails = null;
-    if (jobId && !currentJobDetails) {
-        jobDetails = await fetchJobDetails();
-    } else if (currentJobDetails) {
+    if (currentJobDetails) {
+        console.log("✅ Using existing job details");
+        fillUI(currentJobDetails);
         jobDetails = currentJobDetails;
+    } else if (jobId) {
+        jobDetails = await fetchJobDetails();
     }
 
     // Validate form before submission

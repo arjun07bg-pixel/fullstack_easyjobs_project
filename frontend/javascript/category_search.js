@@ -82,12 +82,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                             if (res.ok) {
                                 saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
                                 saveBtn.style.color = "#2563eb";
-                                alert("Job saved successfully!");
+                                showMessage("Job saved successfully! ✓\nவேலை வெற்றிகரமாக சேமிக்கப்பட்டது!", "success");
                             } else {
                                 const err = await res.json();
-                                alert(err.detail || "Error saving job.");
+                                showMessage(err.detail || "Error saving job.", "info");
                             }
-                        } catch (err) { alert("Network error."); }
+                        } catch (err) { showMessage("Network error.", "error"); }
                     });
 
                     jobList.prepend(article);
