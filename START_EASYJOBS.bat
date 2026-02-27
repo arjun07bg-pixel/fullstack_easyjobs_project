@@ -25,13 +25,10 @@ echo Port 8000 is now clean.
 :: 3. Install/Update Dependencies
 echo.
 echo [STEP 2/4] Checking Python libraries...
-python -m pip install -r requirements.txt
-echo.
-
-:: 4. Database Setup Check
+python -m pip install -r backend/requirements.txt
 echo [STEP 3/4] Initializing Database...
-if not exist "easyjobs.db" (
-    echo Creating fresh SQLite database...
+if not exist "backend\easyjobs.db" (
+    echo Creating fresh database when backend starts...
 )
 echo.
 
@@ -46,7 +43,7 @@ echo ------------------------------------------
 echo.
 timeout /t 3 /nobreak >nul
 start http://127.0.0.1:8000
-python -m uvicorn main:app --reload --port 8000 --host 127.0.0.1
+python -m uvicorn backend.main:app --reload --port 8000 --host 127.0.0.1
 echo ------------------------------------------
 
 pause

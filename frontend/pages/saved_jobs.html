@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Jobs - EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/styles/saved_jobs.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/index.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link active" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
+                </ul>
+            </nav>
+
+
+
+            <div class="auth-buttons">
+                <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
+                    Register</a>
+                <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="margin-top: 20px;">
+        <a href="/index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+
+        <div class="header">
+            <i class="fas fa-bookmark"></i>
+            <h1>My Saved Jobs</h1>
+        </div>
+
+        <div id="saved-jobs-container" class="jobs-list">
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading your saved jobs...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const getBaseURL = () => {
+            return window.location.origin + "/api";
+        };
+        const API_BASE_URL = getBaseURL();
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+        if (!user.user_id) {
+            window.location.href = "/frontend/pages/login.html";
+        }
+
+        async function fetchSavedJobs() {
+            const container = document.getElementById("saved-jobs-container");
+            try {
+                const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}`);
+                const jobs = await res.json();
+
+                if (jobs.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="far fa-bookmark"></i>
+                            <p>You haven't saved any jobs yet.</p>
+                            <a href="/frontend/pages/jobs.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:20px auto;">Browse Jobs</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = jobs.map(job => `
+                    <div class="job-card" id="job-${job.job_id}">
+                        <div class="job-info">
+                            <h3>${job.job_title}</h3>
+                            <p><i class="fas fa-building"></i> ${job.company_name}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${job.location}</p>
+                            <div class="job-meta">
+                                <span class="meta-tag">${job.job_type}</span>
+                                <span class="meta-tag">${job.work_mode}</span>
+                                <span class="meta-tag">₹${job.salary} LPA</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}" class="btn btn-apply">Apply Now</a>
+                            <button onclick="unsaveJob(${job.job_id})" class="btn btn-unsave"><i class="fas fa-trash"></i> Remove</button>
+                        </div>
+                    </div>
+                `).join("");
+
+            } catch (err) {
+                container.innerHTML = `<div class="empty-state"><p>Error loading jobs. Please try again.</p></div>`;
+            }
+        }
+
+        async function unsaveJob(jobId) {
+            if (!confirm("Remove this job from your saved list?")) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}/${jobId}`, {
+                    method: "DELETE"
+                });
+                if (res.ok) {
+                    document.getElementById(`job-${jobId}`).remove();
+                    if (document.querySelectorAll(".job-card").length === 0) {
+                        fetchSavedJobs();
+                    }
+                }
+            } catch (err) {
+                alert("Failed to remove job.");
+            }
+        }
+
+        fetchSavedJobs();
+    </script>
+</body>
+
+</html>

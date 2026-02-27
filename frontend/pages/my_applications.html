@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Applications | EasyJobs</title>
+    <meta name="description"
+        content="Track all your job applications in one place on EasyJobs. See application status, dates, and more." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/styles/index.css" />
+    <link rel="stylesheet" href="/frontend/styles/my_applications.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════ HEADER (matches main site) ═══════════ -->
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/index.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link active">My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
+                </ul>
+            </nav>
+
+
+
+            <div class="auth-buttons" id="auth-area">
+                <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════ PAGE TITLE BAR ═══════════ -->
+    <div class="page-title-bar">
+        <div class="ptb-inner">
+            <div class="ptb-left">
+                <h1><i class="fas fa-layer-group"></i> My Applications</h1>
+                <p>Track every job & internship you've applied to — all in one place.</p>
+            </div>
+            <a href="/frontend/pages/jobs.html" class="ptb-browse-btn">
+                <i class="fas fa-search"></i> Browse More Jobs
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══════════ TWO-COLUMN LAYOUT ═══════════ -->
+    <div class="myapp-layout">
+
+        <!-- ── LEFT SIDEBAR ── -->
+        <aside class="myapp-sidebar">
+
+            <!-- Summary Card -->
+            <div class="sidebar-card">
+                <div class="sidebar-card-title">
+                    <i class="fas fa-chart-pie"></i> Summary
+                </div>
+                <div class="summary-list">
+                    <div class="summary-row" id="sum-total">
+                        <span class="sum-label"><i class="fas fa-inbox"></i> Total Applied</span>
+                        <span class="sum-count" id="cnt-total">–</span>
+                    </div>
+                    <div class="summary-row" style="color:#2563eb;">
+                        <span class="sum-label"><i class="fas fa-paper-plane"></i> Applied</span>
+                        <span class="sum-count" id="cnt-applied">0</span>
+                    </div>
+                    <div class="summary-row review">
+                        <span class="sum-label"><i class="fas fa-search"></i> Reviewed</span>
+                        <span class="sum-count" id="cnt-review">0</span>
+                    </div>
+                    <div class="summary-row" style="color:#b45309;">
+                        <span class="sum-label"><i class="fas fa-user-check"></i> Interviewing</span>
+                        <span class="sum-count" id="cnt-interview">0</span>
+                    </div>
+                    <div class="summary-row shortlisted">
+                        <span class="sum-label"><i class="fas fa-check-circle"></i> Selected</span>
+                        <span class="sum-count" id="cnt-shortlisted">0</span>
+                    </div>
+                    <div class="summary-row rejected">
+                        <span class="sum-label"><i class="fas fa-times-circle"></i> Not Selected</span>
+                        <span class="sum-count" id="cnt-rejected">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="sidebar-card">
+                <div class="sidebar-card-title">
+                    <i class="fas fa-filter"></i> Filter By Status
+                </div>
+                <div class="filter-list">
+                    <button class="side-filter-btn active" data-filter="all" onclick="filterCards('all', this)">
+                        <i class="fas fa-th-large"></i> All Applications
+                    </button>
+                    <button class="side-filter-btn" data-filter="applied" onclick="filterCards('applied', this)">
+                        <i class="fas fa-paper-plane"></i> Applied
+                    </button>
+                    <button class="side-filter-btn" data-filter="reviewed" onclick="filterCards('reviewed', this)">
+                        <i class="fas fa-search"></i> Reviewed
+                    </button>
+                    <button class="side-filter-btn" data-filter="interview" onclick="filterCards('interview', this)">
+                        <i class="fas fa-user-check"></i> Interviewing
+                    </button>
+                    <button class="side-filter-btn" data-filter="shortlisted"
+                        onclick="filterCards('shortlisted', this)">
+                        <i class="fas fa-check-circle"></i> Selected
+                    </button>
+                    <button class="side-filter-btn" data-filter="rejected" onclick="filterCards('rejected', this)">
+                        <i class="fas fa-times-circle"></i> Not Selected
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Links Card -->
+            <div class="sidebar-card quick-links-card">
+                <div class="sidebar-card-title">
+                    <i class="fas fa-link"></i> Quick Links
+                </div>
+                <ul class="quick-links">
+                    <li><a href="/frontend/pages/jobs.html"><i class="fas fa-briefcase"></i> Browse Jobs</a></li>
+                    <li><a href="/frontend/pages/internship.html"><i class="fas fa-graduation-cap"></i> Browse Internships</a></li>
+                    <li><a href="/frontend/pages/profile.html"><i class="fas fa-user-circle"></i> My Profile</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html"><i class="fas fa-bookmark"></i> Saved Jobs</a></li>
+                    <li><a href="/frontend/pages/contact.html"><i class="fas fa-headset"></i> Get Help</a></li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <!-- ── MAIN CONTENT ── -->
+        <main class="myapp-main">
+
+            <!-- Search bar -->
+            <div class="myapp-search-bar">
+                <div class="msb-left">
+                    <i class="fas fa-search msb-icon"></i>
+                    <input type="text" id="app-search-input" placeholder="Search by company or job title..."
+                        oninput="searchCards(this.value)" />
+                </div>
+                <span class="msb-count" id="result-count">0 applications</span>
+            </div>
+
+            <!-- LOADING STATE -->
+            <div id="state-loading" class="state-box">
+                <div class="loader-ring"></div>
+                <h3>Loading your applications…</h3>
+                <p>Please wait while we fetch your data.</p>
+            </div>
+
+            <!-- LOGIN REQUIRED STATE -->
+            <div id="state-login" class="state-box" style="display:none;">
+                <div class="state-icon lock"><i class="fas fa-lock"></i></div>
+                <h3>Login Required</h3>
+                <p>Please login to view and track all your job applications.</p>
+                <div class="state-actions">
+                    <a href="/frontend/pages/login.html" class="sa-btn primary"><i class="fas fa-sign-in-alt"></i> Login Now</a>
+                    <a href="/frontend/pages/register.html" class="sa-btn outline"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="state-empty" class="state-box" style="display:none;">
+                <div class="state-icon folder"><i class="fas fa-folder-open"></i></div>
+                <h3>No Applications Yet</h3>
+                <p>You haven't applied to any jobs or internships yet. Start exploring opportunities!</p>
+                <div class="state-actions">
+                    <a href="/frontend/pages/jobs.html" class="sa-btn primary"><i class="fas fa-briefcase"></i> Browse Jobs</a>
+                    <a href="/frontend/pages/internship.html" class="sa-btn outline"><i class="fas fa-graduation-cap"></i> Browse
+                        Internships</a>
+                </div>
+            </div>
+
+            <!-- NO SEARCH RESULTS -->
+            <div id="state-no-results" class="state-box" style="display:none;">
+                <div class="state-icon search"><i class="fas fa-search"></i></div>
+                <h3>No Results Found</h3>
+                <p>No applications match your search. Try a different keyword or clear the filter.</p>
+            </div>
+
+            <!-- APPLICATION CARDS LIST -->
+            <div id="applications-list" style="display:none;"></div>
+
+        </main>
+    </div>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="/frontend/pages/Postjob_home.html">Employer Dashboard</a>
+            </div>
+            <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
+        </div>
+    </footer>
+
+    <script src="/frontend/javascript/index.js"></script>
+    <script>
+        /* ─── helpers ─── */
+        const getAPIBase = () => {
+            if (window.location.port !== '8000' &&
+                (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+                return 'http://127.0.0.1:8000/api';
+            }
+            return '/api';
+        };
+        const API_BASE = getAPIBase();
+
+        function getLoggedInUser() {
+            const keys = ['user', 'currentUser', 'loggedInUser', 'easyjobs_user'];
+            for (const k of keys) {
+                try {
+                    const raw = localStorage.getItem(k);
+                    if (raw) return JSON.parse(raw);
+                } catch (_) { }
+            }
+            return null;
+        }
+
+        function fmtDate(str) {
+            if (!str) return 'Recently';
+            const d = new Date(str);
+            return isNaN(d.getTime()) ? 'Recently' : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        /* avatar background colours (cycle by first letter) */
+        const AVATAR_COLORS = [
+            'linear-gradient(135deg,#2563eb,#60a5fa)',
+            'linear-gradient(135deg,#059669,#34d399)',
+            'linear-gradient(135deg,#d97706,#fbbf24)',
+            'linear-gradient(135deg,#7c3aed,#a78bfa)',
+            'linear-gradient(135deg,#db2777,#f472b6)',
+            'linear-gradient(135deg,#0891b2,#67e8f9)',
+        ];
+        function avatarColor(name) {
+            const idx = (name || 'A').charCodeAt(0) % AVATAR_COLORS.length;
+            return AVATAR_COLORS[idx];
+        }
+
+        /* status → badge config */
+        function getStatusConfig(rawStatus) {
+            const s = (rawStatus || 'applied').toLowerCase();
+            if (s.includes('short') || s.includes('hire') || s.includes('select'))
+                return { key: 'shortlisted', cls: 'shortlisted', icon: 'fas fa-check-circle', text: 'Selected', stripe: 'green', stage: 4 };
+            if (s.includes('interv'))
+                return { key: 'interview', cls: 'interview', icon: 'fas fa-user-check', text: 'Interviewing', stripe: 'orange', stage: 3 };
+            if (s.includes('review'))
+                return { key: 'reviewed', cls: 'reviewed', icon: 'fas fa-search', text: 'Reviewed', stripe: 'blue', stage: 2 };
+            if (s.includes('reject') || s.includes('not sel'))
+                return { key: 'rejected', cls: 'rejected', icon: 'fas fa-times-circle', text: 'Not Selected', stripe: 'red', stage: 4 };
+
+            return { key: 'applied', cls: 'applied', icon: 'fas fa-paper-plane', text: 'Applied', stripe: 'blue', stage: 1 };
+        }
+
+        function getTrackerHTML(currentStage, isRejected) {
+            const stages = [
+                { id: 1, label: 'Applied' },
+                { id: 2, label: 'Reviewed' },
+                { id: 3, label: 'Interview' },
+                { id: 4, label: isRejected ? 'Rejected' : 'Selected' }
+            ];
+
+            return `
+            <div class="app-status-tracker">
+                ${stages.map(s => {
+                let cls = 'tracker-step';
+                if (s.id < currentStage) cls += ' completed';
+                if (s.id === currentStage) {
+                    cls += ' active';
+                    if (isRejected && s.id === 4) cls += ' rejected';
+                    else if (!isRejected && s.id === 4) cls += ' hired';
+                }
+                return `
+                    <div class="${cls}">
+                        <div class="tracker-dot"></div>
+                        <span class="tracker-label">${s.label}</span>
+                    </div>`;
+            }).join('')}
+            </div>`;
+        }
+
+        /* ─── render a single card ─── */
+        function makeCard(app, idx) {
+            const sc = getStatusConfig(app.status);
+            const initials = (app.company_name || '?').slice(0, 2).toUpperCase();
+            const bg = avatarColor(app.company_name);
+            const delay = (idx * 60) + 'ms';
+
+            return `
+            <div class="app-card" data-status="${sc.key}"
+                 data-title="${(app.job_title || '').toLowerCase()}"
+                 data-company="${(app.company_name || '').toLowerCase()}"
+                 style="animation-delay:${delay}">
+                <div class="app-card-inner">
+                    <div class="app-card-stripe ${sc.stripe}"></div>
+                    <div class="app-card-body">
+                        <!-- Avatar -->
+                        <div class="app-logo-box" style="background:${bg}">${initials}</div>
+
+                        <!-- Info -->
+                        <div class="app-info-wrap">
+                            <p class="app-job-title">${app.job_title || 'Job Position'}</p>
+                            <p class="app-company"><i class="fas fa-building"></i> ${app.company_name || 'Company'}</p>
+                            <div class="app-meta">
+                                <span class="app-meta-chip"><i class="fas fa-calendar-alt"></i> Applied: ${fmtDate(app.applied_at)}</span>
+                                <span class="app-meta-chip"><i class="fas fa-map-marker-alt"></i> ${app.location || 'India'}</span>
+                                <span class="app-meta-chip"><i class="fas fa-briefcase"></i> ${app.job_type || 'Full-time'}</span>
+                            </div>
+                            
+                            <!-- Status Tracker (Vinnappa Nilai) -->
+                            ${getTrackerHTML(sc.stage, sc.key === 'rejected')}
+
+                            <p class="app-cover-snippet">
+                                <i class="fas fa-quote-left" style="font-size:0.65rem;margin-right:4px;"></i>
+                                ${app.cover_note || 'No cover note submitted.'}
+                            </p>
+                        </div>
+
+                        <!-- Status + actions -->
+                        <div class="app-card-right">
+                            <span class="status-badge ${sc.cls}">
+                                <i class="${sc.icon}"></i> ${sc.text}
+                            </span>
+                            <span class="app-date"><i class="fas fa-clock"></i> ${fmtDate(app.applied_at)}</span>
+                            <div class="app-card-actions">
+                                <a href="#" class="aca-btn view"><i class="far fa-eye"></i> Review</a>
+                                <button class="aca-btn withdraw" onclick="confirmWithdraw(event, ${app.id || 0})">
+                                    <i class="fas fa-undo"></i> Withdraw
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-card-footer">
+                    <i class="fas fa-hashtag" style="font-size:0.65rem;"></i>
+                    Application ID: <span>#APP-${String(app.id || idx + 1).padStart(4, '0')}</span>
+                </div>
+            </div>`;
+        }
+
+        /* ─── counts ─── */
+        let ALL_APPS = [];
+
+        function updateCounts(apps) {
+            const c = { total: apps.length, applied: 0, reviewed: 0, interview: 0, shortlisted: 0, rejected: 0 };
+            apps.forEach(a => {
+                const sc = getStatusConfig(a.status);
+                if (c.hasOwnProperty(sc.key)) {
+                    c[sc.key]++;
+                }
+            });
+            document.getElementById('cnt-total').textContent = c.total;
+            document.getElementById('cnt-applied').textContent = c.applied;
+            document.getElementById('cnt-review').textContent = c.reviewed;
+            document.getElementById('cnt-interview').textContent = c.interview;
+            document.getElementById('cnt-shortlisted').textContent = c.shortlisted;
+            document.getElementById('cnt-rejected').textContent = c.rejected;
+        }
+
+        /* ─── filter ─── */
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function applyFilters() {
+            const cards = document.querySelectorAll('.app-card');
+            let visible = 0;
+            cards.forEach(card => {
+                const matchFilter = currentFilter === 'all' || card.dataset.status === currentFilter;
+                const matchSearch = !currentSearch ||
+                    card.dataset.title.includes(currentSearch) ||
+                    card.dataset.company.includes(currentSearch);
+                const show = matchFilter && matchSearch;
+                card.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            document.getElementById('result-count').textContent = visible + ' application' + (visible !== 1 ? 's' : '');
+
+            const noRes = document.getElementById('state-no-results');
+            if (cards.length > 0 && visible === 0) {
+                noRes.style.display = 'flex';
+                document.getElementById('applications-list').style.display = 'none';
+            } else {
+                noRes.style.display = 'none';
+                if (cards.length > 0) document.getElementById('applications-list').style.display = 'flex';
+            }
+        }
+
+        function filterCards(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.side-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+
+        function searchCards(val) {
+            currentSearch = val.toLowerCase().trim();
+            applyFilters();
+        }
+
+        /* ─── withdraw ─── */
+        function confirmWithdraw(e, id) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to withdraw this application?')) {
+                const card = e.target.closest('.app-card');
+                card.style.transition = 'opacity 0.4s, transform 0.4s';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.remove();
+                    applyFilters();
+                    updateCounts(ALL_APPS);  /* approximate — re-count from DOM */
+                }, 400);
+            }
+        }
+
+        /* ─── main load ─── */
+        async function loadApps() {
+            const user = getLoggedInUser();
+            if (!user) {
+                document.getElementById('state-loading').style.display = 'none';
+                document.getElementById('state-login').style.display = 'flex';
+                return;
+            }
+
+            try {
+                const userId = user.user_id || user.id;
+                const res = await fetch(`${API_BASE}/applications/user/${userId}`);
+                const apps = await res.json();
+
+                document.getElementById('state-loading').style.display = 'none';
+
+                if (!apps || apps.length === 0) {
+                    document.getElementById('state-empty').style.display = 'flex';
+                    document.getElementById('result-count').textContent = '0 applications';
+                    ['cnt-total', 'cnt-applied', 'cnt-review', 'cnt-shortlisted', 'cnt-interview', 'cnt-rejected'].forEach(id => {
+                        document.getElementById(id).textContent = '0';
+                    });
+                    return;
+                }
+
+                ALL_APPS = apps;
+                updateCounts(apps);
+
+                const list = document.getElementById('applications-list');
+                list.innerHTML = apps.map((app, i) => makeCard(app, i)).join('');
+                list.style.display = 'flex';
+                list.style.flexDirection = 'column';
+                list.style.gap = '14px';
+
+                document.getElementById('result-count').textContent =
+                    apps.length + ' application' + (apps.length !== 1 ? 's' : '');
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('state-loading').innerHTML = `
+                    <div class="state-icon" style="background:#fee2e2;color:#b91c1c;width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 style="color:#b91c1c;">Connection Error</h3>
+                    <p>Could not load your applications. Please check your connection and try again.</p>
+                    <div class="state-actions"><button class="sa-btn primary" onclick="location.reload()"><i class="fas fa-redo"></i> Retry</button></div>`;
+                document.getElementById('state-loading').style.display = 'flex';
+                document.getElementById('state-loading').style.flexDirection = 'column';
+                document.getElementById('state-loading').style.alignItems = 'center';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadApps);
+    </script>
+</body>
+
+</html>
