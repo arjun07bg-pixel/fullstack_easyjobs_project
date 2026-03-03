@@ -1,10 +1,12 @@
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const tableBody = document.querySelector("table tbody");
 
     // Fetch applications specifically for the status view
     try {
+        const API_BASE_URL = getAPIURL();
         const response = await fetch(`${API_BASE_URL}/applications/`);
 
         if (!response.ok) {

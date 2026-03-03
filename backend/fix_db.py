@@ -59,6 +59,7 @@ def fix_database():
                 ("Notice_Period", "INTEGER"),
                 ("Cover_Letter", "TEXT"),
                 ("status", "TEXT DEFAULT 'applied'"),
+                ("job_type", "TEXT"),
                 ("applied_at", "DATETIME")
             ]
             for col_name, col_type in app_cols:
@@ -118,6 +119,7 @@ def fix_database():
                     ("Notice_Period", "INTEGER"),
                     ("Cover_Letter", "TEXT"),
                     ("status", "VARCHAR(50) DEFAULT 'applied'"),
+                    ("job_type", "VARCHAR(50)"),
                     ("applied_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
                 ]
 

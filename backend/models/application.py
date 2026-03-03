@@ -20,5 +20,6 @@ class Application(Base):
     Current_salary   = Column(Integer,     nullable=True)
     Notice_Period    = Column(Integer,     nullable=True)
     Cover_Letter     = Column(Text,        nullable=True)
-    status           = Column(String(50),  nullable=True, default="applied")   # NEW
-    applied_at       = Column(DateTime,    nullable=True, default=datetime.utcnow)  # NEW
+    status           = Column(String(50),  nullable=True, default="applied")
+    job_type         = Column(String(50),  nullable=True)   # Added to track if it's Job or Internship
+    applied_at       = Column(DateTime,    nullable=True, default=datetime.utcnow)

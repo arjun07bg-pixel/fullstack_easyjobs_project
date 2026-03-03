@@ -1,7 +1,5 @@
-const getBaseURL = () => {
-    return window.location.origin + "/api";
-};
-const API_BASE_URL = getBaseURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -241,8 +239,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     ];
 
 
-    const fetchJobs = async (page = 1, filters = {}) => {
+    async function fetchJobs(page = 1, filters = {}) {
         try {
+            const API_BASE_URL = getAPIURL();
             currentPage = page;
             currentFilters = filters;
             const skip = (page - 1) * jobsPerPage;
@@ -390,6 +389,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 try {
+                    const API_BASE_URL = getAPIURL();
                     const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

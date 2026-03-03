@@ -1,3 +1,16 @@
+window.getEasyJobsAPI = () => {
+    // If we are already on port 8000, use it directly
+    if (window.location.port === '8000') {
+        return window.location.origin + "/api";
+    }
+
+    // Otherwise, assume the backend is on port 8000 of the same host
+    // (Handles localhost, 127.0.0.1, and local IP addresses automatically)
+    const url = `http://${window.location.hostname}:8000/api`;
+    console.log(`📡 Detected API Backend: ${url}`);
+    return url;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.querySelector(".job-search-form");
     const keywordInput = document.querySelector(".keyword-input");
@@ -43,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ? `<img src="${userPhoto}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">`
             : `<i class="fas fa-user-circle" style="font-size: 1.8rem; color: rgba(255,255,255,0.8);"></i>`;
 
-        const dashboardLink = user.role === 'admin'
+        const dashboardLink = (user.role === 'admin' || user.role === 'employer')
             ? `<a href="/frontend/pages/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
             : '';
 
@@ -139,7 +152,7 @@ async function saveJob(jobId, btnElement) {
     }
 
     try {
-        const API_URL = window.location.origin + "/api/saved-jobs/";
+        const API_URL = `${window.getEasyJobsAPI()}/saved-jobs/`;
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

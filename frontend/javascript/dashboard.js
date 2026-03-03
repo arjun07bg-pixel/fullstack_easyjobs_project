@@ -1,13 +1,8 @@
 "use strict";
 
 /* ─── CONFIG ────────────────────────────────── */
-const getAPI = () => {
-    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return `http://127.0.0.1:8000/api`;
-    }
-    return "/api";
-};
-const API = getAPI();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 let allApps = [];
 let allUsers = [];
@@ -86,8 +81,9 @@ function guardAdmin() {
         window.location.href = "/frontend/pages/login.html";
         return null;
     }
-    if (user.role !== "admin") {
-        alert("Access Denied: Admin only.");
+    // Allow BOTH admin and employer to access the dashboard
+    if (user.role !== "admin" && user.role !== "employer") {
+        alert("Access Denied: This page is for Employers and Admins only.");
         window.location.href = "/index.html";
         return null;
     }
@@ -145,6 +141,7 @@ async function initJobPosting() {
         };
 
         try {
+            const API = getAPIURL();
             const res = await fetch(`${API}/jobs/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -172,6 +169,7 @@ async function initJobPosting() {
 /* ─── FETCH ALL APPLICATIONS ────────────────── */
 async function fetchApplications() {
     try {
+        const API = getAPIURL();
         const res = await fetch(`${API}/applications/`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         allApps = await res.json();
@@ -184,6 +182,7 @@ async function fetchApplications() {
 /* ─── FETCH ALL USERS ───────────────────────── */
 async function fetchUsers() {
     try {
+        const API = getAPIURL();
         const res = await fetch(`${API}/users/`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         allUsers = await res.json();
@@ -206,10 +205,9 @@ function renderStats() {
     setText("stat-under-review", review);
     setText("stat-rejected", rejected);
     setText("stat-total-users", allUsers.length);
-    setText("stat-companies", companies);
-
-    setText("sb-app-count", total);
-    setText("sb-user-count", allUsers.length);
+    // stat-companies is optional - only set if element exists
+    const companiesEl = document.getElementById("stat-companies");
+    if (companiesEl) companiesEl.textContent = companies;
 }
 
 /* ─── RENDER RECENT TABLE (overview) ────────── */
@@ -402,6 +400,7 @@ window.openModal = function (appId) {
     if (resumeLink) {
         if (app.resume) {
             resumeLink.style.display = "flex";
+            const API = getAPIURL();
             resumeLink.href = `${API}/applications/download/${app.resume}`; // Assumes simple static serving or redirect
             resumeLink.innerText = `📄 Download Resume`;
         } else {
@@ -412,6 +411,7 @@ window.openModal = function (appId) {
     // Event Listeners for Actions
     const updateAppStatus = async (newStatus) => {
         try {
+            const API = getAPIURL();
             const res = await fetch(`${API}/applications/${appId}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
@@ -434,6 +434,7 @@ window.openModal = function (appId) {
     const deleteApplication = async () => {
         if (!confirm("Are you sure you want to delete this application? This cannot be undone.")) return;
         try {
+            const API = getAPIURL();
             const res = await fetch(`${API}/applications/${appId}`, { method: "DELETE" });
             if (res.ok) {
                 alert("Application deleted successfully.");
@@ -448,23 +449,27 @@ window.openModal = function (appId) {
         } catch (e) { console.error(e); }
     };
 
-    // Attach listeners
+    // Attach listeners (safely - handle missing buttons)
     const btnShort = document.getElementById("btn-shortlist");
     const btnReject = document.getElementById("btn-reject");
     const btnDel = document.getElementById("btn-delete-app");
 
-    // Clean up old listeners (simple way)
-    const newBtnShort = btnShort.cloneNode(true);
-    const newBtnReject = btnReject.cloneNode(true);
-    const newBtnDel = btnDel.cloneNode(true);
-
-    btnShort.parentNode.replaceChild(newBtnShort, btnShort);
-    btnReject.parentNode.replaceChild(newBtnReject, btnReject);
-    btnDel.parentNode.replaceChild(newBtnDel, btnDel);
-
-    newBtnShort.addEventListener("click", () => updateAppStatus("shortlisted"));
-    newBtnReject.addEventListener("click", () => updateAppStatus("rejected"));
-    newBtnDel.addEventListener("click", deleteApplication);
+    // Clone to remove old listeners
+    if (btnShort) {
+        const newBtn = btnShort.cloneNode(true);
+        btnShort.parentNode.replaceChild(newBtn, btnShort);
+        newBtn.addEventListener("click", () => updateAppStatus("shortlisted"));
+    }
+    if (btnReject) {
+        const newBtn = btnReject.cloneNode(true);
+        btnReject.parentNode.replaceChild(newBtn, btnReject);
+        newBtn.addEventListener("click", () => updateAppStatus("rejected"));
+    }
+    if (btnDel) {
+        const newBtn = btnDel.cloneNode(true);
+        btnDel.parentNode.replaceChild(newBtn, btnDel);
+        newBtn.addEventListener("click", deleteApplication);
+    }
 
     const overlay = document.getElementById("modal-overlay");
     if (overlay) overlay.classList.add("open");

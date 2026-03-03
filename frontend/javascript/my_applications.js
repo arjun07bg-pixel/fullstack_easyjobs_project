@@ -6,13 +6,8 @@
 
 "use strict";
 
-const getAPIBase = () => {
-    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return `http://127.0.0.1:8000/api`;
-    }
-    return "/api";
-};
-const API_BASE = getAPIBase();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 let allApplications = [];
 let currentFilter = "all";
@@ -229,6 +224,7 @@ async function withdrawApp(id, btn) {
     btn.disabled = true;
     btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ...`;
     try {
+        const API_BASE = getAPIURL();
         const res = await fetch(`${API_BASE}/applications/${id}`, { method: "DELETE" });
         if (res.ok) {
             allApplications = allApplications.filter(a => a.application_id !== id);
@@ -251,6 +247,7 @@ async function loadApplications() {
 
     const userId = user.user_id || user.id;
     try {
+        const API_BASE = getAPIURL();
         const res = await fetch(`${API_BASE}/applications/user/${userId}`);
         if (!res.ok) throw new Error("Fetch error");
         allApplications = await res.json();

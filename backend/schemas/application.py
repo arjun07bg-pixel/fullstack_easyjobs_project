@@ -19,6 +19,7 @@ class ApplicationCreate(BaseModel):
     Notice_Period:    Optional[int]    = 0
     Cover_Letter:     Optional[str]    = ""
     status:           Optional[str]    = "applied"
+    job_type:         Optional[str]    = "Full Time"
 
 
 class ApplicationOut(BaseModel):
@@ -38,6 +39,7 @@ class ApplicationOut(BaseModel):
     Notice_Period:    Optional[int]    = 0
     Cover_Letter:     Optional[str]    = ""
     status:           Optional[str]    = "applied"
+    job_type:         Optional[str]    = "Full Time"
     applied_at:       Optional[datetime] = None
 
     class Config:

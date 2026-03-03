@@ -1,11 +1,5 @@
-const getBaseURL = () => {
-    // Smart detection: Use port 8000 if we are on a different port (like Live Server 5500/5509)
-    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return `http://127.0.0.1:8000/api`;
-    }
-    return "/api";
-};
-const API_BASE_URL = getBaseURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
@@ -43,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             loginBtn.disabled = true;
 
             try {
+                const API_BASE_URL = getAPIURL();
                 console.log("Attempting login to:", `${API_BASE_URL}/auth/login`);
                 const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: "POST",
@@ -60,8 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("token", data.access_token);
                     localStorage.setItem("user", JSON.stringify(data));
 
-                    // Admin → dashboard, others → home
-                    if (data.role === "admin") {
+                    // Admin OR Employer → dashboard, others → home
+                    if (data.role === "admin" || data.role === "employer") {
                         window.location.href = "/frontend/pages/dashboard.html";
                     } else {
                         window.location.href = "/index.html";

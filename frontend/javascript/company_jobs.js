@@ -3,10 +3,8 @@
  * Handles both API-fetched jobs and static HTML job cards.
  */
 
-const getAPIURL = () => {
-    return window.location.origin + "/api";
-};
-const API_BASE_URL = getAPIURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const jobListings = document.querySelector(".job-listings");
@@ -47,6 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // --- Part 2: Fetch Dynamic Jobs from API ---
     try {
+        const API_BASE_URL = getAPIURL();
         const response = await fetch(`${API_BASE_URL}/jobs/`);
         if (response.ok) {
             const allJobs = await response.json();
@@ -89,6 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         }
 
                         try {
+                            const API_BASE_URL = getAPIURL();
                             const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },

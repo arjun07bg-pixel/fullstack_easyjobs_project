@@ -1,10 +1,5 @@
-const getBaseURL = () => {
-    if (window.location.port !== '8000' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-        return `http://127.0.0.1:8000/api`;
-    }
-    return "/api";
-};
-const API_BASE_URL = getBaseURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", () => {
     const postJobForm = document.getElementById("post-job-form");
@@ -34,19 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = {
                 job_title: jobTitle,
                 company_name: companyName,
-                category: category,
-                vacancies: parseInt(vacancies) || 1,
                 location: location,
                 job_type: jobType,
                 work_mode: workMode,
                 experience_level: parseInt(experience) || 0,
-                salary_lpa: parseInt(salary) || 0,
-                deadline: deadline,
-                company_website: website,
-                apply_link: applyLink,
-                required_skills: skills,
-                description: description,
-                benefits: benefits
+                salary: parseInt(salary) || 0,          // Backend expects 'salary', not 'salary_lpa'
+                description: description
             };
 
             // Loading state
@@ -55,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Posting...</span>';
 
             try {
+                const API_BASE_URL = getAPIURL();
                 const response = await fetch(`${API_BASE_URL}/jobs/`, {
                     method: "POST",
                     headers: {

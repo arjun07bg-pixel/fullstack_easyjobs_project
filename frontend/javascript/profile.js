@@ -1,10 +1,9 @@
-const getAPIURL = () => {
-    return window.location.origin + "/api";
-};
-const API_BASE_URL = getAPIURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
+    const API_BASE_URL = getAPIURL();
     if (!userString) {
         alert("Please login to view your profile.");
         window.location.href = "/frontend/pages/login.html";

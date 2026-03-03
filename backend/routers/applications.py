@@ -21,9 +21,13 @@ def download_resume(filename: str):
 @router.post("/", response_model=ApplicationOut)
 def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
 
+    # Professional Fix: If job_id is 0 or less, it's a static/external job. 
+    # We set it to None to avoid ForeignKeyViolation in the database.
+    safe_job_id = app.job_id if (app.job_id and app.job_id > 0) else None
+
     new_application = Application(
         user_id=app.user_id,
-        job_id=app.job_id,
+        job_id=safe_job_id,
         company_name=app.company_name,
         job_title=app.job_title,
         status=app.status,
@@ -36,7 +40,8 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         Total_Experience = app.Total_Experience,
         Current_salary = app.Current_salary,
         Notice_Period = app.Notice_Period,
-        Cover_Letter = app.Cover_Letter
+        Cover_Letter = app.Cover_Letter,
+        job_type = app.job_type
         )
 
     db.add(new_application)
@@ -115,6 +120,7 @@ def update_application(
     db_application.Current_salary = app.Current_salary
     db_application.Notice_Period = app.Notice_Period
     db_application.Cover_Letter = app.Cover_Letter
+    db_application.job_type = app.job_type
 
     db.commit()
     db.refresh(db_application)

@@ -1,7 +1,5 @@
-const getAPIURL = () => {
-    return window.location.origin + "/api";
-};
-const API_BASE_URL = getAPIURL();
+// Utility to get the correct API URL (Port 8000 for Python backend)
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const applyForm = document.getElementById("applyForm");
@@ -197,7 +195,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             description: sectionContent
         };
         fillUI(currentJobDetails);
-        return;
+        // Removed return to allow event listeners to be attached
     }
 
     if (!jobId) {
@@ -358,6 +356,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.log(`📝 Fetching job details for ID: ${jobId}`);
             showMessage(`Loading job details...\nJob details load ஆகிறது...`, "info");
 
+            const API_BASE_URL = getAPIURL();
             const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
 
             if (response.ok) {
@@ -382,11 +381,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     if (currentJobDetails) {
-        console.log("✅ Using existing job details");
+        console.log("✅ Using existing job details from URL or Context");
         fillUI(currentJobDetails);
-        jobDetails = currentJobDetails;
     } else if (jobId) {
-        jobDetails = await fetchJobDetails();
+        console.log("🔍 No URL details found, fetching from database...");
+        currentJobDetails = await fetchJobDetails();
     }
 
     // Validate form before submission
@@ -466,7 +465,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const payload = {
                 user_id: user.user_id,
-                job_id: parseInt(jobId) || (currentJobDetails ? parseInt(currentJobDetails.job_id) : 0),
+                job_id: (parseInt(jobId) && parseInt(jobId) > 0) ? parseInt(jobId) : null,
                 company_name: currentJobDetails ? currentJobDetails.company_name : "Unknown",
                 job_title: currentJobDetails ? currentJobDetails.job_title : "Unknown",
                 status: "applied",
@@ -479,12 +478,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Total_Experience: parseInt(document.getElementById("experience").value),
                 Current_salary: parseInt(document.getElementById("salary").value) || 0,
                 Notice_Period: parseInt(document.getElementById("notice_period").value),
-                Cover_Letter: coverLetter || `Applied for ${currentJobDetails?.job_title || 'Position'} at ${currentJobDetails?.company_name || 'Company'} through EasyJobs Portal`
+                Cover_Letter: coverLetter || `Applied for ${currentJobDetails?.job_title || 'Position'} at ${currentJobDetails?.company_name || 'Company'} through EasyJobs Portal`,
+                job_type: currentJobDetails ? (currentJobDetails.job_type || "Full Time") : "Full Time"
             };
 
             console.log("📤 Submitting application:", payload);
 
             try {
+                const API_BASE_URL = getAPIURL();
                 const response = await fetch(`${API_BASE_URL}/applications/`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -518,9 +519,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     setTimeout(() => window.location.href = "/frontend/pages/submit.html", 2000);
                 } else {
-                    const error = await response.json();
-                    console.error("❌ Submission error:", error);
-                    showMessage(`Submission Failed: ${error.detail || "Check all fields"}\nSubmission fail ஆச்சு: எல்லா fields-யும் check பண்ணுங்க`, "error");
+                    let errorMessage = "Check all fields";
+                    try {
+                        const error = await response.json();
+                        errorMessage = error.detail || errorMessage;
+                    } catch (e) {
+                        errorMessage = `Server Error (${response.status})`;
+                    }
+                    console.error("❌ Submission error:", errorMessage);
+                    showMessage(`Submission Failed: ${errorMessage}\nSubmission fail ஆச்சு: எல்லா fields-யும் check பண்ணுங்க`, "error");
                     submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                 }
