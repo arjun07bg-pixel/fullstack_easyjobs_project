@@ -2,55 +2,100 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Submitted Successfully | EasyJobs</title>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Application Submitted | EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/submit.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
-
 </head>
 
 <body>
-    <header class="header-nav">
-        <a href="#" class="logo-section">
-            <div class="logo-circle"></div>
-            <h1>EasyJobs</h1>
-        </a>
-        <div class="nav-links">
-            <a href="/frontend/pages/jobs.html">Jobs</a>
-            <a href="/frontend/pages/Guidance.html">About Us</a>
-            <a href="/frontend/pages/contact.html">Contact</a>
-            <a href="/frontend/pages/dashboard.html">Status</a>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
+                        stroke-width="3" stroke-linecap="round" />
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="/index.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons" id="auth-buttons-placeholder">
+                <!-- Will be updated by index.js -->
+            </div>
         </div>
     </header>
 
     <div class="main-content">
         <div class="success-card">
-            <div class="header-section">
-                <i class="material-icons success-icon-box">check</i>
-                <h2>Application Submitted!</h2>
+            <div class="success-header">
+                <div class="success-icon-wrapper">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Application Submitted</h2>
+                <p>You're one step closer to your next career move.</p>
             </div>
 
-            <p class="success-message">
-                Thank you! Your job application has been successfully received by our **EasyJobs** recruitment team.
-            </p>
+            <div class="application-summary">
+                <div class="summary-item">
+                    <span class="label">Position Applied</span>
+                    <h3 id="job-title-display">Loading...</h3>
+                    <p id="company-name-display"></p>
+                </div>
+                <div class="app-id-badge">
+                    <span>Application ID: </span>
+                    <strong id="app-id-value">#PENDING</strong>
+                </div>
+            </div>
 
-            <ul class="next-steps-list">
-                <li>Check your inbox (and spam folder) for a confirmation email shortly.</li>
-                <li>Our recruitment team will review your profile carefully.</li>
-                <li>If you are shortlisted, you will be contacted for the next stage of the interview process within
-                    **1-2 weeks**.</li>
-            </ul>
+            <div class="next-steps">
+                <h4>What Happens Next?</h4>
+                <div class="steps-grid">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <p>Recruiter reviews your profile and resume details.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <p>If shortlisted, you'll receive an email for an interview.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <p>Track your real-time status in your dashboard.</p>
+                    </div>
+                </div>
+            </div>
 
-            <a href="/frontend/pages/my_applications.html" class="submit-button" style="margin-right:10px;">Track My Applications</a>
-            <a href="/index.html" class="submit-button" style="background:#64748b;">Return to Homepage</a>
+            <div class="action-footer">
+                <a href="/frontend/pages/jobs.html" class="btn-primary-outline"><i class="fas fa-search"></i> Browse
+                    More Jobs</a>
+                <a href="/frontend/pages/my_applications.html" class="btn-primary"><i class="fas fa-tasks"></i> View My
+                    Applications</a>
+            </div>
+
+            <p class="auto-redirect">Returning to home in <span id="countdown">15</span> seconds...</p>
         </div>
     </div>
+
     <script src="/frontend/javascript/index.js"></script>
-    "/frontend/javascript/submit.js"></script>
+    <script src="/frontend/javascript/submit.js"></script>
 </body>
 
 </html>

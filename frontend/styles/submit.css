@@ -1,218 +1,234 @@
-/* -------------------------------------- */
-/* BASE & LAYOUT STYLES - MODIFIED COLORS */
-/* -------------------------------------- */
-:root {
-    /* Changed Green to Dark Blue */
-    --primary-dark-blue: #001f3f;
-    /* Very Deep Dark Blue (Header/Primary) */
-    --accent-blue: #1c75bc;
-    /* Clear Medium Blue (Success/Accent) */
-    --secondary-blue: #002e5c;
-    /* Slightly Lighter Dark Blue (Hover/Button) */
-    --text-color: #333;
-    /* Dark Grey Text (kept for readability) */
-    --background-color: #f0f4f7;
-    /* Light Greyish Background */
-    --white: #ffffff;
-}
-
-html,
-
-/* -------------------------------------- */
-/* HEADER STYLES (DARK BLUE) */
-/* -------------------------------------- */
-
-.logo-section {
+/* Main Layout */
+body {
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    min-height: 100vh;
     display: flex;
-    align-items: center;
-    text-decoration: none;
+    flex-direction: column;
 }
 
-.logo-circle {
-    /* Placeholder for image */
-    width: 35px;
-    height: 35px;
-    /* Kept white for contrast */
-    background-color: var(--white);
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.logo-section h1 {
-    color: var(--white);
-    font-size: 1.6em;
-    font-weight: 500;
-    margin: 0;
-}
-
-.nav-links a {
-    color: var(--white);
-    text-decoration: none;
-    padding: 8px 15px;
-    margin-left: 15px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-    border-radius: 5px;
-}
-
-.nav-links a:hover {
-    /* Changed hover color to Secondary Blue */
-    background-color: var(--secondary-blue);
-}
-
-/* -------------------------------------- */
-/* MAIN CONTENT & SUCCESS CARD */
-/* -------------------------------------- */
 .main-content {
-    /* Centers the card vertically and horizontally below the header */
-    flex-grow: 1;
+    flex: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
+    justify-content: center;
+    padding: 40px 20px;
 }
 
+/* Success Card */
 .success-card {
-    background-color: var(--white);
-    padding: 40px 50px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 31, 63, 0.15);
-    max-width: 550px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(37, 99, 235, 0.08);
     width: 100%;
+    max-width: 600px;
+    padding: 50px;
     text-align: center;
+    border: 1px solid rgba(37, 99, 235, 0.05);
+    animation: slideUp 0.6s ease-out;
 }
 
-.header-section {
-    display: block;
-    margin-bottom: 20px;
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.success-icon-box {
-    /* Checkmark Icon Styling */
-    font-size: 60px;
-    color: var(--white);
-    /* Changed background to Accent Blue */
-    background-color: var(--accent-blue);
+.success-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    background: #ecfdf5;
+    color: #10b981;
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    margin: 0 auto 10px;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 25px;
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.1);
 }
 
-.header-section h2 {
-    font-size: 2.5em;
-    margin: 0;
-    /* Changed text color to Accent Blue */
-    color: var(--accent-blue);
+.success-header h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.success-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+}
+
+/* Application Summary Section */
+.application-summary {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-item .label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    margin-bottom: 8px;
     font-weight: 700;
 }
 
-.success-message {
-    font-size: 1.2em;
-    color: #555;
-    margin-bottom: 30px;
-    line-height: 1.5;
+.summary-item h3 {
+    font-size: 1.4rem;
+    color: #2563eb;
+    margin-bottom: 4px;
+    font-weight: 700;
+}
+
+.summary-item p {
     font-weight: 600;
+    color: #475569;
 }
 
-/* Next Steps List */
-.next-steps-list {
-    list-style-type: none;
-    padding: 0;
-    text-align: left;
-    margin: 30px 0;
-    /* Light background for list */
-    background-color: #f7f7f7;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-}
-
-.next-steps-list li {
-    font-size: 1em;
-    color: #333;
-    margin-bottom: 10px;
-    padding-left: 25px;
-    position: relative;
-}
-
-.next-steps-list li:before {
-    content: "→";
-    /* Changed bullet color to Primary Dark Blue */
-    color: var(--primary-dark-blue);
-    font-weight: bold;
-    display: inline-block;
-    width: 1em;
-    margin-left: -1em;
-}
-
-/* Action Button (Return to Homepage) */
-.submit-button {
-    width: auto;
-    display: inline-block;
-    padding: 30px 110px;
-    /* Changed background to Primary Dark Blue */
-    background-color: var(--primary-dark-blue);
-    color: var(--white);
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
+.app-id-badge {
     margin-top: 15px;
-    transition: background-color 0.3s;
+    font-size: 0.9rem;
+    color: #64748b;
+    background: #fff;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Next Steps grid */
+.next-steps {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.next-steps h4 {
+    font-size: 1.1rem;
+    color: #0f172a;
+    margin-bottom: 20px;
+    font-weight: 700;
+    padding-left: 5px;
+}
+
+.steps-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.step:hover {
+    background: #f1f5f9;
+}
+
+.step-num {
+    width: 32px;
+    height: 32px;
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.step p {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+/* Footer Actions */
+.action-footer {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-primary,
+.btn-primary-outline {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-weight: 700;
     text-decoration: none;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
 }
 
-.submit-button:hover {
-    /* Changed hover color to Secondary Blue */
-    background-color: var(--secondary-blue);
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
 }
 
-/* --- Responsive Media Queries --- */
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
 
-@media screen and (max-width: 768px) {
+.btn-primary-outline {
+    background: white;
+    color: #2563eb;
+    border: 2px solid #2563eb;
+}
 
-    .nav-links a {
-        margin: 0;
-        padding: 5px 10px;
-        font-size: 0.9em;
-    }
+.btn-primary-outline:hover {
+    background: #eff6ff;
+    transform: translateY(-2px);
+}
 
+.auto-redirect {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+#countdown {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 640px) {
     .success-card {
-        padding: 40px 20px;
+        padding: 30px 20px;
     }
 
-    .header-section h2 {
-        font-size: 1.8em;
+    .action-footer {
+        flex-direction: column;
     }
 
-    .submit-button {
-        padding: 15px 40px;
-        width: 100%;
-        font-size: 1em;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .logo-section h1 {
-        font-size: 1.3em;
-    }
-
-    .success-icon-box {
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        font-size: 40px;
-    }
-
-    .success-message {
-        font-size: 1em;
-    }
-
-    .next-steps-list li {
-        font-size: 0.9em;
+    .success-header h2 {
+        font-size: 1.6rem;
     }
 }
