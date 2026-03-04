@@ -1,5 +1,8 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
+const getAPIURL = () => {
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "/api";
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
     const applyForm = document.getElementById("applyForm");
@@ -84,6 +87,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fill user info if logged in
     if (user) {
+        // --- 🔒 PROFILE COMPLETENESS CHECK 🔒 ---
+        // As requested: Profile must be filled (photo + experience) before applying
+        const hasPhoto = (user.image && user.image.length > 100); // Check if image exists
+        const hasExp = (user.experience !== null && user.experience !== undefined);
+        const hasLocation = (user.location && user.location.trim() !== "");
+
+        if (!hasPhoto || !hasExp || !hasLocation) {
+            console.warn("⚠️ Profile incomplete. Redirecting to profile page.");
+            showMessage("Please complete your profile (Photo, Location, Experience) before applying.\nApply பண்ணுறதுக்கு முன்னாடி Profile-ல Photo மற்றும் Details-ஐ Update பண்ணுங்க!", "info");
+            setTimeout(() => {
+                window.location.href = "/frontend/pages/profile.html?message=complete_profile";
+            }, 3000);
+            if (applyForm) applyForm.innerHTML = `<div style='text-align:center; padding:2rem; color:#64748b;'><h3>Profile Incomplete</h3><p>Redirecting to profile page...</p></div>`;
+            return;
+        }
+
         if (document.getElementById("full_name")) document.getElementById("full_name").value = `${user.first_name} ${user.last_name || ''}`.trim();
         if (document.getElementById("email")) document.getElementById("email").value = user.email || "";
         if (document.getElementById("phone") && user.phone_number) document.getElementById("phone").value = user.phone_number;
@@ -580,11 +599,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                     setTimeout(() => window.location.href = "/frontend/pages/submit.html", 2000);
                 } else {
                     let errorMessage = "Check all fields";
-                    try {
-                        const error = await response.json();
-                        errorMessage = error.detail || errorMessage;
-                    } catch (e) {
-                        errorMessage = `Server Error (${response.status})`;
+                    if (response.status === 401) {
+                        errorMessage = "Session expired. Please login again.";
+                        localStorage.removeItem("user");
+                        setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
+                    } else {
+                        try {
+                            const error = await response.json();
+                            errorMessage = error.detail || errorMessage;
+                        } catch (e) {
+                            errorMessage = `Server Error (${response.status})`;
+                        }
                     }
                     console.error("❌ Submission error:", errorMessage);
                     showMessage(`Submission Failed: ${errorMessage}\nSubmission fail ஆச்சு: எல்லா fields-யும் check பண்ணுங்க`, "error");

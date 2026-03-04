@@ -21,9 +21,23 @@ def download_resume(filename: str):
 @router.post("/", response_model=ApplicationOut)
 def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
 
-    # Professional Fix: If job_id is 0 or less, it's a static/external job. 
-    # We set it to None to avoid ForeignKeyViolation in the database.
-    safe_job_id = app.job_id if (app.job_id and app.job_id > 0) else None
+    # 1. Ensure user exists (Prevents IntegrityError if DB was reset)
+    from backend.models.user import User
+    existing_user = db.query(User).filter(User.user_id == app.user_id).first()
+    if not existing_user:
+        raise HTTPException(status_code=401, detail="Session invalid. Please login again.")
+
+    # 2. Check if the Job ID exists in the real database
+    # If it's a mock job (ID doesn't exist in DB), we set it to None 
+    # to avoid the (ForeignKeyViolation) error.
+    safe_job_id = None
+    if app.job_id and app.job_id > 0:
+        from backend.models.job import Job
+        job_exists = db.query(Job).filter(Job.job_id == app.job_id).first()
+        if job_exists:
+            safe_job_id = app.job_id
+        else:
+            print(f"⚠️ App applying for static/mock job_id: {app.job_id}. Soft-linking instead.")
 
     new_application = Application(
         user_id=app.user_id,

@@ -1,16 +1,22 @@
 window.getEasyJobsAPI = () => {
-    // If we are already on port 8000, use it directly
-    if (window.location.port === '8000') {
-        return window.location.origin + "/api";
+    const { hostname, port, protocol } = window.location;
+
+    // 1. Same-Origin Check (Optimal for production)
+    if (port === '8000') return "/api";
+
+    // 2. Dynamic Host Check (Crucial for CORS stability)
+    // If we have a hostname (localhost, 127.0.0.1, or network name), use it with port 8000
+    if (hostname && hostname !== "") {
+        // Ensure we always use http for the API backend (Port 8000)
+        return `http://${hostname}:8000/api`;
     }
 
-    // Otherwise, assume the backend is on port 8000 of the same host
-    // (Handles localhost, 127.0.0.1, and local IP addresses automatically)
-    const host = window.location.hostname || "127.0.0.1";
-    const url = `http://${host}:8000/api`;
-    console.log(`📡 Detected API Backend: ${url}`);
-    return url;
+    // 3. File-System Fallback (file:/// URLs)
+    return "http://127.0.0.1:8000/api";
 };
+
+// Log API status on load for debugging
+console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);
 
 document.addEventListener("DOMContentLoaded", () => {
     const searchForm = document.querySelector(".job-search-form");

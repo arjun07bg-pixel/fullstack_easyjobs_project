@@ -1,5 +1,8 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
+const getAPIURL = () => {
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "/api"; // Standard fallback
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -246,8 +249,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             currentFilters = filters;
             const skip = (page - 1) * jobsPerPage;
 
-            // 1. Fetch matching API jobs (we'll fetch a larger set to handle combining, 
-            // but for simplicity in this project, let's fetch all matching and paginate on client)
+            if (jobsContainer) {
+                jobsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; grid-column: 1/-1;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #2563eb; margin-bottom: 20px;"></i>
+                        <h3 style="color: #1e293b; margin-bottom: 10px;">Finding Best Matches...</h3>
+                        <p style="color: #64748b;">Curating the latest opportunities for you.</p>
+                    </div>`;
+            }
+
             let apiJobs = [];
             try {
                 let url = `${API_BASE_URL}/jobs/`;
@@ -268,7 +278,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     apiJobs = await response.json();
                 }
             } catch (e) {
-                console.error("API Fetch failed, using static data only.", e);
+                console.warn("Backend connection issue, showing local job listings.", e);
             }
 
             // 2. Filter static jobs
@@ -297,7 +307,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (error) {
             console.error("Error in fetchJobs:", error);
-            if (jobsContainer) jobsContainer.innerHTML = "<p class='error-msg'>Something went wrong while fetching jobs.</p>";
+            if (jobsContainer) {
+                jobsContainer.innerHTML = `
+                <div style="text-align: center; padding: 60px 20px; grid-column: 1/-1;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f59e0b; margin-bottom: 20px;"></i>
+                    <h3 style="color: #1e293b; margin-bottom: 10px;">Display issue</h3>
+                    <p style="color: #64748b;">Something went wrong while displaying jobs. Please refresh.</p>
+                    <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Refresh Page</button>
+                </div>`;
+            }
         }
     };
 

@@ -1,5 +1,8 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
+const getAPIURL = () => {
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "/api";
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
@@ -36,7 +39,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         resumeInput: document.getElementById("resumeInput"),
         photoPreview: document.getElementById("profileImagePreview"),
         resumeName: document.getElementById("resume-name"),
+        strengthBar: document.getElementById("profile-strength-bar"),
         strengthPercent: document.getElementById("strength-percent"),
+        strengthLabel: document.getElementById("strength-label"),
+        saveBtn: document.getElementById("saveProfileBtn"),
         // Employer Specific
         companyCard: document.getElementById("company-card"),
         companyName: document.getElementById("companyName"),
