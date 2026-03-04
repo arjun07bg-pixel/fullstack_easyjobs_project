@@ -18,7 +18,8 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
         experience_level=job.experience_level,
         job_type=job.job_type,
         salary=job.salary,
-        work_mode=job.work_mode
+        work_mode=job.work_mode,
+        employer_id=job.employer_id
     )
 
     db.add(new_job)

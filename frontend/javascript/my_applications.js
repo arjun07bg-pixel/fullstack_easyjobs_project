@@ -7,7 +7,7 @@
 "use strict";
 
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
 
 let allApplications = [];
 let currentFilter = "all";
@@ -68,50 +68,52 @@ function fmtDate(str) {
         : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-/* ─── Build one application card ─────────────────────────────── */
-function buildCard(app, idx) {
+/* ─── Build one table row ─────────────────────────────── */
+function buildTableRow(app, idx) {
     const st = getStatus(app);
     const exp = app.Total_Experience != null
         ? (app.Total_Experience === 0 ? "Fresher" : `${app.Total_Experience} yr${app.Total_Experience > 1 ? "s" : ""}`)
         : null;
     const loc = app.Current_Location || "Remote";
 
-    const chips = [
-        exp ? `<span class="app-meta-chip"><i class="fas fa-briefcase"></i>${exp}</span>` : "",
-        loc ? `<span class="app-meta-chip"><i class="fas fa-map-marker-alt"></i>${loc}</span>` : "",
-    ].filter(Boolean).join("");
-
     return `
-<div class="app-card" data-id="${app.application_id}">
-    <div class="app-card-inner">
-        <div class="app-card-stripe ${st.stripe}"></div>
-        <div class="app-card-body">
-            <div class="app-logo-box" style="background:${logoGrad(app.company_name)}">${logoChar(app.company_name)}</div>
-            <div class="app-info-wrap">
-                <h3 class="app-job-title">${app.job_title || "Job Position"}</h3>
-                <p class="app-company"><i class="fas fa-building"></i>${app.company_name || "Company"}</p>
-                <div class="app-meta">${chips}</div>
-            </div>
-            <div class="app-card-right">
-                <div class="status-badge ${st.cls}">
-                    <i class="${st.icon}"></i>${st.label}
+    <tr>
+        <td>
+            <div class="td-job-info">
+                <div class="td-avatar" style="background:${logoGrad(app.company_name)}">
+                    ${logoChar(app.company_name)}
                 </div>
-                <div class="app-date"><i class="fas fa-calendar-alt"></i>${fmtDate(app.applied_at)}</div>
-                <div class="app-card-actions">
-                    <button class="aca-btn view" onclick="openAppModal(${app.application_id})">
-                        <i class="fas fa-eye"></i> View Full Details
-                    </button>
-                    <button class="aca-btn withdraw" onclick="withdrawApp(${app.application_id}, this)">
-                        <i class="fas fa-times"></i> Withdraw
-                    </button>
+                <div class="td-job-text">
+                    <h4>${app.job_title || "Job Position"}</h4>
+                    <p><i class="fas fa-building"></i> ${app.company_name || "Company"}</p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="app-card-footer">
-        Application ID: <span>#${app.application_id}</span> • Submitted through EasyJobs Portal
-    </div>
-</div>`;
+        </td>
+        <td>
+            <div style="font-size: 0.85rem; color: #475569; display: flex; flex-direction: column; gap: 4px;">
+                ${exp ? `<span><i class="fas fa-briefcase"></i> ${exp}</span>` : ""}
+                ${loc ? `<span><i class="fas fa-map-marker-alt"></i> ${loc}</span>` : ""}
+            </div>
+        </td>
+        <td>
+            <div class="status-badge ${st.cls}">
+                <i class="${st.icon}"></i> ${st.label}
+            </div>
+        </td>
+        <td style="font-size: 0.85rem; color: #64748b; white-space: nowrap;">
+            ${fmtDate(app.applied_at)}
+        </td>
+        <td>
+            <div class="td-actions">
+                <button class="tbl-btn view" onclick="openAppModal(${app.application_id})">
+                    <i class="fas fa-eye"></i> View
+                </button>
+                <button class="tbl-btn withdraw" onclick="withdrawApp(${app.application_id}, this)">
+                    <i class="fas fa-times"></i> Withdraw
+                </button>
+            </div>
+        </td>
+    </tr>`;
 }
 
 /* ─── Modal Operations ───────────────────────────────────────── */
@@ -142,8 +144,8 @@ window.openAppModal = function (id) {
         ["Total Experience", app.Total_Experience != null ? app.Total_Experience + " Year(s)" : "Fresher"],
         ["Current Salary (LPA)", app.Current_salary != null ? "₹" + app.Current_salary : "N/A"],
         ["Notice Period", app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate" : app.Notice_Period + " Days") : "N/A"],
-        ["Portfolio", app.portfolio_link || "Not Provided"],
-        ["Resume", app.resume || "No File"],
+        ["Portfolio", app.portfolio_link ? `<a href="${app.portfolio_link}" target="_blank" style="color:var(--primary-blue);text-decoration:underline;">${app.portfolio_link}</a>` : "Not Provided"],
+        ["Resume", app.resume ? `<a href="${app.resume.startsWith('http') ? app.resume : '/backend/uploads/resumes/' + app.resume}" class="resume-link" target="_blank"><i class="fas fa-file-pdf"></i> View Resume</a>` : "No File"],
         ["Submitted At", fmtDate(app.applied_at)]
     ];
 
@@ -187,11 +189,17 @@ function updateSummary(apps) {
 
 /* ─── Render ─────────────────────────────────────────────────── */
 function renderCards() {
-    const list = document.getElementById("applications-list");
+    const listWrapper = document.getElementById("applications-list");
+    const tbody = document.getElementById("app-table-body");
     const emptyEl = document.getElementById("empty-state");
     const noResults = document.getElementById("no-results");
     const countEl = document.getElementById("result-count");
-    if (!list) return;
+
+    // Guard: essential elements must exist
+    if (!listWrapper || !tbody) {
+        console.warn("renderCards: Missing required DOM elements");
+        return;
+    }
 
     const filtered = allApplications.filter(app => {
         const q = currentSearch.toLowerCase();
@@ -202,19 +210,22 @@ function renderCards() {
 
     if (countEl) countEl.textContent = `${filtered.length} result${filtered.length !== 1 ? "s" : ""}`;
 
+    // Helper: safely set display
+    const show = (el, val) => { if (el) el.style.display = val; };
+
     if (allApplications.length === 0) {
-        list.style.display = "none";
-        emptyEl.style.display = "flex";
-        noResults.style.display = "none";
+        show(listWrapper, "none");
+        show(emptyEl, "flex");
+        show(noResults, "none");
     } else if (filtered.length === 0) {
-        list.style.display = "none";
-        emptyEl.style.display = "none";
-        noResults.style.display = "flex";
+        show(listWrapper, "none");
+        show(emptyEl, "none");
+        show(noResults, "flex");
     } else {
-        emptyEl.style.display = "none";
-        noResults.style.display = "none";
-        list.style.display = "flex";
-        list.innerHTML = filtered.map((app, i) => buildCard(app, i)).join("");
+        show(emptyEl, "none");
+        show(noResults, "none");
+        show(listWrapper, "block");
+        tbody.innerHTML = filtered.map((app, i) => buildTableRow(app, i)).join("");
     }
 }
 
@@ -237,20 +248,29 @@ async function withdrawApp(id, btn) {
 /* ─── Load ───────────────────────────────────────────────────── */
 async function loadApplications() {
     const user = getLoggedInUser();
+    console.log("📋 My Applications: getLoggedInUser =", user);
+
     if (!user) {
-        ["loading-state", "login-required"].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = (id === "login-required") ? "flex" : "none";
-        });
+        console.warn("⚠️ No user found in localStorage. Showing login required.");
+        const loader = document.getElementById("loading-state");
+        const loginReq = document.getElementById("login-required");
+        if (loader) loader.style.display = "none";
+        if (loginReq) loginReq.style.display = "flex";
         return;
     }
 
     const userId = user.user_id || user.id;
+    console.log("📋 Fetching for user_id:", userId);
+
     try {
         const API_BASE = getAPIURL();
-        const res = await fetch(`${API_BASE}/applications/user/${userId}`);
-        if (!res.ok) throw new Error("Fetch error");
+        const url = `${API_BASE}/applications/user/${userId}`;
+        console.log("📡 Fetching:", url);
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
         allApplications = await res.json();
+        console.log("✅ Loaded", allApplications.length, "applications.");
 
         const loader = document.getElementById("loading-state");
         if (loader) loader.style.display = "none";
@@ -258,9 +278,19 @@ async function loadApplications() {
         updateSummary(allApplications);
         renderCards();
     } catch (err) {
-        console.error(err);
+        console.error("❌ Error:", err);
         const loader = document.getElementById("loading-state");
-        if (loader) loader.innerHTML = `<p style="color:#ef4444;">Failed to load applications. Check if server is running.</p>`;
+        if (loader) {
+            loader.innerHTML = `
+                <div style="text-align:center;">
+                    <div style="font-size:2.5rem;color:#ef4444;margin-bottom:12px;"><i class="fas fa-exclamation-circle"></i></div>
+                    <h3 style="color:#1e293b;margin-bottom:8px;">Could Not Load Applications</h3>
+                    <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">Make sure the server is running.<br><code>${err.message}</code></p>
+                    <button onclick="loadApplications()" style="background:#2563eb;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.88rem;">
+                        <i class="fas fa-redo"></i> Retry
+                    </button>
+                </div>`;
+        }
     }
 }
 

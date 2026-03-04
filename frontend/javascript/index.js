@@ -6,7 +6,8 @@ window.getEasyJobsAPI = () => {
 
     // Otherwise, assume the backend is on port 8000 of the same host
     // (Handles localhost, 127.0.0.1, and local IP addresses automatically)
-    const url = `http://${window.location.hostname}:8000/api`;
+    const host = window.location.hostname || "127.0.0.1";
+    const url = `http://${host}:8000/api`;
     console.log(`📡 Detected API Backend: ${url}`);
     return url;
 };

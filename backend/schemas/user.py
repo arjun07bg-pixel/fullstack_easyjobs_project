@@ -10,6 +10,17 @@ class UserCreate(BaseModel):
     phone_number: str = Field(..., min_length=10, max_length=15)
     role: str = Field(..., min_length=1)
     image: str = Field(default="")
+    bio: Optional[str] = None
+    designation: Optional[str] = None
+    location: Optional[str] = None
+    experience: Optional[int] = None
+    salary: Optional[int] = None
+    skills: Optional[str] = None
+    # Employer fields added here:
+    company_name: Optional[str] = None
+    company_size: Optional[str] = None
+    industry: Optional[str] = None
+    company_website: Optional[str] = None
 
 class UserSignin(BaseModel):
     email: EmailStr
@@ -33,6 +44,11 @@ class UserUpdate(BaseModel):
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
+    # Employer fields:
+    company_name: Optional[str] = None
+    company_size: Optional[str] = None
+    industry: Optional[str] = None
+    company_website: Optional[str] = None
 
 class UserOut(BaseModel):
     user_id: int
@@ -55,6 +71,11 @@ class UserOut(BaseModel):
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
+    # Employer fields:
+    company_name: Optional[str] = None
+    company_size: Optional[str] = None
+    industry: Optional[str] = None
+    company_website: Optional[str] = None
 
     class Config:
         from_attributes = True

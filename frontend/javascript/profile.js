@@ -1,5 +1,5 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
@@ -36,10 +36,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         resumeInput: document.getElementById("resumeInput"),
         photoPreview: document.getElementById("profileImagePreview"),
         resumeName: document.getElementById("resume-name"),
-        saveBtn: document.getElementById("saveProfileBtn"),
-        strengthBar: document.getElementById("profile-strength-bar"),
-        strengthLabel: document.getElementById("strength-label"),
-        strengthPercent: document.getElementById("strength-percent")
+        strengthPercent: document.getElementById("strength-percent"),
+        // Employer Specific
+        companyCard: document.getElementById("company-card"),
+        companyName: document.getElementById("companyName"),
+        industry: document.getElementById("industry"),
+        companySize: document.getElementById("companySize"),
+        companyWebsite: document.getElementById("companyWebsite")
     };
 
     // Calculate and update profile strength
@@ -83,6 +86,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
+    // Role-based visibility
+    if (userData.role === "employer") {
+        document.querySelectorAll(".seeker-only").forEach(el => el.style.display = "none");
+        if (pref.companyCard) pref.companyCard.style.display = "block";
+        const bioLabel = document.getElementById("bio-label");
+        if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
+    }
+
     // 1. Fetch Latest User Data
     const fetchUser = async () => {
         try {
@@ -112,15 +123,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.projects) pref.projects.value = user.projects || "";
         if (pref.linkedinUrl) pref.linkedinUrl.value = user.linkedin_url || "";
         if (pref.githubUrl) pref.githubUrl.value = user.github_url || "";
-        if (pref.gender) pref.gender.value = user.gender || "";
         if (pref.dob) pref.dob.value = user.dob || "";
 
+        // Employer Fields
+        if (pref.companyName) pref.companyName.value = user.company_name || "";
+        if (pref.industry) pref.industry.value = user.industry || "";
+        if (pref.companySize) pref.companySize.value = user.company_size || "";
+        if (pref.companyWebsite) pref.companyWebsite.value = user.company_website || "";
+
         // Update Header
-        const headerName = document.getElementById("header-full-name");
-        const headerSub = document.getElementById("header-designation-location");
-        if (headerName) headerName.innerText = `${user.first_name} ${user.last_name || ""}`;
+        if (headerName) headerName.innerText = user.role === 'employer' ? (user.company_name || "Company Profile") : `${user.first_name} ${user.last_name || ""}`;
         if (headerSub) {
-            headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
+            if (user.role === 'employer') {
+                headerSub.innerHTML = `<i class="fas fa-building"></i> ${user.industry || "Industry Not Set"} | <i class="fas fa-users"></i> ${user.company_size || "Size Not Set"}`;
+            } else {
+                headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
+            }
         }
 
         if (user.image && pref.photoPreview && user.image.trim() !== "") {
@@ -201,7 +219,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 gender: pref.gender.value,
                 dob: pref.dob.value,
                 image: tempPhotoData || (currentUserData.image || ""),
-                resume_url: tempResumeName || (currentUserData.resume_url || "")
+                resume_url: tempResumeName || (currentUserData.resume_url || ""),
+                // Employer Specific
+                company_name: pref.companyName ? pref.companyName.value.trim() : null,
+                industry: pref.industry ? pref.industry.value.trim() : null,
+                company_size: pref.companySize ? pref.companySize.value : null,
+                company_website: pref.companyWebsite ? pref.companyWebsite.value.trim() : null
             };
 
             try {

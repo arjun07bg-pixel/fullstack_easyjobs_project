@@ -13,3 +13,4 @@ class Job(Base):
     job_type = Column(String(50), nullable=True)       # Full-time / Part-time
     salary = Column(Integer, nullable=True)            # INR
     work_mode = Column(String(50), nullable=True)      # Remote / Onsite / Hybrid
+    employer_id = Column(Integer, nullable=True)       # ID of the user (employer) who posted this

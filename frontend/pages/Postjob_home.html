@@ -14,7 +14,6 @@
 </head>
 
 <body>
-    <!-- Header Section  -->
     <header class="main-header sticky">
         <div class="container header-content">
             <a href="/index.html" class="logo">
@@ -32,19 +31,14 @@
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
-                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
-                                class="fas fa-bookmark"></i></a></li>
-                    <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
-                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+                    <li><a href="/frontend/pages/dashboard.html" class="nav-link" id="nav-dash-link"
+                            style="display:none;"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
-                    <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
                 </ul>
             </nav>
 
-
-
-            <div class="auth-buttons">
+            <div class="auth-buttons" id="header-auth-btns">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
                     Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -53,11 +47,51 @@
     </header>
 
     <div class="page-wrapper">
-        <div class="job-form-container">
+        <!-- New: Employer Landing Content (Shown if not logged in as employer) -->
+        <div id="employer-landing" class="container" style="display: none; padding: 40px 0;">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h1 style="font-size: 3rem; color: #1e293b; line-height: 1.1; margin-bottom: 20px;">The smartest way to
+                    <span style="color: #2563eb;">hire talent</span> in India</h1>
+                <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 35px;">Post your vacancies, screen
+                    candidates with Ease, and build your dream team with India's most efficient hiring platform.</p>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 40px;">
+                    <div
+                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <i class="fas fa-bolt" style="font-size: 2rem; color: #f59e0b; margin-bottom: 15px;"></i>
+                        <h4 style="margin-bottom: 10px;">Fast Posting</h4>
+                        <p style="font-size: 0.9rem; color: #64748b;">Get your job live in under 2 minutes.</p>
+                    </div>
+                    <div
+                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <i class="fas fa-users" style="font-size: 2rem; color: #2563eb; margin-bottom: 15px;"></i>
+                        <h4 style="margin-bottom: 10px;">Large Talent Pool</h4>
+                        <p style="font-size: 0.9rem; color: #64748b;">Reach 10k+ verified active job seekers.</p>
+                    </div>
+                    <div
+                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; color: #10b981; margin-bottom: 15px;"></i>
+                        <h4 style="margin-bottom: 10px;">Smart Dashboard</h4>
+                        <p style="font-size: 0.9rem; color: #64748b;">Manage all applications in one central hub.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <a href="/frontend/pages/register.html?role=employer" class="btn-register"
+                        style="padding: 15px 35px; font-size: 1.1rem; border-radius: 50px;">Get Started for Free</a>
+                    <a href="/frontend/pages/login.html" class="btn-login"
+                        style="padding: 15px 35px; font-size: 1.1rem; border-radius: 50px;">Sign In to Post</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Existing Form Content (Shown for employers) -->
+        <div id="job-form-container" class="job-form-container" style="display: none;">
             <div class="form-header">
                 <i class="fas fa-bullhorn post-icon"></i>
-                <h2>Post a Job</h2>
-                <p class="subtitle">Reach thousands of qualified candidates</p>
+                <h2>Post a New Job</h2>
+                <p class="subtitle">Fill in the details below to find your perfect candidate</p>
             </div>
 
             <form id="post-job-form">
@@ -74,7 +108,7 @@
 
                     <div class="form-group">
                         <label for="company-name">Company Name *</label>
-                        <input type="text" id="company-name" placeholder="e.g. Google" required>
+                        <input type="text" id="company-name" placeholder="Auto-filled from profile" required>
                     </div>
 
                     <div class="form-group">
@@ -174,14 +208,6 @@
                         required></textarea>
                 </div>
 
-                <!-- SECTION 5: EXTRA BENEFITS -->
-                <div class="form-group">
-                    <label for="benefits">Benefits & Perks (Optional)</label>
-                    <textarea id="benefits"
-                        placeholder="e.g. Health Insurance, Flexible Hours, Free Gym, Stock Options..."
-                        style="min-height: 80px;"></textarea>
-                </div>
-
                 <div class="agreement">
                     <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
                         <input type="checkbox" required style="width: auto; margin-top: 4px;">
@@ -190,7 +216,8 @@
                     </label>
                 </div>
 
-                <button type="submit" class="post-btn" id="submit-btn">
+                <button type="submit" class="post-btn" id="submit-btn"
+                    style="height: 60px; font-size: 1.1rem; border-radius: 50px;">
                     <span>Publish Job Opportunity</span>
                     <i class="fas fa-paper-plane"></i>
                 </button>

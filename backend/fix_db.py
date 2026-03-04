@@ -29,7 +29,11 @@ def fix_database():
             ("github_url", "TEXT"),
             ("gender", "TEXT"),
             ("dob", "TEXT"),
-            ("designation", "TEXT")
+            ("designation", "TEXT"),
+            ("company_name", "TEXT"),
+            ("company_size", "TEXT"),
+            ("industry", "TEXT"),
+            ("company_website", "TEXT")
         ]
         
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users'")
@@ -70,6 +74,17 @@ def fix_database():
                     except Exception as e:
                         print(f"Error adding {col_name} to SQLite applications: {e}")
             conn.commit()
+        
+        # Fix jobs table in SQLite
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='jobs'")
+        if cursor.fetchone():
+            cursor.execute("PRAGMA table_info(jobs)")
+            existing_jobs = [col[1] for col in cursor.fetchall()]
+            if "employer_id" not in existing_jobs:
+                print("Adding column 'employer_id' to SQLite jobs...")
+                cursor.execute("ALTER TABLE jobs ADD COLUMN employer_id INTEGER")
+            conn.commit()
+
         conn.close()
         print("SQLite fix done.")
 
@@ -95,7 +110,11 @@ def fix_database():
                     ("github_url", "TEXT"),
                     ("gender", "VARCHAR(20)"),
                     ("dob", "VARCHAR(50)"),
-                    ("designation", "VARCHAR(100)")
+                    ("designation", "VARCHAR(100)"),
+                    ("company_name", "VARCHAR(200)"),
+                    ("company_size", "VARCHAR(50)"),
+                    ("industry", "VARCHAR(100)"),
+                    ("company_website", "VARCHAR(255)")
                 ]
                 
                 for col_name, col_type in users_cols:
@@ -129,12 +148,30 @@ def fix_database():
                         result = conn.execute(check_query).fetchone()
                         if not result:
                             print(f"Adding column: {col_name} to PostgreSQL applications")
-                            # We use double quotes for mixed case column names in Postgres if necessary, 
-                            # but SQLAlchemy usually handles it. To be safe with information_schema:
                             conn.execute(text(f'alter table applications add column "{col_name}" {col_type}'))
                             conn.commit()
                     except Exception as col_e:
                         print(f"Error handling applications column {col_name}: {col_e}")
+
+                # 2.3 Handle Jobs Table
+                try:
+                    check_query = text("SELECT column_name FROM information_schema.columns WHERE table_name='jobs' AND column_name='employer_id'")
+                    result = conn.execute(check_query).fetchone()
+                    if not result:
+                        print("Adding column: employer_id to PostgreSQL jobs")
+                        conn.execute(text("ALTER TABLE jobs ADD COLUMN employer_id INTEGER"))
+                        conn.commit()
+                except Exception as e:
+                    print(f"Error handling jobs employer_id: {e}")
+
+                # 2.3 Final constraint fixes
+                try:
+                    # Remove NOT NULL constraint from job_id to allow static/external jobs
+                    conn.execute(text('ALTER TABLE applications ALTER COLUMN job_id DROP NOT NULL'))
+                    conn.commit()
+                    print("Fixed: job_id is now nullable in PostgreSQL.")
+                except Exception as e:
+                    pass
 
             print("PostgreSQL fix completed.")
         except Exception as e:

@@ -280,6 +280,10 @@ body.recruiter-clone {
     z-index: 1000;
 }
 
+.modal-overlay.open {
+    display: flex;
+}
+
 .modal-content {
     background: white;
     width: 100%;

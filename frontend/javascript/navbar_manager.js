@@ -13,6 +13,7 @@ function updateNavbarProfile() {
 
     const user = JSON.parse(userString);
     const photo = localStorage.getItem("userProfilePhoto");
+    const isEmployer = user.role === "employer" || user.role === "admin";
 
     // 1. Handle General Navbars (.nav-menu, .category-navbar, .nav-links)
     const menus = document.querySelectorAll(".nav-menu ul, .category-navbar .nav-links, .nav-links ul");
@@ -22,23 +23,51 @@ function updateNavbarProfile() {
         const profileLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("/frontend/pages/profile.html") || a.textContent.toLowerCase().includes("profile"));
 
         if (profileLink && !menu.querySelector(".nav-avatar-item")) {
-            // Ensure Saved Jobs icon exists
-            const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/saved_jobs.html"));
-            if (!hasSavedJobs) {
-                const savedJobsLi = document.createElement("li");
-                savedJobsLi.innerHTML = `<a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
-                menu.insertBefore(savedJobsLi, profileLink.parentElement);
+
+            if (isEmployer) {
+                // ── EMPLOYER NAV: Show Post Jobs + Dashboard ──────────────────
+                // Remove My Applications link if it exists
+                const myAppsLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("/frontend/pages/my_applications.html"));
+                if (myAppsLink) myAppsLink.parentElement.remove();
+
+                // Remove Saved Jobs link if it exists
+                const savedJobsLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("/frontend/pages/saved_jobs.html"));
+                if (savedJobsLink) savedJobsLink.parentElement.remove();
+
+                // Add Dashboard link if not present
+                const hasDashboard = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/dashboard.html"));
+                if (!hasDashboard) {
+                    const dashLi = document.createElement("li");
+                    dashLi.innerHTML = `<a href="/frontend/pages/dashboard.html" class="nav-link" title="Employer Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
+                    menu.insertBefore(dashLi, profileLink.parentElement);
+                }
+
+                // Add Post Jobs link if not present
+                const hasPostJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/Postjob_home.html"));
+                if (!hasPostJobs) {
+                    const postJobLi = document.createElement("li");
+                    postJobLi.innerHTML = `<a href="/frontend/pages/Postjob_home.html" class="nav-link" style="color: #16a34a; font-weight: 700;" title="Post a Job"><i class="fas fa-plus-circle"></i> Post Job</a>`;
+                    menu.insertBefore(postJobLi, profileLink.parentElement);
+                }
+
+            } else {
+                // ── JOB SEEKER NAV: Show Saved Jobs + My Applications ─────────
+                const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/saved_jobs.html"));
+                if (!hasSavedJobs) {
+                    const savedJobsLi = document.createElement("li");
+                    savedJobsLi.innerHTML = `<a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
+                    menu.insertBefore(savedJobsLi, profileLink.parentElement);
+                }
+
+                const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/my_applications.html"));
+                if (!hasMyApps && !menu.classList.contains('no-apps-link')) {
+                    const myAppsLi = document.createElement("li");
+                    myAppsLi.innerHTML = `<a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a>`;
+                    menu.insertBefore(myAppsLi, profileLink.parentElement);
+                }
             }
 
-            // Ensure My Applications exists
-            const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("/frontend/pages/my_applications.html"));
-            if (!hasMyApps && !menu.classList.contains('no-apps-link')) {
-                const myAppsLi = document.createElement("li");
-                myAppsLi.innerHTML = `<a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a>`;
-                menu.insertBefore(myAppsLi, profileLink.parentElement);
-            }
-
-            // Create Avatar Element
+            // Create Avatar Element (same for both roles)
             const avatarContainer = document.createElement("li");
             avatarContainer.classList.add("nav-avatar-item");
             avatarContainer.style.display = "flex";
@@ -53,7 +82,7 @@ function updateNavbarProfile() {
             img.style.height = "32px";
             img.style.borderRadius = "50%";
             img.style.objectFit = "cover";
-            img.style.border = "2px solid #2563eb";
+            img.style.border = isEmployer ? "2px solid #16a34a" : "2px solid #2563eb";
 
             // Link Text
             const link = document.createElement("a");

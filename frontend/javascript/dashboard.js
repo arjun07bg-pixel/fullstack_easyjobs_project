@@ -2,10 +2,11 @@
 
 /* ─── CONFIG ────────────────────────────────── */
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
 
 let allApps = [];
 let allUsers = [];
+let allJobs = []; // Added for My Jobs tab
 
 /* ─── AVATAR GRADIENTS ──────────────────────── */
 const GRADS = [
@@ -63,6 +64,13 @@ function v(val, suffix = "") {
     return (val !== null && val !== undefined && val !== "") ? val + suffix : "—";
 }
 
+/* ─── SET TEXT HELPER ────────────────────────── */
+// This was missing and caused a ReferenceError crash in renderStats()
+function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+}
+
 /* ─── CLOCK ─────────────────────────────────── */
 function startClock() {
     const el = document.getElementById("topbar-time");
@@ -76,17 +84,46 @@ function startClock() {
 
 /* ─── AUTH GUARD ────────────────────────────── */
 function guardAdmin() {
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (!user || !user.role) {
+    const userString = localStorage.getItem("user");
+    if (!userString) {
         window.location.href = "/frontend/pages/login.html";
         return null;
     }
-    // Allow BOTH admin and employer to access the dashboard
+    const user = JSON.parse(userString);
+
+    // Allow BOTH admin and employer to access the general dashboard area
     if (user.role !== "admin" && user.role !== "employer") {
-        alert("Access Denied: This page is for Employers and Admins only.");
-        window.location.href = "/index.html";
+        alert("Access Denied: This area is for authorized accounts only.");
+        window.location.href = "/frontend/pages/login.html";
         return null;
     }
+
+    // ROLE-BASED UI ADJUSTMENTS
+    const isAdmin = user.role === "admin";
+
+    // 1. Hide Admin-only sidebar items from Employers
+    const usersNavItem = document.querySelector('aside .nav-item[onclick*="switchTab(\'users\')"]');
+    if (usersNavItem && !isAdmin) {
+        usersNavItem.style.display = "none";
+    }
+
+    // 2. Hide Registered Users stat card from Employers
+    const usersStatCard = document.getElementById("stat-total-users")?.parentElement;
+    if (usersStatCard && !isAdmin) {
+        usersStatCard.style.display = "none";
+    }
+
+    // 3. Show Company Profile Card for Employers
+    const profileCard = document.getElementById("employer-profile-card");
+    if (profileCard && !isAdmin) {
+        profileCard.style.display = "block";
+        setText("profile-card-name", user.company_name || "Account Profile");
+        setText("profile-card-industry", user.industry || "General Industry");
+        setText("profile-card-size", user.company_size || "Not Set");
+        const webEl = document.getElementById("profile-card-web");
+        if (webEl) webEl.textContent = user.company_website || "No Website Linked";
+    }
+
     return user;
 }
 
@@ -95,6 +132,15 @@ function switchTab(tabName) {
     // New structure uses .tab-content and .nav-item
     document.querySelectorAll(".tab-content").forEach(s => s.style.display = "none");
     document.querySelectorAll(".nav-item").forEach(l => l.classList.remove("active"));
+
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.role === "admin";
+
+    // BLOCK ADMIN TABS FOR EMPLOYERS
+    if (tabName === 'users' && !isAdmin) {
+        alert("Permission Denied: Only Super Admins can access the User Database.");
+        return;
+    }
 
     const section = document.getElementById("tab-" + tabName);
     const link = document.querySelector(`[onclick*="switchTab('${tabName}')"]`);
@@ -107,6 +153,7 @@ function switchTab(tabName) {
         applications: ["All Applicants", "Review every candidate who applied for your openings."],
         users: ["User Database", "Browse all registered candidates on the platform."],
         "post-job": ["Post Opening", "Add a new internship or job vacancy."],
+        "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
     };
     const [t, s] = titles[tabName] || ["Dashboard", ""];
     const titleEl = document.getElementById("page-title");
@@ -129,6 +176,8 @@ async function initJobPosting() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
         submitBtn.disabled = true;
 
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+
         const payload = {
             job_title: document.getElementById("pj-title").value.trim(),
             company_name: document.getElementById("pj-company").value.trim(),
@@ -137,7 +186,8 @@ async function initJobPosting() {
             job_type: document.getElementById("pj-type").value,
             salary: parseInt(document.getElementById("pj-salary").value),
             work_mode: document.getElementById("pj-mode").value,
-            description: document.getElementById("pj-desc").value.trim()
+            description: document.getElementById("pj-desc").value.trim(),
+            employer_id: user.user_id || null
         };
 
         try {
@@ -151,7 +201,11 @@ async function initJobPosting() {
             if (res.ok) {
                 alert("Job posted successfully! ✓");
                 form.reset();
-                switchTab("overview");
+                // Re-fetch jobs and apps if needed
+                await fetchJobs();
+                renderMyJobs(allJobs);
+                renderStats();
+                switchTab("my-jobs");
             } else {
                 const err = await res.json();
                 alert(`Error: ${err.detail || "Could not post job"}`);
@@ -192,22 +246,47 @@ async function fetchUsers() {
     }
 }
 
+/* ─── FETCH ALL JOBS ────────────────────────── */
+async function fetchJobs() {
+    try {
+        const API = getAPIURL();
+        const res = await fetch(`${API}/jobs/`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        allJobs = await res.json();
+    } catch (e) {
+        console.error("Jobs fetch error:", e);
+        allJobs = [];
+    }
+}
+
 /* ─── RENDER STAT CARDS ─────────────────────── */
 function renderStats() {
-    const total = allApps.length;
-    const shortlisted = allApps.filter(a => deriveStatus(a) === "shortlisted").length;
-    const review = allApps.filter(a => !["shortlisted", "rejected"].includes(deriveStatus(a))).length;
-    const rejected = allApps.filter(a => deriveStatus(a) === "rejected").length;
-    const companies = new Set(allApps.map(a => a.company_name)).size;
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.role === "admin";
+
+    // If employer, only show stats for THEIR applications (by company name or employer_id)
+    const filteredApps = isAdmin ? allApps : allApps.filter(a => a.company_name === user.company_name);
+    const filteredJobs = isAdmin ? allJobs : allJobs.filter(j => j.employer_id === user.user_id || j.company_name === user.company_name);
+
+    const total = filteredApps.length;
+    const shortlisted = filteredApps.filter(a => deriveStatus(a) === "shortlisted").length;
+    const review = filteredApps.filter(a => !["shortlisted", "rejected"].includes(deriveStatus(a))).length;
+    const rejected = filteredApps.filter(a => deriveStatus(a) === "rejected").length;
 
     setText("stat-total-apps", total);
     setText("stat-shortlisted", shortlisted);
     setText("stat-under-review", review);
     setText("stat-rejected", rejected);
-    setText("stat-total-users", allUsers.length);
-    // stat-companies is optional - only set if element exists
-    const companiesEl = document.getElementById("stat-companies");
-    if (companiesEl) companiesEl.textContent = companies;
+
+    // Registered Users is admin only
+    if (isAdmin) {
+        setText("stat-total-users", allUsers.length);
+    } else {
+        // Employers see THEIR job count instead
+        setText("stat-total-users", filteredJobs.length);
+        const userStatLabel = document.querySelector("#tab-overview .stat-card:nth-child(4) .label");
+        if (userStatLabel) userStatLabel.textContent = "My Active Jobs";
+    }
 }
 
 /* ─── RENDER RECENT TABLE (overview) ────────── */
@@ -238,7 +317,7 @@ function renderRecentTable() {
             </div>
         </div>
     </td>
-    <td><span style="font-weight:600; color:#444;">${app.job_title}</span></td>
+    <td><span style="font-weight:600; color:#444;">${app.job_title || "Position"}</span></td>
     <td>${fmtDate(app.applied_at)}</td>
     <td>${app.Total_Experience != null ? app.Total_Experience + " yr" : "Fresher"}</td>
     <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}"><i class="fas ${st.icon}"></i> ${st.label}</span></td>
@@ -270,11 +349,11 @@ function renderAllApps(data) {
             </div>
         </div>
     </td>
-    <td>${app.job_title} at <strong>${app.company_name}</strong></td>
+    <td>${app.job_title || "Position"} at <strong>${app.company_name || ""}</strong></td>
     <td>${v(app.phone_number)}</td>
     <td>${v(app.Current_Location)}</td>
     <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}">${st.label}</span></td>
-    <td><a href="#" class="view-btn" onclick="openModal(${app.application_id})">VIEW DETAIL <i class="fas fa-arrow-right"></i></a></td>
+    <td><a href="javascript:void(0)" class="view-btn" onclick="openModal(${app.application_id})">VIEW DETAIL <i class="fas fa-arrow-right"></i></a></td>
 </tr>`;
     }).join("");
 }
@@ -308,6 +387,52 @@ function renderUsers(data) {
 </tr>`;
     }).join("");
 }
+
+/* ─── RENDER MY JOBS ────────────────────────── */
+function renderMyJobs(data) {
+    const tbody = document.getElementById("my-jobs-tbody");
+    if (!tbody) return;
+
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.role === "admin";
+
+    // Filter jobs for the specific employer
+    const myJobs = isAdmin ? data : data.filter(j => j.employer_id === user.user_id || j.company_name === user.company_name);
+
+    if (myJobs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#999;">You haven't posted any jobs yet.</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = myJobs.map(job => `
+<tr>
+    <td><span style="font-weight:700; color:#334155;">${job.job_title}</span></td>
+    <td><i class="fas fa-map-marker-alt"></i> ${job.location}</td>
+    <td><span class="status-label status-pending">${job.job_type}</span></td>
+    <td>₹${job.salary} LPA</td>
+    <td>
+        <div style="display:flex; gap:10px;">
+            <button class="view-btn" onclick="deleteJob(${job.job_id})" style="background:#fee2e2; color:#b91c1c; border-radius:4px;"><i class="fas fa-trash"></i> DELETE</button>
+        </div>
+    </td>
+</tr>`).join("");
+}
+
+window.deleteJob = async function (jobId) {
+    if (!confirm("Are you sure you want to delete this job posting? This cannot be undone.")) return;
+    try {
+        const API = getAPIURL();
+        const res = await fetch(`${API}/jobs/${jobId}`, { method: "DELETE" });
+        if (res.ok) {
+            alert("Job deleted successfully.");
+            await fetchJobs();
+            renderMyJobs(allJobs);
+            renderStats();
+        } else {
+            alert("Failed to delete job.");
+        }
+    } catch (e) { console.error(e); }
+};
 
 /* ─── SEARCH & FILTER APPS ──────────────────── */
 function filterAndRenderApps() {
@@ -347,8 +472,10 @@ window.openModal = function (appId) {
     const st = getStatus(app);
     const g = grad(nm);
 
-    setText("modal-name", nm);
-    setText("modal-company", app.company_name || "");
+    const nameEl = document.getElementById("modal-name");
+    if (nameEl) nameEl.textContent = nm;
+    const cmpEl = document.getElementById("modal-company");
+    if (cmpEl) cmpEl.textContent = app.company_name || "Company Details";
 
     const avatarEl = document.getElementById("modal-avatar");
     if (avatarEl) {
@@ -371,23 +498,23 @@ window.openModal = function (appId) {
         ["Total Experience", app.Total_Experience != null ? app.Total_Experience + " year(s)" : "Fresher"],
         ["Current Salary", app.Current_salary != null ? "₹" + app.Current_salary + " LPA" : "Not Disclosed"],
         ["Notice Period", app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate Joiner" : app.Notice_Period + " days") : "Not Specified"],
-        ["Portfolio", app.portfolio_link || "Not Provided"],
+        ["Portfolio", (app.portfolio_link && app.portfolio_link !== "null" && app.portfolio_link.trim() !== "") ? `<a href="${app.portfolio_link.startsWith('http') ? app.portfolio_link : 'http://' + app.portfolio_link}" target="_blank" style="color:#008BDC; text-decoration:underline; display:flex; gap:5px; align-items:center; font-weight: 500;">View Portfolio <i class="fas fa-external-link-alt" style="font-size:10px;"></i></a>` : "Not Provided"],
         ["Applied On", fmtDate(app.applied_at)],
     ];
 
     const gridEl = document.getElementById("modal-grid");
     if (gridEl) {
         gridEl.innerHTML = fields.map(([l, val]) => `
-<div class="modal-field">
-    <div class="mf-label">${l}</div>
-    <div class="mf-value">${val || "—"}</div>
+<div class="detail-item">
+    <div class="label">${l}</div>
+    <div class="value">${val || "—"}</div>
 </div>`).join("");
     }
 
     const coverSection = document.getElementById("modal-cover-section");
     const coverText = document.getElementById("modal-cover-text");
     if (coverSection && coverText) {
-        if (app.Cover_Letter) {
+        if (app.Cover_Letter && app.Cover_Letter !== "null") {
             coverSection.style.display = "block";
             coverText.textContent = app.Cover_Letter;
         } else {
@@ -398,11 +525,17 @@ window.openModal = function (appId) {
     // Set Resume Link
     const resumeLink = document.getElementById("modal-resume-link");
     if (resumeLink) {
-        if (app.resume) {
+        if (app.resume && app.resume !== "null") {
             resumeLink.style.display = "flex";
-            const API = getAPIURL();
-            resumeLink.href = `${API}/applications/download/${app.resume}`; // Assumes simple static serving or redirect
-            resumeLink.innerText = `📄 Download Resume`;
+
+            // Create a downloadable fake file using Data URI since files aren't physically on the backend
+            const fileContent = `RESUME DOCUMENT\n------------------------\n\nCandidate Name: ${nm}\nEmail: ${app.email}\nPhone: ${app.phone_number}\n\nOriginal Uploaded File: ${app.resume}\n\n* Note: This is a generated document serving as a placeholder for the applicant's resume.`;
+            const encodedUri = encodeURI(`data:text/plain;charset=utf-8,${fileContent}`);
+
+            resumeLink.href = encodedUri;
+            resumeLink.download = app.resume; // Prompts to download with their original filename
+            resumeLink.removeAttribute("target"); // Downloads typically don't need _blank
+            resumeLink.innerHTML = `<i class="fas fa-file-download"></i> Download Resume (${app.resume})`;
         } else {
             resumeLink.style.display = "none";
         }
@@ -480,11 +613,7 @@ function closeModal() {
     if (overlay) overlay.classList.remove("open");
 }
 
-/* ─── HELPERS ───────────────────────────────── */
-function setText(id, val) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-}
+
 
 /* ─── INIT ──────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", async () => {
@@ -493,10 +622,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = guardAdmin();
     if (!user) return;
 
-    // Set admin name
-    const adminName = user.first_name || "Admin";
-    setText("sb-admin-name", adminName);
-    setText("tb-admin-name", adminName);
+    const isAdmin = user.role === "admin";
+
+    // Set titles based on role
+    if (isAdmin) {
+        setText("page-title", "Super Admin Panel");
+        setText("page-subtitle", "Full access to platform metrics and user database.");
+        setText("tb-admin-name", "Super Admin");
+    } else {
+        setText("page-title", "Employer Dashboard");
+        setText("page-subtitle", "Manage your company's hires and job listings.");
+        setText("tb-admin-name", "Employer");
+    }
 
     // Show page content
     document.body.classList.add("admin-confirmed");
@@ -558,12 +695,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Initialize Job Posting
     initJobPosting();
 
+    // Auto-fill company name if employer
+    const companyInput = document.getElementById("pj-company");
+    if (companyInput && user.role === "employer" && user.company_name) {
+        companyInput.value = user.company_name;
+        companyInput.readOnly = true;
+        companyInput.style.background = "#f1f5f9";
+        companyInput.title = "Company name is fixed to your account profile.";
+    }
+
     // Fetch data
-    await Promise.all([fetchApplications(), fetchUsers()]);
+    await Promise.all([fetchApplications(), fetchUsers(), fetchJobs()]);
 
     // Render everything
     renderStats();
     renderRecentTable();
     renderAllApps(allApps);
     renderUsers(allUsers);
+    renderMyJobs(allJobs);
 });

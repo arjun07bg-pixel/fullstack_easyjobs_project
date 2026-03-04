@@ -35,6 +35,7 @@ class JobBase(BaseModel):
     job_type: Optional[str] = None
     salary: Optional[int] = None
     work_mode: Optional[str] = None
+    employer_id: Optional[int] = None
 
 
 # ---------------- CREATE ----------------
@@ -52,6 +53,7 @@ class JobUpdate(BaseModel):
     job_type: Optional[str] = None
     salary: Optional[int] = None
     work_mode: Optional[str] = None
+    employer_id: Optional[int] = None
 
 
 # ---------------- RESPONSE ----------------

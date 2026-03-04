@@ -27,6 +27,11 @@ class User(Base):
     gender = Column(String(20), nullable=True)
     dob = Column(String(50), nullable=True)
     designation = Column(String(100), nullable=True)
+    # Employer-specific fields
+    company_name = Column(String(200), nullable=True)
+    company_size = Column(String(50), nullable=True)   # e.g. "1-10", "11-50", "51-200", etc.
+    industry = Column(String(100), nullable=True)
+    company_website = Column(String(255), nullable=True)
 
 
 

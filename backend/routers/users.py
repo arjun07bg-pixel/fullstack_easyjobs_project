@@ -41,7 +41,13 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         password=hashed_password,
         phone_number=user.phone_number,
         role=user.role,
-        image=user.image or ""
+        image=user.image or "",
+        bio=user.bio or "",
+        designation=user.designation or "",
+        company_name=user.company_name,
+        company_size=user.company_size,
+        industry=user.industry,
+        company_website=user.company_website
     )
 
     db.add(new_user)

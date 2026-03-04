@@ -17,7 +17,8 @@
             <div class="image-content">
                 <div class="illustration"></div>
                 <h2>Join Easy Jobs Today</h2>
-                <p>Connect with thousands of employers and discover your perfect career opportunity</p>
+                <p id="imageSubtitle">Connect with thousands of employers and discover your perfect career opportunity
+                </p>
             </div>
         </div>
 
@@ -29,7 +30,7 @@
 
                 <div class="signup-header">
                     <h2>Create Account</h2>
-                    <p>Start your journey to find the perfect job</p>
+                    <p id="formSubtitle">Start your journey to find the perfect job</p>
                 </div>
 
                 <div id="registerForm">
@@ -75,9 +76,69 @@
                         </select>
                     </div>
 
+                    <!-- ===== EMPLOYER-SPECIFIC FIELDS (hidden by default) ===== -->
+                    <div id="employerFields" class="employer-section">
+                        <div class="employer-section-title">
+                            <span class="employer-icon">&#127970;</span>
+                            <span>Company Details</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company_name">Company Name <span class="required-star">*</span></label>
+                            <input type="text" id="company_name" name="company_name"
+                                placeholder="Enter your company name">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="industry">Industry <span class="required-star">*</span></label>
+                                <select id="industry" name="industry">
+                                    <option value="">Select industry</option>
+                                    <option value="IT & Software">IT &amp; Software</option>
+                                    <option value="Finance & Banking">Finance &amp; Banking</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Retail & E-commerce">Retail &amp; E-commerce</option>
+                                    <option value="Marketing & Advertising">Marketing &amp; Advertising</option>
+                                    <option value="Construction & Real Estate">Construction &amp; Real Estate</option>
+                                    <option value="Hospitality & Tourism">Hospitality &amp; Tourism</option>
+                                    <option value="Media & Entertainment">Media &amp; Entertainment</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="company_size">Company Size <span class="required-star">*</span></label>
+                                <select id="company_size" name="company_size">
+                                    <option value="">Select size</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="501-1000">501-1000 employees</option>
+                                    <option value="1000+">1000+ employees</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="designation">Your Designation <span class="required-star">*</span></label>
+                            <input type="text" id="designation" name="designation"
+                                placeholder="e.g. HR Manager, CEO, Recruiter">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company_website">Company Website <span
+                                    class="optional-label">(Optional)</span></label>
+                            <input type="url" id="company_website" name="company_website"
+                                placeholder="https://yourcompany.com">
+                        </div>
+                    </div>
+                    <!-- ===== END EMPLOYER FIELDS ===== -->
+
                     <label class="terms-checkbox">
                         <input type="checkbox" id="terms" name="terms">
-                        <span>I agree to the <a href="terms">Terms & Conditions</a> and <a href="privacy">Privacy
+                        <span>I agree to the <a href="terms">Terms &amp; Conditions</a> and <a href="privacy">Privacy
                                 Policy</a></span>
                     </label>
 
@@ -93,8 +154,9 @@
                 </div>
             </div>
         </div>
-        <script src="/frontend/javascript/index.js"></script>
-        <script src="/frontend/javascript/register.js"></script>
+    </div>
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/register.js"></script>
 </body>
 
 </html>

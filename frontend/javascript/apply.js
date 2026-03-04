@@ -1,5 +1,5 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + window.location.hostname + ":8000/api"; };
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); if (window.location.port === "8000") return window.location.origin + "/api"; return "http://" + (window.location.hostname || "127.0.0.1") + ":8000/api"; };
 
 document.addEventListener("DOMContentLoaded", async () => {
     const applyForm = document.getElementById("applyForm");
@@ -13,6 +13,68 @@ document.addEventListener("DOMContentLoaded", async () => {
     const user = userString ? JSON.parse(userString) : null;
 
     let currentJobDetails = null;
+
+    // ── EMPLOYER BLOCK: Employers cannot apply for jobs ──────────────────────
+    if (user && (user.role === "employer" || user.role === "admin")) {
+        // Hide the apply form completely
+        if (applyForm) applyForm.style.display = "none";
+
+        // Show a styled block message in place of the form
+        const sidebar = document.querySelector(".sidebar");
+        if (sidebar) {
+            sidebar.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #fff7ed, #fef3c7);
+                    border: 2px solid #f59e0b;
+                    border-radius: 16px;
+                    padding: 2rem;
+                    text-align: center;
+                    box-shadow: 0 8px 24px rgba(245,158,11,0.15);
+                ">
+                    <div style="font-size: 3.5rem; margin-bottom: 1rem;">🏢</div>
+                    <h3 style="color: #92400e; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
+                        Employers Cannot Apply for Jobs
+                    </h3>
+                    <p style="color: #78350f; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+                        You are logged in as an <strong>Employer</strong>.<br>
+                        Employers can <strong>post jobs</strong> and <strong>review applications</strong>,
+                        but cannot apply for positions.
+                    </p>
+                    <a href="/frontend/pages/dashboard.html" style="
+                        display: inline-block;
+                        background: linear-gradient(135deg, #f59e0b, #d97706);
+                        color: white;
+                        padding: 0.75rem 2rem;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        margin-bottom: 0.75rem;
+                        transition: transform 0.2s;
+                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#128203; Go to Dashboard</a>
+                    <br>
+                    <a href="/frontend/pages/Postjob_home.html" style="
+                        display: inline-block;
+                        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+                        color: white;
+                        padding: 0.75rem 2rem;
+                        border-radius: 8px;
+                        text-decoration: none;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                        margin-top: 0.5rem;
+                        transition: transform 0.2s;
+                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#10010; Post a New Job</a>
+                    <p style="margin-top: 1.25rem; font-size: 0.8rem; color: #92400e;">
+                        Not an employer? <a href="/frontend/pages/login.html" style="color: #d97706; font-weight:600;">Login as Job Seeker</a>
+                    </p>
+                </div>
+            `;
+        }
+        console.warn("⛔ Employer account blocked from applying for jobs.");
+        return; // Stop all further execution for employers
+    }
+    // ── END EMPLOYER BLOCK ───────────────────────────────────────────────────
 
     if (window.jobContext && !jobId) {
         console.log("📝 Using job context from window.jobContext");
@@ -28,8 +90,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (document.getElementById("location") && user.location) document.getElementById("location").value = user.location;
         if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
         if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
-
-        // If user already has a resume_url, we could ideally show it, but for now let's just pre-fill text fields
     }
 
     // UI elements to fill
