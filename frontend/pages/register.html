@@ -33,43 +33,44 @@
                     <p id="formSubtitle">Start your journey to find the perfect job</p>
                 </div>
 
-                <div id="registerForm">
+                <form id="registerForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="firstname">First Name</label>
-                            <input type="text" id="firstname" name="firstname" placeholder="First name">
+                            <label for="firstname">First Name <span class="required-star">*</span></label>
+                            <input type="text" id="firstname" name="firstname" placeholder="First name" required>
                         </div>
                         <div class="form-group">
-                            <label for="lastname">Last Name</label>
-                            <input type="text" id="lastname" name="lastname" placeholder="Last name">
+                            <label for="lastname">Last Name <span class="required-star">*</span></label>
+                            <input type="text" id="lastname" name="lastname" placeholder="Last name" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email">
+                        <label for="email">Email Address <span class="required-star">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                        <label for="phone">Phone Number <span class="required-star">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="Create password">
+                            <label for="password">Password <span class="required-star">*</span></label>
+                            <input type="password" id="password" name="password" placeholder="Create password" required
+                                minlength="6">
                         </div>
                         <div class="form-group">
-                            <label for="confirmpassword">Confirm Password</label>
+                            <label for="confirmpassword">Confirm Password <span class="required-star">*</span></label>
                             <input type="password" id="confirmpassword" name="confirmpassword"
-                                placeholder="Confirm password">
+                                placeholder="Confirm password" required minlength="6">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="usertype">I am a</label>
-                        <select id="usertype" name="usertype">
+                        <label for="usertype">I am a <span class="required-star">*</span></label>
+                        <select id="usertype" name="usertype" required>
                             <option value="">Select user type</option>
                             <option value="jobseeker">Job Seeker</option>
                             <option value="employer">Employer</option>
@@ -137,13 +138,13 @@
                     <!-- ===== END EMPLOYER FIELDS ===== -->
 
                     <label class="terms-checkbox">
-                        <input type="checkbox" id="terms" name="terms">
+                        <input type="checkbox" id="terms" name="terms" required>
                         <span>I agree to the <a href="terms">Terms &amp; Conditions</a> and <a href="privacy">Privacy
                                 Policy</a></span>
                     </label>
 
-                    <button type="button" id="createAccountBtn" class="signup-btn">Create Account</button>
-                </div>
+                    <button type="submit" id="createAccountBtn" class="signup-btn">Create Account</button>
+                </form>
 
                 <div class="divider">
                     <span>OR SIGN UP WITH</span>

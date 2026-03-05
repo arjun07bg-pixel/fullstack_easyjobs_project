@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
  
 app = FastAPI(
-    title="EasyJobs Professional API",
+    title="EasyJobs API",
     
     version="2.0.0",
     contact={
