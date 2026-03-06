@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
@@ -15,9 +15,9 @@ def filter_jobs(
     keyword: Optional[str] = None,
     location: Optional[str] = None,
     experience_level: Optional[int] = None,
-    job_type: Optional[str] = None,
+    job_type: Optional[List[str]] = Query(None),
     salary_range: Optional[int] = None,
-    work_mode: Optional[str] = None,
+    work_mode: Optional[List[str]] = Query(None),
     skip: int = 0,
     limit: int = 50,
     db: Session = Depends(get_db)
@@ -25,17 +25,22 @@ def filter_jobs(
     query = db.query(Job)
 
     if experience_level:
-        query = query.filter(Job.experience_level == experience_level)
+        query = query.filter(Job.experience_level >= experience_level)
     if job_type:
-        query = query.filter(Job.job_type == job_type)
+        query = query.filter(Job.job_type.in_(job_type))
     if location:
         query = query.filter(Job.location.ilike(f"%{location}%"))
     if keyword:
-        query = query.filter(Job.job_title.ilike(f"%{keyword}%") | Job.description.ilike(f"%{keyword}%"))
+        query = query.filter(
+            Job.job_title.ilike(f"%{keyword}%") | 
+            Job.description.ilike(f"%{keyword}%") |
+            Job.company_name.ilike(f"%{keyword}%") |
+            Job.location.ilike(f"%{keyword}%")
+        )
     if salary_range:
         query = query.filter(Job.salary <= salary_range)
     if work_mode:
-        query = query.filter(Job.work_mode == work_mode)
+        query = query.filter(Job.work_mode.in_(work_mode))
     
     
 

@@ -2217,70 +2217,8 @@
         </footer>
 
         <script src="/frontend/javascript/index.js"></script>
-        <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                        const profileFilter = document.getElementById("filter-profile");
-                        const locationFilter = document.getElementById("filter-location");
-                        const wfhFilter = document.getElementById("filter-wfh");
-                        const partTimeFilter = document.getElementById("filter-part-time");
-                        const stipendFilter = document.getElementById("filter-stipend");
-                        const clearBtn = document.getElementById("clear-filters");
-                        const cards = document.querySelectorAll(".is-card");
-                        const headingCount = document.querySelector(".is-heading h1");
-
-                        function applyFilters() {
-                                const profile = (profileFilter?.value || "").toLowerCase();
-                                const location = (locationFilter?.value || "").toLowerCase();
-                                const minStipend = parseInt(stipendFilter?.value || "0");
-                                const isWFH = wfhFilter?.checked;
-                                const isPartTime = partTimeFilter?.checked;
-
-                                let visibleCount = 0;
-                                cards.forEach(card => {
-                                        const title = card.querySelector(".is-title").innerText.toLowerCase();
-                                        const company = card.querySelector(".is-company").innerText.toLowerCase();
-                                        const locText = card.querySelector(".is-location")?.innerText.toLowerCase() || "";
-
-                                        let stipendVal = 0;
-                                        card.querySelectorAll(".detail-item").forEach(item => {
-                                                if (item.innerText.includes("STIPEND")) {
-                                                        const valText = item.querySelector(".detail-value").innerText;
-                                                        stipendVal = parseInt(valText.replace(/[^0-9]/g, "")) || 0;
-                                                }
-                                        });
-
-                                        const matchesProfile = !profile || title.includes(profile) || company.includes(profile);
-                                        const matchesLocation = !location || locText.includes(location);
-                                        const matchesStipend = stipendVal >= minStipend;
-                                        const tags = Array.from(card.querySelectorAll(".is-tag")).map(t => t.innerText.toLowerCase());
-                                        const matchesWFH = !isWFH || tags.some(t => t.includes("home") || t.includes("remote") || locText.includes("home") || locText.includes("remote"));
-                                        const matchesPartTime = !isPartTime || tags.some(t => t.includes("part"));
-
-                                        if (matchesProfile && matchesLocation && matchesStipend && matchesWFH && matchesPartTime) {
-                                                card.style.display = "block";
-                                                visibleCount++;
-                                        } else {
-                                                card.style.display = "none";
-                                        }
-                                });
-                                if (headingCount) headingCount.innerText = `${visibleCount.toLocaleString()}+ internships matching your choice`;
-                        }
-
-                        if (profileFilter) profileFilter.addEventListener("input", applyFilters);
-                        if (locationFilter) locationFilter.addEventListener("input", applyFilters);
-                        if (wfhFilter) wfhFilter.addEventListener("change", applyFilters);
-                        if (partTimeFilter) partTimeFilter.addEventListener("change", applyFilters);
-                        if (stipendFilter) stipendFilter.addEventListener("change", applyFilters);
-                        if (clearBtn) clearBtn.addEventListener("click", () => {
-                                profileFilter.value = ""; locationFilter.value = ""; wfhFilter.checked = false; partTimeFilter.checked = false; stipendFilter.value = "0"; applyFilters();
-                        });
-
-                        const urlParams = new URLSearchParams(window.location.search);
-                        if (urlParams.get("keyword")) profileFilter.value = urlParams.get("keyword");
-                        if (urlParams.get("location")) locationFilter.value = urlParams.get("location");
-                        applyFilters();
-                });
-        </script>
+        <script src="/frontend/javascript/navbar_manager.js"></script>
+        <script src="/frontend/javascript/internship.js"></script>
 </body>
 
 </html>

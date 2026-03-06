@@ -59,8 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("user", JSON.stringify(data));
 
                     // Admin OR Employer → dashboard, others → home
-                    if (data.role === "admin" || data.role === "employer") {
+                    // Admin → dashboard, Employer → post job, others → home
+                    if (data.role === "admin") {
                         window.location.href = "/frontend/pages/dashboard.html";
+                    } else if (data.role === "employer") {
+                        window.location.href = "/frontend/pages/Postjob_home.html";
                     } else {
                         window.location.href = "/index.html";
                     }

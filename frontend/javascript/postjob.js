@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userString = localStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
     const isEmployer = user && (user.role === "employer" || user.role === "admin");
+    const isAdmin = user && user.role === "admin";
 
     const landing = document.getElementById("employer-landing");
     const formContainer = document.getElementById("job-form-container");
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isEmployer) {
         if (formContainer) formContainer.style.display = "block";
         if (landing) landing.style.display = "none";
-        if (dashLink) dashLink.style.display = "inline-block";
+        if (dashLink) dashLink.style.display = isAdmin ? "inline-block" : "none";
         if (authBtns) authBtns.style.display = "none";
 
         // Auto-fill company name
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const originalBtnHtml = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Publishing...</span>';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Publishing Job...</span>';
 
             try {
                 const API_BASE_URL = getAPIURL();
@@ -63,18 +64,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 if (response.ok) {
-                    alert("Success! Your job has been posted successfully. ✓");
-                    window.location.href = "/frontend/pages/dashboard.html"; // Redirect to dashboard to see the job
+                    // Show custom success message
+                    if (typeof showMessage === 'function') {
+                        showMessage("Job Posted Successfully! ✓\nவேலை வெற்றிகரமாக பதிவிடப்பட்டது! ✓", "success");
+                    } else {
+                        alert("Job Posted Successfully! ✓");
+                    }
+
+                    // Replace form with success card for better understanding
+                    if (formContainer) {
+                        formContainer.innerHTML = `
+                            <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                                <div style="width: 80px; height: 80px; background: #dcfce7; color: #16a34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 25px;">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <h2 style="color: #1e293b; margin-bottom: 10px;">Job Published Live!</h2>
+                                <p style="color: #64748b; margin-bottom: 30px; line-height: 1.6;">
+                                    Your job opportunity for <strong>${formData.job_title}</strong> is now live on EasyJobs.<br>
+                                    யூசர்கள் இப்போது உங்கள் வேலையைப் பார்க்க முடியும்.
+                                </p>
+                                <div style="display: flex; gap: 15px; justify-content: center;">
+                                    <button onclick="window.location.reload()" class="btn-register" style="padding: 12px 25px; border-radius: 50px;">Post Another Job</button>
+                                    <a href="${isAdmin ? '/frontend/pages/dashboard.html' : '/index.html'}" class="btn-login" style="padding: 12px 25px; border-radius: 50px; text-decoration: none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
+                                </div>
+                            </div>
+                        `;
+                    }
                 } else {
                     const errorData = await response.json();
-                    alert(`Failed to post job: ${errorData.detail || "Server error occurred"}`);
+                    const detail = errorData.detail || "Server error";
+                    if (typeof showMessage === 'function') {
+                        showMessage(`Failed to post: ${detail}\nவேலை பதிவிடுவதில் பிழை ஏற்பட்டது.`, "error");
+                    } else {
+                        alert(`Failed: ${detail}`);
+                    }
                 }
             } catch (error) {
                 console.error("Post job error:", error);
-                alert("Network error. Please ensure the backend is running.");
+                if (typeof showMessage === 'function') {
+                    showMessage("Network Error. Ensure backend is running.\nஇணைய பிழை. சர்வர் ஓடுகிறதா என்று பார்க்கவும்.", "error");
+                } else {
+                    alert("Network error.");
+                }
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnHtml;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
             }
         });
     }

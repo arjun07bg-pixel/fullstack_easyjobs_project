@@ -4,14 +4,14 @@ const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAP
 document.addEventListener("DOMContentLoaded", async () => {
     const jobList = document.querySelector(".job-grid") || document.querySelector(".job-list");
 
-    const path = window.location.pathname;
+    const path = window.location.pathname.toLowerCase();
     let category = "";
-    if (path.includes("IT_software")) category = "software";
-    if (path.includes("sales&marketing")) category = "marketing";
-    if (path.includes("Finance&accounting")) category = "finance";
-    if (path.includes("Engineering")) category = "engineering";
+    if (path.includes("it_software")) category = "software";
+    if (path.includes("sales_marketing") || path.includes("sales&marketing")) category = "marketing";
+    if (path.includes("finance_accounting") || path.includes("finance&accounting")) category = "finance";
+    if (path.includes("engineering")) category = "engineering";
 
-    console.log(`Connecting category page: ${category}`);
+    console.log(`Connecting category page: ${category} for path: ${path}`);
 
     const cleanDescription = (text) => {
         if (!text) return "Explore this opportunity and grow your career with us.";
@@ -81,12 +81,26 @@ document.addEventListener("DOMContentLoaded", async () => {
                             if (res.ok) {
                                 saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
                                 saveBtn.style.color = "#2563eb";
-                                showMessage("Job saved successfully! ✓\nவேலை வெற்றிகரமாக சேமிக்கப்பட்டது!", "success");
+                                if (typeof showMessage === 'function') {
+                                    showMessage("Job saved successfully! ✓\nவேலை வெற்றிகரமாக சேமிக்கப்பட்டது!", "success");
+                                } else {
+                                    alert("Job saved successfully! ✓");
+                                }
                             } else {
                                 const err = await res.json();
-                                showMessage(err.detail || "Error saving job.", "info");
+                                if (typeof showMessage === 'function') {
+                                    showMessage(err.detail || "Error saving job.", "info");
+                                } else {
+                                    alert(err.detail || "Error saving job.");
+                                }
                             }
-                        } catch (err) { showMessage("Network error.", "error"); }
+                        } catch (err) {
+                            if (typeof showMessage === 'function') {
+                                showMessage("Network error.", "error");
+                            } else {
+                                alert("Network error.");
+                            }
+                        }
                     });
 
                     jobList.prepend(article);
