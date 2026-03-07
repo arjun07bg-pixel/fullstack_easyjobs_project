@@ -210,15 +210,33 @@
     </section>
 
     <!-- Employer CTA Section -->
-    <section class="employer-cta">
-        <div class="container cta-box">
-            <div class="cta-text">
-                <h2>Are You an Employer?</h2>
-                <p>Post your vacancies and connect with
-                    verified candidates instantly.</p>
+    <section class="employer-cta" style="padding: 100px 0; background: #2563eb;">
+        <div class="container">
+            <div class="cta-box"
+                style="background: #0f172a; border-radius: 30px; padding: 60px; display: flex; align-items: center; justify-content: space-between; gap: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); position: relative; overflow: hidden;">
+                <!-- Decorative element -->
+                <div
+                    style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(37, 99, 235, 0.1); border-radius: 50%;">
+                </div>
+
+                <div class="cta-text" style="flex: 1; position: relative; z-index: 1;">
+                    <h2 style="font-size: 2.5rem; color: white; margin-bottom: 15px; font-weight: 700;">Are You an
+                        Employer?</h2>
+                    <p style="font-size: 1.2rem; color: #94a3b8; line-height: 1.6; max-width: 500px;">
+                        Post your vacancies, connect with verified candidates instantly, and build your dream team
+                        today.
+                    </p>
+                </div>
+
+                <div style="position: relative; z-index: 1;">
+                    <a href="/frontend/pages/Postjob_home.html" class="btn-employer"
+                        style="background: #10b981; color: white; padding: 20px 45px; border-radius: 50px; font-size: 1.2rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);"
+                        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 15px 30px rgba(16, 185, 129, 0.3)';"
+                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 20px rgba(16, 185, 129, 0.2)';">
+                        Post a Job <i class="fas fa-paper-plane"></i>
+                    </a>
+                </div>
             </div>
-            <a href="/frontend/pages/Postjob_home.html" class="btn-employer">Post a Job <i
-                    class="fas fa-paper-plane"></i></a>
         </div>
     </section>
 

@@ -101,17 +101,7 @@ function guardAdmin() {
     // ROLE-BASED UI ADJUSTMENTS
     const isAdmin = user.role === "admin";
 
-    // 1. Hide Admin-only sidebar items from Employers
-    const usersNavItem = document.querySelector('aside .nav-item[onclick*="switchTab(\'users\')"]');
-    if (usersNavItem && !isAdmin) {
-        usersNavItem.style.display = "none";
-    }
 
-    // 2. Hide Registered Users stat card from Employers
-    const usersStatCard = document.getElementById("stat-total-users")?.parentElement;
-    if (usersStatCard && !isAdmin) {
-        usersStatCard.style.display = "none";
-    }
 
     // 3. Show Company Profile Card for Employers
     const profileCard = document.getElementById("employer-profile-card");
@@ -136,11 +126,7 @@ function switchTab(tabName) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const isAdmin = user.role === "admin";
 
-    // BLOCK ADMIN TABS FOR EMPLOYERS
-    if (tabName === 'users' && !isAdmin) {
-        alert("Permission Denied: Only Super Admins can access the User Database.");
-        return;
-    }
+
 
     const section = document.getElementById("tab-" + tabName);
     const link = document.querySelector(`[onclick*="switchTab('${tabName}')"]`);
@@ -151,7 +137,7 @@ function switchTab(tabName) {
     const titles = {
         overview: ["Recruiter Dashboard", "Manage your hires and internship listings."],
         applications: ["All Applicants", "Review every candidate who applied for your openings."],
-        users: ["User Database", "Browse all registered candidates on the platform."],
+
         "post-job": ["Post Opening", "Add a new internship or job vacancy."],
         "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
     };
@@ -233,18 +219,7 @@ async function fetchApplications() {
     }
 }
 
-/* ─── FETCH ALL USERS ───────────────────────── */
-async function fetchUsers() {
-    try {
-        const API = getAPIURL();
-        const res = await fetch(`${API}/users/`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        allUsers = await res.json();
-    } catch (e) {
-        console.error("Users fetch error:", e);
-        allUsers = [];
-    }
-}
+
 
 /* ─── FETCH ALL JOBS ────────────────────────── */
 async function fetchJobs() {
@@ -280,12 +255,15 @@ function renderStats() {
 
     // Registered Users is admin only
     if (isAdmin) {
-        setText("stat-total-users", allUsers.length);
+        // setText("stat-total-users", allUsers.length); // Removed
     } else {
         // Employers see THEIR job count instead
-        setText("stat-total-users", filteredJobs.length);
         const userStatLabel = document.querySelector("#tab-overview .stat-card:nth-child(4) .label");
-        if (userStatLabel) userStatLabel.textContent = "My Active Jobs";
+        if (userStatLabel) {
+            userStatLabel.textContent = "My Active Jobs";
+            const valEl = userStatLabel.nextElementSibling;
+            if (valEl) valEl.textContent = filteredJobs.length;
+        }
     }
 }
 
@@ -359,34 +337,7 @@ function renderAllApps(data) {
 }
 
 /* ─── RENDER USERS TABLE ────────────────────── */
-function renderUsers(data) {
-    const tbody = document.getElementById("users-tbody");
-    if (!tbody) return;
 
-    if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:#999;">No users found.</td></tr>`;
-        return;
-    }
-
-    tbody.innerHTML = data.map((u, i) => {
-        const nm = `${u.first_name || ""} ${u.last_name || ""}`.trim() || "User";
-        return `
-<tr>
-    <td>
-        <div class="candidate-info">
-            <div class="cand-avatar">${nm[0]}</div>
-            <div class="cand-details">
-                <span class="name">${nm}</span>
-            </div>
-        </div>
-    </td>
-    <td>${v(u.email)}</td>
-    <td><span class="status-label ${u.role === 'admin' ? 'status-shortlisted' : 'status-pending'}">${u.role || "user"}</span></td>
-    <td>${v(u.location)}</td>
-    <td>${v(u.skills)}</td>
-</tr>`;
-    }).join("");
-}
 
 /* ─── RENDER MY JOBS ────────────────────────── */
 function renderMyJobs(data) {
@@ -454,14 +405,7 @@ function filterAndRenderApps() {
 }
 
 /* ─── SEARCH USERS ──────────────────────────── */
-function filterUsers() {
-    const q = (document.getElementById("user-search")?.value || "").toLowerCase();
-    const filtered = allUsers.filter(u => {
-        const nm = `${u.first_name || ""} ${u.last_name || ""}`.toLowerCase();
-        return !q || nm.includes(q) || (u.email || "").toLowerCase().includes(q);
-    });
-    renderUsers(filtered);
-}
+
 
 /* ─── MODAL ─────────────────────────────────── */
 window.openModal = function (appId) {
@@ -686,11 +630,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("status-filter")?.addEventListener("change", filterAndRenderApps);
 
-    let userTimer;
-    document.getElementById("user-search")?.addEventListener("input", () => {
-        clearTimeout(userTimer);
-        userTimer = setTimeout(filterUsers, 250);
-    });
+
 
     // Initialize Job Posting
     initJobPosting();
@@ -705,12 +645,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Fetch data
-    await Promise.all([fetchApplications(), fetchUsers(), fetchJobs()]);
+    await Promise.all([fetchApplications(), fetchJobs()]);
 
     // Render everything
     renderStats();
     renderRecentTable();
     renderAllApps(allApps);
-    renderUsers(allUsers);
+
     renderMyJobs(allJobs);
 });

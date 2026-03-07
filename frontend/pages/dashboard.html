@@ -44,9 +44,7 @@
             <a href="#" class="nav-item" onclick="switchTab('my-jobs')">
                 <i class="fas fa-list-alt"></i> Manage My Jobs
             </a>
-            <a href="#" class="nav-item" onclick="switchTab('users')">
-                <i class="fas fa-users"></i> User Database
-            </a>
+
         </nav>
 
 
@@ -121,10 +119,7 @@
                     <div class="label">Pending Review</div>
                     <div class="value" id="stat-under-review" style="color: #1976d2;">0</div>
                 </div>
-                <div class="stat-card">
-                    <div class="label">Registered Users</div>
-                    <div class="value" id="stat-total-users">0</div>
-                </div>
+
             </div>
 
             <!-- Recent Applicants Table -->
@@ -184,32 +179,7 @@
             </div>
         </div>
 
-        <!-- Users Tab -->
-        <div id="tab-users" class="tab-content" style="display:none;">
-            <div class="table-card">
-                <div class="card-header">
-                    <h2>User Directory (Login Details)</h2>
-                    <input type="text" id="user-search" placeholder="Search by name or email..."
-                        style="padding: 8px; border: 1px solid #eee; border-radius: 4px;">
-                </div>
-                <div class="table-container">
-                    <table class="recruiter-table">
-                        <thead>
-                            <tr>
-                                <th>USER NAME</th>
-                                <th>EMAIL</th>
-                                <th>ROLE</th>
-                                <th>LOCATION</th>
-                                <th>SKILLS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-tbody">
-                            <!-- Dynamic rows -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
 
         <!-- My Jobs Tab -->
         <div id="tab-my-jobs" class="tab-content" style="display:none;">

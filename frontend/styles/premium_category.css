@@ -286,6 +286,30 @@ body {
     font-size: 0.9rem;
 }
 
+.save-job-btn {
+    position: absolute;
+    top: 75px;
+    right: 25px;
+    background: #f1f5f9;
+    border: none;
+    color: var(--slate-400);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: 0.3s;
+}
+
+.save-job-btn:hover {
+    background: var(--primary-blue);
+    color: white;
+    transform: scale(1.1);
+}
+
 .job-card-tag {
     position: absolute;
     top: 20px;

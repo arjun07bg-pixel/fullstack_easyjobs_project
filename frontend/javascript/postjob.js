@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     // Show custom success message
                     if (typeof showMessage === 'function') {
-                        showMessage("Job Posted Successfully! ✓\nவேலை வெற்றிகரமாக பதிவிடப்பட்டது! ✓", "success");
+                        showMessage("Job Posted Successfully! ✓", "success");
                     } else {
                         alert("Job Posted Successfully! ✓");
                     }
@@ -80,8 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                                 <h2 style="color: #1e293b; margin-bottom: 10px;">Job Published Live!</h2>
                                 <p style="color: #64748b; margin-bottom: 30px; line-height: 1.6;">
-                                    Your job opportunity for <strong>${formData.job_title}</strong> is now live on EasyJobs.<br>
-                                    யூசர்கள் இப்போது உங்கள் வேலையைப் பார்க்க முடியும்.
+                                    Your job opportunity for <strong>${formData.job_title}</strong> is now live on EasyJobs.
                                 </p>
                                 <div style="display: flex; gap: 15px; justify-content: center;">
                                     <button onclick="window.location.reload()" class="btn-register" style="padding: 12px 25px; border-radius: 50px;">Post Another Job</button>
@@ -94,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const errorData = await response.json();
                     const detail = errorData.detail || "Server error";
                     if (typeof showMessage === 'function') {
-                        showMessage(`Failed to post: ${detail}\nவேலை பதிவிடுவதில் பிழை ஏற்பட்டது.`, "error");
+                        showMessage(`Failed to post: ${detail}`, "error");
                     } else {
                         alert(`Failed: ${detail}`);
                     }
@@ -102,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (error) {
                 console.error("Post job error:", error);
                 if (typeof showMessage === 'function') {
-                    showMessage("Network Error. Ensure backend is running.\nஇணைய பிழை. சர்வர் ஓடுகிறதா என்று பார்க்கவும்.", "error");
+                    showMessage("Network Error. Ensure backend is running.", "error");
                 } else {
                     alert("Network error.");
                 }
