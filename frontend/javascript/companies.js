@@ -3,7 +3,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".search-box input");
+    const searchInput = document.querySelector("#company-search") || document.querySelector(".search-box input");
     const cards = document.querySelectorAll(".company-card");
     const grid = document.querySelector(".companies-grid");
 

@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazon Job Openings</title>
+    <title>Amazon Jobs 2026 - EasyJobs</title>
+    <meta name="description" content="Explore 289 open positions at Amazon. Apply for jobs in E-commerce, AWS, and Logistics Technology on EasyJobs.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/top-companies_style.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
-
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
-
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb"/>
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
                     <li><a href="/frontend/pages/companies.html" class="nav-link active">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
-            
-
-
-            <div class="auth-buttons">
+            <div class="auth-buttons" id="auth-buttons">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
+
     <div class="header-banner amazon-bg">
         <div class="banner-content">
-            <div class="logo-large amazon-logo-text">A</div>
+            <div class="logo-large">A</div>
             <h1>Amazon Careers</h1>
-            <p>289 Open Positions in E-commerce, AWS, and Logistics across multiple locations.</p>
+            <p>289 Open Positions in E-commerce, AWS, and Logistics Technology.</p>
         </div>
+    </div>
+
+    <div class="breadcrumb" style="max-width:1200px; margin:20px auto 0; padding:0 25px; font-size:14px; color:#64748b;">
+        <a href="/frontend/pages/companies.html" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:8px;"><i class="fas fa-chevron-left"></i> Back to Companies</a>
+        <span style="margin:0 10px;">/</span>
+        <span style="color:#0f172a; font-weight:500;">Job Openings</span>
     </div>
 
     <div class="main-container">
@@ -50,132 +62,215 @@
             <div class="filter-section">
                 <h4>Location</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Bangalore (150)</label>
-                    <label><input type="checkbox"> Hyderabad (80)</label>
-                    <label><input type="checkbox"> Chennai (59)</label>
+                    <label><input type="checkbox" value="hyderabad"> Hyderabad</label>
+                    <label><input type="checkbox" value="bangalore"> Bangalore</label>
+                    <label><input type="checkbox" value="noida"> Noida</label>
+                    <label><input type="checkbox" value="chennai"> Chennai</label>
+                    <label><input type="checkbox" value="pune"> Pune</label>
+                    <label><input type="checkbox" value="mumbai"> Mumbai</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
                 </div>
             </div>
-
-
-
-
-            <div class="filter-section">
-                <h4>Job Type</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Full-Time</label>
-                    <label><input type="checkbox"> Part-Time</label>
-                    <label><input type="checkbox"> Contract</label>
-                </div>
-            </div>
-
             <div class="filter-section">
                 <h4>Job Function</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> AWS Cloud</label>
-                    <label><input type="checkbox"> E-commerce Operations</label>
-                    <label><input type="checkbox"> Supply Chain / Logistics</label>
+                    <label><input type="checkbox" value="software development"> Software Development</label>
+                    <label><input type="checkbox" value="data science"> Data Science</label>
+                    <label><input type="checkbox" value="product management"> Product Management</label>
+                    <label><input type="checkbox" value="cloud engineering"> Cloud Engineering</label>
                 </div>
             </div>
-
-            <div class="filter-group">
-                <label>Experience Level</label>
-                <select>
-                    <option>All Levels</option>
-                    <option>Fresher</option>
-                    <option>1-3 years</option>
-                    <option>3-5 years</option>
-                    <option>5-10 years</option>
-                    <option>10+ years</option>
-                </select>
-            </div>
-
-
-            <div class="filter-group">
-                <label>Work Mode</label>
+            <div class="filter-section">
+                <h4>Experience</h4>
                 <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="remote">
-                        <label for="remote">Remote</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="hybrid">
-                        <label for="hybrid">Hybrid</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="office">
-                        <label for="office">Office</label>
-                    </div>
+                    <label><input type="checkbox" value="0-3"> 0-3 Years</label>
+                    <label><input type="checkbox" value="3-6"> 3-6 Years</label>
+                    <label><input type="checkbox" value="6-10"> 6-10 Years</label>
+                    <label><input type="checkbox" value="10-99"> 10+ Years</label>
                 </div>
             </div>
-
-
-
-            <button class="apply-filters-btn amazon-bg">Apply Filters</button>
+            <div class="filter-section">
+                <h4>Job Type</h4>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="full time"> Full Time</label>
+                    <label><input type="checkbox" value="part time"> Part Time</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
+                    <label><input type="checkbox" value="hybrid"> Hybrid</label>
+                </div>
+            </div>
+            <button class="apply-filters-btn amazon-bg" id="apply-filters-btn"><i class="fas fa-filter"></i> Apply Filters</button>
+            <button id="clear-filters-btn" style="margin-top:10px; width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; background:#f8fafc; color:#64748b; font-weight:600; cursor:pointer; font-size:14px;"><i class="fas fa-times"></i> Clear Filters</button>
         </div>
 
         <div class="job-listings">
             <div class="search-bar">
-                <input type="text" placeholder="Search for keywords or job titles...">
-                <button class="search-btn amazon-bg">Search</button>
+                <input type="text" placeholder="Search Amazon jobs by title, skills..." id="job-search">
+                <button class="search-btn amazon-bg" id="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <h2 id="results-heading">Showing 7 Jobs</h2>
+            <div class="job-card" style="position:relative;" data-location="bangalore, hyderabad" data-func="software development" data-type="full time" data-expmin="3" data-expmax="6">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=Software%20Development%20Engineer%20II&company=Amazon&location=Bangalore%2C%20Hyderabad&type=full time&exp=3-6 Yrs" class="job-title">Software Development Engineer II</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-6 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 30-55 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore, Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Build highly-scalable distributed systems for Amazon's marketplace that handles millions of transactions and billions in revenue daily.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Java</span> <span class="skill-tag">AWS</span> <span class="skill-tag">Distributed Systems</span> <span class="skill-tag">System Design</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Software%20Development%20Engineer%20II&company=Amazon&location=Bangalore%2C%20Hyderabad&type=full time&exp=3-6 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <h2>Showing 289 Jobs</h2>
-
-            <div class="job-card">
-                <h3>Cloud Development Engineer - AWS EC2</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Mid-Senior Level</span>
-                </p>
-                <p class="job-description">Build and scale low-latency services for the core Amazon Web Services (AWS)
-                    Elastic Compute Cloud platform.</p>
-                <div class="job-tags">
-                    <span class="tag">AWS</span>
-                    <span class="tag">Cloud</span>
-                    <span class="tag">Distributed Systems</span>
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="cloud engineering" data-type="full time" data-expmin="4" data-expmax="8">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=AWS%20Solutions%20Architect&company=Amazon&location=Bangalore&type=full time&exp=4-8 Yrs" class="job-title">AWS Solutions Architect</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 4-8 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 35-60 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=1&title=Cloud%20Development%20Engineer%20-%20AWS%20EC2&company=Amazon&location=Hyderabad&experience=Mid-Senior%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Help customers design, architect, and implement highly scalable, cost-effective AWS cloud workloads across various industry verticals.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">AWS</span> <span class="skill-tag">Cloud Architecture</span> <span class="skill-tag">Terraform</span> <span class="skill-tag">Microservices</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=AWS%20Solutions%20Architect&company=Amazon&location=Bangalore&type=full time&exp=4-8 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Product Manager - E-commerce Retail</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Principal Level</span>
-                </p>
-                <p class="job-description">Lead product strategy for enhancing the customer shopping experience on
-                    Amazon's retail platform in India.</p>
-                <div class="job-tags">
-                    <span class="tag">E-commerce</span>
-                    <span class="tag">Retail</span>
-                    <span class="tag">Product Mgmt</span>
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="data science" data-type="full time" data-expmin="3" data-expmax="7">
+                <span style="position:absolute; top:18px; right:18px; background:#fef3c7; color:#92400e; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fde68a; letter-spacing:0.5px;">HOT JOB</span>
+                <a href="/frontend/pages/apply_home.html?title=Machine%20Learning%20Engineer&company=Amazon&location=Hyderabad&type=full time&exp=3-7 Yrs" class="job-title">Machine Learning Engineer</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-7 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 25-50 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=2&title=Product%20Manager%20-%20E-commerce%20Retail&company=Amazon&location=Bangalore&experience=Principal%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Build ML recommendation systems powering Amazon's personalization engine that drives significant customer purchase decisions daily.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Python</span> <span class="skill-tag">SageMaker</span> <span class="skill-tag">TensorFlow</span> <span class="skill-tag">Recommendation Systems</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Machine%20Learning%20Engineer&company=Amazon&location=Hyderabad&type=full time&exp=3-7 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Supply Chain Analyst - Fulfillment</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Entry Level</span>
-                </p>
-                <p class="job-description">Analyze complex logistics data to optimize inventory flow and improve
-                    delivery speed across fulfillment centers.</p>
-                <div class="job-tags">
-                    <span class="tag">Logistics</span>
-                    <span class="tag">Supply Chain</span>
-                    <span class="tag">Data Analysis</span>
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="product management" data-type="full time" data-expmin="5" data-expmax="10">
+
+                <a href="/frontend/pages/apply_home.html?title=Senior%20Product%20Manager&company=Amazon&location=Bangalore&type=full time&exp=5-10 Yrs" class="job-title">Senior Product Manager</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 5-10 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 40-75 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=3&title=Supply%20Chain%20Analyst%20-%20Fulfillment&company=Amazon&location=Chennai&experience=Entry%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Own product strategy for Amazon Prime features. Define the roadmap and work with global engineering, marketing, and content teams.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Product Management</span> <span class="skill-tag">SQL</span> <span class="skill-tag">Customer Obsession</span> <span class="skill-tag">Roadmapping</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Senior%20Product%20Manager&company=Amazon&location=Bangalore&type=full time&exp=5-10 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="hyderabad, bangalore" data-func="data science" data-type="full time" data-expmin="2" data-expmax="5">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=Data%20Engineer&company=Amazon&location=Hyderabad%2C%20Bangalore&type=full time&exp=2-5 Yrs" class="job-title">Data Engineer</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 2-5 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 14-28 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad, Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Design and build data pipelines processing petabytes of Amazon customer and operational data to enable real-time business decisions.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Spark</span> <span class="skill-tag">AWS Glue</span> <span class="skill-tag">Redshift</span> <span class="skill-tag">Python</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Data%20Engineer&company=Amazon&location=Hyderabad%2C%20Bangalore&type=full time&exp=2-5 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="cloud engineering" data-type="full time" data-expmin="7" data-expmax="12">
+
+                <a href="/frontend/pages/apply_home.html?title=Principal%20DevOps%20Engineer&company=Amazon&location=Bangalore&type=full time&exp=7-12 Yrs" class="job-title">Principal DevOps Engineer</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 7-12 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 40-70 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Lead the infrastructure automation and reliability engineering for Amazon's mission-critical fulfillment center management systems.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">AWS</span> <span class="skill-tag">Docker</span> <span class="skill-tag">Terraform</span> <span class="skill-tag">SRE</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Principal%20DevOps%20Engineer&company=Amazon&location=Bangalore&type=full time&exp=7-12 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="noida" data-func="software development" data-type="full time" data-expmin="2" data-expmax="5">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=Full%20Stack%20Engineer&company=Amazon&location=Noida&type=full time&exp=2-5 Yrs" class="job-title">Full Stack Engineer</a>
+                <div class="company-name">Amazon <span class="company-rating">4.5 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 2-5 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 18-35 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Noida</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Build features for Amazon.in marketplace products. Deliver high-quality code that serves millions of Indian customers on web and mobile.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">React</span> <span class="skill-tag">Node.js</span> <span class="skill-tag">AWS Lambda</span> <span class="skill-tag">DynamoDB</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Full%20Stack%20Engineer&company=Amazon&location=Noida&type=full time&exp=2-5 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/navbar_manager.js"></script>
-    <script src="/frontend/javascript/company_jobs.js"></script>
+
     <footer class="main-footer">
         <div class="container">
             <div class="footer-links">
@@ -187,6 +282,76 @@
             <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
         </div>
     </footer>
-</body>
 
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('job-search');
+        const searchBtn = document.getElementById('search-btn');
+        const applyBtn = document.getElementById('apply-filters-btn');
+        const clearBtn = document.getElementById('clear-filters-btn');
+        const heading = document.getElementById('results-heading');
+
+        function filterJobs() {
+            const query = (searchInput.value || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.job-card');
+
+            const checkedLocs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(1) input:checked')).map(cb => cb.value);
+            const checkedFuncs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(2) input:checked')).map(cb => cb.value);
+            const checkedExps = Array.from(document.querySelectorAll('.filter-section:nth-of-type(3) input:checked')).map(cb => cb.value);
+            const checkedTypes = Array.from(document.querySelectorAll('.filter-section:nth-of-type(4) input:checked')).map(cb => cb.value);
+
+            let visible = 0;
+            cards.forEach(card => {
+                const title = (card.querySelector('.job-title') ? card.querySelector('.job-title').innerText : '').toLowerCase();
+                const meta = (card.querySelector('.job-meta-naukri') ? card.querySelector('.job-meta-naukri').innerText : '').toLowerCase();
+                const desc = (card.querySelector('.job-desc-naukri') ? card.querySelector('.job-desc-naukri').innerText : '').toLowerCase();
+                const skills = (card.querySelector('.job-skills-naukri') ? card.querySelector('.job-skills-naukri').innerText : '').toLowerCase();
+                const loc = (card.dataset.location || '').toLowerCase();
+                const func = (card.dataset.func || '').toLowerCase();
+                const type = (card.dataset.type || '').toLowerCase();
+                const expMin = parseInt(card.dataset.expmin || '0');
+                const expMax = parseInt(card.dataset.expmax || '99');
+                const combined = title + ' ' + meta + ' ' + desc + ' ' + skills;
+
+                const matchQuery = !query || combined.includes(query);
+                const matchLoc = checkedLocs.length === 0 || checkedLocs.some(l => loc.includes(l));
+                const matchFunc = checkedFuncs.length === 0 || checkedFuncs.some(f => func.includes(f));
+                const matchType = checkedTypes.length === 0 || checkedTypes.some(t => type.includes(t));
+                const matchExp = checkedExps.length === 0 || checkedExps.some(e => {
+                    const parts = e.split('-').map(Number);
+                    const lo = parts[0], hi = parts[1];
+                    return (expMin <= hi && expMax >= lo);
+                });
+
+                const show = matchQuery && matchLoc && matchFunc && matchType && matchExp;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visible++;
+            });
+
+            heading.textContent = 'Showing ' + visible + ' Job' + (visible !== 1 ? 's' : '');
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+            searchInput.value = '';
+            document.querySelectorAll('.job-card').forEach(c => c.style.display = 'block');
+            const total = document.querySelectorAll('.job-card').length;
+            heading.textContent = 'Showing ' + total + ' Jobs';
+        }
+
+        if (searchBtn) searchBtn.addEventListener('click', filterJobs);
+        if (applyBtn) applyBtn.addEventListener('click', filterJobs);
+        if (clearBtn) clearBtn.addEventListener('click', clearFilters);
+        if (searchInput) {
+            searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterJobs(); });
+            searchInput.addEventListener('input', filterJobs);
+        }
+        document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', filterJobs);
+        });
+    });
+    </script>
+</body>
 </html>

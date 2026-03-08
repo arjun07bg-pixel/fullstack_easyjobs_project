@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Job Openings</title>
+    <title>Microsoft Jobs 2026 - EasyJobs</title>
+    <meta name="description" content="Explore 142 open positions at Microsoft. Apply for jobs in Software, Cloud, and Enterprise Solutions on EasyJobs.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/top-companies_style.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
-
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
-
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb"/>
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
                     <li><a href="/frontend/pages/companies.html" class="nav-link active">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
-            
-
-
-            <div class="auth-buttons">
+            <div class="auth-buttons" id="auth-buttons">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
+
     <div class="header-banner microsoft-bg">
         <div class="banner-content">
             <div class="logo-large">M</div>
             <h1>Microsoft Careers</h1>
-            <p>142 Open Positions in Software, Cloud, and Enterprise.</p>
+            <p>142 Open Positions in Software, Cloud, and Enterprise Solutions.</p>
         </div>
+    </div>
+
+    <div class="breadcrumb" style="max-width:1200px; margin:20px auto 0; padding:0 25px; font-size:14px; color:#64748b;">
+        <a href="/frontend/pages/companies.html" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:8px;"><i class="fas fa-chevron-left"></i> Back to Companies</a>
+        <span style="margin:0 10px;">/</span>
+        <span style="color:#0f172a; font-weight:500;">Job Openings</span>
     </div>
 
     <div class="main-container">
@@ -50,130 +62,215 @@
             <div class="filter-section">
                 <h4>Location</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Hyderabad (60)</label>
-                    <label><input type="checkbox"> Bangalore (50)</label>
-                    <label><input type="checkbox"> Noida (32)</label>
+                    <label><input type="checkbox" value="hyderabad"> Hyderabad</label>
+                    <label><input type="checkbox" value="bangalore"> Bangalore</label>
+                    <label><input type="checkbox" value="noida"> Noida</label>
+                    <label><input type="checkbox" value="chennai"> Chennai</label>
+                    <label><input type="checkbox" value="pune"> Pune</label>
+                    <label><input type="checkbox" value="mumbai"> Mumbai</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
                 </div>
             </div>
-            <!-- 
-            <div class="filter-section">
-                <h4>Experience Level</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> Entry Level</label>
-                    <label><input type="checkbox" checked> Mid-Senior Level</label>
-                    <label><input type="checkbox"> Architect</label>
-                </div>
-            </div> -->
-
             <div class="filter-section">
                 <h4>Job Function</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Software Development</label>
-                    <label><input type="checkbox"> Cloud Architecture</label>
-                    <label><input type="checkbox"> Product Management</label>
+                    <label><input type="checkbox" value="software development"> Software Development</label>
+                    <label><input type="checkbox" value="data science"> Data Science</label>
+                    <label><input type="checkbox" value="product management"> Product Management</label>
+                    <label><input type="checkbox" value="cloud engineering"> Cloud Engineering</label>
                 </div>
             </div>
-
-
             <div class="filter-section">
-                <h4>Experience Level</h4>
-                <select class="filter-select">
-                    <option>All Levels</option>
-                    <option>Fresher</option>
-                    <option>1  3 Years</option>
-                    <option>3  5 Years</option>
-                    <option>5  10 Years</option>
-                    <option>10+ Years</option>
-                </select>
-            </div>
-
-
-
-            <div class="filter-section">
-                <h4>Work Mode</h4>
+                <h4>Experience</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox"> Remote</label>
-                    <label><input type="checkbox"> Hybrid</label>
-                    <label><input type="checkbox"> Office</label>
+                    <label><input type="checkbox" value="0-3"> 0-3 Years</label>
+                    <label><input type="checkbox" value="3-6"> 3-6 Years</label>
+                    <label><input type="checkbox" value="6-10"> 6-10 Years</label>
+                    <label><input type="checkbox" value="10-99"> 10+ Years</label>
                 </div>
             </div>
-
-
             <div class="filter-section">
                 <h4>Job Type</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Full-Time</label>
-                    <label><input type="checkbox"> Part-Time</label>
-                    <label><input type="checkbox"> Contract</label>
+                    <label><input type="checkbox" value="full time"> Full Time</label>
+                    <label><input type="checkbox" value="part time"> Part Time</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
+                    <label><input type="checkbox" value="hybrid"> Hybrid</label>
                 </div>
             </div>
-
-            <button class="apply-filters-btn microsoft-bg">Apply Filters</button>
+            <button class="apply-filters-btn microsoft-bg" id="apply-filters-btn"><i class="fas fa-filter"></i> Apply Filters</button>
+            <button id="clear-filters-btn" style="margin-top:10px; width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; background:#f8fafc; color:#64748b; font-weight:600; cursor:pointer; font-size:14px;"><i class="fas fa-times"></i> Clear Filters</button>
         </div>
 
         <div class="job-listings">
             <div class="search-bar">
-                <input type="text" placeholder="Search for keywords or job titles...">
-                <button class="search-btn microsoft-bg">Search</button>
+                <input type="text" placeholder="Search Microsoft jobs by title, skills..." id="job-search">
+                <button class="search-btn microsoft-bg" id="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <h2 id="results-heading">Showing 7 Jobs</h2>
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="software development" data-type="full time" data-expmin="6" data-expmax="10">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=Principal%20Software%20Engineer&company=Microsoft&location=Hyderabad&type=full time&exp=6-10 Yrs" class="job-title">Principal Software Engineer</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 6-10 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 40-80 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Lead the design and implementation of core platform components for Microsoft Azure. Drive technical strategy and code quality across teams.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">C#</span> <span class="skill-tag">.NET</span> <span class="skill-tag">Azure</span> <span class="skill-tag">System Design</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Principal%20Software%20Engineer&company=Microsoft&location=Hyderabad&type=full time&exp=6-10 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <h2>Showing 142 Jobs</h2>
-
-            <div class="job-card">
-                <h3>Senior Software Engineer - Azure Core</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Mid-Senior Level</span>
-                </p>
-                <p class="job-description">Design and develop highly scalable services for the core Microsoft Azure
-                    platform. Requires expertise in C# or C++.</p>
-                <div class="job-tags">
-                    <span class="tag">Software</span>
-                    <span class="tag">Cloud</span>
-                    <span class="tag">C#/.NET</span>
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="cloud engineering" data-type="full time" data-expmin="3" data-expmax="7">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=Azure%20Cloud%20Engineer&company=Microsoft&location=Bangalore&type=full time&exp=3-7 Yrs" class="job-title">Azure Cloud Engineer</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-7 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 20-40 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=1&title=Senior%20Software%20Engineer%20-%20Azure%20Core&company=Microsoft&location=Hyderabad&experience=Mid-Senior%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Build and optimize Azure cloud services powering thousands of enterprise customers globally. Own service reliability and performance.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Azure</span> <span class="skill-tag">Kubernetes</span> <span class="skill-tag">C#</span> <span class="skill-tag">DevOps</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Azure%20Cloud%20Engineer&company=Microsoft&location=Bangalore&type=full time&exp=3-7 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Principal Program Manager - Dynamics 365</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Principal Level</span>
-                </p>
-                <p class="job-description">Drive the product roadmap and execution for key features within the Dynamics
-                    365 Enterprise suite.</p>
-                <div class="job-tags">
-                    <span class="tag">Enterprise</span>
-                    <span class="tag">Program Mgmt</span>
-                    <span class="tag">SaaS</span>
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="product management" data-type="full time" data-expmin="5" data-expmax="9">
+                <span style="position:absolute; top:18px; right:18px; background:#fef3c7; color:#92400e; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fde68a; letter-spacing:0.5px;">HOT JOB</span>
+                <a href="/frontend/pages/apply_home.html?title=AI%20Product%20Manager&company=Microsoft&location=Hyderabad&type=full time&exp=5-9 Yrs" class="job-title">AI Product Manager</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 5-9 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 35-70 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=2&title=Principal%20Program%20Manager%20-%20Dynamics%20365&company=Microsoft&location=Bangalore&experience=Principal%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Define the vision and roadmap for Microsoft Copilot AI features integrated across Office 365, Teams, and Azure AI platforms.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">AI/ML</span> <span class="skill-tag">Product Strategy</span> <span class="skill-tag">OKRs</span> <span class="skill-tag">Customer Research</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=AI%20Product%20Manager&company=Microsoft&location=Hyderabad&type=full time&exp=5-9 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Cloud Security Architect - M365</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Noida</span> |
-                    <span class="type">Contract</span> |
-                    <span class="exp">Architect Level</span>
-                </p>
-                <p class="job-description">Define security strategies and policies for Microsoft 365 services across
-                    large-scale cloud environments.</p>
-                <div class="job-tags">
-                    <span class="tag">Cloud</span>
-                    <span class="tag">Security</span>
-                    <span class="tag">Architecture</span>
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="data science" data-type="full time" data-expmin="4" data-expmax="8">
+
+                <a href="/frontend/pages/apply_home.html?title=Senior%20Data%20Engineer&company=Microsoft&location=Hyderabad&type=full time&exp=4-8 Yrs" class="job-title">Senior Data Engineer</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 4-8 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 22-42 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=3&title=Cloud%20Security%20Architect%20-%20M365&company=Microsoft&location=Noida&experience=Architect%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Design and build large-scale data pipelines and analytics infrastructure powering Microsoft commercial products and internal BI systems.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Azure Data Factory</span> <span class="skill-tag">Spark</span> <span class="skill-tag">Python</span> <span class="skill-tag">SQL</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Senior%20Data%20Engineer&company=Microsoft&location=Hyderabad&type=full time&exp=4-8 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="software development" data-type="full time" data-expmin="3" data-expmax="6">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=Security%20Engineer&company=Microsoft&location=Bangalore&type=full time&exp=3-6 Yrs" class="job-title">Security Engineer</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-6 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 18-35 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Protect Microsoft products and customer data through threat modeling, security reviews, and vulnerability remediation programs.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Threat Modeling</span> <span class="skill-tag">Azure Security</span> <span class="skill-tag">Penetration Testing</span> <span class="skill-tag">SIEM</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Security%20Engineer&company=Microsoft&location=Bangalore&type=full time&exp=3-6 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="product management" data-type="full time" data-expmin="4" data-expmax="8">
+
+                <a href="/frontend/pages/apply_home.html?title=UX%20Research%20Lead&company=Microsoft&location=Hyderabad&type=full time&exp=4-8 Yrs" class="job-title">UX Research Lead</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 4-8 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 22-40 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Lead user research initiatives to shape the design direction of Microsoft Teams, PowerPoint, and other flagship productivity apps.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">User Research</span> <span class="skill-tag">Usability Testing</span> <span class="skill-tag">Figma</span> <span class="skill-tag">Data Analysis</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=UX%20Research%20Lead&company=Microsoft&location=Hyderabad&type=full time&exp=4-8 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="hyderabad, bangalore" data-func="cloud engineering" data-type="full time" data-expmin="6" data-expmax="10">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=DevOps%20Lead&company=Microsoft&location=Hyderabad%2C%20Bangalore&type=full time&exp=6-10 Yrs" class="job-title">DevOps Lead</a>
+                <div class="company-name">Microsoft <span class="company-rating">4.7 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 6-10 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 28-52 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad, Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Lead DevOps transformation across Microsoft product teams. Establish best practices for CI/CD, monitoring, and infrastructure automation.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Azure DevOps</span> <span class="skill-tag">Kubernetes</span> <span class="skill-tag">Terraform</span> <span class="skill-tag">SRE</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=DevOps%20Lead&company=Microsoft&location=Hyderabad%2C%20Bangalore&type=full time&exp=6-10 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/navbar_manager.js"></script>
-    <script src="/frontend/javascript/company_jobs.js"></script>
+
     <footer class="main-footer">
         <div class="container">
             <div class="footer-links">
@@ -185,6 +282,76 @@
             <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
         </div>
     </footer>
-</body>
 
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('job-search');
+        const searchBtn = document.getElementById('search-btn');
+        const applyBtn = document.getElementById('apply-filters-btn');
+        const clearBtn = document.getElementById('clear-filters-btn');
+        const heading = document.getElementById('results-heading');
+
+        function filterJobs() {
+            const query = (searchInput.value || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.job-card');
+
+            const checkedLocs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(1) input:checked')).map(cb => cb.value);
+            const checkedFuncs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(2) input:checked')).map(cb => cb.value);
+            const checkedExps = Array.from(document.querySelectorAll('.filter-section:nth-of-type(3) input:checked')).map(cb => cb.value);
+            const checkedTypes = Array.from(document.querySelectorAll('.filter-section:nth-of-type(4) input:checked')).map(cb => cb.value);
+
+            let visible = 0;
+            cards.forEach(card => {
+                const title = (card.querySelector('.job-title') ? card.querySelector('.job-title').innerText : '').toLowerCase();
+                const meta = (card.querySelector('.job-meta-naukri') ? card.querySelector('.job-meta-naukri').innerText : '').toLowerCase();
+                const desc = (card.querySelector('.job-desc-naukri') ? card.querySelector('.job-desc-naukri').innerText : '').toLowerCase();
+                const skills = (card.querySelector('.job-skills-naukri') ? card.querySelector('.job-skills-naukri').innerText : '').toLowerCase();
+                const loc = (card.dataset.location || '').toLowerCase();
+                const func = (card.dataset.func || '').toLowerCase();
+                const type = (card.dataset.type || '').toLowerCase();
+                const expMin = parseInt(card.dataset.expmin || '0');
+                const expMax = parseInt(card.dataset.expmax || '99');
+                const combined = title + ' ' + meta + ' ' + desc + ' ' + skills;
+
+                const matchQuery = !query || combined.includes(query);
+                const matchLoc = checkedLocs.length === 0 || checkedLocs.some(l => loc.includes(l));
+                const matchFunc = checkedFuncs.length === 0 || checkedFuncs.some(f => func.includes(f));
+                const matchType = checkedTypes.length === 0 || checkedTypes.some(t => type.includes(t));
+                const matchExp = checkedExps.length === 0 || checkedExps.some(e => {
+                    const parts = e.split('-').map(Number);
+                    const lo = parts[0], hi = parts[1];
+                    return (expMin <= hi && expMax >= lo);
+                });
+
+                const show = matchQuery && matchLoc && matchFunc && matchType && matchExp;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visible++;
+            });
+
+            heading.textContent = 'Showing ' + visible + ' Job' + (visible !== 1 ? 's' : '');
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+            searchInput.value = '';
+            document.querySelectorAll('.job-card').forEach(c => c.style.display = 'block');
+            const total = document.querySelectorAll('.job-card').length;
+            heading.textContent = 'Showing ' + total + ' Jobs';
+        }
+
+        if (searchBtn) searchBtn.addEventListener('click', filterJobs);
+        if (applyBtn) applyBtn.addEventListener('click', filterJobs);
+        if (clearBtn) clearBtn.addEventListener('click', clearFilters);
+        if (searchInput) {
+            searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterJobs(); });
+            searchInput.addEventListener('input', filterJobs);
+        }
+        document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', filterJobs);
+        });
+    });
+    </script>
+</body>
 </html>

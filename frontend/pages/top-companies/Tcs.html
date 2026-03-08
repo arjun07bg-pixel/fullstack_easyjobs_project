@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCS Job Openings</title>
+    <title>TCS Jobs 2026 - EasyJobs</title>
+    <meta name="description" content="Explore 456 open positions at TCS. Apply for jobs in IT Services, Consulting, and Digital Innovation on EasyJobs.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/top-companies_style.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
-
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
-
+            <a href="/index.html" class="logo">
+                <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb"/>
+                    <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Easy<span class="logo-accent">Jobs</span>
+            </a>
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
                     <li><a href="/frontend/pages/companies.html" class="nav-link active">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
-            
-
-
-            <div class="auth-buttons">
+            <div class="auth-buttons" id="auth-buttons">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
+
     <div class="header-banner tcs-bg">
         <div class="banner-content">
-            <div class="logo-large tcs-logo-text">T</div>
+            <div class="logo-large">T</div>
             <h1>TCS Careers</h1>
-            <p>456 Open Positions in IT Services, Consulting, and Digital Transformation.</p>
+            <p>456 Open Positions in IT Services, Consulting, and Digital Innovation.</p>
         </div>
+    </div>
+
+    <div class="breadcrumb" style="max-width:1200px; margin:20px auto 0; padding:0 25px; font-size:14px; color:#64748b;">
+        <a href="/frontend/pages/companies.html" style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:8px;"><i class="fas fa-chevron-left"></i> Back to Companies</a>
+        <span style="margin:0 10px;">/</span>
+        <span style="color:#0f172a; font-weight:500;">Job Openings</span>
     </div>
 
     <div class="main-container">
@@ -50,130 +62,215 @@
             <div class="filter-section">
                 <h4>Location</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Mumbai (150)</label>
-                    <label><input type="checkbox"> Chennai (120)</label>
-                    <label><input type="checkbox"> Kolkata (100)</label>
+                    <label><input type="checkbox" value="hyderabad"> Hyderabad</label>
+                    <label><input type="checkbox" value="bangalore"> Bangalore</label>
+                    <label><input type="checkbox" value="noida"> Noida</label>
+                    <label><input type="checkbox" value="chennai"> Chennai</label>
+                    <label><input type="checkbox" value="pune"> Pune</label>
+                    <label><input type="checkbox" value="mumbai"> Mumbai</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
                 </div>
             </div>
-
             <div class="filter-section">
                 <h4>Job Function</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> IT Services</label>
-                    <label><input type="checkbox"> Consulting</label>
-                    <label><input type="checkbox"> BPO</label>
+                    <label><input type="checkbox" value="software development"> Software Development</label>
+                    <label><input type="checkbox" value="data science"> Data Science</label>
+                    <label><input type="checkbox" value="product management"> Product Management</label>
+                    <label><input type="checkbox" value="cloud engineering"> Cloud Engineering</label>
                 </div>
             </div>
-
-            <div class="filter-group">
-                <label>Experience Level</label>
-                <select>
-                    <option>All Levels</option>
-                    <option>Fresher</option>
-                    <option>1-3 years</option>
-                    <option>3-5 years</option>
-                    <option>5-10 years</option>
-                    <option>10+ years</option>
-                </select>
-            </div>
-
-
             <div class="filter-section">
-                <h4>Work Mode</h4>
+                <h4>Experience</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox"> Remote</label>
-                    <label><input type="checkbox"> Hybrid</label>
-                    <label><input type="checkbox"> Office</label>
+                    <label><input type="checkbox" value="0-3"> 0-3 Years</label>
+                    <label><input type="checkbox" value="3-6"> 3-6 Years</label>
+                    <label><input type="checkbox" value="6-10"> 6-10 Years</label>
+                    <label><input type="checkbox" value="10-99"> 10+ Years</label>
                 </div>
             </div>
-
-
             <div class="filter-section">
                 <h4>Job Type</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Full-Time</label>
-                    <label><input type="checkbox"> Part-Time</label>
-                    <label><input type="checkbox"> Contract</label>
+                    <label><input type="checkbox" value="full time"> Full Time</label>
+                    <label><input type="checkbox" value="part time"> Part Time</label>
+                    <label><input type="checkbox" value="remote"> Remote</label>
+                    <label><input type="checkbox" value="hybrid"> Hybrid</label>
                 </div>
             </div>
-
-
-
-            <!-- <div class="filter-section">
-                <h4>Technology Focus</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Digital</label>
-                    <label><input type="checkbox"> Cloud & Infrastructure</label>
-                    <label><input type="checkbox"> SAP/Oracle</label>
-                </div>
-            </div> -->
-
-            <button class="apply-filters-btn tcs-bg">Apply Filters</button>
+            <button class="apply-filters-btn tcs-bg" id="apply-filters-btn"><i class="fas fa-filter"></i> Apply Filters</button>
+            <button id="clear-filters-btn" style="margin-top:10px; width:100%; padding:12px; border-radius:10px; border:1px solid #e2e8f0; background:#f8fafc; color:#64748b; font-weight:600; cursor:pointer; font-size:14px;"><i class="fas fa-times"></i> Clear Filters</button>
         </div>
 
         <div class="job-listings">
             <div class="search-bar">
-                <input type="text" placeholder="Search for keywords or job titles...">
-                <button class="search-btn tcs-bg">Search</button>
+                <input type="text" placeholder="Search TCS jobs by title, skills..." id="job-search">
+                <button class="search-btn tcs-bg" id="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <h2 id="results-heading">Showing 7 Jobs</h2>
+            <div class="job-card" style="position:relative;" data-location="chennai, bangalore" data-func="software development" data-type="full time" data-expmin="3" data-expmax="6">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=Java%20Full%20Stack%20Developer&company=TCS&location=Chennai%2C%20Bangalore&type=full time&exp=3-6 Yrs" class="job-title">Java Full Stack Developer</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-6 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 8-14 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Chennai, Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Develop and maintain robust enterprise Java applications using Spring Boot microservices architecture for TCS global banking clients.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Java</span> <span class="skill-tag">Spring Boot</span> <span class="skill-tag">React</span> <span class="skill-tag">MySQL</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Java%20Full%20Stack%20Developer&company=TCS&location=Chennai%2C%20Bangalore&type=full time&exp=3-6 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <h2>Showing 456 Jobs</h2>
-
-            <div class="job-card">
-                <h3>Java Full Stack Developer - Banking Project</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Mumbai</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Mid-Senior Level</span>
-                </p>
-                <p class="job-description">Design and implement core banking features using modern Java frameworks and
-                    microservices architecture.</p>
-                <div class="job-tags">
-                    <span class="tag">IT Services</span>
-                    <span class="tag">Java</span>
-                    <span class="tag">Digital</span>
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="data science" data-type="full time" data-expmin="2" data-expmax="5">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=Data%20Scientist&company=TCS&location=Hyderabad&type=full time&exp=2-5 Yrs" class="job-title">Data Scientist</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 2-5 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 12-22 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=1&title=Java%20Full%20Stack%20Developer%20-%20Banking%20Project&company=TCS&location=Mumbai&experience=Mid-Senior%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Build predictive analytics models and AI solutions for TCS global clients in banking, healthcare, and manufacturing verticals.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">Python</span> <span class="skill-tag">Machine Learning</span> <span class="skill-tag">SQL</span> <span class="skill-tag">Power BI</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Data%20Scientist&company=TCS&location=Hyderabad&type=full time&exp=2-5 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Management Consultant - Retail Practice</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Experienced Professional</span>
-                </p>
-                <p class="job-description">Provide strategic consulting and transformation roadmap execution for global
-                    retail clients.</p>
-                <div class="job-tags">
-                    <span class="tag">Consulting</span>
-                    <span class="tag">Strategy</span>
-                    <span class="tag">Business Analysis</span>
+            <div class="job-card" style="position:relative;" data-location="pune, mumbai" data-func="software development" data-type="full time" data-expmin="4" data-expmax="8">
+                <span style="position:absolute; top:18px; right:18px; background:#fef3c7; color:#92400e; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fde68a; letter-spacing:0.5px;">HOT JOB</span>
+                <a href="/frontend/pages/apply_home.html?title=SAP%20S/4HANA%20Consultant&company=TCS&location=Pune%2C%20Mumbai&type=full time&exp=4-8 Yrs" class="job-title">SAP S/4HANA Consultant</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 4-8 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 14-28 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Pune, Mumbai</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=2&title=Management%20Consultant%20-%20Retail%20Practice&company=TCS&location=Chennai&experience=Experienced%20Professional" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Implement and customize SAP S/4HANA solutions for large-scale enterprise digital transformation programs across BFSI and manufacturing.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">SAP S/4HANA</span> <span class="skill-tag">ABAP</span> <span class="skill-tag">SAP FICO</span> <span class="skill-tag">SAP MM</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=SAP%20S/4HANA%20Consultant&company=TCS&location=Pune%2C%20Mumbai&type=full time&exp=4-8 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
 
-            <div class="job-card">
-                <h3>Data Scientist - Cognitive Business Operations</h3>
-                <p class="job-meta">
-                    <span class="location"><i class="fas fa-map-marker-alt"></i> Kolkata</span> |
-                    <span class="type">Full-Time</span> |
-                    <span class="exp">Entry Level</span>
-                </p>
-                <p class="job-description">Develop predictive models and analytics solutions to enhance efficiency in
-                    business processes.</p>
-                <div class="job-tags">
-                    <span class="tag">Digital</span>
-                    <span class="tag">Data Science</span>
-                    <span class="tag">AI/ML</span>
+            <div class="job-card" style="position:relative;" data-location="bangalore" data-func="cloud engineering" data-type="full time" data-expmin="6" data-expmax="10">
+
+                <a href="/frontend/pages/apply_home.html?title=Cloud%20Solutions%20Architect&company=TCS&location=Bangalore&type=full time&exp=6-10 Yrs" class="job-title">Cloud Solutions Architect</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 6-10 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 22-40 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=3&title=Data%20Scientist%20-%20Cognitive%20Business%20Operations&company=TCS&location=Kolkata&experience=Entry%20Level" class="apply-link">View Details & Apply</a>
+                <p class="job-desc-naukri">Design, deliver, and govern cloud transformation programs for TCS clients on Azure, AWS, and GCP platforms at enterprise scale.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">AWS</span> <span class="skill-tag">Azure</span> <span class="skill-tag">GCP</span> <span class="skill-tag">Microservices</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Cloud%20Solutions%20Architect&company=TCS&location=Bangalore&type=full time&exp=6-10 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="noida" data-func="product management" data-type="full time" data-expmin="2" data-expmax="4">
+                <span style="position:absolute; top:18px; right:18px; background:#e0f2fe; color:#0369a1; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #bae6fd; letter-spacing:0.5px;">NEW</span>
+                <a href="/frontend/pages/apply_home.html?title=Business%20Analyst&company=TCS&location=Noida&type=full time&exp=2-4 Yrs" class="job-title">Business Analyst</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 2-4 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 7-14 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Noida</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Bridge business requirements with technical teams through detailed documentation and requirement elicitation for TCS global delivery projects.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">JIRA</span> <span class="skill-tag">Agile</span> <span class="skill-tag">BPMN</span> <span class="skill-tag">SQL</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Business%20Analyst&company=TCS&location=Noida&type=full time&exp=2-4 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="hyderabad" data-func="software development" data-type="full time" data-expmin="3" data-expmax="6">
+
+                <a href="/frontend/pages/apply_home.html?title=Cybersecurity%20Analyst&company=TCS&location=Hyderabad&type=full time&exp=3-6 Yrs" class="job-title">Cybersecurity Analyst</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 3-6 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 12-20 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Hyderabad</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Monitor, detect, and respond to cybersecurity threats for TCS and its critical infrastructure clients globally. Lead incident response programs.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">SIEM</span> <span class="skill-tag">Penetration Testing</span> <span class="skill-tag">ISO 27001</span> <span class="skill-tag">Vulnerability Assessment</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Cybersecurity%20Analyst&company=TCS&location=Hyderabad&type=full time&exp=3-6 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-card" style="position:relative;" data-location="pan india" data-func="product management" data-type="full time" data-expmin="8" data-expmax="12">
+                <span style="position:absolute; top:18px; right:18px; background:#fee2e2; color:#dc2626; font-size:10px; padding:3px 10px; border-radius:20px; font-weight:700; border:1px solid #fecaca; letter-spacing:0.5px;">URGENT</span>
+                <a href="/frontend/pages/apply_home.html?title=Project%20Manager%20-%20IT%20Delivery&company=TCS&location=Pan%20India&type=full time&exp=8-12 Yrs" class="job-title">Project Manager - IT Delivery</a>
+                <div class="company-name">TCS <span class="company-rating">4.3 <i class="fas fa-star"></i></span></div>
+                <div class="job-meta-naukri">
+                    <span><i class="fas fa-briefcase"></i> 8-12 Yrs</span>
+                    <span><i class="fas fa-wallet"></i> 25-45 LPA</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Pan India</span>
+                    <span><i class="fas fa-clock"></i> Full Time</span>
+                </div>
+                <p class="job-desc-naukri">Own end-to-end delivery of complex IT programs for marquee clients in BFSI, retail, and manufacturing sectors across global geographies.</p>
+                <div class="job-skills-naukri">
+                    <span class="skill-tag">PMP</span> <span class="skill-tag">Agile</span> <span class="skill-tag">Risk Management</span> <span class="skill-tag">Stakeholder Management</span>
+                </div>
+                <div class="job-footer-naukri">
+                    <span class="posted-date"><i class="fas fa-calendar-alt"></i> Recently Posted</span>
+                    <div class="job-actions">
+                        <i class="far fa-bookmark btn-save-naukri" title="Save Job"></i>
+                        <a href="/frontend/pages/apply_home.html?title=Project%20Manager%20-%20IT%20Delivery&company=TCS&location=Pan%20India&type=full time&exp=8-12 Yrs" class="btn-apply-naukri">Apply Now <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/navbar_manager.js"></script>
-    <script src="/frontend/javascript/company_jobs.js"></script>
+
     <footer class="main-footer">
         <div class="container">
             <div class="footer-links">
@@ -185,7 +282,76 @@
             <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
         </div>
     </footer>
+
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('job-search');
+        const searchBtn = document.getElementById('search-btn');
+        const applyBtn = document.getElementById('apply-filters-btn');
+        const clearBtn = document.getElementById('clear-filters-btn');
+        const heading = document.getElementById('results-heading');
+
+        function filterJobs() {
+            const query = (searchInput.value || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.job-card');
+
+            const checkedLocs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(1) input:checked')).map(cb => cb.value);
+            const checkedFuncs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(2) input:checked')).map(cb => cb.value);
+            const checkedExps = Array.from(document.querySelectorAll('.filter-section:nth-of-type(3) input:checked')).map(cb => cb.value);
+            const checkedTypes = Array.from(document.querySelectorAll('.filter-section:nth-of-type(4) input:checked')).map(cb => cb.value);
+
+            let visible = 0;
+            cards.forEach(card => {
+                const title = (card.querySelector('.job-title') ? card.querySelector('.job-title').innerText : '').toLowerCase();
+                const meta = (card.querySelector('.job-meta-naukri') ? card.querySelector('.job-meta-naukri').innerText : '').toLowerCase();
+                const desc = (card.querySelector('.job-desc-naukri') ? card.querySelector('.job-desc-naukri').innerText : '').toLowerCase();
+                const skills = (card.querySelector('.job-skills-naukri') ? card.querySelector('.job-skills-naukri').innerText : '').toLowerCase();
+                const loc = (card.dataset.location || '').toLowerCase();
+                const func = (card.dataset.func || '').toLowerCase();
+                const type = (card.dataset.type || '').toLowerCase();
+                const expMin = parseInt(card.dataset.expmin || '0');
+                const expMax = parseInt(card.dataset.expmax || '99');
+                const combined = title + ' ' + meta + ' ' + desc + ' ' + skills;
+
+                const matchQuery = !query || combined.includes(query);
+                const matchLoc = checkedLocs.length === 0 || checkedLocs.some(l => loc.includes(l));
+                const matchFunc = checkedFuncs.length === 0 || checkedFuncs.some(f => func.includes(f));
+                const matchType = checkedTypes.length === 0 || checkedTypes.some(t => type.includes(t));
+                const matchExp = checkedExps.length === 0 || checkedExps.some(e => {
+                    const parts = e.split('-').map(Number);
+                    const lo = parts[0], hi = parts[1];
+                    return (expMin <= hi && expMax >= lo);
+                });
+
+                const show = matchQuery && matchLoc && matchFunc && matchType && matchExp;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visible++;
+            });
+
+            heading.textContent = 'Showing ' + visible + ' Job' + (visible !== 1 ? 's' : '');
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+            searchInput.value = '';
+            document.querySelectorAll('.job-card').forEach(c => c.style.display = 'block');
+            const total = document.querySelectorAll('.job-card').length;
+            heading.textContent = 'Showing ' + total + ' Jobs';
+        }
+
+        if (searchBtn) searchBtn.addEventListener('click', filterJobs);
+        if (applyBtn) applyBtn.addEventListener('click', filterJobs);
+        if (clearBtn) clearBtn.addEventListener('click', clearFilters);
+        if (searchInput) {
+            searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterJobs(); });
+            searchInput.addEventListener('input', filterJobs);
+        }
+        document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', filterJobs);
+        });
+    });
+    </script>
 </body>
-
 </html>
-
