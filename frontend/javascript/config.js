@@ -1,6 +1,6 @@
 // API base URL
 const CONFIG = {
-    API_URL: "https://fullstack-easyjobs-project.vercel.app"
+    API_URL: "https://fullstack-easyjobs-project.vercel.app/api"
 };
 
 // function to get API URL
