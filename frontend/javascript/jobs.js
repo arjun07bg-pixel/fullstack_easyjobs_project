@@ -338,6 +338,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Move renderJobs outside fetchJobs to be clean
     const renderJobs = (jobs) => {
         jobsContainer.innerHTML = "";
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const isAdmin = user.user_type === "admin";
 
         if (jobs.length === 0) {
             countText.innerText = "No jobs found";
@@ -351,13 +353,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         jobs.forEach(job => {
             const card = document.createElement("div");
             card.className = "job-card";
+            
+            // Mock rating/reviews for extraJobs if they don't have them
+            const rating = job.rating || (3.5 + Math.random() * 1.5).toFixed(1);
+            const reviews = job.reviews || `${Math.floor(Math.random() * 5000) + 100} Reviews`;
 
             const getSkillsByTitle = (title) => {
                 const t = title.toLowerCase();
-                if (t.includes("qa") || t.includes("test") || t.includes("quality")) return ["Selenium", "JIRA", "Automation", "Manual Testing", "Test Plans"];
-                if (t.includes("engineer") || t.includes("developer")) return ["React", "JavaScript", "TypeScript", "Node.js", "Docker"];
-                if (t.includes("data")) return ["Python", "SQL", "Pandas", "Scikit-Learn", "Tableau"];
-                if (t.includes("designer") || t.includes("ux")) return ["Figma", "Adobe XD", "Sketch", "UI Design", "UX Research"];
+                if (t.includes("qa") || t.includes("test") || t.includes("quality")) return ["Selenium", "JIRA", "Automation", "Manual Testing"];
+                if (t.includes("engineer") || t.includes("developer")) return ["React", "JavaScript", "TypeScript", "Node.js"];
+                if (t.includes("data")) return ["Python", "SQL", "Pandas", "Scikit-Learn"];
+                if (t.includes("designer") || t.includes("ux")) return ["Figma", "Adobe XD", "Sketch", "UI Design"];
                 if (t.includes("hr") || t.includes("recruitment")) return ["Hiring", "Interviews", "Payroll", "Policy"];
                 if (t.includes("manager") || t.includes("lead")) return ["Leadership", "Strategy", "Management", "Operations"];
                 if (t.includes("cyber") || t.includes("security")) return ["Ethical Hacking", "Networks", "Firewalls", "SOC"];
@@ -372,50 +378,71 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div style="display: flex; gap: 15px; flex: 1;">
                         <div class="company-logo">${job.company_name ? job.company_name.charAt(0).toUpperCase() : '?'}</div>
                         <div class="job-info">
-                            <h3 class="job-title">${job.job_title}</h3>
-                            <p class="company-name">${job.company_name}</p>
-                            <p class="job-location">📍 ${job.location || 'Remote'}</p>
+                            <h3 class="job-title" style="margin:0; font-size:1.25rem;">${job.job_title}</h3>
+                            <div class="company-meta" style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                                <span class="company-name" style="margin:0;">${job.company_name}</span>
+                                <span class="rating" style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; font-size: 13px; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 4px;">
+                                    ${rating} <i class="fas fa-star" style="color: #f59e0b; font-size: 11px;"></i>
+                                    <span class="reviews" style="color: #94a3b8; font-weight: 400; font-size: 12px; margin-left: 4px;">(${reviews})</span>
+                                </span>
+                            </div>
+                            <p class="job-location" style="margin-top: 8px; font-size: 13.5px;"><i class="fas fa-map-marker-alt" style="color: #64748b;"></i> ${job.location || 'Remote'}</p>
                         </div>
                     </div>
-                    <button class="save-btn" data-id="${job.job_id}">💾 Save</button>
                 </div>
 
-                <div class="job-details">
-                    <div class="job-detail-item">
-                        <span class="detail-icon">💼</span>
-                        <span>${job.experience_level !== null ? job.experience_level + '+ years' : '0 years'}</span>
+                <div class="job-details" style="display: flex; gap: 15px; margin: 15px 0;">
+                    <div class="job-detail-item" style="color: #64748b; font-size: 13.5px;">
+                        <i class="fas fa-briefcase" style="margin-right: 5px;"></i> ${job.experience_level !== null ? job.experience_level + '-' + (job.experience_level + 3) + ' Yrs' : '0-2 Yrs'}
                     </div>
-                    <div class="job-detail-item">
-                        <span class="detail-icon">💰</span>
-                        <span>₹${job.salary || 0} LPA</span>
-                    </div>
-                    <div class="job-detail-item">
-                        <span class="detail-icon">🏢</span>
-                        <span>${job.job_type || 'Full Time'}</span>
-                    </div>
-                    <div class="job-detail-item">
-                        <span class="detail-icon">🏠</span>
-                        <span>${job.work_mode || 'Hybrid'}</span>
+                    <div class="job-detail-item" style="color: #64748b; font-size: 13.5px;">
+                        <i class="fas fa-indian-rupee-sign" style="margin-right: 5px;"></i> ${job.salary || 'Not Disclosed'} LPA
                     </div>
                 </div>
 
-                <div class="job-tags">${tagHtml}</div>
+                <div class="job-tags" style="display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap;">${tagHtml}</div>
 
-                <p class="job-description">
-                    ${job.description ? job.description.replace(/<[^>]*>/g, '').substring(0, 160) + '...' : "Join our team to work on exciting projects and grow your professional career with us."}
+                <p class="job-description" style="color: #475569; font-size: 14px; line-height: 1.5; margin: 10px 0;">
+                    ${job.description ? job.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : "Join our team to work on exciting projects and grow your professional career with us."}
                 </p>
 
-                <div class="job-footer">
-                    <span class="posted-time">Posted Recently</span>
-                    <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn">Apply Now</a>
+                <div class="job-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px;">
+                    <span class="posted-time" style="font-size: 12.5px; color: #94a3b8;">Posted Just Now</span>
+                    <div style="display: flex; gap: 10px;">
+                        ${isAdmin ? `<button class="delete-btn" style="background: #fee2e2; color: #ef4444; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;" data-id="${job.job_id}"><i class="fas fa-trash-alt"></i> Delete</button>` : ''}
+                        <button class="save-btn" data-id="${job.job_id}" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">💾 Save</button>
+                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
+                    </div>
                 </div>
             `;
+
+            // Handle Admin Delete
+            if (isAdmin) {
+                const deleteBtn = card.querySelector(".delete-btn");
+                deleteBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    if (confirm("Are you sure you want to delete this job?")) {
+                        try {
+                            const API_BASE_URL = getAPIURL();
+                            const res = await fetch(`${API_BASE_URL}/admin/jobs/${job.job_id}`, {
+                                method: "DELETE"
+                            });
+                            if (res.ok) {
+                                alert("Job deleted successfully!");
+                                card.remove();
+                                countText.innerText = countText.innerText.replace(/\d+/, prev => parseInt(prev) - 1);
+                            } else {
+                                alert("Failed to delete job.");
+                            }
+                        } catch (err) { alert("Network error."); }
+                    }
+                });
+            }
 
             // Handle Save Button
             const saveBtn = card.querySelector(".save-btn");
             saveBtn.addEventListener("click", async (e) => {
                 e.preventDefault();
-                const user = JSON.parse(localStorage.getItem("user") || "{}");
                 if (!user.user_id) {
                     alert("Please login to save this job.");
                     window.location.href = "/frontend/pages/login.html";

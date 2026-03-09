@@ -2,548 +2,198 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IT Software Jobs | EasyJobs - Find Your Dream Developer Career</title>
+  <title>IT & Software Jobs | EasyJobs - Premium Careers</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/frontend/styles/index.css">
   <link rel="stylesheet" href="/frontend/styles/premium_category.css">
-  <link rel="stylesheet" href="/frontend/styles/global_font.css">
-
 </head>
 
 <body>
-
   <header class="main-header sticky">
     <div class="container header-content">
       <a href="/index.html" class="logo">
-        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white" stroke-width="3"
-            stroke-linecap="round" />
-          <rect x="4" y="11" width="32" height="24" rx="5" fill="#2563eb" />
-          <path d="M12 23L17 28L28 17" stroke="white" stroke-width="3.5" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-        Easy<span class="logo-accent">Jobs</span>
+        <i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span>
       </a>
-
       <nav class="nav-menu">
         <ul>
           <li><a href="/index.html" class="nav-link">Home</a></li>
-          <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
-          <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
-          <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
-          <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+          <li><a href="/frontend/pages/jobs.html" class="nav-link">Jobs</a></li>
+          <li><a href="/frontend/pages/companies.html" class="nav-link">Companies</a></li>
+          <li><a href="/frontend/pages/my_applications.html" class="nav-link">Applications</a></li>
           <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
-          <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
-          <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
-          <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
-                class="fas fa-bookmark"></i></a></li>
+          <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
         </ul>
       </nav>
-
       <div class="auth-buttons">
-        <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
-        <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="/frontend/pages/register.html" class="btn-register">Register</a>
+        <a href="/frontend/pages/login.html" class="btn-login">Login</a>
       </div>
     </div>
   </header>
-
-  <div class="breadcrumb">
-    <a href="/index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
-    <span class="separator">/</span>
-    <span class="current">IT & Software</span>
-  </div>
 
   <header class="category-header">
     <div class="container">
-      <h1><i class="fas fa-laptop-code"></i> IT & Software</h1>
-      <p>Accelerate your career with India's top tech companies</p>
+      <h1>IT & Software Jobs</h1>
+      <p>Discover 3,500+ premium tech opportunities from top MNCs & startups</p>
     </div>
   </header>
 
-  <main>
+  <div class="category-search-container">
+    <div class="search-box-wrapper">
+      <div class="search-input-group role-group">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+      </div>
+      <div class="search-input-group location-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+      </div>
+      <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+    </div>
+  </div>
+
+  <main class="container">
     <section class="hero-section">
-      <div class="container">
-        <h2>The Future is Built with Code</h2>
-        <p>Explore thousands of high-growth roles in Software Engineering, Data Science, and Cloud Architecture.
-          Your journey to a dream tech career starts here.</p>
-        <div class="stats-container">
-          <div class="stat-box"><span class="number">3,200+</span><span class="label">Live Jobs</span></div>
-          <div class="stat-box"><span class="number">500+</span><span class="label">Top Tech Companies</span>
-          </div>
-          <div class="stat-box"><span class="number">15K+</span><span class="label">Successful Placements</span>
-          </div>
-        </div>
+      <div class="stats-container">
+        <div class="stat-box"><span class="number">3.5k+</span><span class="label">Live Jobs</span></div>
+        <div class="stat-box"><span class="number">850+</span><span class="label">Companies</span></div>
+        <div class="stat-box"><span class="number">22k+</span><span class="label">Placements</span></div>
       </div>
     </section>
 
-    <div class="container">
-      <h2 class="section-title">Featured IT & Software Positions</h2>
-      <p class="section-subtitle"
-        style="text-align: center; color: var(--slate-400); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
-        Handpicked high-impact roles at world-class technology companies.</p>
-
-      <section class="job-list" id="jobs-container">
-        <article class="job-card" data-id="201">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(201, this)"
-            style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--slate-400); font-size: 1.2rem; cursor: pointer; z-index: 20; transition: 0.3s;"><i
-              class="far fa-bookmark"></i></button>
-          <div class="job-title"><i class="fas fa-laptop-code"></i> Senior Frontend Developer</div>
-          <div class="company">Google India</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-          <div class="salary">â‚¹15 - 25 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 5-8 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+    <div class="job-list" id="jobs-container">
+      
+      <!-- Professional Job Card 1 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="/frontend/pages/apply_home.html?job_id=201" class="job-title">Senior Frontend Developer (React/Next.js)</a>
+            <div class="company">Google India</div>
           </div>
-
-          <a href="/frontend/pages/jobs1_SFD.html" class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-server"></i> Back-End Developer</div>
-          <div class="company">CodeSphere Pvt Ltd</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</div>
-          <div class="salary">â‚¹5 - 9 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+          <div class="company-logo-placeholder">GO</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 4-7 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 25 - 45 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">React</span>
+          <span class="job-tag">TypeScript</span>
+          <span class="job-tag">Remote Friendly</span>
+        </div>
+        <p class="details">Work on some of the world's most high-scale products. We are looking for engineers with deep expertise in modern frontend frameworks and performance optimization.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2h ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(201, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="/frontend/pages/apply_home.html?job_id=201" class="apply-btn">View Details</a>
           </div>
+        </div>
+      </article>
 
-          <a href="/frontend/pages/apply_home.html?title=Back-End+Developer&company=CodeSphere+Pvt+Ltd&location=Chennai%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Develop+RESTful+APIs+using+Node.js%2C+Express%2C+or+Python+Django.+Work+with+databases+like+MySQL+or+MongoDB.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-mobile-alt"></i> Android Developer</div>
-          <div class="company">AppNova Solutions</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-          <div class="salary">â‚¹4 - 8 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
+      <!-- Professional Job Card 2 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="/frontend/pages/apply_home.html?job_id=202" class="job-title">Backend Lead (Java/Spring Boot)</a>
+            <div class="company">Amazon Dev Center</div>
           </div>
-
-          <a href="/frontend/pages/apply_home.html?title=Android+Developer&company=AppNova+Solutions&location=Hyderabad%2C+India&salary=%E2%82%B94+-+8+LPA&desc=Create+Android+applications+using+Kotlin+or+Java.+Collaborate+with+designers+for+seamless+UI%2FUX.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-cloud"></i> Cloud Developer</div>
-          <div class="company">CloudCore Technologies</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-          <div class="salary">â‚¹6 - 10 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+          <div class="company-logo-placeholder">AM</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Hyderabad</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 5-8 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 30 - 55 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Java</span>
+          <span class="job-tag">AWS</span>
+          <span class="job-tag">Microservices</span>
+        </div>
+        <p class="details">Lead the architecture and development of scalable cloud-native microservices. Deep understanding of distributed systems and Java ecosystem is required.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 5h ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(202, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="/frontend/pages/apply_home.html?job_id=202" class="apply-btn">View Details</a>
           </div>
+        </div>
+      </article>
 
-          <a href="/frontend/pages/apply_home.html?title=Cloud+Developer&company=CloudCore+Technologies&location=Pune%2C+India&salary=%E2%82%B96+-+10+LPA&desc=Design+and+deploy+scalable+cloud+apps+on+AWS%2C+Azure+or+GCP.+Automate+workflows+using+DevOps+tools.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-database"></i> Database Engineer</div>
-          <div class="company">DataLogic Systems</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-          <div class="salary">â‚¹5 - 9 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+      <!-- Professional Job Card 3 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="/frontend/pages/apply_home.html?job_id=203" class="job-title">Full Stack Web Developer (MERN)</a>
+            <div class="company">Microsoft Corporation</div>
           </div>
-
-          <a href="/frontend/pages/apply_home.html?title=Database+Engineer&company=DataLogic+Systems&location=Mumbai%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Maintain+and+optimize+SQL+and+NoSQL+databases.+Ensure+high+availability+and+security+of+data+systems.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-robot"></i> AI / ML Engineer</div>
-          <div class="company">NextGen AI Labs</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Delhi, India</div>
-          <div class="salary">â‚¹8 - 14 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
+          <div class="company-logo-placeholder">MS</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Pune / Remote</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 35 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Node.js</span>
+          <span class="job-tag">React</span>
+          <span class="job-tag">NoSQL</span>
+        </div>
+        <p class="details">Collaborate on building next-gen productivity tools. Experience with cloud platforms and end-to-end feature ownership is highly valued.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 1d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(203, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="/frontend/pages/apply_home.html?job_id=203" class="apply-btn">View Details</a>
           </div>
-          <p class="details">Build machine learning models and implement AI-driven features using Python, TensorFlow,
-            and Scikit-learn.</p>
-          <a href="/frontend/pages/apply_home.html?title=AI+%2F+ML+Engineer&company=NextGen+AI+Labs&location=Delhi%2C+India&salary=%E2%82%B98+-+14+LPA&desc=Build+machine+learning+models+and+implement+AI-driven+features+using+Python%2C+TensorFlow%2C+and+Scikit-learn.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
+        </div>
+      </article>
 
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-desktop"></i> Full Stack Developer</div>
-          <div class="company">TechWave Solutions</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-          <div class="salary">â‚¹6 - 11 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-7 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+      <!-- Professional Job Card 4 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="/frontend/pages/apply_home.html?job_id=204" class="job-title">Cloud DevOps Engineer</a>
+            <div class="company">NVIDIA India</div>
           </div>
-          <p class="details">Work on both front-end and back-end technologies. Build complete web applications from
-            scratch.</p>
-          <a href="/frontend/pages/apply_home.html?title=Full+Stack+Developer&company=TechWave+Solutions&location=Bangalore%2C+India&salary=%E2%82%B96+-+11+LPA&desc=Work+on+both+front-end+and+back-end+technologies.+Build+complete+web+applications+from+scratch.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-apple-alt"></i> iOS Developer</div>
-          <div class="company">MobileTech Innovations</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-          <div class="salary">â‚¹5 - 9 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
+          <div class="company-logo-placeholder">NV</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 22 - 40 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Kubernetes</span>
+          <span class="job-tag">Terraform</span>
+          <span class="job-tag">CI/CD</span>
+        </div>
+        <p class="details">Manage large-scale computing clusters and streamline deployment workflows. Experience with AI infrastructure or high-performance computing is a plus.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(204, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="/frontend/pages/apply_home.html?job_id=204" class="apply-btn">View Details</a>
           </div>
-          <p class="details">Develop iOS applications using Swift and Xcode. Create seamless user experiences for
-            Apple
-            devices.</p>
-          <a href="/frontend/pages/apply_home.html?title=iOS+Developer&company=MobileTech+Innovations&location=Mumbai%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Develop+iOS+applications+using+Swift+and+Xcode.+Create+seamless+user+experiences+for+Apple+devices.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
+        </div>
+      </article>
 
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-shield-alt"></i> Security Engineer</div>
-          <div class="company">CyberGuard Solutions</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-          <div class="salary">â‚¹7 - 12 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 4-8 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-          </div>
-          <p class="details">Implement security measures and conduct vulnerability assessments. Protect systems from
-            cyber threats.</p>
-          <a href="/frontend/pages/apply_home.html?title=Security+Engineer&company=CyberGuard+Solutions&location=Pune%2C+India&salary=%E2%82%B97+-+12+LPA&desc=Implement+security+measures+and+conduct+vulnerability+assessments.+Protect+systems+from+cyber+threats.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-chart-line"></i> Data Engineer</div>
-          <div class="company">BigData Analytics</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-          <div class="salary">â‚¹6 - 10 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-          </div>
-          <p class="details">Build and maintain data pipelines. Work with big data technologies like Hadoop and Spark.
-          </p>
-          <a href="/frontend/pages/apply_home.html?title=Data+Engineer&company=BigData+Analytics&location=Hyderabad%2C+India&salary=%E2%82%B96+-+10+LPA&desc=Build+and+maintain+data+pipelines.+Work+with+big+data+technologies+like+Hadoop+and+Spark.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-bug"></i> QA Engineer</div>
-          <div class="company">QualityFirst Tech</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</div>
-          <div class="salary">â‚¹4 - 7 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 1-4 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-          </div>
-          <p class="details">Perform manual and automated testing. Ensure software quality through comprehensive test
-            plans.</p>
-          <a href="/frontend/pages/apply_home.html?title=QA+Engineer&company=QualityFirst+Tech&location=Chennai%2C+India&salary=%E2%82%B94+-+7+LPA&desc=Perform+manual+and+automated+testing.+Ensure+software+quality+through+comprehensive+test+plans.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-cogs"></i> DevOps Engineer</div>
-          <div class="company">TCS</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-          <div class="salary">â‚¹10 - 18 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 5-10 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-          </div>
-          <p class="details">Manage and optimize cloud infrastructure. Implement CI/CD pipelines and ensure system
-            reliability.</p>
-          <a href="/frontend/pages/jobs1.DevEng.html" class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-paint-brush"></i> UX/UI Designer</div>
-          <div class="company">Flipkart</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-          <div class="salary">â‚¹8 - 15 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-7 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-          </div>
-          <p class="details">Create beautiful and intuitive user experiences for our e-commerce platform. Designs
-            wireframes and prototypes.</p>
-          <a href="/frontend/pages/jobs1.design.html" class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-network-wired"></i> Network Engineer</div>
-          <div class="company">NetConnect Solutions</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Delhi, India</div>
-          <div class="salary">â‚¹5 - 9 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-          </div>
-          <p class="details">Design and maintain network infrastructure. Troubleshoot connectivity issues and optimize
-            performance.</p>
-          <a href="/frontend/pages/apply_home.html?title=Network+Engineer&company=NetConnect+Solutions&location=Delhi%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Design+and+maintain+network+infrastructure.+Troubleshoot+connectivity+issues+and+optimize+performance.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-gamepad"></i> Game Developer</div>
-          <div class="company">PlayZone Studios</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-          <div class="salary">â‚¹5 - 10 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 1-4 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-          </div>
-          <p class="details">Develop engaging games using Unity or Unreal Engine. Create immersive gaming experiences.
-          </p>
-          <a href="/frontend/pages/apply_home.html?title=Game+Developer&company=PlayZone+Studios&location=Bangalore%2C+India&salary=%E2%82%B95+-+10+LPA&desc=Develop+engaging+games+using+Unity+or+Unreal+Engine.+Create+immersive+gaming+experiences.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-brain"></i> Data Scientist</div>
-          <div class="company">Amazon</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-          <div class="salary">â‚¹18 - 30 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 4-8 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-          </div>
-          <p class="details">Analyze complex data sets and build predictive models using machine learning algorithms.
-          </p>
-          <a href="/frontend/pages/apply_home.html?title=Data+Scientist&company=Amazon&location=Hyderabad%2C+India&salary=%E2%82%B918+-+30+LPA&desc=Analyze+complex+data+sets+and+build+predictive+models+using+machine+learning+algorithms.&exp=5-8+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-cube"></i> Blockchain Developer</div>
-          <div class="company">CryptoTech Innovations</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-          <div class="salary">â‚¹7 - 13 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-          </div>
-          <p class="details">Develop decentralized applications and smart contracts. Work with Ethereum, Solidity, and
-            Web3.</p>
-          <a href="/frontend/pages/apply_home.html?title=Blockchain+Developer&company=CryptoTech+Innovations&location=Hyderabad%2C+India&salary=%E2%82%B97+-+13+LPA&desc=Develop+decentralized+applications+and+smart+contracts.+Work+with+Ethereum%2C+Solidity%2C+and+Web3.&exp=2-5+years&type=Full+Time&mode=Hybrid"
-            class="apply-btn">Apply Now</a>
-        </article>
-
-        <article class="job-card">
-          <div class="job-card-tag">New Post</div>
-          <button class="save-job-btn" onclick="saveJob(583, this)">
-            <i class="far fa-bookmark"></i>
-          </button>
-          <div class="job-title"><i class="fas fa-tasks"></i> Product Manager</div>
-          <div class="company">Microsoft</div>
-          <div class="location"><i class="fas fa-map-marker-alt"></i> Remote (India)</div>
-          <div class="salary">â‚¹20 - 35 LPA</div>
-          <div class="job-meta">
-            <div class="meta-item"><i class="fas fa-briefcase"></i> 6-10 Yrs</div>
-            <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-            <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-          </div>
-          <p class="details">Lead product development from ideation to launch. Work with cross-functional teams and
-            define roadmaps.</p>
-          <a href="/frontend/pages/apply_home.html?title=Product+Manager&company=Microsoft&location=Remote+(India)&salary=%E2%82%B920+-+35+LPA&desc=Lead+product+development+from+ideation+to+launch.+Work+with+cross-functional+teams+and+define+roadmaps.&exp=8-12+years&type=Full+Time&mode=Remote"
-            class="apply-btn">Apply Now</a>
-        </article>
-      </section>
-
-      <div style="text-align: center; margin-bottom: 100px;">
-        <a href="/frontend/pages/jobs.html?keyword=IT" class="apply-btn"
-          style="width: auto; padding: 18px 50px; display: inline-block;">
-          View All Live Tech Jobs <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
-        </a>
-      </div>
     </div>
-
-    <!-- Career Path Section -->
-    <div class="container">
-      <div class="career-path-section">
-        <h2 class="section-title">IT Software Career Path</h2>
-        <div class="career-level">
-          <h3><i class="fas fa-seedling"></i> Entry Level (0-2 Years)</h3>
-          <p>Graduate Engineer Trainee or Junior Developer. Focus on core coding skills and SDLC fundamentals.
-            <strong>₹36 LPA.</strong>
-          </p>
-        </div>
-        <div class="career-level">
-          <h3><i class="fas fa-arrow-up"></i> Mid Level (3-6 Years)</h3>
-          <p>Senior Software Engineer. Responsible for system design, code reviews, and module ownership. <strong>₹815
-              LPA.</strong></p>
-        </div>
-        <div class="career-level">
-          <h3><i class="fas fa-star"></i> Senior Level (712 Years)</h3>
-          <p>Technical Lead or Solution Architect. Leading large engineering teams and architectural decisions.
-            <strong>₹1835 LPA.</strong>
-          </p>
-        </div>
-        <div class="career-level">
-          <h3><i class="fas fa-crown"></i> Expert Level (12+ Years)</h3>
-          <p>Engineering Director or CTO. Defining technology roadmaps and driving organization-wide innovation.
-            <strong>₹4080+ LPA.</strong>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Companies & Categories -->
-    <div class="container">
-      <div class="companies-section">
-        <h2 class="section-title">Top Companies Hiring</h2>
-        <div class="companies-grid">
-          <div class="company-logo">Google</div>
-          <div class="company-logo">Microsoft</div>
-          <div class="company-logo">Amazon</div>
-          <div class="company-logo">TCS</div>
-          <div class="company-logo">Infosys</div>
-          <div class="company-logo">Wipro</div>
-          <div class="company-logo">Meta</div>
-          <div class="company-logo">Adobe</div>
-        </div>
-      </div>
-    </div>
-
-    <section class="content-section featured-categories">
-      <div class="container">
-        <h2 class="section-title">Explore Other Sectors</h2>
-        <div class="categories-grid">
-          <div class="category-card">
-            <i class="fas fa-chart-line category-icon"></i>
-            <h3>Sales & Marketing</h3>
-            <p>1,800+ Openings</p>
-            <a href="/frontend/pages/sales_marketing.html" class="btn-view-jobs">View All <i
-                class="fas fa-chevron-right"></i></a>
-          </div>
-          <div class="category-card">
-            <i class="fas fa-dollar-sign category-icon"></i>
-            <h3>Finance & Accounting</h3>
-            <p>1,100+ Openings</p>
-            <a href="/frontend/pages/finance_accounting.html" class="btn-view-jobs">View All <i
-                class="fas fa-chevron-right"></i></a>
-          </div>
-          <div class="category-card">
-            <i class="fas fa-tools category-icon"></i>
-            <h3>Engineering</h3>
-            <p>2,500+ Openings</p>
-            <a href="/frontend/pages/engineering.html" class="btn-view-jobs">View All <i
-                class="fas fa-chevron-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="main-footer">
     <div class="container">
-      <div class="footer-links">
-        <a href="/index.html">Home</a>
-        <a href="/frontend/pages/jobs.html">Find Jobs</a>
-        <a href="/frontend/pages/contact.html">Contact Us</a>
-        <a href="/frontend/pages/profile.html">My Profile</a>
-      </div>
-      <p>&copy; 2026 EasyJobs Portal. Built for Professionals by Professionals.</p>
+      <p>&copy; 2026 EasyJobs Portal. Built for Success.</p>
     </div>
   </footer>
 
   <script src="/frontend/javascript/index.js"></script>
   <script src="/frontend/javascript/navbar_manager.js"></script>
   <script src="/frontend/javascript/category_search.js"></script>
-  <script src="/frontend/javascript/universal_search.js"></script>
-
 </body>
 
 </html>

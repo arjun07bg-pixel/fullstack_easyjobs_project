@@ -101,9 +101,13 @@ function guardAdmin() {
     // ROLE-BASED UI ADJUSTMENTS
     const isAdmin = user.role === "admin";
 
-
-
-    // 3. Show Company Profile Card for Employers
+    // Update sidebar link text for Admin
+    if (isAdmin) {
+        const myJobsLink = document.querySelector('[onclick*="switchTab(\'my-jobs\')"]');
+        if (myJobsLink) {
+            myJobsLink.innerHTML = '<i class="fas fa-list-alt"></i> Manage All Jobs';
+        }
+    }
     const profileCard = document.getElementById("employer-profile-card");
     if (profileCard && !isAdmin) {
         profileCard.style.display = "block";
@@ -134,13 +138,18 @@ function switchTab(tabName) {
     if (section) section.style.display = "block";
     if (link) link.classList.add("active");
 
-    const titles = {
-        overview: ["Recruiter Dashboard", "Manage your hires and internship listings."],
-        applications: ["All Applicants", "Review every candidate who applied for your openings."],
-
-        "post-job": ["Post Opening", "Add a new internship or job vacancy."],
+    const titles = isAdmin ? {
+        overview: ["Super Admin Panel", "Full access to platform metrics and user database."],
+        applications: ["All Applications", "Review every candidate who applied across the platform."],
+        "post-job": ["Post Global Opening", "Add a new internship or job vacancy as Admin."],
+        "my-jobs": ["All Platform Jobs", "View, edit, or remove any job posting on the system."],
+    } : {
+        overview: ["Employer Dashboard", "Manage your company's hires and job listings."],
+        applications: ["Recent Applicants", "Review Every candidate who applied for your openings."],
+        "post-job": ["Post New Opening", "Add a new internship or job vacancy for your company."],
         "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
     };
+
     const [t, s] = titles[tabName] || ["Dashboard", ""];
     const titleEl = document.getElementById("page-title");
     const subEl = document.getElementById("page-subtitle");
@@ -358,6 +367,7 @@ function renderMyJobs(data) {
     tbody.innerHTML = myJobs.map(job => `
 <tr>
     <td><span style="font-weight:700; color:#334155;">${job.job_title}</span></td>
+    <td><span style="color:#64748b; font-size:13px; font-weight:600;">${job.company_name || "N/A"}</span></td>
     <td><i class="fas fa-map-marker-alt"></i> ${job.location}</td>
     <td><span class="status-label status-pending">${job.job_type}</span></td>
     <td>₹${job.salary} LPA</td>
@@ -531,6 +541,9 @@ window.openModal = function (appId) {
     const btnReject = document.getElementById("btn-reject");
     const btnDel = document.getElementById("btn-delete-app");
 
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.role === "admin";
+
     // Clone to remove old listeners
     if (btnShort) {
         const newBtn = btnShort.cloneNode(true);
@@ -542,7 +555,9 @@ window.openModal = function (appId) {
         btnReject.parentNode.replaceChild(newBtn, btnReject);
         newBtn.addEventListener("click", () => updateAppStatus("rejected"));
     }
+
     if (btnDel) {
+        btnDel.style.display = isAdmin ? "block" : "none";
         const newBtn = btnDel.cloneNode(true);
         btnDel.parentNode.replaceChild(newBtn, btnDel);
         newBtn.addEventListener("click", deleteApplication);

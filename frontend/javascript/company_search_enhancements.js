@@ -383,9 +383,59 @@
             });
         }
 
+        // ══════════════════════════════════════════════════════════════════════
+        // FEATURE 4: ADMIN DELETE BUTTON
+        // ══════════════════════════════════════════════════════════════════════
+        function setupAdminFeatures() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.user_type !== 'admin') return;
+
+            document.querySelectorAll('.job-card').forEach(card => {
+                const actions = card.querySelector('.job-actions');
+                if (actions && !card.querySelector('.admin-delete-btn')) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'admin-delete-btn';
+                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                    deleteBtn.title = 'Delete Job (Admin)';
+                    deleteBtn.style.cssText = [
+                        'background:#fee2e2', 'color:#ef4444',
+                        'border:none', 'border-radius:8px',
+                        'width:36px', 'height:36px',
+                        'display:flex', 'align-items:center', 'justify-content:center',
+                        'cursor:pointer', 'transition:0.2s', 'font-size:14px'
+                    ].join(';');
+
+                    deleteBtn.addEventListener('mouseover', () => { deleteBtn.style.background = '#fecaca'; });
+                    deleteBtn.addEventListener('mouseout', () => { deleteBtn.style.background = '#fee2e2'; });
+
+                    deleteBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (confirm('Are you sure you want to delete this job posting? (Admin Action)')) {
+                            card.style.transition = 'all 0.3s ease';
+                            card.style.transform = 'scale(0.95)';
+                            card.style.opacity = '0';
+                            setTimeout(() => {
+                                card.remove();
+                                // Refresh count if necessary
+                                const heading = document.getElementById('results-heading');
+                                if (heading) {
+                                    const count = document.querySelectorAll('.job-card').length;
+                                    heading.textContent = 'Showing ' + count + ' Job' + (count !== 1 ? 's' : '');
+                                }
+                                refreshFilterChips();
+                            }, 300);
+                        }
+                    });
+
+                    actions.prepend(deleteBtn);
+                }
+            });
+        }
+
         // Initial count set
         setTimeout(() => {
             refreshFilterChips();
+            setupAdminFeatures();
         }, 300);
 
     }); // end DOMContentLoaded

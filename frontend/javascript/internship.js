@@ -57,6 +57,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Admin features
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const isAdmin = user.user_type === "admin";
+
+    if (isAdmin) {
+        cards.forEach(card => {
+            const footer = card.querySelector(".is-card-footer");
+            if (footer) {
+                const deleteBtn = document.createElement("button");
+                deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+                deleteBtn.className = "admin-delete-btn";
+                deleteBtn.style.cssText = "background:#fee2e2; color:#ef4444; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:600; font-size:13px; margin-right: 15px;";
+                
+                deleteBtn.onclick = (e) => {
+                    e.preventDefault();
+                    if (confirm("Are you sure you want to delete this internship?")) {
+                        card.style.transition = "0.3s";
+                        card.style.opacity = "0";
+                        setTimeout(() => {
+                            card.remove();
+                            applyFilters();
+                        }, 300);
+                    }
+                };
+                footer.prepend(deleteBtn);
+            }
+        });
+    }
+
     // Event Listeners
     [profileFilter, locationFilter].forEach(el => el?.addEventListener("keyup", applyFilters)); // Better responsiveness
     [wfhFilter, partTimeFilter, stipendFilter].forEach(el => el?.addEventListener("change", applyFilters));
