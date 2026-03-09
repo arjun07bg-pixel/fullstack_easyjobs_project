@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             ? `Employer account created successfully!\nWelcome, ${firstName}!\nYou can now post jobs from your Dashboard.`
                             : "Account created successfully! Redirecting to login..."
                     );
-                    window.location.href = "/frontend/pages/login.html";
+                    window.location.href = "../pages/login.html";
 
                 } else {
                     if (contentType && contentType.includes("application/json")) {

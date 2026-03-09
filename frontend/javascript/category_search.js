@@ -7,7 +7,7 @@ window.saveJob = async function(jobId, btn) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     if (!user.user_id) {
         alert("Please login to save jobs.");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "../pages/login.html";
         return;
     }
 
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         article.innerHTML = `
             <div class="job-card-header">
                 <div>
-                    <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}" class="job-title">${job.job_title}</a>
+                    <a href="../pages/apply_home.html?job_id=${job.job_id}" class="job-title">${job.job_title}</a>
                     <div class="company">${job.company_name}</div>
                 </div>
                 <div class="company-logo-placeholder">${logoText}</div>
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div style="display: flex; gap: 15px; align-items: center;">
                     ${isAdmin ? `<button class="save-job-btn-flat" style="color:#ff4d4d;" onclick="adminDel(${job.job_id}, this)"><i class="fas fa-trash"></i> Delete</button>` : ''}
                     <button class="save-job-btn-flat" onclick="saveJob(${job.job_id}, this)"><i class="far fa-bookmark"></i> Save</button>
-                    <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}" class="apply-btn">View Details</a>
+                    <a href="../pages/apply_home.html?job_id=${job.job_id}" class="apply-btn">View Details</a>
                 </div>
             </div>
         `;

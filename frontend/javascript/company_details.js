@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.company-main').innerHTML = `
             <div class="details-card">
                 <h2>Company Not Found</h2>
-                <p>We couldn't find details for the company you requested. <a href="/frontend/pages/companies.html">Browse Top Companies</a></p>
+                <p>We couldn't find details for the company you requested. <a href="../pages/companies.html">Browse Top Companies</a></p>
             </div>`;
         return;
     }
@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         type: job.type || 'Full-Time',
                         mode: 'On-site' // Default for company page jobs
                     }).toString();
-                    window.location.href = `/frontend/pages/apply_home.html?${queryParams}`;
+                    window.location.href = `../pages/apply_home.html?${queryParams}`;
                 };
 
                 jobEl.appendChild(infoDiv);

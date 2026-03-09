@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </p>
                                 <div style="display: flex; gap: 15px; justify-content: center;">
                                     <button onclick="window.location.reload()" class="btn-register" style="padding: 12px 25px; border-radius: 50px;">Post Another Job</button>
-                                    <a href="${isAdmin ? '/frontend/pages/dashboard.html' : '/index.html'}" class="btn-login" style="padding: 12px 25px; border-radius: 50px; text-decoration: none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
+                                    <a href="${isAdmin ? '../pages/dashboard.html' : '/index.html'}" class="btn-login" style="padding: 12px 25px; border-radius: 50px; text-decoration: none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
                                 </div>
                             </div>
                         `;

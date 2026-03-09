@@ -53,9 +53,9 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/frontend/javascript", StaticFiles(directory="frontend/javascript"), name="javascript")
-app.mount("/frontend/styles", StaticFiles(directory="frontend/styles"), name="styles")
-app.mount("/frontend/pages", StaticFiles(directory="frontend/pages"), name="pages")
+app.mount("../javascript", StaticFiles(directory="frontend/javascript"), name="javascript")
+app.mount("../styles", StaticFiles(directory="frontend/styles"), name="styles")
+app.mount("../pages", StaticFiles(directory="frontend/pages"), name="pages")
 
 templates = Jinja2Templates(directory=[".", "frontend/pages"])
 

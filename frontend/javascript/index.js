@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (keyword) params.set("keyword", keyword);
             if (location) params.set("location", location);
 
-            window.location.href = `/frontend/pages/jobs.html?${params.toString()}`;
+            window.location.href = `../pages/jobs.html?${params.toString()}`;
         });
     }
 
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const keyword = headerSearchInput.value.trim();
             if (keyword) {
-                window.location.href = `/frontend/pages/jobs.html?keyword=${encodeURIComponent(keyword)}`;
+                window.location.href = `../pages/jobs.html?keyword=${encodeURIComponent(keyword)}`;
             }
         });
     }
@@ -64,13 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
             : `<i class="fas fa-user-circle" style="font-size: 1.8rem; color: rgba(255,255,255,0.8);"></i>`;
 
         const actionLink = user.role === 'admin'
-            ? `<a href="/frontend/pages/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+            ? `<a href="../pages/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
             : user.role === 'employer'
-                ? `<a href="/frontend/pages/Postjob_home.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
+                ? `<a href="../pages/Postjob_home.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
                 : '';
 
         const savedJobsIcon = (user.role !== 'admin' && user.role !== 'employer')
-            ? `<a href="/frontend/pages/saved_jobs.html" style="color: #cbd5e1; font-size: 1.1rem; transition: 0.3s;" title="Saved Jobs">
+            ? `<a href="../pages/saved_jobs.html" style="color: #cbd5e1; font-size: 1.1rem; transition: 0.3s;" title="Saved Jobs">
                     <i class="fas fa-bookmark"></i>
                 </a>`
             : '';
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         authButtons.innerHTML = `
             <div style="display: flex; align-items: center; gap: 15px;">
                 ${savedJobsIcon}
-                <a href="/frontend/pages/profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.3s; padding: 5px 10px; border-radius: 50px;">
+                <a href="../pages/profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.3s; padding: 5px 10px; border-radius: 50px;">
                     ${avatarHtml}
                     <span style="font-weight: 600; color: white; display: none; @media (min-width: 600px) { display: inline; }">Hi, ${user.first_name}!</span>
                 </a>
@@ -160,7 +160,7 @@ async function saveJob(jobId, btnElement) {
 
     if (!user.user_id) {
         showMessage("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
-        setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
+        setTimeout(() => window.location.href = "../pages/login.html", 2000);
         return;
     }
 

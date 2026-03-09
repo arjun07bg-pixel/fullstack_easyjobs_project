@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     desc: desc,
                     mode: 'On-site'
                 });
-                link.href = `/frontend/pages/apply_home.html?${params.toString()}`;
+                link.href = `../pages/apply_home.html?${params.toString()}`;
             }
         });
     }

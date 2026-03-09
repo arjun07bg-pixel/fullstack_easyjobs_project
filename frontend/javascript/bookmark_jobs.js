@@ -160,10 +160,10 @@
                 </div>
                 <h2>Login to Save Jobs</h2>
                 <p>Create a free account or login to save jobs and access them anytime from your profile.</p>
-                <a href="/frontend/pages/login.html" class="ej-btn-login">
+                <a href="../pages/login.html" class="ej-btn-login">
                     <i class="fas fa-sign-in-alt"></i>&nbsp; Login to Your Account
                 </a>
-                <a href="/frontend/pages/register.html" class="ej-btn-register">
+                <a href="../pages/register.html" class="ej-btn-register">
                     <i class="fas fa-user-plus"></i>&nbsp; Create Free Account
                 </a>
                 <button class="ej-modal-close" id="ej-modal-close-btn">
