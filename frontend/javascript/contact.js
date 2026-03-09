@@ -1,5 +1,7 @@
+import { API_URL } from "./config.js";
+
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); return "/api"; };
+const getAPIURL = () => { return API_URL || "/api"; };
 
 document.addEventListener("DOMContentLoaded", () => {
     const contactForm = document.querySelector(".contact-form");

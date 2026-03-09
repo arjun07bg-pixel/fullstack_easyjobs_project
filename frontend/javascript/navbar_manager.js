@@ -1,11 +1,4 @@
-/**
- * Navbar Manager
- * Updates navigation bars across the site with User Profile Photo and Name.
- */
-
-document.addEventListener("DOMContentLoaded", () => {
-    updateNavbarProfile();
-});
+document.addEventListener("DOMContentLoaded", updateNavbarProfile);
 
 function updateNavbarProfile() {
     const userString = localStorage.getItem("user");
@@ -16,118 +9,97 @@ function updateNavbarProfile() {
     const isEmployer = user.role === "employer";
     const isAdmin = user.role === "admin";
 
-    // 1. Handle General Navbars (.nav-menu, .category-navbar, .nav-links)
+    // ── 1. Update Navbars ──
     const menus = document.querySelectorAll(".nav-menu ul, .category-navbar .nav-links, .nav-links ul");
 
     menus.forEach(menu => {
-        // Find Profile link
-        const profileLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("./profile.html") || a.textContent.toLowerCase().includes("profile"));
+        if (menu.querySelector(".nav-avatar-item")) return; // already updated
 
-        if (profileLink && !menu.querySelector(".nav-avatar-item")) {
+        const links = Array.from(menu.querySelectorAll("a"));
+        const profileLink = links.find(a => a.href.includes("./profile.html") || a.textContent.toLowerCase().includes("profile"));
+        if (!profileLink) return;
 
-            if (isEmployer || isAdmin) {
-                // ── EMPLOYER / ADMIN NAV ──────────────────
-                // Remove all links except Profile
-                Array.from(menu.querySelectorAll("a")).forEach(a => {
-                    const isProfile = a.href.includes("./profile.html") || a.textContent.toLowerCase().includes("profile");
-                    if (!isProfile) {
-                        if (a.parentElement && a.parentElement.tagName.toLowerCase() === 'li') {
-                            a.parentElement.remove();
-                        }
-                    }
-                });
+        if (isEmployer || isAdmin) {
+            // Remove all except Profile
+            links.forEach(a => {
+                const keep = a === profileLink;
+                if (!keep && a.parentElement?.tagName.toLowerCase() === "li") a.parentElement.remove();
+            });
 
-                // Add Dashboard link for Admin only
-                if (isAdmin) {
-                    const dashLi = document.createElement("li");
-                    dashLi.innerHTML = `<a href="./dashboard.html" class="nav-link" title="Admin Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
-                    menu.insertBefore(dashLi, profileLink.parentElement);
-                }
-
-                // Add Post Jobs link (for both Employer and Admin)
-                const postJobLi = document.createElement("li");
-                postJobLi.innerHTML = `<a href="./Postjob_home.html" class="nav-link" style="color: #16a34a; font-weight: 700;" title="Post a Job"><i class="fas fa-plus-circle"></i> Post Job</a>`;
-                menu.insertBefore(postJobLi, profileLink.parentElement);
-
-            } else {
-                // ── JOB SEEKER NAV: Show Saved Jobs + My Applications ─────────
-                const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("./saved_jobs.html"));
-                if (!hasSavedJobs) {
-                    const savedJobsLi = document.createElement("li");
-                    savedJobsLi.innerHTML = `<a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
-                    menu.insertBefore(savedJobsLi, profileLink.parentElement);
-                }
-
-                const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("./my_applications.html"));
-                if (!hasMyApps && !menu.classList.contains('no-apps-link')) {
-                    const myAppsLi = document.createElement("li");
-                    myAppsLi.innerHTML = `<a href="./my_applications.html" class="nav-link">My Applications</a>`;
-                    menu.insertBefore(myAppsLi, profileLink.parentElement);
-                }
+            // Admin Dashboard link
+            if (isAdmin) {
+                const dashLi = document.createElement("li");
+                dashLi.innerHTML = `<a href="./dashboard.html" class="nav-link" title="Admin Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
+                menu.insertBefore(dashLi, profileLink.parentElement);
             }
 
-            // Create Avatar Element (same for both roles)
-            const avatarContainer = document.createElement("li");
-            avatarContainer.classList.add("nav-avatar-item");
-            avatarContainer.style.display = "flex";
-            avatarContainer.style.alignItems = "center";
-            avatarContainer.style.gap = "10px";
-            avatarContainer.style.paddingLeft = "10px";
+            // Post Job link
+            const postJobLi = document.createElement("li");
+            postJobLi.innerHTML = `<a href="./Postjob_home.html" class="nav-link" style="color:#16a34a;font-weight:700;" title="Post a Job"><i class="fas fa-plus-circle"></i> Post Job</a>`;
+            menu.insertBefore(postJobLi, profileLink.parentElement);
 
-            // Avatar Image
-            const img = document.createElement("img");
-            img.src = photo || ("https://ui-avatars.com/api/?name=" + user.first_name + "&background=random");
-            img.style.width = "32px";
-            img.style.height = "32px";
-            img.style.borderRadius = "50%";
-            img.style.objectFit = "cover";
-            img.style.border = isEmployer ? "2px solid #16a34a" : "2px solid #2563eb";
+        } else {
+            // Job Seeker links
+            if (!links.some(a => a.href.includes("./saved_jobs.html"))) {
+                const savedLi = document.createElement("li");
+                savedLi.innerHTML = `<a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
+                menu.insertBefore(savedLi, profileLink.parentElement);
+            }
 
-            // Link Text
-            const link = document.createElement("a");
-            link.href = "./profile.html";
-            link.innerText = user.first_name;
-            link.classList.add("nav-link");
-            link.style.fontWeight = "600";
-
-            avatarContainer.appendChild(img);
-            avatarContainer.appendChild(link);
-
-            // Replace existing "Profile" link with Avatar
-            profileLink.parentElement.replaceWith(avatarContainer);
+            if (!links.some(a => a.href.includes("./my_applications.html")) && !menu.classList.contains("no-apps-link")) {
+                const appsLi = document.createElement("li");
+                appsLi.innerHTML = `<a href="./my_applications.html" class="nav-link">My Applications</a>`;
+                menu.insertBefore(appsLi, profileLink.parentElement);
+            }
         }
+
+        // ── Avatar Replacement ──
+        const avatarLi = document.createElement("li");
+        avatarLi.classList.add("nav-avatar-item");
+        avatarLi.style.display = "flex";
+        avatarLi.style.alignItems = "center";
+        avatarLi.style.gap = "10px";
+        avatarLi.style.paddingLeft = "10px";
+
+        const img = document.createElement("img");
+        const initials = `${user.first_name || ""}${user.last_name ? " " + user.last_name : ""}`;
+        img.src = photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random`;
+        img.style.width = "32px";
+        img.style.height = "32px";
+        img.style.borderRadius = "50%";
+        img.style.objectFit = "cover";
+        img.style.border = isEmployer ? "2px solid #16a34a" : "2px solid #2563eb";
+
+        const link = document.createElement("a");
+        link.href = "./profile.html";
+        link.innerText = user.first_name;
+        link.classList.add("nav-link");
+        link.style.fontWeight = "600";
+
+        avatarLi.append(img, link);
+        profileLink.parentElement.replaceWith(avatarLi);
     });
 
-    // 2. Handle Dashboard Header
-    const dashboardHeader = document.querySelector(".dashboard-header");
-    // If we are in dashboard, maybe show it there too or relying on sidebar?
-    // The Dashboard.html already has a specific header. Let's update that.
-
+    // ── 2. Dashboard Header ──
     const dashNav = document.querySelector("header.navbar nav");
-    if (dashNav) {
-        // Look for Logout button to insert before
-        const logoutBtn = dashNav.querySelector("#logoutBtn");
-        if (logoutBtn) {
-            // Check if already added
-            if (!document.getElementById("nav-user-avatar")) {
-                const avatarHtml = document.createElement("a");
-                avatarHtml.id = "nav-user-avatar";
-                avatarHtml.href = "./profile.html";
-                avatarHtml.style.display = "flex";
-                avatarHtml.style.alignItems = "center";
-                avatarHtml.style.gap = "8px";
-                avatarHtml.style.textDecoration = "none";
-                avatarHtml.style.marginRight = "1rem";
+    if (!dashNav || document.getElementById("nav-user-avatar")) return;
 
-                const imgSrc = photo || ("https://ui-avatars.com/api/?name=" + user.first_name);
+    const logoutBtn = dashNav.querySelector("#logoutBtn");
+    if (!logoutBtn) return;
 
-                avatarHtml.innerHTML = `
-                    <img src="${imgSrc}" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid #ccc;">
-                    <span style="font-weight:600; color:#333;">${user.first_name}</span>
-                 `;
+    const avatarHtml = document.createElement("a");
+    avatarHtml.id = "nav-user-avatar";
+    avatarHtml.href = "./profile.html";
+    avatarHtml.style.display = "flex";
+    avatarHtml.style.alignItems = "center";
+    avatarHtml.style.gap = "8px";
+    avatarHtml.style.textDecoration = "none";
+    avatarHtml.style.marginRight = "1rem";
 
-                dashNav.insertBefore(avatarHtml, logoutBtn);
-            }
-        }
-    }
+    avatarHtml.innerHTML = `
+        <img src="${photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}`}" 
+             style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid #ccc;">
+        <span style="font-weight:600; color:#333;">${user.first_name}</span>
+    `;
+    dashNav.insertBefore(avatarHtml, logoutBtn);
 }

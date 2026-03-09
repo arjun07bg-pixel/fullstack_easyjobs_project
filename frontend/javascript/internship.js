@@ -21,24 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const isPartTime = partTimeFilter?.checked;
 
         let visibleCount = 0;
-        cards.forEach(card => {
-            const title = card.querySelector(".is-title")?.innerText.toLowerCase() || "";
-            const company = card.querySelector(".is-company")?.innerText.toLowerCase() || "";
-            const locText = card.querySelector(".is-location")?.innerText.toLowerCase() || "";
 
+        cards.forEach(card => {
+            const title = card.querySelector(".is-title")?.textContent.toLowerCase() || "";
+            const company = card.querySelector(".is-company")?.textContent.toLowerCase() || "";
+            const locText = card.querySelector(".is-location")?.textContent.toLowerCase() || "";
+
+            // Calculate stipend
             let stipendVal = 0;
             card.querySelectorAll(".detail-item").forEach(item => {
-                if (item.innerText.includes("STIPEND")) {
-                    const valText = item.querySelector(".detail-value")?.innerText || "0";
+                if (item.textContent.includes("STIPEND")) {
+                    const valText = item.querySelector(".detail-value")?.textContent || "0";
                     stipendVal = parseInt(valText.replace(/[^0-9]/g, "")) || 0;
                 }
             });
 
+            const tags = Array.from(card.querySelectorAll(".is-tag")).map(t => t.textContent.toLowerCase());
+
             const matchesProfile = !profile || title.includes(profile) || company.includes(profile);
             const matchesLocation = !location || locText.includes(location);
             const matchesStipend = stipendVal >= minStipend;
-
-            const tags = Array.from(card.querySelectorAll(".is-tag")).map(t => t.innerText.toLowerCase());
             const matchesWFH = !isWFH || tags.some(t => t.includes("home") || t.includes("remote")) || locText.includes("home") || locText.includes("remote");
             const matchesPartTime = !isPartTime || tags.some(t => t.includes("part"));
 
@@ -51,13 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (headingCount) {
-            headingCount.innerText = visibleCount > 0
+            headingCount.textContent = visibleCount
                 ? `${visibleCount.toLocaleString()}+ internships matching your choice`
                 : `No internships matching your criteria`;
         }
     }
 
-    // Admin features
+    // Admin Delete Feature
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const isAdmin = user.user_type === "admin";
 
@@ -68,26 +70,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 const deleteBtn = document.createElement("button");
                 deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
                 deleteBtn.className = "admin-delete-btn";
-                deleteBtn.style.cssText = "background:#fee2e2; color:#ef4444; border:none; padding:8px 15px; border-radius:4px; cursor:pointer; font-weight:600; font-size:13px; margin-right: 15px;";
-                
-                deleteBtn.onclick = (e) => {
+                deleteBtn.style.cssText = `
+                    background:#fee2e2; color:#ef4444; border:none;
+                    padding:8px 15px; border-radius:4px; cursor:pointer;
+                    font-weight:600; font-size:13px; margin-right:15px;
+                `;
+                deleteBtn.addEventListener("click", e => {
                     e.preventDefault();
                     if (confirm("Are you sure you want to delete this internship?")) {
-                        card.style.transition = "0.3s";
+                        card.style.transition = "opacity 0.3s";
                         card.style.opacity = "0";
                         setTimeout(() => {
                             card.remove();
                             applyFilters();
                         }, 300);
                     }
-                };
+                });
                 footer.prepend(deleteBtn);
             }
         });
     }
 
     // Event Listeners
-    [profileFilter, locationFilter].forEach(el => el?.addEventListener("keyup", applyFilters)); // Better responsiveness
+    [profileFilter, locationFilter].forEach(el => el?.addEventListener("keyup", applyFilters));
     [wfhFilter, partTimeFilter, stipendFilter].forEach(el => el?.addEventListener("change", applyFilters));
 
     clearBtn?.addEventListener("click", () => {

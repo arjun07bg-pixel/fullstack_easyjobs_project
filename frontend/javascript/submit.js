@@ -1,8 +1,9 @@
 /**
- * submit.js - Handles dynamic data population for the success page
+ * submit.js
+ * Handles dynamic data population and auto-redirect for the Job Application Success page
  */
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Recover application data from localStorage
+    // ─── 1. Load last application data from localStorage ─────────
     const lastAppStr = localStorage.getItem("lastApplication");
     const jobTitleDisplay = document.getElementById("job-title-display");
     const companyNameDisplay = document.getElementById("company-name-display");
@@ -12,27 +13,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (lastAppStr) {
         try {
             const data = JSON.parse(lastAppStr);
-            console.log("📝 Loaded application data for success page:", data);
+            console.log("📝 Loaded application data:", data);
 
             if (jobTitleDisplay) jobTitleDisplay.innerText = data.jobTitle || "Position";
             if (companyNameDisplay) companyNameDisplay.innerText = data.companyName || "Company";
 
-            // Format ID nicely
             if (appIdValue) {
                 const id = data.applicationId || Math.floor(100000 + Math.random() * 900000);
                 appIdValue.innerText = `#EJ-${id}`;
             }
-        } catch (e) {
-            console.error("Error parsing application data:", e);
+        } catch (err) {
+            console.error("Error parsing last application data:", err);
         }
     } else {
         // Fallback for direct page access
-        if (jobTitleDisplay) jobTitleDisplay.innerText = "Application Success";
+        if (jobTitleDisplay) jobTitleDisplay.innerText = "Application Submitted";
         if (companyNameDisplay) companyNameDisplay.innerText = "EasyJobs Network";
         if (appIdValue) appIdValue.innerText = "#EJ-SYSTEM";
     }
 
-    // 2. Auto-redirect Countdown
+    // ─── 2. Auto-redirect countdown ─────────────────────────────
     let timeLeft = 15;
     const timer = setInterval(() => {
         timeLeft--;
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 1000);
 
-    // 3. Clear the flag so redirect doesn't happen if user navigates away manually
+    // ─── 3. Clean up timer on page unload ───────────────────────
     window.addEventListener("beforeunload", () => {
         clearInterval(timer);
     });

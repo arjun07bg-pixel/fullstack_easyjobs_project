@@ -1,12 +1,11 @@
-// Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => {
-    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
-    return "/api";
-};
+"use strict";
 
+/* ─── Utility ─────────────────────────────────────────────── */
+const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
+
+/* ─── DOM Ready ──────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
-    const API_BASE_URL = getAPIURL();
     if (!userString) {
         alert("Please login to view your profile.");
         window.location.href = "./login.html";
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userData = JSON.parse(userString);
     const userId = userData.user_id;
 
-    // Elements
+    /* ─── Elements ───────────────────────────────────────── */
     const pref = {
         form: document.getElementById("profileForm"),
         firstName: document.getElementById("firstName"),
@@ -43,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         strengthPercent: document.getElementById("strength-percent"),
         strengthLabel: document.getElementById("strength-label"),
         saveBtn: document.getElementById("saveProfileBtn"),
-        // Employer Specific
+        // Employer
         companyCard: document.getElementById("company-card"),
         companyName: document.getElementById("companyName"),
         industry: document.getElementById("industry"),
@@ -51,7 +50,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         companyWebsite: document.getElementById("companyWebsite")
     };
 
-    // Calculate and update profile strength
+    const headerName = document.getElementById("header-profile-name");
+    const headerSub = document.getElementById("header-profile-sub");
+
+    let tempPhotoData = null;
+    let tempResumeName = null;
+
+    /* ─── Role-Based UI ───────────────────────────────────── */
+    if (userData.role === "employer") {
+        document.querySelectorAll(".seeker-only").forEach(el => el.style.display = "none");
+        if (pref.companyCard) pref.companyCard.style.display = "block";
+        const bioLabel = document.getElementById("bio-label");
+        if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
+    }
+
+    /* ─── Profile Strength ─────────────────────────────────── */
     const updateStrength = () => {
         const fields = [
             pref.firstName, pref.lastName, pref.phone, pref.location,
@@ -60,61 +73,37 @@ document.addEventListener("DOMContentLoaded", async () => {
             pref.githubUrl, pref.gender, pref.dob
         ];
 
-        let filled = 0;
-        fields.forEach(f => {
-            if (f && f.value && f.value.trim() !== "" && f.value !== "0") {
-                filled++;
-            }
-        });
-
-        // Add for email (always), photo, and resume
-        filled += 1; // Email
+        let filled = fields.reduce((acc, f) => (f && f.value.trim() !== "" && f.value !== "0" ? acc + 1 : acc), 0);
+        filled += 1; // email always counted
         const user = JSON.parse(localStorage.getItem("user") || "{}");
         if ((user.image && user.image.trim() !== "") || tempPhotoData) filled++;
         if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
 
-        const totalFields = fields.length + 3; // + email, photo, resume
+        const totalFields = fields.length + 3;
         const percent = Math.round((filled / totalFields) * 100);
 
         if (pref.strengthBar) pref.strengthBar.style.width = percent + "%";
         if (pref.strengthPercent) pref.strengthPercent.innerText = percent + "%";
 
-        // Update Header Elements
-        const headerPercent = document.getElementById("header-strength-percent");
-        if (headerPercent) headerPercent.innerText = percent + "%";
+        if (headerName && headerSub) {
+            headerName.innerText = user.role === 'employer' ? (user.company_name || "Company Profile") : `${user.first_name} ${user.last_name || ""}`;
+            headerSub.innerHTML = user.role === 'employer'
+                ? `<i class="fas fa-building"></i> ${user.industry || "Industry Not Set"} | <i class="fas fa-users"></i> ${user.company_size || "Size Not Set"}`
+                : `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
+        }
 
         if (pref.strengthLabel) {
-            if (percent < 30) pref.strengthLabel.innerText = "Needs Attention";
-            else if (percent < 60) pref.strengthLabel.innerText = "Getting There";
-            else if (percent < 85) pref.strengthLabel.innerText = "Strong Profile";
-            else if (percent < 100) pref.strengthLabel.innerText = "Almost Complete!";
-            else pref.strengthLabel.innerText = "100% Complete! \u{1F3C6}";
+            pref.strengthLabel.innerText = percent < 30 ? "Needs Attention" :
+                percent < 60 ? "Getting There" :
+                percent < 85 ? "Strong Profile" :
+                percent < 100 ? "Almost Complete!" :
+                "100% Complete! 🏆";
         }
     };
 
-    // Role-based visibility
-    if (userData.role === "employer") {
-        document.querySelectorAll(".seeker-only").forEach(el => el.style.display = "none");
-        if (pref.companyCard) pref.companyCard.style.display = "block";
-        const bioLabel = document.getElementById("bio-label");
-        if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
-    }
-
-    // 1. Fetch Latest User Data
-    const fetchUser = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/${userId}`);
-            if (response.ok) {
-                const user = await response.json();
-                populateForm(user);
-                updateStrength();
-            }
-        } catch (e) {
-            console.error("Error fetching user data:", e);
-        }
-    };
-
+    /* ─── Fetch User Data ─────────────────────────────────── */
     const populateForm = (user) => {
+        if (!user) return;
         if (pref.firstName) pref.firstName.value = user.first_name || "";
         if (pref.lastName) pref.lastName.value = user.last_name || "";
         if (pref.email) pref.email.value = user.email || "";
@@ -130,6 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.linkedinUrl) pref.linkedinUrl.value = user.linkedin_url || "";
         if (pref.githubUrl) pref.githubUrl.value = user.github_url || "";
         if (pref.dob) pref.dob.value = user.dob || "";
+        if (pref.gender) pref.gender.value = user.gender || "";
 
         // Employer Fields
         if (pref.companyName) pref.companyName.value = user.company_name || "";
@@ -137,46 +127,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.companySize) pref.companySize.value = user.company_size || "";
         if (pref.companyWebsite) pref.companyWebsite.value = user.company_website || "";
 
-        // Update Header
-        if (headerName) headerName.innerText = user.role === 'employer' ? (user.company_name || "Company Profile") : `${user.first_name} ${user.last_name || ""}`;
-        if (headerSub) {
-            if (user.role === 'employer') {
-                headerSub.innerHTML = `<i class="fas fa-building"></i> ${user.industry || "Industry Not Set"} | <i class="fas fa-users"></i> ${user.company_size || "Size Not Set"}`;
-            } else {
-                headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
-            }
-        }
+        // Profile preview
+        const avatarSrc = tempPhotoData || user.image || `https://ui-avatars.com/api/?name=${user.first_name}`;
+        if (pref.photoPreview) pref.photoPreview.innerHTML = `<img src="${avatarSrc}" alt="Profile">`;
+        if (pref.resumeName && user.resume_url) pref.resumeName.innerText = user.resume_url;
 
-        if (user.image && pref.photoPreview && user.image.trim() !== "") {
-            pref.photoPreview.innerHTML = `<img src="${user.image}" alt="Profile">`;
-        }
-
-        if (user.resume_url && pref.resumeName) {
-            pref.resumeName.innerText = user.resume_url;
-        }
+        updateStrength();
     };
 
-    // 2. Initial Data Load
+    const fetchUser = async () => {
+        try {
+            const res = await fetch(`${getAPIURL()}/users/${userId}`);
+            if (res.ok) {
+                const user = await res.json();
+                populateForm(user);
+            }
+        } catch (e) {
+            console.error("Error fetching user data:", e);
+        }
+    };
     fetchUser();
 
-    // 3. Handle File Uploads
-    let tempPhotoData = null;
-    let tempResumeName = null;
-
+    /* ─── File Uploads ───────────────────────────────────── */
     if (pref.photoInput) {
-        pref.photoInput.addEventListener("change", (e) => {
+        pref.photoInput.addEventListener("change", e => {
             const file = e.target.files[0];
             if (!file) return;
-
-            // Size check (2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert("Image size should be less than 2MB");
-                return;
-            }
-
+            if (file.size > 2 * 1024 * 1024) return alert("Image size should be < 2MB");
             const reader = new FileReader();
-            reader.onload = (event) => {
-                tempPhotoData = event.target.result;
+            reader.onload = ev => {
+                tempPhotoData = ev.target.result;
                 pref.photoPreview.innerHTML = `<img src="${tempPhotoData}" alt="Preview">`;
                 updateStrength();
             };
@@ -185,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (pref.resumeInput) {
-        pref.resumeInput.addEventListener("change", (e) => {
+        pref.resumeInput.addEventListener("change", e => {
             const file = e.target.files[0];
             if (!file) return;
             tempResumeName = file.name;
@@ -194,19 +174,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Add event listeners to input fields to update strength bar in real-time
-    const allInputs = Object.values(pref).filter(el => el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT"));
-    allInputs.forEach(input => {
-        input.addEventListener("input", updateStrength);
-        input.addEventListener("change", updateStrength);
+    /* ─── Auto Update Strength ───────────────────────────── */
+    Object.values(pref).forEach(el => {
+        if (el && ["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName)) {
+            el.addEventListener("input", updateStrength);
+            el.addEventListener("change", updateStrength);
+        }
     });
 
-    // 4. Handle Save Profile
+    /* ─── Save Profile ────────────────────────────────────── */
     if (pref.form) {
-        pref.form.addEventListener("submit", async (e) => {
+        pref.form.addEventListener("submit", async e => {
             e.preventDefault();
-
-            const currentUserData = JSON.parse(localStorage.getItem("user") || "{}");
+            pref.saveBtn.disabled = true;
+            pref.saveBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Saving Profile...`;
 
             const payload = {
                 first_name: pref.firstName.value.trim(),
@@ -224,9 +205,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 github_url: pref.githubUrl.value.trim(),
                 gender: pref.gender.value,
                 dob: pref.dob.value,
-                image: tempPhotoData || (currentUserData.image || ""),
-                resume_url: tempResumeName || (currentUserData.resume_url || ""),
-                // Employer Specific
+                image: tempPhotoData || userData.image || "",
+                resume_url: tempResumeName || userData.resume_url || "",
                 company_name: pref.companyName ? pref.companyName.value.trim() : null,
                 industry: pref.industry ? pref.industry.value.trim() : null,
                 company_size: pref.companySize ? pref.companySize.value : null,
@@ -234,39 +214,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
 
             try {
-                pref.saveBtn.disabled = true;
-                pref.saveBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Saving Profile...`;
-
-                const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+                const res = await fetch(`${getAPIURL()}/users/${userId}`, {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
 
-                if (response.ok) {
-                    const updatedUser = await response.json();
-
-                    // Update Local Storage
+                if (res.ok) {
+                    const updatedUser = await res.json();
                     localStorage.setItem("user", JSON.stringify(updatedUser));
-
-                    // Show premium success feedback
                     pref.saveBtn.innerHTML = `<i class="fas fa-check-circle"></i> Profile Updated!`;
                     pref.saveBtn.style.background = "#22c55e";
-
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
+                    setTimeout(() => window.location.reload(), 1000);
                 } else {
-                    const error = await response.json();
+                    const error = await res.json();
                     alert("Error: " + (error.detail || "Failed to update profile"));
                     pref.saveBtn.disabled = false;
                     pref.saveBtn.innerHTML = "Update Professional Profile";
                 }
             } catch (err) {
                 console.error("Save Error:", err);
-                alert("Network error. Please check if the backend is running.");
+                alert("Network error. Ensure backend is running.");
                 pref.saveBtn.disabled = false;
                 pref.saveBtn.innerHTML = "Update Professional Profile";
             }

@@ -1,39 +1,37 @@
+"use strict";
+
 /**
  * Saved Jobs Manager
- * Fetches and displays jobs saved by the user.
+ * Fetches and displays jobs saved by the logged-in user.
  */
-
 document.addEventListener("DOMContentLoaded", () => {
-    const getAPIURL = () => {
-        if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
-        return "/api";
-    };
-
+    const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
     const API_BASE_URL = getAPIURL();
+
     const userString = localStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
 
     if (!user || !user.user_id) {
-        console.warn("No user ID found, redirecting to login.");
+        console.warn("No user found, redirecting to login.");
         window.location.href = "./login.html";
         return;
     }
 
     const container = document.getElementById("saved-jobs-container");
+    if (!container) return;
 
+    /** ─── Fetch Saved Jobs ───────────────────────────── */
     async function fetchSavedJobs() {
-        if (!container) return;
-
         try {
             const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}`);
             if (!res.ok) throw new Error("Failed to fetch saved jobs");
 
             const jobs = await res.json();
 
-            if (jobs.length === 0) {
+            if (!jobs.length) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <i class="far fa-bookmark"></i>
+                        <i class="far fa-bookmark" style="font-size: 3rem; color:#64748b;"></i>
                         <p>You haven't saved any jobs yet.</p>
                         <a href="./jobs.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:20px auto;">Browse Jobs</a>
                     </div>
@@ -62,17 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error("Saved Jobs Fetch Error:", err);
-            container.innerHTML = `<div class="empty-state"><p>Error loading jobs. Please check your connection and refresh.</p></div>`;
+            container.innerHTML = `<div class="empty-state"><p>Error loading jobs. Please refresh the page.</p></div>`;
         }
     }
 
-    window.unsaveJob = async function (jobId) {
+    /** ─── Remove a Saved Job ─────────────────────────── */
+    window.unsaveJob = async function(jobId) {
         if (!confirm("Remove this job from your saved list?\nஇந்த வேலையை சேமிக்கப்பட்ட பட்டியலில் இருந்து நீக்க வேண்டுமா?")) return;
 
         try {
             const res = await fetch(`${API_BASE_URL}/saved-jobs/${user.user_id}/${jobId}`, {
                 method: "DELETE"
             });
+
             if (res.ok) {
                 const element = document.getElementById(`job-${jobId}`);
                 if (element) {
@@ -80,16 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     element.style.transform = 'translateX(20px)';
                     setTimeout(() => {
                         element.remove();
-                        if (document.querySelectorAll(".job-card").length === 0) {
-                            fetchSavedJobs();
-                        }
+                        if (!document.querySelector(".job-card")) fetchSavedJobs();
                     }, 300);
                 }
                 if (typeof showMessage === 'function') {
                     showMessage("Job removed from saved list.\nவேலை பட்டியலிலிருந்து நீக்கப்பட்டது.", "info");
                 }
             } else {
-                alert("Failed to remove job.");
+                alert("Failed to remove job. Please try again.");
             }
         } catch (err) {
             console.error("Unsave Job Error:", err);
@@ -97,5 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // Initial load
     fetchSavedJobs();
 });
