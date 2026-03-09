@@ -1,9 +1,9 @@
 # from fastapi import APIRouter, Depends, HTTPException
 # from sqlalchemy.orm import Session
-# from backend.dependencies import get_db
-# from backend.models.post import Post
-# from backend.schemas.post import PostCreate, PostOut
-# # from backend.models.company import Company
+# from dependencies import get_db
+# from models.post import Post
+# from schemas.post import PostCreate, PostOut
+# # from models.company import Company
 
 # router = APIRouter(prefix="/posts", tags=["Posts"])
 

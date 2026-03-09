@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from backend.dependencies import get_db
-from backend.models.user import User
-from backend.models.company import Company
-from backend.models.job import Job
-from backend.models.admin import Admin
+from dependencies import get_db
+from models.user import User
+from models.company import Company
+from models.job import Job
+from models.admin import Admin
 
 router = APIRouter(prefix="/admin/stats", tags=["Admin Stats"])
 

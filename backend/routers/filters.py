@@ -3,9 +3,9 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
-from backend.dependencies import get_db
-from backend.models.job import Job
-from backend.schemas.job import JobOut
+from dependencies import get_db
+from models.job import Job
+from schemas.job import JobOut
 
 router = APIRouter(prefix="/filters", tags=["Filters - Findjobs"])
 

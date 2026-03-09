@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from backend.dependencies import get_db
-from backend.models.status import Candidate, CandidateStatus
-from backend.schemas.status import CandidateCreate, CandidateStatusOut
+from dependencies import get_db
+from models.status import Candidate, CandidateStatus
+from schemas.status import CandidateCreate, CandidateStatusOut
 
 router = APIRouter(
     prefix="/user/candidates",

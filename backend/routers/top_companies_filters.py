@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from typing import Optional, List
 from sqlalchemy import func
 
-from backend.dependencies import get_db
-from backend.models.job import Job
-from backend.schemas.job import JobOut
+from dependencies import get_db
+from models.job import Job
+from schemas.job import JobOut
 
 router = APIRouter(
     prefix="/jobs",

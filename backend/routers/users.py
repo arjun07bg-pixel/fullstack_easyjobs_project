@@ -1,9 +1,9 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend.dependencies import get_db
-from backend.models.user import User
-from backend.schemas.user import UserCreate, UserOut, UserSignin, UserUpdate
+from dependencies import get_db
+from models.user import User
+from schemas.user import UserCreate, UserOut, UserSignin, UserUpdate
 
 
 
@@ -11,7 +11,7 @@ from backend.schemas.user import UserCreate, UserOut, UserSignin, UserUpdate
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-from backend.core.security import get_password_hash
+from core.security import get_password_hash
 
 # ---------------- GET ALL USERS (Admin) ----------------
 @router.get("/", response_model=list[UserOut])
@@ -57,7 +57,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 
-from backend.core.security import verify_password
+from core.security import verify_password
 
 @router.post("/signin", response_model=UserOut)
 def signin_user(credentials: UserSignin, db: Session = Depends(get_db)):
