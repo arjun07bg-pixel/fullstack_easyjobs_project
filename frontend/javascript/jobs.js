@@ -411,7 +411,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div style="display: flex; gap: 10px;">
                         ${isAdmin ? `<button class="delete-btn" style="background: #fee2e2; color: #ef4444; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;" data-id="${job.job_id}"><i class="fas fa-trash-alt"></i> Delete</button>` : ''}
                         <button class="save-btn" data-id="${job.job_id}" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">💾 Save</button>
-                        <a href="../pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
+                        <a href="./apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
                     </div>
                 </div>
             `;
@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 e.preventDefault();
                 if (!user.user_id) {
                     alert("Please login to save this job.");
-                    window.location.href = "../pages/login.html";
+                    window.location.href = "./login.html";
                     return;
                 }
 

@@ -61,9 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Admin OR Employer → dashboard, others → home
                     // Admin → dashboard, Employer → post job, others → home
                     if (data.role === "admin") {
-                        window.location.href = "../pages/dashboard.html";
+                        window.location.href = "./dashboard.html";
                     } else if (data.role === "employer") {
-                        window.location.href = "../pages/Postjob_home.html";
+                        window.location.href = "./Postjob_home.html";
                     } else {
                         window.location.href = "/index.html";
                     }

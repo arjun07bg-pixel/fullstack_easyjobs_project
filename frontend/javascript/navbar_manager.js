@@ -21,7 +21,7 @@ function updateNavbarProfile() {
 
     menus.forEach(menu => {
         // Find Profile link
-        const profileLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("../pages/profile.html") || a.textContent.toLowerCase().includes("profile"));
+        const profileLink = Array.from(menu.querySelectorAll("a")).find(a => a.href.includes("./profile.html") || a.textContent.toLowerCase().includes("profile"));
 
         if (profileLink && !menu.querySelector(".nav-avatar-item")) {
 
@@ -29,7 +29,7 @@ function updateNavbarProfile() {
                 // ── EMPLOYER / ADMIN NAV ──────────────────
                 // Remove all links except Profile
                 Array.from(menu.querySelectorAll("a")).forEach(a => {
-                    const isProfile = a.href.includes("../pages/profile.html") || a.textContent.toLowerCase().includes("profile");
+                    const isProfile = a.href.includes("./profile.html") || a.textContent.toLowerCase().includes("profile");
                     if (!isProfile) {
                         if (a.parentElement && a.parentElement.tagName.toLowerCase() === 'li') {
                             a.parentElement.remove();
@@ -40,28 +40,28 @@ function updateNavbarProfile() {
                 // Add Dashboard link for Admin only
                 if (isAdmin) {
                     const dashLi = document.createElement("li");
-                    dashLi.innerHTML = `<a href="../pages/dashboard.html" class="nav-link" title="Admin Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
+                    dashLi.innerHTML = `<a href="./dashboard.html" class="nav-link" title="Admin Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
                     menu.insertBefore(dashLi, profileLink.parentElement);
                 }
 
                 // Add Post Jobs link (for both Employer and Admin)
                 const postJobLi = document.createElement("li");
-                postJobLi.innerHTML = `<a href="../pages/Postjob_home.html" class="nav-link" style="color: #16a34a; font-weight: 700;" title="Post a Job"><i class="fas fa-plus-circle"></i> Post Job</a>`;
+                postJobLi.innerHTML = `<a href="./Postjob_home.html" class="nav-link" style="color: #16a34a; font-weight: 700;" title="Post a Job"><i class="fas fa-plus-circle"></i> Post Job</a>`;
                 menu.insertBefore(postJobLi, profileLink.parentElement);
 
             } else {
                 // ── JOB SEEKER NAV: Show Saved Jobs + My Applications ─────────
-                const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("../pages/saved_jobs.html"));
+                const hasSavedJobs = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("./saved_jobs.html"));
                 if (!hasSavedJobs) {
                     const savedJobsLi = document.createElement("li");
-                    savedJobsLi.innerHTML = `<a href="../pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
+                    savedJobsLi.innerHTML = `<a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
                     menu.insertBefore(savedJobsLi, profileLink.parentElement);
                 }
 
-                const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("../pages/my_applications.html"));
+                const hasMyApps = Array.from(menu.querySelectorAll("a")).some(a => a.href.includes("./my_applications.html"));
                 if (!hasMyApps && !menu.classList.contains('no-apps-link')) {
                     const myAppsLi = document.createElement("li");
-                    myAppsLi.innerHTML = `<a href="../pages/my_applications.html" class="nav-link">My Applications</a>`;
+                    myAppsLi.innerHTML = `<a href="./my_applications.html" class="nav-link">My Applications</a>`;
                     menu.insertBefore(myAppsLi, profileLink.parentElement);
                 }
             }
@@ -85,7 +85,7 @@ function updateNavbarProfile() {
 
             // Link Text
             const link = document.createElement("a");
-            link.href = "../pages/profile.html";
+            link.href = "./profile.html";
             link.innerText = user.first_name;
             link.classList.add("nav-link");
             link.style.fontWeight = "600";
@@ -112,7 +112,7 @@ function updateNavbarProfile() {
             if (!document.getElementById("nav-user-avatar")) {
                 const avatarHtml = document.createElement("a");
                 avatarHtml.id = "nav-user-avatar";
-                avatarHtml.href = "../pages/profile.html";
+                avatarHtml.href = "./profile.html";
                 avatarHtml.style.display = "flex";
                 avatarHtml.style.alignItems = "center";
                 avatarHtml.style.gap = "8px";

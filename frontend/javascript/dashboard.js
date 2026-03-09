@@ -86,7 +86,7 @@ function startClock() {
 function guardAdmin() {
     const userString = localStorage.getItem("user");
     if (!userString) {
-        window.location.href = "../pages/login.html";
+        window.location.href = "./login.html";
         return null;
     }
     const user = JSON.parse(userString);
@@ -94,7 +94,7 @@ function guardAdmin() {
     // Allow BOTH admin and employer to access the general dashboard area
     if (user.role !== "admin" && user.role !== "employer") {
         alert("Access Denied: This area is for authorized accounts only.");
-        window.location.href = "../pages/login.html";
+        window.location.href = "./login.html";
         return null;
     }
 
@@ -612,7 +612,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("logoutBtn")?.addEventListener("click", () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        window.location.href = "../pages/login.html";
+        window.location.href = "./login.html";
     });
 
     // Mobile sidebar toggle

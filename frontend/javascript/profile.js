@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const API_BASE_URL = getAPIURL();
     if (!userString) {
         alert("Please login to view your profile.");
-        window.location.href = "../pages/login.html";
+        window.location.href = "./login.html";
         return;
     }
 

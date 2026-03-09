@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         Employers can <strong>post jobs</strong> and <strong>review applications</strong>,
                         but cannot apply for positions.
                     </p>
-                    <a href="../pages/dashboard.html" style="
+                    <a href="./dashboard.html" style="
                         display: inline-block;
                         background: linear-gradient(135deg, #f59e0b, #d97706);
                         color: white;
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         transition: transform 0.2s;
                     " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#128203; Go to Dashboard</a>
                     <br>
-                    <a href="../pages/Postjob_home.html" style="
+                    <a href="./Postjob_home.html" style="
                         display: inline-block;
                         background: linear-gradient(135deg, #2563eb, #1d4ed8);
                         color: white;
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         transition: transform 0.2s;
                     " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#10010; Post a New Job</a>
                     <p style="margin-top: 1.25rem; font-size: 0.8rem; color: #92400e;">
-                        Not an employer? <a href="../pages/login.html" style="color: #d97706; font-weight:600;">Login as Job Seeker</a>
+                        Not an employer? <a href="./login.html" style="color: #d97706; font-weight:600;">Login as Job Seeker</a>
                     </p>
                 </div>
             `;
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.warn("⚠️ Profile incomplete. Redirecting to profile page.");
             showMessage("Please complete your profile (Photo, Location, Experience) before applying.\nApply பண்ணுறதுக்கு முன்னாடி Profile-ல Photo மற்றும் Details-ஐ Update பண்ணுங்க!", "info");
             setTimeout(() => {
-                window.location.href = "../pages/profile.html?message=complete_profile";
+                window.location.href = "./profile.html?message=complete_profile";
             }, 3000);
             if (applyForm) applyForm.innerHTML = `<div style='text-align:center; padding:2rem; color:#64748b;'><h3>Profile Incomplete</h3><p>Redirecting to profile page...</p></div>`;
             return;
@@ -450,7 +450,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             } else {
                 console.error("❌ Job fetch failed:", response.status);
                 showMessage("Job not found! Redirecting...\nJob கிடைக்கல! Redirect ஆகுது...", "error");
-                setTimeout(() => window.location.href = "../pages/jobs.html", 2000);
+                setTimeout(() => window.location.href = "./jobs.html", 2000);
             }
         } catch (error) {
             console.error("❌ Error fetching job details:", error);
@@ -517,7 +517,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Check if user is logged in
             if (!user) {
                 showMessage("Please login to apply for this job.\nJob apply பண்ண login பண்ணுங்க.", "error");
-                setTimeout(() => window.location.href = "../pages/login.html", 2000);
+                setTimeout(() => window.location.href = "./login.html", 2000);
                 return;
             }
 
@@ -538,7 +538,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // NEW: Check if user is logged in
             if (!user || !user.user_id) {
                 showMessage("Please login before applying for a job.\nJob Apply பண்றதுக்கு முன்னாடி Login பண்ணுங்க!", "error");
-                setTimeout(() => window.location.href = "../pages/login.html", 2000);
+                setTimeout(() => window.location.href = "./login.html", 2000);
                 return;
             }
 
@@ -596,13 +596,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     });
                     localStorage.setItem("easyjobs_applications", JSON.stringify(myApps));
 
-                    setTimeout(() => window.location.href = "../pages/submit.html", 2000);
+                    setTimeout(() => window.location.href = "./submit.html", 2000);
                 } else {
                     let errorMessage = "Check all fields";
                     if (response.status === 401) {
                         errorMessage = "Session expired. Please login again.";
                         localStorage.removeItem("user");
-                        setTimeout(() => window.location.href = "../pages/login.html", 2000);
+                        setTimeout(() => window.location.href = "./login.html", 2000);
                     } else {
                         try {
                             const error = await response.json();
