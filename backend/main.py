@@ -14,10 +14,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://cosmic-bienenstitch-9618bb.netlify.app", 
-        "https://arjun07bg-pixel.github.io",
-        "http://127.0.0.1:5500", 
-        "http://localhost:5500"
+        "https://arjun07bg-pixel.github.io"
     ],
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
