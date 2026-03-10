@@ -1,8 +1,4 @@
 window.getEasyJobsAPI = () => {
-    const { hostname } = window.location;
-    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "") {
-        return "http://127.0.0.1:8000/api";
-    }
     return "https://fullstack-easyjobs-project.vercel.app/api";
 };
 
