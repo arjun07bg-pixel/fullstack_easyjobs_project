@@ -59,13 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Role-based redirect
                 switch (data.role) {
                     case "admin":
-                        window.location.href = "./dashboard.html";
+                        window.location.href = "./frontend/dashboard.html";
                         break;
                     case "employer":
-                        window.location.href = "./Postjob_home.html";
+                        window.location.href = "./frontend/Postjob_home.html";
                         break;
                     default:
-                        window.location.href = "/index.html";
+                        window.location.href = "./index.html";
                 }
             } else {
                 // Handle JSON error response or fallback text error
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error("Fetch Error:", err);
-            
+
             // Helpful error message that differentiates between deployed and local logic
             let errorAlert = `Network Error: ${err.message}\nPlease check your internet connection or try again later.`;
 
