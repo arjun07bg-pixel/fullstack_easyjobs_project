@@ -1,5 +1,8 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => window.getEasyJobsAPI?.() || "/api";
+const getAPIURL = () => {
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "https://fullstack-easyjobs-project.vercel.app/api";
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
@@ -84,7 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error("Fetch Error:", err);
-            alert(`Network Error: ${err.message}\n\nTo fix this:\n1. Open your terminal\n2. Run: python -m uvicorn main:app --reload\n3. Keep the terminal open while using the site.`);
+            
+            // Helpful error message that differentiates between deployed and local logic
+            let errorAlert = `Network Error: ${err.message}\nPlease check your internet connection or try again later.`;
+            if (getAPIURL().includes("127.0.0.1")) {
+                errorAlert = `Network Error: ${err.message}\n\nTo fix this locally:\n1. Open your terminal\n2. Run: python -m uvicorn main:app --reload`;
+            }
+
+            alert(errorAlert);
             loginBtn.innerText = originalText;
             loginBtn.disabled = false;
         }

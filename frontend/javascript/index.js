@@ -1,16 +1,9 @@
 window.getEasyJobsAPI = () => {
-    const { hostname, port } = window.location;
-
-    // 1. Same-Origin Check (Optimal for production)
-    if (port === '8000') return "/api";
-
-    // 2. Dynamic Host Check (for CORS stability)
-    if (hostname && hostname !== "") {
-        return `http://${hostname}:8000/api`;
+    const { hostname } = window.location;
+    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "") {
+        return "http://127.0.0.1:8000/api";
     }
-
-    // 3. File-System Fallback
-    return "http://127.0.0.1:8000/api";
+    return "https://fullstack-easyjobs-project.vercel.app/api";
 };
 
 console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);
