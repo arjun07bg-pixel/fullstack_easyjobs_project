@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Role-based redirect
                 switch (data.role) {
                     case "admin":
-                        window.location.href = "./frontend/dashboard.html";
+                        window.location.href = "./pages/dashboard.html";
                         break;
                     case "employer":
-                        window.location.href = "./frontend/Postjob_home.html";
+                        window.location.href = "./pages/Postjob_home.html";
                         break;
                     default:
                         window.location.href = "./index.html";

@@ -1,3 +1,5 @@
+"use strict";
+
 // Utility to get the correct API URL (Port 8000 for Python backend)
 const getAPIURL = () => {
     if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
@@ -6,11 +8,12 @@ const getAPIURL = () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const API_BASE_URL = getAPIURL(); // ✅ central API URL
+    const API_BASE_URL = getAPIURL();
 
     const applyForm = document.getElementById("applyForm");
     const resumeInput = document.getElementById("resume");
     const fileNameDisplay = document.getElementById("file-name-display");
+    const submitBtn = applyForm ? applyForm.querySelector("button[type='submit']") : null;
 
     const urlParams = new URLSearchParams(window.location.search);
     let jobId = urlParams.get("job_id");
@@ -20,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentJobDetails = null;
 
-    // ───────────────── EMPLOYER BLOCK ─────────────────
+    // ───────────── EMPLOYER BLOCK ─────────────
     if (user && (user.role === "employer" || user.role === "admin")) {
 
         if (applyForm) applyForm.style.display = "none";
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // ───────────────── PROFILE CHECK ─────────────────
+    // ───────────── PROFILE CHECK ─────────────
     if (user) {
 
         const hasPhoto = user.image && user.image.length > 100;
@@ -60,8 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
-    // ───────────────── FETCH JOB DETAILS ─────────────────
-
+    // ───────────── FETCH JOB DETAILS ─────────────
     const fetchJobDetails = async () => {
 
         try {
@@ -74,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 currentJobDetails = job;
 
                 console.log("Job Loaded:", job);
-
                 return job;
 
             } else {
@@ -96,8 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await fetchJobDetails();
     }
 
-    // ───────────────── FILE VALIDATION ─────────────────
-
+    // ───────────── FILE VALIDATION ─────────────
     if (resumeInput) {
 
         resumeInput.addEventListener("change", (e) => {
@@ -115,7 +115,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 }
 
-                fileNameDisplay.innerText = file.name;
+                if (fileNameDisplay) {
+                    fileNameDisplay.innerText = file.name;
+                }
 
             }
 
@@ -123,8 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     }
 
-    // ───────────────── FORM VALIDATION ─────────────────
-
+    // ───────────── FORM VALIDATION ─────────────
     function validateForm() {
 
         const fullName = document.getElementById("full_name").value.trim();
@@ -154,8 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return true;
     }
 
-    // ───────────────── FORM SUBMIT ─────────────────
-
+    // ───────────── FORM SUBMIT ─────────────
     if (applyForm) {
 
         applyForm.addEventListener("submit", async (e) => {
@@ -171,6 +171,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             if (!validateForm()) return;
+
+            const originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "Submitting...";
 
             const resumeFile = resumeInput.files[0];
 
@@ -205,11 +209,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (response.ok) {
 
                     const result = await response.json();
-
                     console.log("Application Success:", result);
 
                     alert("Application submitted successfully!");
-
                     window.location.href = "./submit.html";
 
                 } else {
@@ -221,8 +223,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             } catch (err) {
 
-                console.error("Network Error:", err);
-                alert("Server connection error");
+                console.error("Submission Error:", err);
+                alert("Network error. Please try again.");
+
+            } finally {
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
 
             }
 

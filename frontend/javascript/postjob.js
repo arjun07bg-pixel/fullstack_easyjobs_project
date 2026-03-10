@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
             } else {
-                try { detail = (await response.json()).detail || detail; } catch {}
+                try { detail = (await response.json()).detail || detail; } catch { }
                 typeof showMessage === "function" ? showMessage(`Failed to post: ${detail}`, "error") : alert(`Failed: ${detail}`);
             }
         } catch (err) {
