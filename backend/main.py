@@ -12,7 +12,7 @@ app = FastAPI(
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://cosmic-bienenstitch-9618bb.netlify.app"],
+    allow_origins=["*", "https://cosmic-bienenstitch-9618bb.netlify.app", "https://arjun07bg-pixel.github.io"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
