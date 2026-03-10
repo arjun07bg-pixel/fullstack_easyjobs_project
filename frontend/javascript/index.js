@@ -1,4 +1,9 @@
 window.getEasyJobsAPI = () => {
+    const hostname = window.location.hostname;
+    // Smart routing: use local backend if running on Live Server, else use Vercel
+    if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") {
+        return "http://127.0.0.1:8000/api";
+    }
     return "https://fullstack-easyjobs-project.vercel.app/api";
 };
 
