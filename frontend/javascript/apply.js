@@ -85,11 +85,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentJobDetails = window.jobContext;
     }
 
-    // Fill user info if logged in
+    const fetchLatestUser = async () => {
+        if (!user || !user.user_id) return;
+        try {
+            const res = await fetch(`${getAPIURL()}/users/${user.user_id}`);
+            if (res.ok) {
+                const latestUser = await res.json();
+                // Update form with latest data
+                if (document.getElementById("full_name")) document.getElementById("full_name").value = `${latestUser.first_name} ${latestUser.last_name || ''}`.trim();
+                if (document.getElementById("email")) document.getElementById("email").value = latestUser.email || "";
+                if (document.getElementById("phone") && latestUser.phone_number) document.getElementById("phone").value = latestUser.phone_number;
+                if (document.getElementById("location") && latestUser.location) document.getElementById("location").value = latestUser.location;
+                if (document.getElementById("experience") && latestUser.experience !== null) document.getElementById("experience").value = latestUser.experience;
+                if (document.getElementById("salary") && latestUser.salary) document.getElementById("salary").value = latestUser.salary;
+                
+                // Update localStorage as well to keep it in sync
+                localStorage.setItem("user", JSON.stringify({ ...user, ...latestUser }));
+            }
+        } catch (err) {
+            console.error("Error fetching latest user details:", err);
+        }
+    };
+
+    // Fill user info if logged in (Initial load from localStorage)
     if (user) {
+        if (document.getElementById("full_name")) document.getElementById("full_name").value = `${user.first_name} ${user.last_name || ''}`.trim();
+        if (document.getElementById("email")) document.getElementById("email").value = user.email || "";
+        if (document.getElementById("phone") && user.phone_number) document.getElementById("phone").value = user.phone_number;
+        if (document.getElementById("location") && user.location) document.getElementById("location").value = user.location;
+        if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
+        if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
+
         // --- 🔒 PROFILE COMPLETENESS CHECK 🔒 ---
-        // As requested: Profile must be filled (photo + experience) before applying
-        const hasPhoto = (user.image && user.image.length > 100); // Check if image exists
+        const hasPhoto = (user.image && user.image.length > 100);
         const hasExp = (user.experience !== null && user.experience !== undefined);
         const hasLocation = (user.location && user.location.trim() !== "");
 
@@ -102,13 +130,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (applyForm) applyForm.innerHTML = `<div style='text-align:center; padding:2rem; color:#64748b;'><h3>Profile Incomplete</h3><p>Redirecting to profile page...</p></div>`;
             return;
         }
-
-        if (document.getElementById("full_name")) document.getElementById("full_name").value = `${user.first_name} ${user.last_name || ''}`.trim();
-        if (document.getElementById("email")) document.getElementById("email").value = user.email || "";
-        if (document.getElementById("phone") && user.phone_number) document.getElementById("phone").value = user.phone_number;
-        if (document.getElementById("location") && user.location) document.getElementById("location").value = user.location;
-        if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
-        if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
+        
+        // Fetch latest in background to be 100% sure
+        fetchLatestUser();
     }
 
     // UI elements to fill
@@ -427,6 +451,62 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     `;
     document.head.appendChild(style);
+    // --- SAVE JOB FUNCTIONALITY ---
+    const saveJobBtn = document.getElementById("saveJobBtn");
+    if (saveJobBtn) {
+        saveJobBtn.addEventListener("click", async () => {
+            if (!user) {
+                showMessage("Please login to save this job.\nJob prepare பண்ணுறதுக்கு login பண்ணுங்க.", "error");
+                return;
+            }
+
+            if (!jobId || isNaN(parseInt(jobId)) || parseInt(jobId) <= 0) {
+                showMessage("Static job listings cannot be saved to dashboard yet.\nஇந்த job-ஐ dashboard-ல் save பண்ண முடியாது.", "info");
+                return;
+            }
+
+            const icon = saveJobBtn.querySelector("i");
+            const originalText = saveJobBtn.innerHTML;
+            saveJobBtn.disabled = true;
+            saveJobBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const res = await fetch(`${getAPIURL()}/saved-jobs/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        user_id: user.user_id,
+                        job_id: parseInt(jobId)
+                    })
+                });
+
+                if (res.ok) {
+                    showMessage("Job saved successfully! ✓\nJob save ஆச்சு! ✓", "success");
+                    saveJobBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                    saveJobBtn.classList.add("saved");
+                    if (icon) {
+                        icon.classList.remove("far");
+                        icon.classList.add("fas");
+                    }
+                } else {
+                    const error = await res.json();
+                    if (error.detail === "Job already saved") {
+                        showMessage("This job is already in your saved list.\nஇந்த job ஏற்கனவே save பண்ணியாச்சு.", "info");
+                        saveJobBtn.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
+                    } else {
+                        showMessage("Failed to save job. Please try again.\nJob save பண்ண முடியல. மறுபடியும் try பண்ணுங்க.", "error");
+                        saveJobBtn.innerHTML = originalText;
+                        saveJobBtn.disabled = false;
+                    }
+                }
+            } catch (err) {
+                console.error("Save Job Error:", err);
+                showMessage("Network error while saving job.", "error");
+                saveJobBtn.innerHTML = originalText;
+                saveJobBtn.disabled = false;
+            }
+        });
+    }
 
 
     // Fetch and Display Job Details

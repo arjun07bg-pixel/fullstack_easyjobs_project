@@ -4,7 +4,10 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import os
 from dotenv import load_dotenv
 
-load_dotenv("backend/.env")
+# Get the directory of backend folder
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
 # Default to SQLite if no DATABASE_URL is provided in .env
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -17,7 +20,10 @@ try:
     with engine.connect() as conn:
         pass
 except Exception as e:
-    DATABASE_URL = "sqlite:///./backend/easyjobs.db"
+    # Use absolute path for sqlite db
+    DB_PATH = os.path.join(BASE_DIR, "easyjobs.db")
+    DATABASE_URL = f"sqlite:///{DB_PATH}"
+    print(f"⚠️ Falling back to local SQLite: {DATABASE_URL}")
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

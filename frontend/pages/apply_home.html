@@ -17,27 +17,29 @@
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+            <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span
+                    class="logo-accent">Jobs</span></a>
 
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="/index.html" class="nav-link">Home</a></li>
-                    <li><a href="/frontend/pages/jobs.html" class="nav-link active">Find Jobs</a></li>
-                    <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
-                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
-                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
-                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
-                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
-                    <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link active"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                    <li><a href="/frontend/pages/companies.html" class="nav-link"><i class="fas fa-building"></i> Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link"><i class="fas fa-user-graduate"></i> Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="/frontend/pages/Guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
                     <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
-                                class="fas fa-bookmark"></i></a></li>
+                                 class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
 
-            
+
 
             <div class="auth-buttons">
-                <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
+                    Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
@@ -242,7 +244,7 @@
                     <div class="form-group">
                         <label>Upload Resume <span class="required">*</span></label>
                         <label class="file-upload">
-                            <div class="file-upload-icon">??</div>
+                            <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
                             <div class="file-upload-text" id="file-name-display">Click to upload your resume
                             </div>
                             <div class="file-upload-hint">PDF, DOC, DOCX (Max 5MB)</div>
@@ -265,10 +267,10 @@
             <div class="quick-tips">
                 <h4><i class="fas fa-lightbulb"></i> Application Tips</h4>
                 <ul>
-                    <li>? Update your resume with latest experience</li>
-                    <li>? Write a personalized cover letter</li>
-                    <li>? Highlight relevant skills</li>
-                    <li>? Double-check contact information</li>
+                    <li><i class="fas fa-check-circle"></i> Update your resume with latest experience</li>
+                    <li><i class="fas fa-check-circle"></i> Write a personalized cover letter</li>
+                    <li><i class="fas fa-check-circle"></i> Highlight relevant skills</li>
+                    <li><i class="fas fa-check-circle"></i> Double-check contact information</li>
                 </ul>
             </div>
         </div>
@@ -277,7 +279,7 @@
     <!-- Success/Error Message -->
     <div id="message-overlay" class="message-overlay" style="display: none;">
         <div class="message-box">
-            <div class="message-icon" id="message-icon">?</div>
+            <div class="message-icon" id="message-icon"><i class="fas fa-check-circle"></i></div>
             <h3 id="message-title">Success!</h3>
             <p id="message-text">Your application has been submitted successfully.</p>
             <button onclick="closeMessage()" class="message-btn">OK</button>

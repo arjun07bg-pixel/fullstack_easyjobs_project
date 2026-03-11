@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BYJU'S Careers | Learn. Grow. Impact.</title>
+    <title>BYJU'S Careers - EasyJobs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/top-companies_style.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
-
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
             <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
-
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
@@ -27,152 +24,322 @@
                     <li><a href="/frontend/pages/Guidance.html" class="nav-link">Guidance</a></li>
                 </ul>
             </nav>
-            
-
-
             <div class="auth-buttons">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
+
     <div class="header-banner byjus-bg">
-        <div class="banner-content">
-            <div class="logo-large byjus-logo-text">B</div>
-            <h1>BYJU'S Careers</h1>
-            <p>Shape the future of education. 200+ roles in Content, Tech, and Sales.</p>
+        <div class="banner-container">
+            <a href="/frontend/pages/companies.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Companies</a>
+            <div class="banner-content">
+                <div class="logo-large">?</div>
+                <div class="company-info-header">
+                    <h1>BYJU'S Careers</h1>
+                    <p>Shape the future of education. 200+ roles in Content, Tech, and Sales.</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="main-container">
         <div class="sidebar">
-            <h3>Filter by Domain</h3>
-            <div class="filter-section">
-                <h4>Job Function</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Academic Content (85)</label>
-                    <label><input type="checkbox"> Sales & Business Dev (70)</label>
-                    <label><input type="checkbox"> Technology & Product (45)</label>
-                </div>
-            </div>
-
+            <h3>Filter Jobs</h3>
             <div class="filter-section">
                 <h4>Location</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Bangalore (120)</label>
-                    <label><input type="checkbox"> Delhi NCR (50)</label>
-                    <label><input type="checkbox"> Remote (35)</label>
+                    <label><input type="checkbox" value="Bangalore"> Bangalore</label>
+                    <label><input type="checkbox" value="Hyderabad"> Hyderabad</label>
+                    <label><input type="checkbox" value="Pune"> Pune</label>
+                    <label><input type="checkbox" value="Mumbai"> Mumbai</label>
+                    <label><input type="checkbox" value="Chennai"> Chennai</label>
+                    <label><input type="checkbox" value="Remote"> Remote</label>
                 </div>
             </div>
 
             <div class="filter-section">
-                <h4>Role Type</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> Full-Time</label>
-                    <label><input type="checkbox" checked> Contract/Consultant</label>
-                    <label><input type="checkbox"> Intern</label>
-                </div>
-            </div>
-
-
-            <div class="filter-section">
-                <h4>Experience Level</h4>
+                <h4>Experience</h4>
                 <select class="filter-select">
-                    <option>All Levels</option>
-                    <option>Fresher</option>
-                    <option>1–3 Years</option>
-                    <option>3–5 Years</option>
-                    <option>5–10 Years</option>
-                    <option>10+ Years</option>
+                    <option value="">All Levels</option>
+                    <option value="Fresher">Fresher</option>
+                    <option value="1-3 Years">1-3 Years</option>
+                    <option value="3-5 Years">3-5 Years</option>
+                    <option value="5-10 Years">5-10 Years</option>
+                    <option value="10+ Years">10+ Years</option>
                 </select>
-            </div>
-
-            <div class="filter-section">
-                <h4>Work Mode</h4>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> Remote</label>
-                    <label><input type="checkbox"> Hybrid</label>
-                    <label><input type="checkbox"> Office</label>
-                </div>
             </div>
 
             <div class="filter-section">
                 <h4>Job Type</h4>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" checked> Full-Time</label>
-                    <label><input type="checkbox"> Part-Time</label>
-                    <label><input type="checkbox"> Contract</label>
+                    <label><input type="checkbox" value="Full-Time"> Full-Time</label>
+                    <label><input type="checkbox" value="Part-Time"> Part-Time</label>
+                    <label><input type="checkbox" value="Contract"> Contract</label>
                 </div>
             </div>
 
-
-
-
-            <button class="apply-filters-btn byjus-bg">Apply Filters</button>
+            <button class="apply-filters-btn">Apply Filters</button>
         </div>
 
         <div class="job-listings">
             <div class="search-bar">
-                <input type="text" placeholder="Search for 'Maths', 'Java', 'B2C', or job titles...">
-                <button class="search-btn byjus-bg">Search</button>
+                <input type="text" placeholder="Search skills, designations, or keywords...">
+                <button class="search-btn">Search</button>
             </div>
 
-            <h2>Showing 200+ Open Roles</h2>
-
+            <div class="listing-header">
+                <h2>Showing Jobs</h2>
+            </div>
+            
+            
             <div class="job-card">
-                <h3>Senior Subject Matter Expert - Physics</h3>
+                <h3>Senior Software Engineer</h3>
+                <span class="comp-name">BYJU'S</span>
                 <p class="job-meta">
-                    <span class="location">?? Bangalore, IN</span> |
-                    <span class="type">Content Team</span> |
-                    <span class="exp">M.Sc. / Ph.D. Required</span>
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 5-10 Years</span>
                 </p>
-                <p class="job-description">Develop and review engaging, high-quality video and text content for advanced
-                    Physics courses (Grades 11-12).</p>
+                <p class="job-description">Lead development of core platform features at BYJU'S.</p>
                 <div class="job-tags">
-                    <span class="tag">Academics</span>
-                    <span class="tag">Content</span>
-                    <span class="tag">Physics</span>
+                    <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Microservices</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=1&title=Senior%20Subject%20Matter%20Expert%20-%20Physics&company=BYJU%27S&location=Bangalore%2C%20IN&experience=M.Sc.%20/%20Ph.D.%20Required" class="apply-link">View Details & Apply</a>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Senior%20Software%20Engineer&location=Bangalore&company=BYJU'S&experience=5-10%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
             </div>
-
             <div class="job-card">
-                <h3>Regional Sales Manager - B2C</h3>
+                <h3>Frontend Developer (React)</h3>
+                <span class="comp-name">BYJU'S</span>
                 <p class="job-meta">
-                    <span class="location">?? Delhi NCR, IN</span> |
-                    <span class="type">Sales</span> |
-                    <span class="exp">3-5 Years Sales Mgmt</span>
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 1-3 Years</span>
                 </p>
-                <p class="job-description">Lead a team of sales executives to achieve ambitious enrollment targets in
-                    the North region.</p>
+                <p class="job-description">Build responsive UIs for BYJU'S's suite of web applications.</p>
                 <div class="job-tags">
-                    <span class="tag">B2C</span>
-                    <span class="tag">Leadership</span>
-                    <span class="tag">EdTech</span>
+                    <span class="tag">React</span><span class="tag">JavaScript</span><span class="tag">Redux</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=2&title=Regional%20Sales%20Manager%20-%20B2C&company=BYJU%27S&location=Delhi%20NCR%2C%20IN&experience=3-5%20Years%20Sales%20Mgmt" class="apply-link">View Details & Apply</a>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Frontend%20Developer%20(React)&location=Hyderabad&company=BYJU'S&experience=1-3%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
             </div>
-
             <div class="job-card">
-                <h3>Platform Infrastructure Engineer</h3>
+                <h3>Machine Learning Engineer</h3>
+                <span class="comp-name">BYJU'S</span>
                 <p class="job-meta">
-                    <span class="location">?? Remote, IN</span> |
-                    <span class="type">Technology</span> |
-                    <span class="exp">Mid-Level</span>
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 3-5 Years</span>
                 </p>
-                <p class="job-description">Manage and scale our cloud infrastructure (AWS/Azure) to ensure high
-                    availability for millions of concurrent users.</p>
+                <p class="job-description">Develop and deploy ML models to enhance BYJU'S's AI capabilities.</p>
                 <div class="job-tags">
-                    <span class="tag">DevOps</span>
-                    <span class="tag">Cloud</span>
-                    <span class="tag">Scale</span>
+                    <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">NLP</span>
                 </div>
-                <a href="/frontend/pages/apply_home.html?job_id=3&title=Platform%20Infrastructure%20Engineer&company=BYJU%27S&location=Remote%2C%20IN&experience=Mid-Level" class="apply-link">View Details & Apply</a>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Machine%20Learning%20Engineer&location=Bangalore&company=BYJU'S&experience=3-5%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
             </div>
+            <div class="job-card">
+                <h3>Cloud Architect</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Pune</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 10+ Years</span>
+                </p>
+                <p class="job-description">Design scalable cloud infrastructure for BYJU'S global operations.</p>
+                <div class="job-tags">
+                    <span class="tag">AWS</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Cloud%20Architect&location=Pune&company=BYJU'S&experience=10+%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>UX/UI Designer</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Remote</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Contract</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 3-5 Years</span>
+                </p>
+                <p class="job-description">Design intuitive user experiences for BYJU'S's mobile and web apps.</p>
+                <div class="job-tags">
+                    <span class="tag">Figma</span><span class="tag">Design Systems</span><span class="tag">Prototyping</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=UX/UI%20Designer&location=Remote&company=BYJU'S&experience=3-5%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>Data Analyst</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> Fresher</span>
+                </p>
+                <p class="job-description">Extract insights from large datasets to drive BYJU'S's business decisions.</p>
+                <div class="job-tags">
+                    <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">PowerBI</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Data%20Analyst&location=Hyderabad&company=BYJU'S&experience=Fresher" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>DevOps Engineer</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Mumbai</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 3-5 Years</span>
+                </p>
+                <p class="job-description">Optimize CI/CD pipelines and manage infrastructure at BYJU'S.</p>
+                <div class="job-tags">
+                    <span class="tag">Docker</span><span class="tag">Jenkins</span><span class="tag">AWS</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=DevOps%20Engineer&location=Mumbai&company=BYJU'S&experience=3-5%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>Product Manager</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 5-10 Years</span>
+                </p>
+                <p class="job-description">Define the product roadmap and strategy for BYJU'S's new initiatives.</p>
+                <div class="job-tags">
+                    <span class="tag">Agile</span><span class="tag">Product Strategy</span><span class="tag">Analytics</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Product%20Manager&location=Bangalore&company=BYJU'S&experience=5-10%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>QA Automation Engineer</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Chennai</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 1-3 Years</span>
+                </p>
+                <p class="job-description">Ensure high quality of BYJU'S software through automated testing.</p>
+                <div class="job-tags">
+                    <span class="tag">Selenium</span><span class="tag">Java</span><span class="tag">TestNG</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=QA%20Automation%20Engineer&location=Chennai&company=BYJU'S&experience=1-3%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>Backend Developer (Node.js)</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Delhi</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 3-5 Years</span>
+                </p>
+                <p class="job-description">Build robust server-side logic and APIs for BYJU'S.</p>
+                <div class="job-tags">
+                    <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">MongoDB</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Backend%20Developer%20(Node.js)&location=Delhi&company=BYJU'S&experience=3-5%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>Information Security Analyst</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 3-5 Years</span>
+                </p>
+                <p class="job-description">Protect BYJU'S's digital assets and maintain high security standards.</p>
+                <div class="job-tags">
+                    <span class="tag">Cybersecurity</span><span class="tag">SIEM</span><span class="tag">Network Security</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=Information%20Security%20Analyst&location=Bangalore&company=BYJU'S&experience=3-5%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="job-card">
+                <h3>HR Specialist</h3>
+                <span class="comp-name">BYJU'S</span>
+                <p class="job-meta">
+                    <span class="location"><i class="fas fa-map-marker-alt"></i> Pune</span> |
+                    <span class="type"><i class="fas fa-briefcase"></i> Full-Time</span> |
+                    <span class="exp"><i class="fas fa-history"></i> 1-3 Years</span>
+                </p>
+                <p class="job-description">Support recruitment and employee relations at BYJU'S.</p>
+                <div class="job-tags">
+                    <span class="tag">HR Operations</span><span class="tag">Recruitment</span><span class="tag">Onboarding</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-date">Posted Just Now</span>
+                    <div class="action-btns">
+                        <a href="/frontend/pages/apply_home.html?title=HR%20Specialist&location=Pune&company=BYJU'S&experience=1-3%20Years" class="apply-link">Apply Now</a>
+                        <button class="comp-save-btn"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dynamic jobs will be loaded by company_jobs.js -->
         </div>
     </div>
 
-        <footer class="main-footer">
+    <footer class="main-footer">
         <div class="container">
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
@@ -186,7 +353,5 @@
 
     <script src="/frontend/javascript/index.js"></script>
     <script src="/frontend/javascript/company_jobs.js"></script>
-    </body>
-
+</body>
 </html>
-

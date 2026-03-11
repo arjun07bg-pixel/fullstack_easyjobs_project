@@ -20,16 +20,17 @@ def download_resume(filename: str):
 
 @router.post("/", response_model=ApplicationOut)
 def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
-
-    # 1. Ensure user exists (Prevents IntegrityError if DB was reset)
+    # 1. Ensure user exists (Prevents IntegrityError if DB was reset/wiped)
     from backend.models.user import User
     existing_user = db.query(User).filter(User.user_id == app.user_id).first()
     if not existing_user:
-        raise HTTPException(status_code=401, detail="Session invalid. Please login again.")
+        # If user is in frontend but not in DB, it's a critical sync issue
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Your session is no longer valid in our database. Please login again to re-sync your account."
+        )
 
-    # 2. Check if the Job ID exists in the real database
-    # If it's a mock job (ID doesn't exist in DB), we set it to None 
-    # to avoid the (ForeignKeyViolation) error.
+    # 2. Check if the Job ID exists in the real database (Soft Foreign Key)
     safe_job_id = None
     if app.job_id and app.job_id > 0:
         from backend.models.job import Job
@@ -37,31 +38,40 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         if job_exists:
             safe_job_id = app.job_id
         else:
-            print(f"⚠️ App applying for static/mock job_id: {app.job_id}. Soft-linking instead.")
+            # This is a static/mock job from a company page
+            print(f"ℹ️ Linking application to static job: {app.job_title} at {app.company_name}")
 
-    new_application = Application(
-        user_id=app.user_id,
-        job_id=safe_job_id,
-        company_name=app.company_name,
-        job_title=app.job_title,
-        status=app.status,
-        resume=app.resume,
-        name=app.name,
-        email=app.email,
-        portfolio_link = app.portfolio_link,
-        phone_number=app.phone_number,
-        Current_Location = app.Current_Location,
-        Total_Experience = app.Total_Experience,
-        Current_salary = app.Current_salary,
-        Notice_Period = app.Notice_Period,
-        Cover_Letter = app.Cover_Letter,
-        job_type = app.job_type
+    try:
+        new_application = Application(
+            user_id=app.user_id,
+            job_id=safe_job_id,
+            company_name=app.company_name,
+            job_title=app.job_title,
+            status=app.status or "applied",
+            name=app.name,
+            email=app.email,
+            phone_number=app.phone_number,
+            portfolio_link=app.portfolio_link,
+            resume=app.resume,
+            Current_Location=app.Current_Location,
+            Total_Experience=app.Total_Experience,
+            Current_salary=app.Current_salary,
+            Notice_Period=app.Notice_Period,
+            Cover_Letter=app.Cover_Letter,
+            job_type=app.job_type
         )
 
-    db.add(new_application)
-    db.commit()
-    db.refresh(new_application)
-    return new_application
+        db.add(new_application)
+        db.commit()
+        db.refresh(new_application)
+        return new_application
+    except Exception as e:
+        db.rollback()
+        print(f"❌ Application Save Error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}. Please try again later."
+        )
 
 
 

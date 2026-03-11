@@ -43,6 +43,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         strengthPercent: document.getElementById("strength-percent"),
         strengthLabel: document.getElementById("strength-label"),
         saveBtn: document.getElementById("saveProfileBtn"),
+        // Header Elements
+        headerName: document.getElementById("header-full-name"),
+        headerSub: document.getElementById("header-designation-location"),
+        headerPercent: document.getElementById("header-strength-percent"),
         // Employer Specific
         companyCard: document.getElementById("company-card"),
         companyName: document.getElementById("companyName"),
@@ -53,35 +57,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Calculate and update profile strength
     const updateStrength = () => {
-        const fields = [
+        // 1. Define fields based on role
+        const commonFields = [
             pref.firstName, pref.lastName, pref.phone, pref.location,
-            pref.bio, pref.designation, pref.experience, pref.salary,
-            pref.skills, pref.education, pref.projects, pref.linkedinUrl,
-            pref.githubUrl, pref.gender, pref.dob
+            pref.bio, pref.linkedinUrl, pref.githubUrl, pref.gender, pref.dob
         ];
 
+        const roleFields = userData.role === 'employer'
+            ? [pref.companyName, pref.industry, pref.companySize, pref.companyWebsite]
+            : [pref.designation, pref.experience, pref.salary, pref.skills, pref.education, pref.projects];
+
+        const allCheckFields = [...commonFields, ...roleFields];
+
         let filled = 0;
-        fields.forEach(f => {
-            if (f && f.value && f.value.trim() !== "" && f.value !== "0") {
+        allCheckFields.forEach(f => {
+            if (f && f.value && f.value.trim() !== "") {
                 filled++;
             }
         });
 
-        // Add for email (always), photo, and resume
-        filled += 1; // Email
+        // 2. Add for email (always), photo, and resume (seeker only)
+        filled += 1; // Email is always there if logged in
+
         const user = JSON.parse(localStorage.getItem("user") || "{}");
-        if ((user.image && user.image.trim() !== "") || tempPhotoData) filled++;
-        if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
+        if ((user.image && user.image.length > 100) || tempPhotoData) filled++;
 
-        const totalFields = fields.length + 3; // + email, photo, resume
-        const percent = Math.round((filled / totalFields) * 100);
+        let totalBonus = 2; // Email + Photo
+        if (userData.role !== 'employer') {
+            totalBonus += 1; // Resume for seekers
+            if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
+        }
 
+        const totalFields = allCheckFields.length + totalBonus;
+        const percent = Math.min(100, Math.round((filled / totalFields) * 100));
+
+        // 3. Update UI Elements
         if (pref.strengthBar) pref.strengthBar.style.width = percent + "%";
         if (pref.strengthPercent) pref.strengthPercent.innerText = percent + "%";
-
-        // Update Header Elements
-        const headerPercent = document.getElementById("header-strength-percent");
-        if (headerPercent) headerPercent.innerText = percent + "%";
+        if (pref.headerPercent) pref.headerPercent.innerText = percent + "%";
 
         if (pref.strengthLabel) {
             if (percent < 30) pref.strengthLabel.innerText = "Needs Attention";
@@ -89,6 +102,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             else if (percent < 85) pref.strengthLabel.innerText = "Strong Profile";
             else if (percent < 100) pref.strengthLabel.innerText = "Almost Complete!";
             else pref.strengthLabel.innerText = "100% Complete! \u{1F3C6}";
+        }
+
+        // 4. ALSO update Header Text dynamically while typing
+        if (pref.headerName) {
+            const fname = pref.firstName.value.trim() || "User";
+            const lname = pref.lastName.value.trim() || "Name";
+            pref.headerName.innerText = userData.role === 'employer' ? (pref.companyName.value || "Company Profile") : `${fname} ${lname}`;
+        }
+        if (pref.headerSub) {
+            if (userData.role === 'employer') {
+                pref.headerSub.innerHTML = `<i class="fas fa-building"></i> ${pref.industry.value || "Industry"} | <i class="fas fa-users"></i> ${pref.companySize.value || "Size"}`;
+            } else {
+                pref.headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${pref.designation.value || "Software Engineer"} | <i class="fas fa-map-marker-alt"></i> ${pref.location.value || "Location"}`;
+            }
         }
     };
 
@@ -137,17 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.companySize) pref.companySize.value = user.company_size || "";
         if (pref.companyWebsite) pref.companyWebsite.value = user.company_website || "";
 
-        // Update Header
-        if (headerName) headerName.innerText = user.role === 'employer' ? (user.company_name || "Company Profile") : `${user.first_name} ${user.last_name || ""}`;
-        if (headerSub) {
-            if (user.role === 'employer') {
-                headerSub.innerHTML = `<i class="fas fa-building"></i> ${user.industry || "Industry Not Set"} | <i class="fas fa-users"></i> ${user.company_size || "Size Not Set"}`;
-            } else {
-                headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
-            }
-        }
-
-        if (user.image && pref.photoPreview && user.image.trim() !== "") {
+        if (user.image && pref.photoPreview && user.image.length > 100) {
             pref.photoPreview.innerHTML = `<img src="${user.image}" alt="Profile">`;
         }
 

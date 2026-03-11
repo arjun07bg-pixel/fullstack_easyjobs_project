@@ -45,6 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (imageSubtitle) imageSubtitle.textContent = "Post jobs and connect with thousands of talented candidates";
             if (createAccountBtn) createAccountBtn.textContent = "Create Employer Account";
 
+            // Employer inputs dynamic required toggle
+            const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
+            employerInputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.required = true;
+            });
+
         } else {
             // Hide employer fields
             employerFields.style.opacity = "0";
@@ -57,12 +64,20 @@ document.addEventListener("DOMContentLoaded", () => {
             if (formSubtitle) formSubtitle.textContent = "Start your journey to find the perfect job";
             if (imageSubtitle) imageSubtitle.textContent = "Connect with thousands of employers and discover your perfect career opportunity";
             if (createAccountBtn) createAccountBtn.textContent = "Create Account";
+
+            // Remove required property
+            const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
+            employerInputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.required = false;
+            });
         }
     }
 
     // ─── Form Submission ─────────────────────────────────────────────────────
-    if (createAccountBtn) {
-        createAccountBtn.addEventListener("click", async (e) => {
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) {
+        registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const firstName = document.getElementById("firstname").value.trim();
@@ -77,6 +92,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // ── Basic validation ──
             if (!firstName || !lastName || !email || !phone || !password || !confirmPassword || !userType) {
                 alert("Please fill in all required fields.");
+                return;
+            }
+
+            // Phone length check to prevent HTTP 422 error
+            if (phone.length < 10 || phone.length > 15) {
+                alert("Phone number must be between 10 and 15 digits.");
+                document.getElementById("phone").focus();
                 return;
             }
 

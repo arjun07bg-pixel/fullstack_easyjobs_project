@@ -1,19 +1,23 @@
-
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 import os
-from backend.database.database import Base, engine
-from backend.routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
+import sys
 
+# Ensure the project root is in sys.path so 'backend' package imports work
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from backend.database.database import Base, engine
+from backend.routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
  
 app = FastAPI(
-    title="EasyJobs Professional API",
+    title="EasyJobs API",
     
     version="2.0.0",
     contact={
@@ -22,12 +26,23 @@ app = FastAPI(
     }
 )
 
+from fastapi.exceptions import RequestValidationError
+
 # Handler for expected HTTP errors (like 401 Incorrect Password)
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     return JSONResponse(
         status_code=exc.status_code,
         content={"detail": exc.detail},
+        headers={"Access-Control-Allow-Origin": "*"}
+    )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+        headers={"Access-Control-Allow-Origin": "*"}
     )
 
 # Global Exception Handler ONLY for unexpected crashes (500)
@@ -41,6 +56,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
         content={"detail": f"Backend Error: {str(exc)}", "type": type(exc).__name__},
+        headers={"Access-Control-Allow-Origin": "*"}
     )
 
 # Robust CORS
@@ -53,11 +69,13 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/frontend/javascript", StaticFiles(directory="frontend/javascript"), name="javascript")
-app.mount("/frontend/styles", StaticFiles(directory="frontend/styles"), name="styles")
-app.mount("/frontend/pages", StaticFiles(directory="frontend/pages"), name="pages")
+# Mount static files with absolute paths
+app.mount("/frontend/javascript", StaticFiles(directory=os.path.join(parent_dir, "frontend", "javascript")), name="javascript")
+app.mount("/frontend/styles", StaticFiles(directory=os.path.join(parent_dir, "frontend", "styles")), name="styles")
+app.mount("/frontend/pages", StaticFiles(directory=os.path.join(parent_dir, "frontend", "pages")), name="pages")
 
-templates = Jinja2Templates(directory=[".", "frontend/pages"])
+# Use absolute paths for templates
+templates = Jinja2Templates(directory=[parent_dir, os.path.join(parent_dir, "frontend", "pages")])
 
 @app.on_event("startup")
 async def startup_event():    

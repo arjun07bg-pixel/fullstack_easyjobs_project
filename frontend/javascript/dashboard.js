@@ -39,17 +39,17 @@ function deriveStatus(app) {
 }
 
 const STATUS_META = {
-    applied: { label: "Under Review", cls: "applied", icon: "fa-clock" },
-    shortlisted: { label: "Shortlisted", cls: "shortlisted", icon: "fa-check-circle" },
-    rejected: { label: "Not Selected", cls: "rejected", icon: "fa-times-circle" },
-    interview: { label: "Interview Scheduled", cls: "interview", icon: "fa-calendar-check" },
+    applied: { label: "Under Review", cls: "status-pending", icon: "fa-clock" },
+    shortlisted: { label: "Shortlisted", cls: "status-shortlisted", icon: "fa-check-circle" },
+    rejected: { label: "Not Selected", cls: "status-rejected", icon: "fa-times-circle" },
+    interview: { label: "Interview Scheduled", cls: "status-pending", icon: "fa-calendar-check" },
 };
 
 function getStatus(app) { return STATUS_META[deriveStatus(app)] || STATUS_META.applied; }
 
 function statusBadge(app) {
     const s = getStatus(app);
-    return `<span class="sb ${s.cls}"><i class="fas ${s.icon}"></i>${s.label}</span>`;
+    return `<span class="status-label ${s.cls}"><i class="fas ${s.icon}"></i> ${s.label}</span>`;
 }
 
 /* ─── DATE HELPER ───────────────────────────── */
@@ -149,11 +149,11 @@ function switchTab(tabName) {
     if (link) link.classList.add("active");
 
     const titles = {
-        overview: ["Recruiter Dashboard", "Manage your hires and internship listings."],
-        applications: ["All Applicants", "Review every candidate who applied for your openings."],
-        users: ["User Database", "Browse all registered candidates on the platform."],
-        "post-job": ["Post Opening", "Add a new internship or job vacancy."],
-        "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
+        overview: ["Employer Dashboard", "Streamline your hiring process and manage talent."],
+        applications: ["Candidate Applications", "Review every candidate who applied for your openings."],
+        users: ["Talent Database", "Browse all registered candidates on the platform."],
+        "post-job": ["Create Listing", "Add a new vacancy to attract top talent."],
+        "my-jobs": ["Active Vacancies", "View, edit, or remove your existing job postings."],
     };
     const [t, s] = titles[tabName] || ["Dashboard", ""];
     const titleEl = document.getElementById("page-title");
@@ -307,20 +307,20 @@ function renderRecentTable() {
         const nm = app.name || "—";
         const st = getStatus(app);
         return `
-<tr>
+<tr style="transition:0.3s;">
     <td>
         <div class="candidate-info">
-            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-avatar" style="background:linear-gradient(135deg, ${grad(nm)})">${nm[0]}</div>
             <div class="cand-details">
                 <span class="name">${nm}</span>
                 <span class="email">${app.email}</span>
             </div>
         </div>
     </td>
-    <td><span style="font-weight:600; color:#444;">${app.job_title || "Position"}</span></td>
-    <td>${fmtDate(app.applied_at)}</td>
-    <td>${app.Total_Experience != null ? app.Total_Experience + " yr" : "Fresher"}</td>
-    <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}"><i class="fas ${st.icon}"></i> ${st.label}</span></td>
+    <td><span style="font-weight:700; color:#334155;">${app.job_title || "Position"}</span></td>
+    <td><i class="far fa-calendar-alt" style="color:var(--text-muted); margin-right:5px;"></i> ${fmtDate(app.applied_at)}</td>
+    <td><i class="fas fa-briefcase" style="color:var(--text-muted); margin-right:5px;"></i> ${app.Total_Experience != null ? app.Total_Experience + " yr" : "Fresher"}</td>
+    <td>${statusBadge(app)}</td>
 </tr>`;
     }).join("");
 }
@@ -339,21 +339,21 @@ function renderAllApps(data) {
         const nm = app.name || "—";
         const st = getStatus(app);
         return `
-<tr>
+<tr style="transition:0.3s;">
     <td>
         <div class="candidate-info">
-            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-avatar" style="background:linear-gradient(135deg, ${grad(nm)})">${nm[0]}</div>
             <div class="cand-details">
                 <span class="name">${nm}</span>
                 <span class="email">${app.email}</span>
             </div>
         </div>
     </td>
-    <td>${app.job_title || "Position"} at <strong>${app.company_name || ""}</strong></td>
-    <td>${v(app.phone_number)}</td>
-    <td>${v(app.Current_Location)}</td>
-    <td><span class="status-label ${st.cls === 'shortlisted' ? 'status-shortlisted' : st.cls === 'rejected' ? 'status-rejected' : 'status-pending'}">${st.label}</span></td>
-    <td><a href="javascript:void(0)" class="view-btn" onclick="openModal(${app.application_id})">VIEW DETAIL <i class="fas fa-arrow-right"></i></a></td>
+    <td><span style="font-weight:700; color:#334155;">${app.job_title || "Position"}</span><br><small style="color:var(--primary); font-weight:600;">${app.company_name || ""}</small></td>
+    <td><i class="fas fa-phone-alt" style="color:var(--text-muted); font-size:12px; margin-right:5px;"></i> ${v(app.phone_number)}</td>
+    <td><i class="fas fa-map-marker-alt" style="color:var(--text-muted); font-size:12px; margin-right:5px;"></i> ${v(app.Current_Location)}</td>
+    <td>${statusBadge(app)}</td>
+    <td><a href="javascript:void(0)" class="view-btn" onclick="openModal(${app.application_id})">REVIEW PROFILE <i class="fas fa-chevron-right"></i></a></td>
 </tr>`;
     }).join("");
 }
@@ -371,19 +371,19 @@ function renderUsers(data) {
     tbody.innerHTML = data.map((u, i) => {
         const nm = `${u.first_name || ""} ${u.last_name || ""}`.trim() || "User";
         return `
-<tr>
+<tr style="transition:0.3s;">
     <td>
         <div class="candidate-info">
-            <div class="cand-avatar">${nm[0]}</div>
+            <div class="cand-avatar" style="background:linear-gradient(135deg, ${grad(nm)})">${nm[0]}</div>
             <div class="cand-details">
                 <span class="name">${nm}</span>
             </div>
         </div>
     </td>
-    <td>${v(u.email)}</td>
+    <td><i class="far fa-envelope" style="color:var(--text-muted); margin-right:8px;"></i>${v(u.email)}</td>
     <td><span class="status-label ${u.role === 'admin' ? 'status-shortlisted' : 'status-pending'}">${u.role || "user"}</span></td>
-    <td>${v(u.location)}</td>
-    <td>${v(u.skills)}</td>
+    <td><i class="fas fa-map-marker-alt" style="color:var(--text-muted); margin-right:8px;"></i>${v(u.location)}</td>
+    <td><div style="display:flex; flex-wrap:wrap; gap:5px;">${(u.skills || "").split(',').map(s => `<span style="background:#f1f5f9; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600; color:#475569;">${s.trim()}</span>`).join('')}</div></td>
 </tr>`;
     }).join("");
 }
@@ -405,15 +405,16 @@ function renderMyJobs(data) {
     }
 
     tbody.innerHTML = myJobs.map(job => `
-<tr>
-    <td><span style="font-weight:700; color:#334155;">${job.job_title}</span></td>
-    <td><i class="fas fa-map-marker-alt"></i> ${job.location}</td>
-    <td><span class="status-label status-pending">${job.job_type}</span></td>
-    <td>₹${job.salary} LPA</td>
+<tr style="transition:0.3s;">
+    <td><span style="font-weight:700; color:#0f172a; font-size:16px;">${job.job_title}</span></td>
+    <td><i class="fas fa-map-marker-alt" style="color:var(--text-muted); margin-right:8px;"></i>${job.location}</td>
+    <td><span class="status-label status-pending"><i class="fas fa-briefcase"></i> ${job.job_type}</span></td>
+    <td><span style="font-weight:700; color:#16a34a;">₹${job.salary} LPA</span></td>
     <td>
-        <div style="display:flex; gap:10px;">
-            <button class="view-btn" onclick="deleteJob(${job.job_id})" style="background:#fee2e2; color:#b91c1c; border-radius:4px;"><i class="fas fa-trash"></i> DELETE</button>
-        </div>
+        <button class="btn-primary" onclick="deleteJob(${job.job_id})" 
+            style="background:#fef2f2; color:#dc2626; border:1px solid #fee2e2; padding:8px 16px; font-size:12px; border-radius:10px; box-shadow:none;">
+            <i class="fas fa-trash-alt"></i> REMOVE
+        </button>
     </td>
 </tr>`).join("");
 }
