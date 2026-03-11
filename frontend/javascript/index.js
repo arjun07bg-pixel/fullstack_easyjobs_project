@@ -1,24 +1,16 @@
 window.getEasyJobsAPI = () => {
-    const { hostname, port, protocol } = window.location;
-
-    // 1. Same-Origin Check (Optimal for production)
-    if (port === '8000') return "/api";
-
-    // 2. Dynamic Host Check (Crucial for CORS stability)
-    // If we have a hostname (localhost, 127.0.0.1, or network name), use it with port 8000
-    if (hostname && hostname !== "") {
-        // Ensure we always use http for the API backend (Port 8000)
-        return `http://${hostname}:8000/api`;
+    const hostname = window.location.hostname;
+    // Smart routing: use local backend if running on Live Server, else use Vercel
+    if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") {
+        return "http://127.0.0.1:8000/api";
     }
-
-    // 3. File-System Fallback (file:/// URLs)
-    return "http://127.0.0.1:8000/api";
+    return "https://fullstack-easyjobs-project.vercel.app/api";
 };
 
-// Log API status on load for debugging
 console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);
 
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Job Search ---
     const searchForm = document.querySelector(".job-search-form");
     const keywordInput = document.querySelector(".keyword-input");
     const locationInput = document.querySelector(".location-input");
@@ -26,64 +18,61 @@ document.addEventListener("DOMContentLoaded", () => {
     if (searchForm) {
         searchForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const keyword = keywordInput.value.trim();
-            const location = locationInput.value.trim();
-
-            // Redirect to jobs page with parameters
             const params = new URLSearchParams();
-            if (keyword) params.set("keyword", keyword);
-            if (location) params.set("location", location);
-
-            window.location.href = `/frontend/pages/jobs.html?${params.toString()}`;
+            if (keywordInput.value.trim()) params.set("keyword", keywordInput.value.trim());
+            if (locationInput.value.trim()) params.set("location", locationInput.value.trim());
+            window.location.href = `./jobs.html?${params.toString()}`;
         });
     }
 
-    // Global Header Search Handler
+    // --- Header Search ---
     const headerSearchForm = document.querySelector(".header-search-form");
     const headerSearchInput = document.querySelector(".header-search-input");
 
     if (headerSearchForm && headerSearchInput) {
         headerSearchForm.addEventListener("submit", (e) => {
             e.preventDefault();
-            const keyword = headerSearchInput.value.trim();
-            if (keyword) {
-                window.location.href = `/frontend/pages/jobs.html?keyword=${encodeURIComponent(keyword)}`;
+            if (headerSearchInput.value.trim()) {
+                window.location.href = `./jobs.html?keyword=${encodeURIComponent(headerSearchInput.value.trim())}`;
             }
         });
     }
 
-    // Auth state check
-    const user = JSON.parse(localStorage.getItem("user"));
+    // --- Auth State ---
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
     const authButtons = document.querySelector(".auth-buttons");
 
-    if (user && authButtons) {
-        // Use user.image from database first, then local fallback
+    if (authButtons && user?.user_id) {
         const userPhoto = user.image || localStorage.getItem("userProfilePhoto");
-        const avatarHtml = userPhoto && userPhoto.trim() !== ""
-            ? `<img src="${userPhoto}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2.5px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">`
-            : `<i class="fas fa-user-circle" style="font-size: 1.8rem; color: rgba(255,255,255,0.8);"></i>`;
+        const avatarHtml = userPhoto
+            ? `<img src="${userPhoto}" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);">`
+            : `<i class="fas fa-user-circle" style="font-size:1.8rem;color:rgba(255,255,255,0.8);"></i>`;
 
-        const dashboardLink = (user.role === 'admin' || user.role === 'employer')
-            ? `<a href="/frontend/pages/dashboard.html" class="btn-login" style="padding: 10px 20px; font-size: 0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+        const actionLink = user.role === 'admin'
+            ? `<a href="./dashboard.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+            : user.role === 'employer'
+                ? `<a href="./Postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
+                : '';
+
+        const savedJobsIcon = (user.role !== 'admin' && user.role !== 'employer')
+            ? `<a href="./saved_jobs.html" style="color:#cbd5e1;font-size:1.1rem;transition:0.3s;" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`
             : '';
 
         authButtons.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <a href="/frontend/pages/saved_jobs.html" style="color: #cbd5e1; font-size: 1.1rem; transition: 0.3s;" title="Saved Jobs">
-                    <i class="fas fa-bookmark"></i>
-                </a>
-                <a href="/frontend/pages/profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.3s; padding: 5px 10px; border-radius: 50px;">
+            <div style="display:flex;align-items:center;gap:15px;">
+                ${savedJobsIcon}
+                <a href="./profile.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;transition:0.3s;padding:5px 10px;border-radius:50px;">
                     ${avatarHtml}
-                    <span style="font-weight: 600; color: white; display: none; @media (min-width: 600px) { display: inline; }">Hi, ${user.first_name}!</span>
+                    <span class="auth-greeting">Hi, ${user.first_name}!</span>
                 </a>
-                ${dashboardLink}
-                <button id="logoutBtn" style="background: rgba(239, 68, 68, 0.9); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 0.9rem;">Logout</button>
+                ${actionLink}
+                <button id="logoutBtn" style="background:rgba(239,68,68,0.9);color:white;border:none;padding:10px 20px;border-radius:50px;cursor:pointer;font-weight:600;transition:all 0.3s ease;font-size:0.9rem;">Logout</button>
             </div>
         `;
 
-        // CSS fix for mobile greeting
+        // Responsive greeting
         const style = document.createElement('style');
-        style.innerText = "@media (max-width: 600px) { .auth-buttons span { display: none; } }";
+        style.innerText = "@media (max-width:600px){.auth-greeting{display:none;}}";
         document.head.appendChild(style);
 
         document.getElementById("logoutBtn").addEventListener("click", () => {
@@ -96,10 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- GLOBAL HELPERS ---
-
-/**
- * Common showMessage function for consistent UX
- */
 function showMessage(message, type = "info") {
     const messageDiv = document.createElement("div");
     const colors = {
@@ -109,32 +94,22 @@ function showMessage(message, type = "info") {
     }[type] || { bg: "#eff6ff", text: "#2563eb", border: "#2563eb" };
 
     messageDiv.style.cssText = `
-        position: fixed;
-        top: 25px;
-        right: 25px;
-        padding: 1.2rem 1.8rem;
-        background: ${colors.bg};
-        color: ${colors.text};
-        border-left: 5px solid ${colors.border};
-        border-radius: 12px;
-        box-shadow: 0 15px 35px -5px rgba(0,0,0,0.15);
-        z-index: 11000;
-        max-width: 420px;
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.95rem;
-        font-weight: 500;
-        animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: fixed; top: 25px; right: 25px; padding:1.2rem 1.8rem;
+        background:${colors.bg}; color:${colors.text};
+        border-left:5px solid ${colors.border}; border-radius:12px;
+        box-shadow:0 15px 35px -5px rgba(0,0,0,0.15); z-index:11000;
+        max-width:420px; font-family:'Poppins',sans-serif;
+        font-size:0.95rem; font-weight:500; animation: toastIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
     `;
 
-    // Add keyframe if not present
     if (!document.getElementById('toast-styles')) {
-        const style = document.createElement('style');
-        style.id = 'toast-styles';
-        style.textContent = `
-            @keyframes toastIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-            @keyframes toastOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
+        const styleTag = document.createElement('style');
+        styleTag.id = 'toast-styles';
+        styleTag.textContent = `
+            @keyframes toastIn { from { transform: translateX(120%); opacity:0; } to { transform: translateX(0); opacity:1; } }
+            @keyframes toastOut { from { transform: translateX(0); opacity:1; } to { transform: translateX(120%); opacity:0; } }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(styleTag);
     }
 
     messageDiv.innerHTML = message.replace(/\n/g, '<br>');
@@ -146,15 +121,12 @@ function showMessage(message, type = "info") {
     }, 4500);
 }
 
-/**
- * Global saveJob function for static/dynamic job cards
- */
 async function saveJob(jobId, btnElement) {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    if (!user.user_id) {
+    if (!user?.user_id) {
         showMessage("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
-        setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
+        setTimeout(() => window.location.href = "./login.html", 2000);
         return;
     }
 

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from backend.dependencies import get_db
-from backend.models.application import Application
-from backend.schemas.application import ApplicationCreate, ApplicationOut
+from dependencies import get_db
+from models.application import Application
+from schemas.application import ApplicationCreate, ApplicationOut
 
 router = APIRouter(
     prefix="/applications",
@@ -20,8 +20,14 @@ def download_resume(filename: str):
 
 @router.post("/", response_model=ApplicationOut)
 def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
+<<<<<<< HEAD
     # 1. Ensure user exists (Prevents IntegrityError if DB was reset/wiped)
     from backend.models.user import User
+=======
+
+    # 1. Ensure user exists (Prevents IntegrityError if DB was reset)
+    from models.user import User
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
     existing_user = db.query(User).filter(User.user_id == app.user_id).first()
     if not existing_user:
         # If user is in frontend but not in DB, it's a critical sync issue
@@ -33,7 +39,7 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
     # 2. Check if the Job ID exists in the real database (Soft Foreign Key)
     safe_job_id = None
     if app.job_id and app.job_id > 0:
-        from backend.models.job import Job
+        from models.job import Job
         job_exists = db.query(Job).filter(Job.job_id == app.job_id).first()
         if job_exists:
             safe_job_id = app.job_id

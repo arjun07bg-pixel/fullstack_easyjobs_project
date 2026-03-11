@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/styles/index.css">
-    <link rel="stylesheet" href="/frontend/styles/apply_home.css">
-    <link rel="stylesheet" href="/frontend/styles/global_font.css">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/apply_home.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
 
 </head>
 
@@ -22,6 +22,7 @@
 
             <nav class="nav-menu">
                 <ul>
+<<<<<<< HEAD
                     <li><a href="/index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link active"><i class="fas fa-briefcase"></i> Jobs</a></li>
                     <li><a href="/frontend/pages/companies.html" class="nav-link"><i class="fas fa-building"></i> Companies</a></li>
@@ -32,15 +33,32 @@
                     <li><a href="/frontend/pages/Guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
                     <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
                                  class="fas fa-bookmark"></i></a></li>
+=======
+                    <li><a href="/index.html" class="nav-link">Home</a></li>
+                    <li><a href="./jobs.html" class="nav-link active">Find Jobs</a></li>
+                    <li><a href="./companies.html" class="nav-link">Top Companies</a></li>
+                    <li><a href="./internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="./my_applications.html" class="nav-link">My Applications</a></li>
+                    <li><a href="./profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="./Guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
                 </ul>
             </nav>
 
 
 
             <div class="auth-buttons">
+<<<<<<< HEAD
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
                     Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+=======
+                <a href="./register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="./login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
             </div>
         </div>
     </header>
@@ -48,7 +66,7 @@
     <div class="breadcrumb">
         <a href="/index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
         <span class="separator">/</span>
-        <a href="/frontend/pages/jobs.html">Jobs</a>
+        <a href="./jobs.html">Jobs</a>
         <span class="separator">/</span>
         <span class="current" id="job-title-crumb">Job Application</span>
     </div>
@@ -63,7 +81,7 @@
                     <div class="company-details">
                         <p class="company-name" id="detailed-company-name">Company Name</p>
                         <h1 id="detailed-job-title">Job Title</h1>
-                        <p class="job-location" id="detailed-location">?? Location</p>
+                        <p class="job-location" id="detailed-location"><i class="fas fa-map-marker-alt"></i> Location</p>
                     </div>
                 </div>
                 <button class="save-job-btn" id="saveJobBtn">
@@ -286,8 +304,9 @@
         </div>
     </div>
 
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/apply.js"></script>
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/apply.js"></script>
     <script>
         // Close message function
         function closeMessage() {

@@ -1,5 +1,6 @@
 /* Company Jobs Page Layout - Naukri Inspired Premium Version */
 :root {
+<<<<<<< HEAD
     --primary: #457eff;
     --primary-dark: #2563eb;
     --primary-light: #eff6ff;
@@ -17,6 +18,55 @@ body {
     color: var(--text-main);
     font-family: 'Inter', 'Poppins', sans-serif;
     margin: 0;
+=======
+    --google: #4285F4;
+    --microsoft: #00A4EF;
+    --amazon: #FF9900;
+    --flipkart: #2874f0;
+    --accenture: #a100ff;
+    --byjus: #802a8c;
+    --cognizant: #0033a0;
+    --deloitte: #86bc25;
+    --hcl: #002b49;
+    --ibm: #052fad;
+    --infosys: #007cc3;
+    --ola: #99cc33;
+    --paytm: #00baf2;
+    --phonepe: #5f259f;
+    --snapdeal: #e40046;
+    --swiggy: #fc8019;
+    --tcs: #1b293e;
+    --wipro: #000000;
+    --zomato: #cb202d;
+    --bg-light: #f1f5f9;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --primary-blue: #2563eb;
+    --primary-hover: #1d4ed8;
+    --glass: rgba(255, 255, 255, 0.8);
+    --border-soft: #e2e8f0;
+    --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .main-container {
@@ -24,7 +74,13 @@ body {
     margin: 30px auto;
     padding: 0 20px 60px;
     display: flex;
+<<<<<<< HEAD
     gap: 25px;
+=======
+    gap: 40px;
+    align-items: flex-start;
+    /* Ensure top alignment */
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 /* Sidebar Styling */
@@ -32,6 +88,7 @@ body {
     flex: 0 0 300px;
     background: white;
     padding: 24px;
+<<<<<<< HEAD
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
     height: fit-content;
@@ -56,12 +113,43 @@ body {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     color: var(--primary);
+=======
+    /* Harmonized with job cards */
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    border: 1px solid #eef2f6;
+    transition: all 0.3s ease;
+}
+
+.sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: var(--text-dark);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 0;
+    /* Reset for perfect alignment */
+}
+
+.sidebar h3::before {
+    content: "";
+    width: 4px;
+    height: 20px;
+    background: var(--primary-blue);
+    border-radius: 4px;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .filter-section {
     margin-bottom: 24px;
 }
 
+<<<<<<< HEAD
 .filter-section h4 {
     font-size: 13px;
     color: var(--text-main);
@@ -69,6 +157,17 @@ body {
     letter-spacing: 0.5px;
     margin-bottom: 12px;
     font-weight: 600;
+=======
+.filter-section h4,
+.filter-group label {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: block;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .checkbox-group {
@@ -129,10 +228,31 @@ body {
 /* Job Listings Area */
 .job-listings {
     flex: 1;
+    min-width: 0;
+    /* Prevent flex-item from overflowing */
+}
+
+.job-listings h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.job-listings h2::before {
+    content: "";
+    width: 4px;
+    height: 22px;
+    background: var(--primary-blue);
+    border-radius: 4px;
 }
 
 .search-bar {
     display: flex;
+<<<<<<< HEAD
     gap: 12px;
     margin-bottom: 25px;
     background: white;
@@ -140,10 +260,16 @@ body {
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+=======
+    gap: 15px;
+    margin-bottom: 50px;
+    /* Increased for better clarity */
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .search-bar input {
     flex: 1;
+<<<<<<< HEAD
     padding: 12px 18px;
     border: none;
     font-size: 15px;
@@ -153,11 +279,62 @@ body {
 .search-btn {
     padding: 12px 30px;
     background: var(--primary);
+=======
+    height: 52px;
+    /* Standard height */
+    padding: 0 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: 0.2s;
+}
+
+.search-bar input:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-btn,
+.apply-filters-btn {
+    height: 52px;
+    padding: 0 28px;
+    border: none;
+    border-radius: 10px;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
     color: white;
     border: none;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+<<<<<<< HEAD
+=======
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.search-bar .search-btn {
+    width: auto;
+    flex-shrink: 0;
+}
+
+.search-btn:hover,
+.apply-filters-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.search-btn:active,
+.apply-filters-btn:active {
+    transform: translateY(0);
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 /* Naukri Style Job Card */
@@ -165,6 +342,7 @@ body {
     background: white;
     border-radius: 12px;
     padding: 24px;
+<<<<<<< HEAD
     margin-bottom: 18px;
     border: 1px solid var(--border-color);
     transition: all 0.2s ease;
@@ -203,14 +381,134 @@ body {
     margin-bottom: 15px;
     color: var(--text-muted);
     font-size: 14px;
+=======
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eef2f6;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    border-left: 4px solid transparent;
 }
 
-.job-meta span {
+.job-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left-color: var(--primary-blue);
+    transform: translateY(-2px);
+}
+
+.job-card .job-title {
+    font-size: 18px;
+    color: #1a202c;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-decoration: none;
+    display: block;
+}
+
+.job-card .job-title:hover {
+    color: var(--primary-blue);
+}
+
+.job-card .company-name {
+    font-size: 15px;
+    color: #4a5568;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.job-card .company-rating {
+    background: #4caf50;
+    color: white;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.job-meta-naukri {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 15px;
+    color: #718096;
+    font-size: 14px;
+}
+
+.job-meta-naukri span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.job-meta-naukri i {
+    color: #a0aec0;
+    font-size: 14px;
+    width: 16px;
+}
+
+.job-desc-naukri {
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.6;
+}
+
+.job-skills-naukri {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.skill-tag {
+    font-size: 12px;
+    color: #718096;
+    background: #f7fafc;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid #edf2f7;
+}
+
+.job-footer-naukri {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.posted-date {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.job-actions {
+    display: flex;
+    gap: 15px;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
+}
+
+.btn-apply-naukri {
+    color: var(--primary-blue);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
+<<<<<<< HEAD
 .job-meta i {
     font-size: 14px;
     color: #94a3b8;
@@ -276,6 +574,23 @@ body {
 
 .apply-link:hover {
     background: var(--primary-dark);
+=======
+.btn-save-naukri {
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 20px;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-save-naukri:hover {
+    color: #f59e0b;
+}
+
+.btn-save-naukri.active {
+    color: #f59e0b;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .comp-save-btn {
@@ -296,6 +611,7 @@ body {
 
 /* Banner Styling */
 .header-banner {
+<<<<<<< HEAD
     padding: 50px 0;
     background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
     color: white;
@@ -317,6 +633,46 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+=======
+    padding: 120px 20px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.header-banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.banner-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }
 
 .logo-large {
@@ -388,8 +744,244 @@ body {
     .sidebar { flex: none; width: 100%; position: static; }
 }
 
+<<<<<<< HEAD
 @media (max-width: 640px) {
     .banner-content { flex-direction: column; text-align: center; gap: 20px; }
     .job-meta { flex-wrap: wrap; gap: 10px; }
     .company-info-header h1 { font-size: 26px; }
+=======
+.flipkart-bg {
+    background-color: var(--flipkart);
+}
+
+.accenture-bg {
+    background-color: var(--accenture);
+}
+
+.byjus-bg {
+    background-color: var(--byjus);
+}
+
+.cognizant-bg {
+    background-color: var(--cognizant);
+}
+
+.deloitte-bg {
+    background-color: var(--deloitte);
+}
+
+.hcl-bg {
+    background-color: var(--hcl);
+}
+
+.ibm-bg {
+    background-color: var(--ibm);
+}
+
+.infosys-bg {
+    background-color: var(--infosys);
+}
+
+.ola-bg {
+    background-color: var(--ola);
+}
+
+.paytm-bg {
+    background-color: var(--paytm);
+}
+
+.phonepe-bg {
+    background-color: var(--phonepe);
+}
+
+.snapdeal-bg {
+    background-color: var(--snapdeal);
+}
+
+.swiggy-bg {
+    background-color: var(--swiggy);
+}
+
+.tcs-bg {
+    background-color: var(--tcs);
+}
+
+.wipro-bg {
+    background-color: var(--wipro);
+}
+
+.zomato-bg {
+    background-color: var(--zomato);
+}
+
+/* Main Companies Page Styling */
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+    padding: 0 0 100px;
+    width: 100%;
+    justify-content: center;
+}
+
+.company-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #eef2f6;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.company-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-blue);
+}
+
+.company-header {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.company-logo {
+    width: 60px;
+    height: 60px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-blue);
+    flex-shrink: 0;
+}
+
+.company-info h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
+.company-rating {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stars {
+    color: #f59e0b;
+    display: flex;
+    gap: 2px;
+}
+
+.company-description {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.company-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-item i {
+    color: #94a3b8;
+}
+
+.company-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.company-tags .tag {
+    background: #f8fafc;
+    color: #64748b;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #f1f5f9;
+}
+
+.company-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.open-jobs {
+    font-size: 14px;
+    font-weight: 600;
+    color: #10b981;
+}
+
+.view-btn {
+    padding: 10px 20px;
+    background: var(--primary-blue);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.view-btn:hover {
+    background: var(--primary-hover);
+    transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+    .main-container {
+        flex-direction: column;
+        padding-top: 20px;
+    }
+
+    .sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+        padding: 25px;
+    }
+
+    .header-banner {
+        padding: 60px 20px;
+    }
+
+    .header-banner h1 {
+        font-size: 2.5rem;
+    }
+
+    .logo-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 }

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, ForeignKey, DateTime
-from backend.database.database import Base
+from database.database import Base
 from datetime import datetime
 
 class SavedJob(Base):

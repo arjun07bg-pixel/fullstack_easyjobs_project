@@ -1,8 +1,10 @@
 "use strict";
 
+import { API_URL } from "./config.js";
+
 /* ─── CONFIG ────────────────────────────────── */
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); return "/api"; };
+const getAPIURL = () => { return API_URL || "/api"; };
 
 let allApps = [];
 let allUsers = [];
@@ -65,7 +67,6 @@ function v(val, suffix = "") {
 }
 
 /* ─── SET TEXT HELPER ────────────────────────── */
-// This was missing and caused a ReferenceError crash in renderStats()
 function setText(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
@@ -86,34 +87,26 @@ function startClock() {
 function guardAdmin() {
     const userString = localStorage.getItem("user");
     if (!userString) {
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "./login.html";
         return null;
     }
     const user = JSON.parse(userString);
 
-    // Allow BOTH admin and employer to access the general dashboard area
     if (user.role !== "admin" && user.role !== "employer") {
         alert("Access Denied: This area is for authorized accounts only.");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "./login.html";
         return null;
     }
 
-    // ROLE-BASED UI ADJUSTMENTS
     const isAdmin = user.role === "admin";
 
-    // 1. Hide Admin-only sidebar items from Employers
-    const usersNavItem = document.querySelector('aside .nav-item[onclick*="switchTab(\'users\')"]');
-    if (usersNavItem && !isAdmin) {
-        usersNavItem.style.display = "none";
+    if (isAdmin) {
+        const myJobsLink = document.querySelector('[onclick*="switchTab(\'my-jobs\')"]');
+        if (myJobsLink) {
+            myJobsLink.innerHTML = '<i class="fas fa-list-alt"></i> Manage All Jobs';
+        }
     }
 
-    // 2. Hide Registered Users stat card from Employers
-    const usersStatCard = document.getElementById("stat-total-users")?.parentElement;
-    if (usersStatCard && !isAdmin) {
-        usersStatCard.style.display = "none";
-    }
-
-    // 3. Show Company Profile Card for Employers
     const profileCard = document.getElementById("employer-profile-card");
     if (profileCard && !isAdmin) {
         profileCard.style.display = "block";
@@ -129,18 +122,12 @@ function guardAdmin() {
 
 /* ─── SWITCHING TABS ────────────────────────── */
 function switchTab(tabName) {
-    // New structure uses .tab-content and .nav-item
+
     document.querySelectorAll(".tab-content").forEach(s => s.style.display = "none");
     document.querySelectorAll(".nav-item").forEach(l => l.classList.remove("active"));
 
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const isAdmin = user.role === "admin";
-
-    // BLOCK ADMIN TABS FOR EMPLOYERS
-    if (tabName === 'users' && !isAdmin) {
-        alert("Permission Denied: Only Super Admins can access the User Database.");
-        return;
-    }
 
     const section = document.getElementById("tab-" + tabName);
     const link = document.querySelector(`[onclick*="switchTab('${tabName}')"]`);
@@ -148,13 +135,27 @@ function switchTab(tabName) {
     if (section) section.style.display = "block";
     if (link) link.classList.add("active");
 
+<<<<<<< HEAD
     const titles = {
         overview: ["Employer Dashboard", "Streamline your hiring process and manage talent."],
         applications: ["Candidate Applications", "Review every candidate who applied for your openings."],
         users: ["Talent Database", "Browse all registered candidates on the platform."],
         "post-job": ["Create Listing", "Add a new vacancy to attract top talent."],
         "my-jobs": ["Active Vacancies", "View, edit, or remove your existing job postings."],
+=======
+    const titles = isAdmin ? {
+        overview: ["Super Admin Panel", "Full access to platform metrics and user database."],
+        applications: ["All Applications", "Review every candidate who applied across the platform."],
+        "post-job": ["Post Global Opening", "Add a new internship or job vacancy as Admin."],
+        "my-jobs": ["All Platform Jobs", "View, edit, or remove any job posting on the system."],
+    } : {
+        overview: ["Employer Dashboard", "Manage your company's hires and job listings."],
+        applications: ["Recent Applicants", "Review Every candidate who applied for your openings."],
+        "post-job": ["Post New Opening", "Add a new internship or job vacancy for your company."],
+        "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
     };
+
     const [t, s] = titles[tabName] || ["Dashboard", ""];
     const titleEl = document.getElementById("page-title");
     const subEl = document.getElementById("page-subtitle");
@@ -162,6 +163,7 @@ function switchTab(tabName) {
     if (subEl) subEl.textContent = s;
 }
 
+<<<<<<< HEAD
 window.switchTab = switchTab;
 
 /* ─── JOB POSTING ──────────────────────────── */
@@ -715,3 +717,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderUsers(allUsers);
     renderMyJobs(allJobs);
 });
+=======
+window.switchTab = switchTab;
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f

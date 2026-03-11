@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend.dependencies import get_db
-from backend.models.company import Company
-from backend.schemas.company import CompanyCreate, CompanyOut
+from dependencies import get_db
+from models.company import Company
+from schemas.company import CompanyCreate, CompanyOut
 from fastapi import HTTPException, status
 
 router = APIRouter(prefix="/companies", tags=["Companies"])

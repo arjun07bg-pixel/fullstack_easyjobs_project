@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/styles/index.css">
-    <link rel="stylesheet" href="/frontend/styles/Postjob_home.css">
-    <link rel="stylesheet" href="/frontend/styles/global_font.css">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/Postjob_home.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
 </head>
 
 <body>
     <header class="main-header sticky">
         <div class="container header-content">
-            <a href="/index.html" class="logo">
+            <a href="./index.html" class="logo">
                 <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M13 11V8C13 6.34315 14.3431 5 16 5H24C25.6569 5 27 6.34315 27 8V11" stroke="white"
                         stroke-width="3" stroke-linecap="round" />
@@ -30,24 +30,25 @@
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
-                    <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
-                    <li><a href="/frontend/pages/dashboard.html" class="nav-link" id="nav-dash-link"
-                            style="display:none;"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
-                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="./jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="./dashboard.html" class="nav-link" id="nav-dash-link" style="display:none;"><i
+                                class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="./profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="auth-buttons" id="header-auth-btns">
-                <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
+                <a href="./register.html" class="btn-register"><i class="fas fa-user-plus"></i>
                     Register</a>
-                <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="./login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
 
     <div class="page-wrapper">
         <!-- New: Employer Landing Content (Shown if not logged in as employer) -->
+<<<<<<< HEAD
         <div id="employer-landing" class="container" style="display: none; padding: 40px 0;">
             <div style="text-align: center; max-width: 800px; margin: 0 auto;">
                 <h1 style="font-size: 3rem; color: #1e293b; line-height: 1.1; margin-bottom: 20px;">The smartest way to
@@ -55,34 +56,116 @@
                 </h1>
                 <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 35px;">Post your vacancies, screen
                     candidates with Ease, and build your dream team with India's most efficient hiring platform.</p>
+=======
+        <div id="employer-landing" class="container" style="display: none; padding: 60px 0;">
+            <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <div
+                    style="display: inline-block; padding: 8px 16px; background: #e0e7ff; color: #4338ca; border-radius: 50px; font-size: 13px; font-weight: 700; margin-bottom: 25px; letter-spacing: 1px;">
+                    FOR RECRUITERS & BUSINESS OWNERS</div>
+
+                <h1 style="font-size: 3.5rem; color: #0f172a; line-height: 1.1; margin-bottom: 20px; font-weight: 800;">
+                    The smartest way to <span
+                        style="background: linear-gradient(to right, #2563eb, #7c3aed); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">hire
+                        talent</span> in India
+                </h1>
+
+                <p style="font-size: 1.25rem; color: #475569; margin-bottom: 40px; font-weight: 500;">
+                    Post your vacancies, screen candidates with ease, and build your dream team.
+                </p>
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
                 <div
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 40px;">
-                    <div
-                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <i class="fas fa-bolt" style="font-size: 2rem; color: #f59e0b; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">Fast Posting</h4>
-                        <p style="font-size: 0.9rem; color: #64748b;">Get your job live in under 2 minutes.</p>
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 50px;">
+                    <div style="background: white; padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; transition: 0.3s;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#2563eb';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#f1f5f9';">
+                        <div
+                            style="width: 50px; height: 50px; background: #fff7ed; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-bolt" style="font-size: 1.5rem; color: #f59e0b;"></i>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 12px; color: #1e293b;">Instant Posting</h4>
+                        <p style="font-size: 0.95rem; color: #64748b; line-height: 1.6;">Get your job live in under 2
+                            minutes and start receiving applications immediately.</p>
                     </div>
-                    <div
-                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <i class="fas fa-users" style="font-size: 2rem; color: #2563eb; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">Large Talent Pool</h4>
-                        <p style="font-size: 0.9rem; color: #64748b;">Reach 10k+ verified active job seekers.</p>
+
+                    <div style="background: white; padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; transition: 0.3s;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#2563eb';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#f1f5f9';">
+                        <div
+                            style="width: 50px; height: 50px; background: #eef2ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-users" style="font-size: 1.5rem; color: #2563eb;"></i>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 12px; color: #1e293b;">Verified Candidates</h4>
+                        <p style="font-size: 0.95rem; color: #64748b; line-height: 1.6;">Access over 10,000+ verified
+                            active job seekers from across India.</p>
                     </div>
-                    <div
-                        style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <i class="fas fa-chart-line" style="font-size: 2rem; color: #10b981; margin-bottom: 15px;"></i>
-                        <h4 style="margin-bottom: 10px;">Smart Dashboard</h4>
-                        <p style="font-size: 0.9rem; color: #64748b;">Manage all applications in one central hub.</p>
+
+                    <div style="background: white; padding: 35px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; transition: 0.3s;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#2563eb';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#f1f5f9';">
+                        <div
+                            style="width: 50px; height: 50px; background: #ecfdf5; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-chart-line" style="font-size: 1.5rem; color: #10b981;"></i>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 12px; color: #1e293b;">Smart Management</h4>
+                        <p style="font-size: 0.95rem; color: #64748b; line-height: 1.6;">Powerful dashboard to track,
+                            shortlist, and manage all your hires in one place.</p>
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 15px; justify-content: center;">
-                    <a href="/frontend/pages/register.html?role=employer" class="btn-register"
-                        style="padding: 15px 35px; font-size: 1.1rem; border-radius: 50px;">Get Started for Free</a>
-                    <a href="/frontend/pages/login.html" class="btn-login"
-                        style="padding: 15px 35px; font-size: 1.1rem; border-radius: 50px;">Sign In to Post</a>
+                <div
+                    style="margin-top: 80px; text-align: left; background: #f8fafc; padding: 50px; border-radius: 32px; border: 1px solid #e2e8f0;">
+                    <h3 style="font-size: 1.75rem; color: #0f172a; margin-bottom: 30px; text-align: center;">How
+                        EasyJobs Works for Employers</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 30px;">
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div
+                                style="width: 40px; height: 40px; background: #2563eb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                                1</div>
+                            <div>
+                                <h5 style="font-size: 1.1rem; color: #1e293b; margin-bottom: 5px;">Create your account
+                                </h5>
+                                <p style="color: #64748b; font-size: 0.95rem;">Register as an Employer and fill in your
+                                    company details to build trust.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div
+                                style="width: 40px; height: 40px; background: #2563eb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                                2</div>
+                            <div>
+                                <h5 style="font-size: 1.1rem; color: #1e293b; margin-bottom: 5px;">Post your vacancy
+                                </h5>
+                                <p style="color: #64748b; font-size: 0.95rem;">Enter job details like title, salary, and
+                                    requirements. It takes less than 2 minutes.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 20px; align-items: flex-start;">
+                            <div
+                                style="width: 40px; height: 40px; background: #2563eb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+                                3</div>
+                            <div>
+                                <h5 style="font-size: 1.1rem; color: #1e293b; margin-bottom: 5px;">Hire the best talent
+                                </h5>
+                                <p style="color: #64748b; font-size: 0.95rem;">Review applicants from your dashboard and
+                                    shortlist the right candidates.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 50px;">
+                    <a href="./register.html?role=employer" class="btn-register"
+                        style="padding: 18px 45px; font-size: 1.15rem; border-radius: 50px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2); border: none; background: #2563eb; color: white; display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                        Start Hiring Now <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="./login.html" class="btn-login"
+                        style="padding: 18px 45px; font-size: 1.15rem; border-radius: 50px; display: flex; align-items: center; gap: 10px; border: 2px solid #e2e8f0; background: white; color: #1e293b; text-decoration: none;">
+                        Sign In to Profile <i class="fas fa-sign-in-alt"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -232,15 +315,16 @@
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
-                <a href="/frontend/pages/dashboard.html">Employer Dashboard</a>
-                <a href="/frontend/pages/contact.html">Contact</a>
+                <a href="./dashboard.html">Employer Dashboard</a>
+                <a href="./contact.html">Contact</a>
             </div>
             <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
         </div>
     </footer>
 
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/postjob.js"></script>
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/postjob.js"></script>
 </body>
 
 </html>

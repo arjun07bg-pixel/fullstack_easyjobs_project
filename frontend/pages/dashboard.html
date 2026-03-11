@@ -7,15 +7,15 @@
     <title>Recruiter Dashboard | EasyJobs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/frontend/styles/internshala_recruiter.css">
-    <link rel="stylesheet" href="/frontend/styles/global_font.css">
+    <link rel="stylesheet" href="../styles/internshala_recruiter.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
 
     <!-- Auth Guard -->
     <script>
         (function () {
             const user = JSON.parse(localStorage.getItem("user") || "{}");
             if (user.role !== "admin" && user.role !== "employer") {
-                window.location.replace("/frontend/pages/login.html");
+                window.location.replace("./login.html");
             }
         })();
     </script>
@@ -44,9 +44,13 @@
             <a href="#" class="nav-item" onclick="switchTab('my-jobs')">
                 <i class="fas fa-briefcase"></i> Active Vacancies
             </a>
+<<<<<<< HEAD
             <a href="#" class="nav-item" onclick="switchTab('users')">
                 <i class="fas fa-database"></i> Talent Database
             </a>
+=======
+
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         </nav>
 
 
@@ -124,10 +128,7 @@
                     <div class="label">Pending Review</div>
                     <div class="value" id="stat-under-review" style="color: #1976d2;">0</div>
                 </div>
-                <div class="stat-card">
-                    <div class="label">Registered Users</div>
-                    <div class="value" id="stat-total-users">0</div>
-                </div>
+
             </div>
 
             <!-- Recent Applicants Table -->
@@ -186,32 +187,7 @@
             </div>
         </div>
 
-        <!-- Users Tab -->
-        <div id="tab-users" class="tab-content" style="display:none;">
-            <div class="table-card">
-                <div class="card-header">
-                    <h2>User Directory (Login Details)</h2>
-                    <input type="text" id="user-search" placeholder="Search by name or email..."
-                        style="padding: 8px; border: 1px solid #eee; border-radius: 4px;">
-                </div>
-                <div class="table-container">
-                    <table class="recruiter-table">
-                        <thead>
-                            <tr>
-                                <th>USER NAME</th>
-                                <th>EMAIL</th>
-                                <th>ROLE</th>
-                                <th>LOCATION</th>
-                                <th>SKILLS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-tbody">
-                            <!-- Dynamic rows -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
 
         <!-- My Jobs Tab -->
         <div id="tab-my-jobs" class="tab-content" style="display:none;">
@@ -227,6 +203,7 @@
                         <thead>
                             <tr>
                                 <th>JOB TITLE</th>
+                                <th>COMPANY</th>
                                 <th>LOCATION</th>
                                 <th>TYPE</th>
                                 <th>SALARY</th>
@@ -358,21 +335,31 @@
                 <p id="modal-cover-text" style="color: #475569; line-height: 1.7; font-size: 15px;"></p>
             </div>
 
+<<<<<<< HEAD
             <div class="modal-action-bar">
                 <button class="btn-primary" id="btn-shortlist" style="background: var(--success);"><i
                         class="fas fa-check-circle"></i> Shortlist Candidate</button>
                 <button class="btn-primary" id="btn-reject" style="background: var(--danger);"><i
                         class="fas fa-times-circle"></i> Mark as Not Selected</button>
+=======
+            <div class="action-bar">
+                <button class="btn-shortlist" id="btn-shortlist"><i class="fas fa-check"></i> SHORTLIST</button>
+                <button class="btn-reject" id="btn-reject"><i class="fas fa-times"></i> REJECT</button>
+                <button class="btn-delete" id="btn-delete-app" style="background:#fee2e2; color:#b91c1c; border: 1px solid #fecaca; padding: 10px 15px; border-radius: 4px; font-weight: 600; cursor: pointer; display: none;"><i class="fas fa-trash"></i> DELETE</button>
+                
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
                 <a href="#" id="modal-resume-link" target="_blank"
                     style="margin-left:auto; display:flex; align-items:center; gap:10px; background: var(--primary-light); color: var(--primary); padding: 12px 25px; border-radius: 12px; font-weight: 700; text-decoration:none; transition: var(--transition);">
                     <i class="fas fa-file-download"></i> Download Resume
                 </a>
             </div>
+
         </div>
     </div>
 
-    <script src="/frontend/javascript/index.js"></script>
-    <script src="/frontend/javascript/dashboard.js"></script>
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/dashboard.js"></script>
 </body>
 
 </html>

@@ -1,38 +1,26 @@
-/**
- * my_applications.js
- * EasyJobs – My Applications Page
- * Updated to include "View Details" modal for full application visibility.
- */
-
 "use strict";
 
-// Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => {
-    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
-    return "/api";
-};
+// ── API Utility ──
+const getAPIURL = () => window.getEasyJobsAPI?.() || "/api";
 
+// ── Globals ──
 let allApplications = [];
 let currentFilter = "all";
 let currentSearch = "";
 
-/* ─── Get logged-in user ──────────────────────────────────────── */
+// ── User Helpers ──
 function getLoggedInUser() {
     const keys = ["user", "currentUser", "loggedInUser", "easyjobs_user"];
     for (const k of keys) {
         try {
             const raw = localStorage.getItem(k);
             if (raw) return JSON.parse(raw);
-        } catch (_) { /* ignore */ }
+        } catch (_) {}
     }
     return null;
 }
 
-/* ─── Status helpers ──────────────────────────────────────────── */
-function deriveStatus(app) {
-    return (app.status || "applied").toLowerCase();
-}
-
+// ── Status Helpers ──
 const STATUS_MAP = {
     applied: { label: "Under Review", icon: "fas fa-clock", cls: "applied", stripe: "blue" },
     shortlisted: { label: "Shortlisted", icon: "fas fa-check-circle", cls: "shortlisted", stripe: "green" },
@@ -40,11 +28,10 @@ const STATUS_MAP = {
     interview: { label: "Interview Scheduled", icon: "fas fa-calendar-check", cls: "interview", stripe: "orange" },
 };
 
-function getStatus(app) {
-    return STATUS_MAP[deriveStatus(app)] || STATUS_MAP.applied;
-}
+const deriveStatus = (app) => (app.status || "applied").toLowerCase();
+const getStatus = (app) => STATUS_MAP[deriveStatus(app)] || STATUS_MAP.applied;
 
-/* ─── Logo avatar gradient ───────────────────────────────────── */
+// ── Logo & Date Helpers ──
 const GRADIENTS = [
     "linear-gradient(135deg,#1e40af,#3b82f6)",
     "linear-gradient(135deg,#7c3aed,#a78bfa)",
@@ -54,38 +41,29 @@ const GRADIENTS = [
     "linear-gradient(135deg,#0e7490,#67e8f9)",
     "linear-gradient(135deg,#4f46e5,#818cf8)",
 ];
-
-function logoGrad(name) {
-    let h = 0;
-    for (let i = 0; i < (name || "?").length; i++) h += name.charCodeAt(i);
+const logoGrad = (name) => {
+    let h = (name || "?").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
     return GRADIENTS[h % GRADIENTS.length];
-}
-function logoChar(name) { return (name || "?").charAt(0).toUpperCase(); }
+};
+const logoChar = (name) => (name || "?").charAt(0).toUpperCase();
 
-/* ─── Date formatter ─────────────────────────────────────────── */
-function fmtDate(str) {
+const fmtDate = (str) => {
     if (!str) return "Recently Applied";
     const d = new Date(str);
-    return isNaN(d.getTime())
-        ? "Recently Applied"
-        : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
-}
+    return isNaN(d.getTime()) ? "Recently Applied" : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+};
 
-/* ─── Build one table row ─────────────────────────────── */
-function buildTableRow(app, idx) {
+// ── Build Table Row ──
+function buildTableRow(app) {
     const st = getStatus(app);
-    const exp = app.Total_Experience != null
-        ? (app.Total_Experience === 0 ? "Fresher" : `${app.Total_Experience} yr${app.Total_Experience > 1 ? "s" : ""}`)
-        : null;
+    const exp = app.Total_Experience != null ? (app.Total_Experience === 0 ? "Fresher" : `${app.Total_Experience} yr${app.Total_Experience > 1 ? "s" : ""}`) : null;
     const loc = app.Current_Location || "Remote";
 
     return `
-    <tr>
+    <tr data-id="${app.application_id}">
         <td>
             <div class="td-job-info">
-                <div class="td-avatar" style="background:${logoGrad(app.company_name)}">
-                    ${logoChar(app.company_name)}
-                </div>
+                <div class="td-avatar" style="background:${logoGrad(app.company_name)}">${logoChar(app.company_name)}</div>
                 <div class="td-job-text">
                     <h4>${app.job_title || "Job Position"}</h4>
                     <p><i class="fas fa-building"></i> ${app.company_name || "Company"}</p>
@@ -93,25 +71,19 @@ function buildTableRow(app, idx) {
             </div>
         </td>
         <td>
-            <div style="font-size: 0.85rem; color: #475569; display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size:0.85rem;color:#475569;display:flex;flex-direction:column;gap:4px;">
                 ${exp ? `<span><i class="fas fa-briefcase"></i> ${exp}</span>` : ""}
                 ${loc ? `<span><i class="fas fa-map-marker-alt"></i> ${loc}</span>` : ""}
             </div>
         </td>
-        <td>
-            <div class="status-badge ${st.cls}">
-                <i class="${st.icon}"></i> ${st.label}
-            </div>
-        </td>
-        <td style="font-size: 0.85rem; color: #64748b; white-space: nowrap;">
-            ${fmtDate(app.applied_at)}
-        </td>
+        <td><div class="status-badge ${st.cls}"><i class="${st.icon}"></i> ${st.label}</div></td>
+        <td style="font-size:0.85rem;color:#64748b;white-space:nowrap;">${fmtDate(app.applied_at)}</td>
         <td>
             <div class="td-actions">
-                <button class="tbl-btn view" onclick="openAppModal(${app.application_id})">
+                <button class="tbl-btn view" data-action="view" data-id="${app.application_id}">
                     <i class="fas fa-eye"></i> View
                 </button>
-                <button class="tbl-btn withdraw" onclick="withdrawApp(${app.application_id}, this)">
+                <button class="tbl-btn withdraw" data-action="withdraw" data-id="${app.application_id}">
                     <i class="fas fa-times"></i> Withdraw
                 </button>
             </div>
@@ -119,8 +91,8 @@ function buildTableRow(app, idx) {
     </tr>`;
 }
 
-/* ─── Modal Operations ───────────────────────────────────────── */
-window.openAppModal = function (id) {
+// ── Modal ──
+window.openAppModal = (id) => {
     const app = allApplications.find(a => a.application_id === id);
     if (!app) return;
 
@@ -164,25 +136,23 @@ window.openAppModal = function (id) {
     if (app.Cover_Letter) {
         coverSection.style.display = "block";
         coverText.textContent = app.Cover_Letter;
-    } else {
-        coverSection.style.display = "none";
-    }
+    } else coverSection.style.display = "none";
 
     overlay.classList.add("open");
 };
 
 function closeAppModal() {
-    document.getElementById("modal-overlay").classList.remove("open");
+    document.getElementById("modal-overlay")?.classList.remove("open");
 }
 
-/* ─── Update summary ─────────────────────────────────────────── */
+// ── Render & Summary ──
 function updateSummary(apps) {
     const total = apps.length;
     const short = apps.filter(a => deriveStatus(a) === "shortlisted").length;
     const reject = apps.filter(a => deriveStatus(a) === "rejected").length;
     const review = apps.filter(a => !["shortlisted", "rejected"].includes(deriveStatus(a))).length;
 
-    const setE = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+    const setE = (id, v) => document.getElementById(id)?.textContent = v;
     setE("total-count", total);
     setE("applied-count", review);
     setE("shortlisted-count", short);
@@ -190,7 +160,6 @@ function updateSummary(apps) {
     setE("result-count", `${total} application${total !== 1 ? "s" : ""}`);
 }
 
-/* ─── Render ─────────────────────────────────────────────────── */
 function renderCards() {
     const listWrapper = document.getElementById("applications-list");
     const tbody = document.getElementById("app-table-body");
@@ -198,11 +167,7 @@ function renderCards() {
     const noResults = document.getElementById("no-results");
     const countEl = document.getElementById("result-count");
 
-    // Guard: essential elements must exist
-    if (!listWrapper || !tbody) {
-        console.warn("renderCards: Missing required DOM elements");
-        return;
-    }
+    if (!listWrapper || !tbody) return;
 
     const filtered = allApplications.filter(app => {
         const q = currentSearch.toLowerCase();
@@ -213,8 +178,7 @@ function renderCards() {
 
     if (countEl) countEl.textContent = `${filtered.length} result${filtered.length !== 1 ? "s" : ""}`;
 
-    // Helper: safely set display
-    const show = (el, val) => { if (el) el.style.display = val; };
+    const show = (el, val) => el && (el.style.display = val);
 
     if (allApplications.length === 0) {
         show(listWrapper, "none");
@@ -228,15 +192,19 @@ function renderCards() {
         show(emptyEl, "none");
         show(noResults, "none");
         show(listWrapper, "block");
-        tbody.innerHTML = filtered.map((app, i) => buildTableRow(app, i)).join("");
+        tbody.innerHTML = filtered.map(buildTableRow).join("");
     }
 }
 
-/* ─── Actions ────────────────────────────────────────────────── */
-async function withdrawApp(id, btn) {
+// ── Actions ──
+async function withdrawApp(id) {
     if (!confirm("Are you sure you want to withdraw this application?")) return;
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ...`;
+    const btn = document.querySelector(`button.withdraw[data-id="${id}"]`);
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ...`;
+    }
+
     try {
         const API_BASE = getAPIURL();
         const res = await fetch(`${API_BASE}/applications/${id}`, { method: "DELETE" });
@@ -248,58 +216,41 @@ async function withdrawApp(id, btn) {
     } catch (e) { console.error(e); }
 }
 
-/* ─── Load ───────────────────────────────────────────────────── */
+// ── Load Applications ──
 async function loadApplications() {
     const user = getLoggedInUser();
-    console.log("📋 My Applications: getLoggedInUser =", user);
-
     if (!user) {
-        console.warn("⚠️ No user found in localStorage. Showing login required.");
-        const loader = document.getElementById("loading-state");
-        const loginReq = document.getElementById("login-required");
-        if (loader) loader.style.display = "none";
-        if (loginReq) loginReq.style.display = "flex";
+        document.getElementById("loading-state")?.style.display = "none";
+        document.getElementById("login-required")?.style.display = "flex";
         return;
     }
 
     const userId = user.user_id || user.id;
-    console.log("📋 Fetching for user_id:", userId);
-
     try {
         const API_BASE = getAPIURL();
-        const url = `${API_BASE}/applications/user/${userId}`;
-        console.log("📡 Fetching:", url);
-
-        const res = await fetch(url);
+        const res = await fetch(`${API_BASE}/applications/user/${userId}`);
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         allApplications = await res.json();
-        console.log("✅ Loaded", allApplications.length, "applications.");
 
-        const loader = document.getElementById("loading-state");
-        if (loader) loader.style.display = "none";
-
+        document.getElementById("loading-state")?.style.display = "none";
         updateSummary(allApplications);
         renderCards();
     } catch (err) {
-        console.error("❌ Error:", err);
-        const loader = document.getElementById("loading-state");
-        if (loader) {
-            loader.innerHTML = `
-                <div style="text-align:center;">
-                    <div style="font-size:2.5rem;color:#ef4444;margin-bottom:12px;"><i class="fas fa-exclamation-circle"></i></div>
-                    <h3 style="color:#1e293b;margin-bottom:8px;">Could Not Load Applications</h3>
-                    <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">Make sure the server is running.<br><code>${err.message}</code></p>
-                    <button onclick="loadApplications()" style="background:#2563eb;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.88rem;">
-                        <i class="fas fa-redo"></i> Retry
-                    </button>
-                </div>`;
-        }
+        console.error(err);
+        document.getElementById("loading-state")?.innerHTML = `
+            <div style="text-align:center;">
+                <div style="font-size:2.5rem;color:#ef4444;margin-bottom:12px;"><i class="fas fa-exclamation-circle"></i></div>
+                <h3 style="color:#1e293b;margin-bottom:8px;">Could Not Load Applications</h3>
+                <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">Make sure the server is running.<br><code>${err.message}</code></p>
+                <button onclick="loadApplications()" style="background:#2563eb;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.88rem;">
+                    <i class="fas fa-redo"></i> Retry
+                </button>
+            </div>`;
     }
 }
 
-/* ─── Init ────────────────────────────────────────────────────── */
+// ── Init ──
 document.addEventListener("DOMContentLoaded", () => {
-    // Sidebar filters
     document.querySelectorAll(".side-filter-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             document.querySelectorAll(".side-filter-btn").forEach(b => b.classList.remove("active"));
@@ -309,7 +260,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Search
     const searchInp = document.getElementById("app-search");
     if (searchInp) {
         searchInp.addEventListener("input", () => {
@@ -318,11 +268,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Modal close
-    document.getElementById("modal-close")?.addEventListener("click", closeAppModal);
-    document.getElementById("modal-close-btn")?.addEventListener("click", closeAppModal);
+    ["modal-close", "modal-close-btn"].forEach(id => {
+        document.getElementById(id)?.addEventListener("click", closeAppModal);
+    });
+
     document.getElementById("modal-overlay")?.addEventListener("click", (e) => {
         if (e.target.id === "modal-overlay") closeAppModal();
+    });
+
+    // Delegate buttons
+    document.getElementById("app-table-body")?.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const id = parseInt(btn.dataset.id);
+        if (btn.dataset.action === "view") openAppModal(id);
+        else if (btn.dataset.action === "withdraw") withdrawApp(id);
     });
 
     loadApplications();

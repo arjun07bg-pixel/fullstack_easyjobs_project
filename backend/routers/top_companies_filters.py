@@ -1,16 +1,15 @@
-
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import Optional, List
 from sqlalchemy import func
+from typing import Optional, List
 
-from backend.dependencies import get_db
-from backend.models.job import Job
-from backend.schemas.job import JobOut
+from dependencies import get_db
+from models.job import Job
+from schemas.job import JobOut
 
 router = APIRouter(
     prefix="/jobs",
-    tags=["top-companies_Filters"]
+    tags=["Job Filters"]
 )
 
 
@@ -23,6 +22,7 @@ def filter_jobs(
     job_type: Optional[str] = Query(None),
     db: Session = Depends(get_db)
 ):
+
     query = db.query(Job)
 
     if location:
@@ -40,6 +40,6 @@ def filter_jobs(
     if job_type:
         query = query.filter(func.lower(Job.job_type) == job_type.lower())
 
-    return query.all()
+    jobs = query.all()
 
-
+    return jobs

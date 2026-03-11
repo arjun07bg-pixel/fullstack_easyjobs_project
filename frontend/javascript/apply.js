@@ -1,3 +1,5 @@
+"use strict";
+
 // Utility to get the correct API URL (Port 8000 for Python backend)
 const getAPIURL = () => {
     if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
@@ -5,9 +7,13 @@ const getAPIURL = () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    const API_BASE_URL = getAPIURL();
+
     const applyForm = document.getElementById("applyForm");
     const resumeInput = document.getElementById("resume");
     const fileNameDisplay = document.getElementById("file-name-display");
+    const submitBtn = applyForm ? applyForm.querySelector("button[type='submit']") : null;
 
     const urlParams = new URLSearchParams(window.location.search);
     let jobId = urlParams.get("job_id");
@@ -17,74 +23,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentJobDetails = null;
 
-    // ── EMPLOYER BLOCK: Employers cannot apply for jobs ──────────────────────
+    // ───────────── EMPLOYER BLOCK ─────────────
     if (user && (user.role === "employer" || user.role === "admin")) {
-        // Hide the apply form completely
+
         if (applyForm) applyForm.style.display = "none";
 
-        // Show a styled block message in place of the form
         const sidebar = document.querySelector(".sidebar");
+
         if (sidebar) {
             sidebar.innerHTML = `
-                <div style="
-                    background: linear-gradient(135deg, #fff7ed, #fef3c7);
-                    border: 2px solid #f59e0b;
-                    border-radius: 16px;
-                    padding: 2rem;
-                    text-align: center;
-                    box-shadow: 0 8px 24px rgba(245,158,11,0.15);
-                ">
-                    <div style="font-size: 3.5rem; margin-bottom: 1rem;">🏢</div>
-                    <h3 style="color: #92400e; font-size: 1.3rem; margin-bottom: 0.75rem; font-weight: 700;">
-                        Employers Cannot Apply for Jobs
-                    </h3>
-                    <p style="color: #78350f; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
-                        You are logged in as an <strong>Employer</strong>.<br>
-                        Employers can <strong>post jobs</strong> and <strong>review applications</strong>,
-                        but cannot apply for positions.
-                    </p>
-                    <a href="/frontend/pages/dashboard.html" style="
-                        display: inline-block;
-                        background: linear-gradient(135deg, #f59e0b, #d97706);
-                        color: white;
-                        padding: 0.75rem 2rem;
-                        border-radius: 8px;
-                        text-decoration: none;
-                        font-weight: 600;
-                        font-size: 0.95rem;
-                        margin-bottom: 0.75rem;
-                        transition: transform 0.2s;
-                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#128203; Go to Dashboard</a>
-                    <br>
-                    <a href="/frontend/pages/Postjob_home.html" style="
-                        display: inline-block;
-                        background: linear-gradient(135deg, #2563eb, #1d4ed8);
-                        color: white;
-                        padding: 0.75rem 2rem;
-                        border-radius: 8px;
-                        text-decoration: none;
-                        font-weight: 600;
-                        font-size: 0.95rem;
-                        margin-top: 0.5rem;
-                        transition: transform 0.2s;
-                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">&#10010; Post a New Job</a>
-                    <p style="margin-top: 1.25rem; font-size: 0.8rem; color: #92400e;">
-                        Not an employer? <a href="/frontend/pages/login.html" style="color: #d97706; font-weight:600;">Login as Job Seeker</a>
-                    </p>
+                <div style="padding:2rem;text-align:center;">
+                    <h3>Employers Cannot Apply for Jobs</h3>
+                    <p>You are logged in as an Employer.</p>
+                    <a href="./dashboard.html">Go to Dashboard</a>
                 </div>
             `;
         }
-        console.warn("⛔ Employer account blocked from applying for jobs.");
-        return; // Stop all further execution for employers
-    }
-    // ── END EMPLOYER BLOCK ───────────────────────────────────────────────────
 
-    if (window.jobContext && !jobId) {
-        console.log("📝 Using job context from window.jobContext");
-        jobId = window.jobContext.job_id;
-        currentJobDetails = window.jobContext;
+        console.warn("Employer account blocked from applying.");
+        return;
     }
 
+<<<<<<< HEAD
     const fetchLatestUser = async () => {
         if (!user || !user.user_id) return;
         try {
@@ -120,16 +80,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         const hasPhoto = (user.image && user.image.length > 100);
         const hasExp = (user.experience !== null && user.experience !== undefined);
         const hasLocation = (user.location && user.location.trim() !== "");
+=======
+    // ───────────── PROFILE CHECK ─────────────
+    if (user) {
+
+        const hasPhoto = user.image && user.image.length > 100;
+        const hasExp = user.experience !== null && user.experience !== undefined;
+        const hasLocation = user.location && user.location.trim() !== "";
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
         if (!hasPhoto || !hasExp || !hasLocation) {
-            console.warn("⚠️ Profile incomplete. Redirecting to profile page.");
-            showMessage("Please complete your profile (Photo, Location, Experience) before applying.\nApply பண்ணுறதுக்கு முன்னாடி Profile-ல Photo மற்றும் Details-ஐ Update பண்ணுங்க!", "info");
+
+            alert("Please complete your profile before applying.");
+
             setTimeout(() => {
-                window.location.href = "/frontend/pages/profile.html?message=complete_profile";
-            }, 3000);
-            if (applyForm) applyForm.innerHTML = `<div style='text-align:center; padding:2rem; color:#64748b;'><h3>Profile Incomplete</h3><p>Redirecting to profile page...</p></div>`;
+                window.location.href = "./profile.html";
+            }, 2000);
+
             return;
         }
+<<<<<<< HEAD
         
         // Fetch latest in background to be 100% sure
         fetchLatestUser();
@@ -510,210 +480,184 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // Fetch and Display Job Details
-    const fetchJobDetails = async () => {
-        try {
-            console.log(`📝 Fetching job details for ID: ${jobId}`);
-            showMessage(`Loading job details...\nJob details load ஆகிறது...`, "info");
+=======
+    }
 
-            const API_BASE_URL = getAPIURL();
+    // ───────────── FETCH JOB DETAILS ─────────────
+>>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
+    const fetchJobDetails = async () => {
+
+        try {
+
             const response = await fetch(`${API_BASE_URL}/jobs/${jobId}`);
 
             if (response.ok) {
+
                 const job = await response.json();
-                console.log("✅ Job data loaded:", job);
                 currentJobDetails = job;
 
-                fillUI(job);
-
-                showMessage(`Job details loaded successfully! ✓\nJob details load ஆச்சு! ✓`, "success");
+                console.log("Job Loaded:", job);
                 return job;
+
             } else {
-                console.error("❌ Job fetch failed:", response.status);
-                showMessage("Job not found! Redirecting...\nJob கிடைக்கல! Redirect ஆகுது...", "error");
-                setTimeout(() => window.location.href = "/frontend/pages/jobs.html", 2000);
+
+                console.error("Job not found");
+                return null;
+
             }
+
         } catch (error) {
-            console.error("❌ Error fetching job details:", error);
-            showMessage("Could not load job details. Please check your connection.\nJob details load ஆகல. Connection check பண்ணுங்க.", "error");
+
+            console.error("Job fetch error:", error);
+            return null;
+
         }
-        return null;
     };
 
-    if (currentJobDetails) {
-        console.log("✅ Using existing job details from URL or Context");
-        fillUI(currentJobDetails);
-    } else if (jobId) {
-        console.log("🔍 No URL details found, fetching from database...");
-        currentJobDetails = await fetchJobDetails();
+    if (jobId) {
+        await fetchJobDetails();
     }
 
-    // Validate form before submission
+    // ───────────── FILE VALIDATION ─────────────
+    if (resumeInput) {
+
+        resumeInput.addEventListener("change", (e) => {
+
+            if (e.target.files.length > 0) {
+
+                const file = e.target.files[0];
+                const maxSize = 5 * 1024 * 1024;
+
+                if (file.size > maxSize) {
+
+                    alert("File too large. Max 5MB.");
+                    resumeInput.value = "";
+                    return;
+
+                }
+
+                if (fileNameDisplay) {
+                    fileNameDisplay.innerText = file.name;
+                }
+
+            }
+
+        });
+
+    }
+
+    // ───────────── FORM VALIDATION ─────────────
     function validateForm() {
+
         const fullName = document.getElementById("full_name").value.trim();
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
-        const location = document.getElementById("location").value.trim();
-        const experience = document.getElementById("experience").value;
-        const resumeFile = resumeInput.files[0];
 
         if (!fullName) {
-            showMessage("Please enter your full name.\nஉங்க முழு பெயர் enter பண்ணுங்க.", "error");
+            alert("Enter your name");
             return false;
         }
 
-        if (!email || !email.includes("@")) {
-            showMessage("Please enter a valid email address.\nValid email address enter பண்ணுங்க.", "error");
+        if (!email.includes("@")) {
+            alert("Enter valid email");
             return false;
         }
 
-        if (!phone || phone.length < 10) {
-            showMessage("Please enter a valid 10-digit phone number.\n10-digit phone number enter பண்ணுங்க.", "error");
+        if (phone.length < 10) {
+            alert("Enter valid phone");
             return false;
         }
 
-        if (!location) {
-            showMessage("Please enter your current location.\nஉங்க location enter பண்ணுங்க.", "error");
-            return false;
-        }
-
-        if (!experience) {
-            showMessage("Please select your total experience.\nஉங்க experience select பண்ணுங்க.", "error");
-            return false;
-        }
-
-        if (!resumeFile) {
-            showMessage("Please upload your resume.\nஉங்க resume upload பண்ணுங்க.", "error");
+        if (!resumeInput.files[0]) {
+            alert("Upload resume");
             return false;
         }
 
         return true;
     }
 
-    // Handle Form Submission
+    // ───────────── FORM SUBMIT ─────────────
     if (applyForm) {
+
         applyForm.addEventListener("submit", async (e) => {
+
             e.preventDefault();
 
-            // Check if user is logged in
             if (!user) {
-                showMessage("Please login to apply for this job.\nJob apply பண்ண login பண்ணுங்க.", "error");
-                setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
+
+                alert("Please login first");
+                window.location.href = "./login.html";
                 return;
+
             }
 
-            // Validate form
-            if (!validateForm()) {
-                return;
-            }
+            if (!validateForm()) return;
 
-            const submitBtn = document.getElementById("submitBtn");
-            const originalText = submitBtn.innerText;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            const originalBtnHtml = submitBtn.innerHTML;
             submitBtn.disabled = true;
+            submitBtn.innerHTML = "Submitting...";
 
             const resumeFile = resumeInput.files[0];
-            const resumeName = resumeFile ? resumeFile.name : "resume.pdf";
-            const portfolioLink = document.getElementById("portfolio_link") ? document.getElementById("portfolio_link").value.trim() : "";
-            const coverLetter = document.getElementById("cover_letter") ? document.getElementById("cover_letter").value.trim() : "";
-            // NEW: Check if user is logged in
-            if (!user || !user.user_id) {
-                showMessage("Please login before applying for a job.\nJob Apply பண்றதுக்கு முன்னாடி Login பண்ணுங்க!", "error");
-                setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
-                return;
-            }
 
             const payload = {
+
                 user_id: user.user_id,
-                job_id: (parseInt(jobId) && parseInt(jobId) > 0) ? parseInt(jobId) : null,
-                company_name: currentJobDetails ? currentJobDetails.company_name : "Unknown",
-                job_title: currentJobDetails ? currentJobDetails.job_title : "Unknown",
-                status: "applied",
+                job_id: parseInt(jobId),
+
                 name: document.getElementById("full_name").value.trim(),
                 email: document.getElementById("email").value.trim(),
+
                 phone_number: document.getElementById("phone").value.trim(),
-                portfolio_link: portfolioLink || "",
-                resume: resumeName,
-                Current_Location: document.getElementById("location").value.trim(),
-                Total_Experience: parseInt(document.getElementById("experience").value),
-                Current_salary: parseInt(document.getElementById("salary").value) || 0,
-                Notice_Period: parseInt(document.getElementById("notice_period").value),
-                Cover_Letter: coverLetter || `Applied for ${currentJobDetails?.job_title || 'Position'} at ${currentJobDetails?.company_name || 'Company'} through EasyJobs Portal`,
-                job_type: currentJobDetails ? (currentJobDetails.job_type || "Full Time") : "Full Time"
+                resume: resumeFile.name,
+
+                company_name: currentJobDetails?.company_name || "",
+                job_title: currentJobDetails?.job_title || "",
+
+                status: "applied"
+
             };
 
-            console.log("📤 Submitting application:", payload);
-
             try {
-                const API_BASE_URL = getAPIURL();
+
                 const response = await fetch(`${API_BASE_URL}/applications/`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify(payload)
                 });
 
                 if (response.ok) {
+
                     const result = await response.json();
-                    console.log("✅ Application submitted successfully:", result);
+                    console.log("Application Success:", result);
 
-                    showMessage(`Application submitted successfully! ✓\nApplication success-ஆ submit ஆச்சு! ✓\nRedirecting...`, "success");
+                    alert("Application submitted successfully!");
+                    window.location.href = "./submit.html";
 
-                    // Store application details in localStorage for confirmation page
-                    localStorage.setItem("lastApplication", JSON.stringify({
-                        jobTitle: currentJobDetails?.job_title,
-                        companyName: currentJobDetails?.company_name,
-                        applicationId: result.application_id,
-                        submittedAt: new Date().toISOString()
-                    }));
-
-                    // --- Save to Dashboard Tracker ---
-                    const myApps = JSON.parse(localStorage.getItem("easyjobs_applications") || "[]");
-                    myApps.unshift({ // Add to beginning
-                        id: parseInt(jobId),
-                        title: currentJobDetails?.job_title,
-                        company: currentJobDetails?.company_name,
-                        status: 'Applied',
-                        appliedAt: new Date().toISOString()
-                    });
-                    localStorage.setItem("easyjobs_applications", JSON.stringify(myApps));
-
-                    setTimeout(() => window.location.href = "/frontend/pages/submit.html", 2000);
                 } else {
-                    let errorMessage = "Check all fields";
-                    if (response.status === 401) {
-                        errorMessage = "Session expired. Please login again.";
-                        localStorage.removeItem("user");
-                        setTimeout(() => window.location.href = "/frontend/pages/login.html", 2000);
-                    } else {
-                        try {
-                            const error = await response.json();
-                            errorMessage = error.detail || errorMessage;
-                        } catch (e) {
-                            errorMessage = `Server Error (${response.status})`;
-                        }
-                    }
-                    console.error("❌ Submission error:", errorMessage);
-                    showMessage(`Submission Failed: ${errorMessage}\nSubmission fail ஆச்சு: எல்லா fields-யும் check பண்ணுங்க`, "error");
-                    submitBtn.innerText = originalText;
-                    submitBtn.disabled = false;
+
+                    console.error("Submission failed");
+                    alert("Submission failed");
+
                 }
+
             } catch (err) {
-                console.error("❌ Network Error:", err);
-                showMessage(`Networkerror: ${err.message}\nServer running-னு check பண்ணுங்க.`, "error");
-                submitBtn.innerText = originalText;
+
+                console.error("Submission Error:", err);
+                alert("Network error. Please try again.");
+
+            } finally {
+
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
+
             }
+
         });
+
     }
 
-    // Add helpful console message
-    console.log(`
-🎯 EasyJobs - Application Page Loaded
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 Job ID: ${jobId}
-👤 User: ${user ? user.email : 'Not logged in'}
-🏢 Company: ${currentJobDetails?.company_name || 'Loading...'}
-💼 Position: ${currentJobDetails?.job_title || 'Loading...'}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ All features loaded successfully!
-    `);
+    console.log("EasyJobs Application Page Loaded");
+
 });

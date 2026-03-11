@@ -1,101 +1,303 @@
-// Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); return "/api"; };
+// category_search.js - Final Ultra Neat Professional Design Logic
+
+const getAPIURL = () => { 
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); 
+    return "/api"; 
+};
+
+// Global saveJob logic
+window.saveJob = async function(jobId, btn) {
+
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (!user.user_id) {
+        alert("Please login to save jobs.");
+        window.location.href = "./login.html";
+        return;
+    }
+
+    const API_BASE_URL = getAPIURL();
+
+    try {
+
+        const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                user_id: user.user_id,
+                job_id: jobId
+            })
+        });
+
+        if (res.ok) {
+
+            btn.innerHTML = '<i class="fas fa-check"></i> Saved';
+            btn.style.color = "#1faa59";
+            btn.style.fontWeight = "700";
+
+            alert("Job saved successfully!");
+
+        } else {
+
+            const err = await res.json();
+            alert(err.detail || "Already saved or error occurred.");
+
+        }
+
+    } catch (e) {
+
+        alert("Server connection error.");
+
+    }
+};
+
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const jobList = document.querySelector(".job-grid") || document.querySelector(".job-list");
 
-    const path = window.location.pathname;
+    const jobsContainer = document.getElementById("jobs-container");
+    const roleSearchInput = document.getElementById("roleSearchInput");
+    const locationSearchInput = document.getElementById("locationSearchInput");
+    const searchBtn = document.getElementById("categorySearchBtn");
+
+    const path = window.location.pathname.toLowerCase();
+
     let category = "";
-    if (path.includes("IT_software")) category = "software";
-    if (path.includes("sales&marketing")) category = "marketing";
-    if (path.includes("Finance&accounting")) category = "finance";
-    if (path.includes("Engineering")) category = "engineering";
 
-    console.log(`Connecting category page: ${category}`);
+    if (path.includes("it_software")) category = "software";
+    else if (path.includes("sales_marketing")) category = "marketing";
+    else if (path.includes("finance_accounting")) category = "finance";
+    else if (path.includes("engineering")) category = "engineering";
 
-    const cleanDescription = (text) => {
-        if (!text) return "Explore this opportunity and grow your career with us.";
 
-        // Remove known headers that make cards too busy
-        let clean = text.replace(/Role Overview|Key Responsibilities|Requirements|Responsibilities/gi, "");
+    // Standard Cleaner for Database Descriptions
+    const cleanDesc = (t) => {
 
-        // Truncate to a reasonable length for the grid
-        if (clean.length > 150) {
-            return clean.substring(0, 150).trim() + "...";
-        }
-        return clean;
+        if (!t)
+            return "Professional opportunity with a market leader. Join a high-performing team to build the future of India's industry.";
+
+        let c = t.replace(/Role|Overview|Responsibilities|Requirements|Key/gi, "").trim();
+
+        return c.length > 200
+            ? c.substring(0, 180) + "..."
+            : c;
     };
 
-    async function loadJobs() {
+
+    // Ultra-Neat Professional Rendering
+    const renderJob = (job, isAdmin) => {
+
+        const logoText = job.company_name?.substring(0,2).toUpperCase() || 'CO';
+
+        const article = document.createElement("article");
+
+        article.className = "job-card dynamic-job";
+        article.setAttribute("data-job-id", job.job_id);
+
+        article.innerHTML = `
+            <div class="job-card-header">
+                <div>
+                    <a href="./apply_home.html?job_id=${job.job_id}" class="job-title">${job.job_title}</a>
+                    <div class="company">${job.company_name}</div>
+                </div>
+                <div class="company-logo-placeholder">${logoText}</div>
+            </div>
+            
+            <div class="job-meta-grid">
+                <div class="meta-item location"><i class="fas fa-map-marker-alt"></i> ${job.location || 'India'}</div>
+                <div class="meta-item"><i class="fas fa-briefcase"></i> 0-3 Yrs</div>
+                <div class="meta-item"><i class="fas fa-wallet"></i> ${job.salary || '10 - 18'} LPA</div>
+            </div>
+
+            <div class="job-tags">
+                <span class="job-tag">Full Time</span>
+                <span class="job-tag">${category.toUpperCase()}</span>
+                <span class="job-tag">Verified</span>
+            </div>
+
+            <p class="details">${cleanDesc(job.description)}</p>
+            
+            <div class="job-footer">
+
+                <span class="posted-date">Posted Just Now</span>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+
+                    ${isAdmin ? `
+                    <button class="save-job-btn-flat" 
+                    style="color:#ff4d4d;" 
+                    onclick="adminDel(${job.job_id}, this)">
+                    <i class="fas fa-trash"></i> Delete
+                    </button>` : ''}
+
+                    <button class="save-job-btn-flat" 
+                    onclick="saveJob(${job.job_id}, this)">
+                    <i class="far fa-bookmark"></i> Save
+                    </button>
+
+                    <a href="./apply_home.html?job_id=${job.job_id}" class="apply-btn">
+                    View Details
+                    </a>
+
+                </div>
+
+            </div>
+        `;
+
+        return article;
+    };
+
+
+    window.adminDel = async (id, btn) => {
+
+        if (!confirm("Permanently remove this job?")) return;
+
         try {
-            const API_BASE_URL = getAPIURL();
-            const response = await fetch(`${API_BASE_URL}/jobs/`);
-            if (!response.ok) throw new Error("Failed to fetch jobs");
 
-            const allJobs = await response.json();
-
-            const filteredJobs = allJobs.filter(job => {
-                const text = (job.job_title + " " + job.description).toLowerCase();
-                if (category === "software") return text.includes("software") || text.includes("developer") || text.includes("it") || text.includes("qa") || text.includes("test");
-                if (category === "marketing") return text.includes("marketing") || text.includes("sales") || text.includes("ad");
-                if (category === "finance") return text.includes("finance") || text.includes("account") || text.includes("bank");
-                if (category === "engineering") return text.includes("engineer") || text.includes("civil") || text.includes("mechanical") || text.includes("qa") || text.includes("test");
-                return false;
+            const res = await fetch(`${getAPIURL()}/admin/jobs/${id}`, {
+                method: "DELETE"
             });
 
-            if (filteredJobs.length > 0 && jobList) {
-                console.log(`Found ${filteredJobs.length} dynamic jobs for this category.`);
+            if (res.ok)
+                btn.closest(".job-card").remove();
 
-                filteredJobs.forEach(job => {
-                    const article = document.createElement("article");
-                    article.className = "job-card";
-                    article.innerHTML = `
-                        <div class="job-card-header" style="display:flex; justify-content:space-between; align-items:flex-start;">
-                            <div class="job-title"><i class="fas fa-briefcase"></i> ${job.job_title}</div>
-                            <button class="cat-save-btn" data-id="${job.job_id}" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.2rem; transition:0.3s;"><i class="far fa-bookmark"></i></button>
-                        </div>
-                        <div class="company">${job.company_name}</div>
-                        <div class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</div>
-                        <div class="salary">₹${job.salary} LPA</div>
-                        <p class="details">${cleanDescription(job.description)}</p>
-                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&salary=${encodeURIComponent(job.salary)}&desc=${encodeURIComponent(job.description)}" class="apply-btn">Apply Now</a>
-                    `;
+        } catch (e) {
 
-                    // Handle Save
-                    const saveBtn = article.querySelector(".cat-save-btn");
-                    saveBtn.addEventListener("click", async (e) => {
-                        e.preventDefault();
-                        const user = JSON.parse(localStorage.getItem("user") || "{}");
-                        if (!user.user_id) {
-                            alert("Please login to save this job.");
-                            window.location.href = "/frontend/pages/login.html";
-                            return;
-                        }
+            alert("Delete failed");
 
-                        try {
-                            const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ user_id: user.user_id, job_id: job.job_id })
-                            });
-                            if (res.ok) {
-                                saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
-                                saveBtn.style.color = "#2563eb";
-                                showMessage("Job saved successfully! ✓\nவேலை வெற்றிகரமாக சேமிக்கப்பட்டது!", "success");
-                            } else {
-                                const err = await res.json();
-                                showMessage(err.detail || "Error saving job.", "info");
-                            }
-                        } catch (err) { showMessage("Network error.", "error"); }
-                    });
-
-                    jobList.prepend(article);
-                });
-            }
-        } catch (error) {
-            console.error("Error loading category jobs:", error);
         }
     };
 
-    loadJobs();
+
+    // Global Search Filter Logic
+    const performSearch = () => {
+
+        const roleQuery = roleSearchInput ? roleSearchInput.value.toLowerCase().trim() : "";
+        const locQuery = locationSearchInput ? locationSearchInput.value.toLowerCase().trim() : "";
+
+        const allCards = document.querySelectorAll(".job-card");
+
+        let count = 0;
+
+        allCards.forEach(card => {
+
+            const fullText = card.innerText.toLowerCase();
+
+            const locationElem = card.querySelector('.location');
+            const locText = locationElem ? locationElem.innerText.toLowerCase() : "";
+
+            const matchRole = roleQuery === "" || fullText.includes(roleQuery);
+            const matchLoc = locQuery === "" || locText.includes(locQuery);
+
+            if (matchRole && matchLoc) {
+
+                card.style.display = "block";
+                count++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        const existingNoResults = document.getElementById("noResultsBox");
+
+        if (count === 0) {
+
+            if (!existingNoResults) {
+
+                const box = document.createElement("div");
+
+                box.id = "noResultsBox";
+
+                box.style.cssText = `
+                text-align:center;
+                padding:50px 0;
+                color:#888;
+                `;
+
+                box.innerHTML = `
+                    <i class="fas fa-search" 
+                    style="font-size:3rem; opacity:0.1; margin-bottom:15px;"></i>
+
+                    <h3>No matching jobs found</h3>
+
+                    <p>Try searching for different keywords.</p>
+                `;
+
+                jobsContainer.appendChild(box);
+
+            }
+
+        } else if (existingNoResults) {
+
+            existingNoResults.remove();
+
+        }
+
+    };
+
+
+    if (searchBtn)
+        searchBtn.addEventListener("click", performSearch);
+
+    if (roleSearchInput)
+        roleSearchInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") performSearch();
+        });
+
+    if (locationSearchInput)
+        locationSearchInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") performSearch();
+        });
+
+
+    // Sync with DB
+    async function init() {
+
+        try {
+
+            const API_BASE_URL = getAPIURL();
+
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+            const isAdmin = user.role === "admin";
+
+            const res = await fetch(`${API_BASE_URL}/jobs/`);
+
+            if (res.ok) {
+
+                const jobs = await res.json();
+
+                const filtered = jobs.filter(j => {
+
+                    const text = (j.job_title + (j.description || "")).toLowerCase();
+
+                    if (category === "software") return /software|developer|it|tech|web/i.test(text);
+                    if (category === "marketing") return /marketing|sales|growth|brand/i.test(text);
+                    if (category === "finance") return /finance|account|audit|tax/i.test(text);
+                    if (category === "engineering") return /engineer|civil|mechanical|structural/i.test(text);
+
+                    return false;
+
+                });
+
+                filtered.forEach(j => {
+                    jobsContainer.appendChild(renderJob(j, isAdmin));
+                });
+
+            }
+
+        } catch (e) {
+
+            console.error("Data Sync Failure");
+
+        }
+
+    }
+
+    init();
+
 });

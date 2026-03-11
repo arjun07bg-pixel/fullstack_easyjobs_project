@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend.database.database import get_db
-from backend.models.saved_job import SavedJob
-from backend.models.job import Job
-from backend.schemas.saved_job import SavedJobCreate, SavedJobOut
+from database.database import get_db
+from models.saved_job import SavedJob
+from models.job import Job
+from schemas.saved_job import SavedJobCreate, SavedJobOut
 
 router = APIRouter(prefix="/saved-jobs", tags=["Saved Jobs"])
 
