@@ -1,9 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import os
+import sys
 
-from dependencies import get_db
+# Ensure backend package structure is respected
+current_dir = os.path.dirname(os.path.abspath(__file__))
+backend_dir = os.path.dirname(current_dir)
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
+from database.database import get_db
 from models.application import Application
 from schemas.application import ApplicationCreate, ApplicationOut
+from models.user import User
+from models.job import Job
 
 router = APIRouter(
     prefix="/applications",
@@ -12,39 +22,26 @@ router = APIRouter(
 
 @router.get("/download/{filename}")
 def download_resume(filename: str):
-    # This is a placeholder. Real implementation would use FileResponse
-    return {"message": f"Resume file '{filename}' exists in the database. Actual file download requires a cloud storage setup (like AWS S3)."}
-
-
-
+    # This is a placeholder.
+    return {"message": f"Resume file '{filename}' exists in the database. Actual file download requires a cloud storage setup."}
 
 @router.post("/", response_model=ApplicationOut)
 def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
-<<<<<<< HEAD
-    # 1. Ensure user exists (Prevents IntegrityError if DB was reset/wiped)
-    from backend.models.user import User
-=======
-
-    # 1. Ensure user exists (Prevents IntegrityError if DB was reset)
-    from models.user import User
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
+    # 1. Ensure user exists
     existing_user = db.query(User).filter(User.user_id == app.user_id).first()
     if not existing_user:
-        # If user is in frontend but not in DB, it's a critical sync issue
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Your session is no longer valid in our database. Please login again to re-sync your account."
+            detail="Your session is no longer valid in our database. Please login again."
         )
 
-    # 2. Check if the Job ID exists in the real database (Soft Foreign Key)
+    # 2. Check if the Job ID exists in the real database
     safe_job_id = None
     if app.job_id and app.job_id > 0:
-        from models.job import Job
         job_exists = db.query(Job).filter(Job.job_id == app.job_id).first()
         if job_exists:
             safe_job_id = app.job_id
         else:
-            # This is a static/mock job from a company page
             print(f"ℹ️ Linking application to static job: {app.job_title} at {app.company_name}")
 
     try:
@@ -76,11 +73,8 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         print(f"❌ Application Save Error: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Database error: {str(e)}. Please try again later."
+            detail=f"Database error: {str(e)}."
         )
-
-
-
 
 # ---------------- GET ALL APPLICATIONS ----------------
 @router.get("/", response_model=list[ApplicationOut])
@@ -93,11 +87,7 @@ def get_user_applications(
     user_id: int,
     db: Session = Depends(get_db)
 ):
-    user_apps = db.query(Application).filter(Application.user_id == user_id).all()
-    # Even if empty list, return it
-    return user_apps
-
-
+    return db.query(Application).filter(Application.user_id == user_id).all()
 
 # ---------------- GET SINGLE APPLICATION ----------------
 @router.get("/{application_id}", response_model=ApplicationOut)
@@ -109,15 +99,8 @@ def get_application(
         Application.application_id == application_id).first()
 
     if not application:
-        raise HTTPException(
-            status_code=404,
-            detail="Application not found"
-        )
-
+        raise HTTPException(status_code=404, detail="Application not found")
     return application
-
-
-
 
 # ---------------- UPDATE APPLICATION ----------------
 @router.put("/{application_id}", response_model=ApplicationOut)
@@ -130,10 +113,7 @@ def update_application(
         Application.application_id == application_id).first()
 
     if not db_application:
-        raise HTTPException(
-            status_code=404,
-            detail="Application not found"
-        )
+        raise HTTPException(status_code=404, detail="Application not found")
 
     db_application.user_id = app.user_id
     db_application.job_id = app.job_id
@@ -143,23 +123,14 @@ def update_application(
     db_application.name = app.name
     db_application.email = app.email
     db_application.phone_number = app.phone_number
-    db_application.portfolio_link = app.portfolio_link
     db_application.resume = app.resume
-    db_application.Current_Location = app.Current_Location
-    db_application.Total_Experience = app.Total_Experience
-    db_application.Current_salary = app.Current_salary
-    db_application.Notice_Period = app.Notice_Period
-    db_application.Cover_Letter = app.Cover_Letter
     db_application.job_type = app.job_type
 
     db.commit()
     db.refresh(db_application)
     return db_application
 
-
-
-
-# ---------------- PARTIAL UPDATE APPLICATION (Status, etc) ----------------
+# ---------------- PARTIAL UPDATE APPLICATION ----------------
 @router.patch("/{application_id}", response_model=ApplicationOut)
 def patch_application(
     application_id: int,
@@ -180,7 +151,6 @@ def patch_application(
     db.refresh(db_application)
     return db_application
 
-
 # ---------------- DELETE APPLICATION ----------------
 @router.delete("/{application_id}", status_code=status.HTTP_200_OK)
 def delete_application(
@@ -191,10 +161,7 @@ def delete_application(
         Application.application_id == application_id).first()
 
     if not db_application:
-        raise HTTPException(
-            status_code=404,
-            detail="Application not found"
-        )
+        raise HTTPException(status_code=404, detail="Application not found")
 
     db.delete(db_application)
     db.commit()

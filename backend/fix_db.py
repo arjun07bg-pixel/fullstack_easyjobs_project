@@ -3,12 +3,7 @@ import sqlite3
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 
-<<<<<<< HEAD
 load_dotenv("backend/.env")
-=======
-
-load_dotenv()
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 def fix_database():

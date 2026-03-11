@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 import sys
 
@@ -14,12 +13,11 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from backend.database.database import Base, engine
-from backend.routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
+from database.database import Base, engine
+from routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
  
 app = FastAPI(
     title="EasyJobs API",
-    
     version="2.0.0",
     contact={
         "name": "EasyJobs",
@@ -60,26 +58,14 @@ async def global_exception_handler(request: Request, exc: Exception):
         headers={"Access-Control-Allow-Origin": "*"}
     )
 
-# Robust CORS
-=======
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
-from database.database import Base, engine
-from routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
-
-app = FastAPI(
-    title="EasyJobs API",
-    version="2.0.0"
-)
-
-# CORS
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://cosmic-bienenstitch-9618bb.netlify.app", 
-        "https://arjun07bg-pixel.github.io"
+        "https://arjun07bg-pixel.github.io",
+        "http://localhost:3000",
+        "http://127.0.0.1:5500"
     ],
     allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?",
     allow_credentials=True,
@@ -87,8 +73,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-<<<<<<< HEAD
-# Mount static files
+# Create tables
+Base.metadata.create_all(bind=engine)
+
 # Mount static files with absolute paths
 app.mount("/frontend/javascript", StaticFiles(directory=os.path.join(parent_dir, "frontend", "javascript")), name="javascript")
 app.mount("/frontend/styles", StaticFiles(directory=os.path.join(parent_dir, "frontend", "styles")), name="styles")
@@ -96,11 +83,6 @@ app.mount("/frontend/pages", StaticFiles(directory=os.path.join(parent_dir, "fro
 
 # Use absolute paths for templates
 templates = Jinja2Templates(directory=[parent_dir, os.path.join(parent_dir, "frontend", "pages")])
-=======
-# Create tables (runs on import for serverless)
-Base.metadata.create_all(bind=engine)
-
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
 @app.get("/")
 def root():

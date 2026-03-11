@@ -135,25 +135,12 @@ function switchTab(tabName) {
     if (section) section.style.display = "block";
     if (link) link.classList.add("active");
 
-<<<<<<< HEAD
     const titles = {
         overview: ["Employer Dashboard", "Streamline your hiring process and manage talent."],
         applications: ["Candidate Applications", "Review every candidate who applied for your openings."],
         users: ["Talent Database", "Browse all registered candidates on the platform."],
         "post-job": ["Create Listing", "Add a new vacancy to attract top talent."],
         "my-jobs": ["Active Vacancies", "View, edit, or remove your existing job postings."],
-=======
-    const titles = isAdmin ? {
-        overview: ["Super Admin Panel", "Full access to platform metrics and user database."],
-        applications: ["All Applications", "Review every candidate who applied across the platform."],
-        "post-job": ["Post Global Opening", "Add a new internship or job vacancy as Admin."],
-        "my-jobs": ["All Platform Jobs", "View, edit, or remove any job posting on the system."],
-    } : {
-        overview: ["Employer Dashboard", "Manage your company's hires and job listings."],
-        applications: ["Recent Applicants", "Review Every candidate who applied for your openings."],
-        "post-job": ["Post New Opening", "Add a new internship or job vacancy for your company."],
-        "my-jobs": ["Manage My Jobs", "View, edit, or remove your existing job postings."],
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
     };
 
     const [t, s] = titles[tabName] || ["Dashboard", ""];
@@ -163,7 +150,6 @@ function switchTab(tabName) {
     if (subEl) subEl.textContent = s;
 }
 
-<<<<<<< HEAD
 window.switchTab = switchTab;
 
 /* ─── JOB POSTING ──────────────────────────── */
@@ -717,6 +703,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderUsers(allUsers);
     renderMyJobs(allJobs);
 });
-=======
-window.switchTab = switchTab;
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f

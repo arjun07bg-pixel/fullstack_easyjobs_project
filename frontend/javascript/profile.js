@@ -42,15 +42,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         strengthPercent: document.getElementById("strength-percent"),
         strengthLabel: document.getElementById("strength-label"),
         saveBtn: document.getElementById("saveProfileBtn"),
-<<<<<<< HEAD
         // Header Elements
         headerName: document.getElementById("header-full-name"),
         headerSub: document.getElementById("header-designation-location"),
         headerPercent: document.getElementById("header-strength-percent"),
         // Employer Specific
-=======
-        // Employer
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         companyCard: document.getElementById("company-card"),
         companyName: document.getElementById("companyName"),
         industry: document.getElementById("industry"),
@@ -80,7 +76,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             pref.bio, pref.linkedinUrl, pref.githubUrl, pref.gender, pref.dob
         ];
 
-<<<<<<< HEAD
         const roleFields = userData.role === 'employer'
             ? [pref.companyName, pref.industry, pref.companySize, pref.companyWebsite]
             : [pref.designation, pref.experience, pref.salary, pref.skills, pref.education, pref.projects];
@@ -97,23 +92,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 2. Add for email (always), photo, and resume (seeker only)
         filled += 1; // Email is always there if logged in
 
-=======
-        let filled = fields.reduce((acc, f) => (f && f.value.trim() !== "" && f.value !== "0" ? acc + 1 : acc), 0);
-        filled += 1; // email always counted
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         const user = JSON.parse(localStorage.getItem("user") || "{}");
         if ((user.image && user.image.length > 100) || tempPhotoData) filled++;
 
-<<<<<<< HEAD
         let totalBonus = 2; // Email + Photo
         if (userData.role !== 'employer') {
             totalBonus += 1; // Resume for seekers
             if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
         }
-=======
-        const totalFields = fields.length + 3;
-        const percent = Math.round((filled / totalFields) * 100);
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
         const totalFields = allCheckFields.length + totalBonus;
         const percent = Math.min(100, Math.round((filled / totalFields) * 100));
@@ -121,7 +107,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 3. Update UI Elements
         if (pref.strengthBar) pref.strengthBar.style.width = percent + "%";
         if (pref.strengthPercent) pref.strengthPercent.innerText = percent + "%";
-<<<<<<< HEAD
         if (pref.headerPercent) pref.headerPercent.innerText = percent + "%";
 
         if (pref.strengthLabel) {
@@ -166,22 +151,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         } catch (e) {
             console.error("Error fetching user data:", e);
-=======
-
-        if (headerName && headerSub) {
-            headerName.innerText = user.role === 'employer' ? (user.company_name || "Company Profile") : `${user.first_name} ${user.last_name || ""}`;
-            headerSub.innerHTML = user.role === 'employer'
-                ? `<i class="fas fa-building"></i> ${user.industry || "Industry Not Set"} | <i class="fas fa-users"></i> ${user.company_size || "Size Not Set"}`
-                : `<i class="fas fa-briefcase"></i> ${user.designation || "Job Seeker"} | <i class="fas fa-map-marker-alt"></i> ${user.location || "Location Not Set"}`;
-        }
-
-        if (pref.strengthLabel) {
-            pref.strengthLabel.innerText = percent < 30 ? "Needs Attention" :
-                percent < 60 ? "Getting There" :
-                percent < 85 ? "Strong Profile" :
-                percent < 100 ? "Almost Complete!" :
-                "100% Complete! 🏆";
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         }
     };
 
@@ -211,7 +180,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.companySize) pref.companySize.value = user.company_size || "";
         if (pref.companyWebsite) pref.companyWebsite.value = user.company_website || "";
 
-<<<<<<< HEAD
         if (user.image && pref.photoPreview && user.image.length > 100) {
             pref.photoPreview.innerHTML = `<img src="${user.image}" alt="Profile">`;
         }
@@ -219,14 +187,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (user.resume_url && pref.resumeName) {
             pref.resumeName.innerText = user.resume_url;
         }
-=======
-        // Profile preview
-        const avatarSrc = tempPhotoData || user.image || `https://ui-avatars.com/api/?name=${user.first_name}`;
-        if (pref.photoPreview) pref.photoPreview.innerHTML = `<img src="${avatarSrc}" alt="Profile">`;
-        if (pref.resumeName && user.resume_url) pref.resumeName.innerText = user.resume_url;
-
-        updateStrength();
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
     };
 
     const fetchUser = async () => {

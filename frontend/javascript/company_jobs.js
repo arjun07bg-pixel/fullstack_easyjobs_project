@@ -22,17 +22,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log(`🚀 Company Jobs Manager active for: ${companyName}`);
 
-<<<<<<< HEAD
     // --- Part 1: Fix Static Job Links & Save Buttons ---
     function updateStaticCards() {
-=======
-    // ─────────────────────────────────────────────
-    // Part 1: Fix Static Job Links
-    // ─────────────────────────────────────────────
-
-    function updateCardLinks() {
-
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         const staticJobCards = document.querySelectorAll(".job-card");
 
         staticJobCards.forEach(card => {
@@ -41,7 +32,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const link = card.querySelector(".apply-link");
             const saveBtn = card.querySelector(".comp-save-btn");
 
-<<<<<<< HEAD
             // Fix Link
             if (title && link && !link.href.includes('job_id=')) {
                 const meta = card.querySelector(".job-meta")?.innerText || "";
@@ -81,41 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if (window.showMessage) window.showMessage("Job saved!", "success");
                 });
             }
-=======
-            if (!title || !link) return;
-
-            const meta = card.querySelector(".job-meta")?.innerText || "";
-
-            const parts = meta.split("|");
-
-            const location =
-                parts[0]?.replace(/[^a-zA-Z\s]/g, "").trim() || "Remote";
-
-            const type =
-                parts[1]?.trim() || "Full-Time";
-
-            const exp =
-                parts[2]?.trim() || "Not Specified";
-
-            const desc =
-                card.querySelector(".job-description")?.innerText.trim() || "";
-
-            const params = new URLSearchParams({
-                title: title,
-                company: companyName,
-                location: location,
-                type: type,
-                exp: exp,
-                desc: desc,
-                mode: "On-site"
-            });
-
-            link.href = `./apply_home.html?${params.toString()}`;
-
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         });
 
-<<<<<<< HEAD
     // --- Part 2: Fetch Dynamic Jobs from API ---
     try {
         const API_BASE_URL = getAPIURL();
@@ -187,112 +144,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     } catch (error) {
         console.warn("⚠️ API fetch failed:", error);
-=======
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
-    }
-
-    updateStaticCards();
-
-
-    // ─────────────────────────────────────────────
-    // Part 2: Filter Utilities
-    // ─────────────────────────────────────────────
-
-    const searchInput = document.querySelector(".search-bar input");
-    const searchBtn = document.querySelector(".search-btn");
-    const applyBtn = document.querySelector(".apply-filters-btn");
-
-<<<<<<< HEAD
-    function filterJobs() {
-        const query = (searchInput?.value || "").toLowerCase().trim();
-        const jobCards = document.querySelectorAll(".job-card");
-
-        const getActiveValues = (selector) => {
-            const section = document.querySelector(selector);
-            if (!section) return [];
-            const checked = Array.from(section.querySelectorAll('input:checked'));
-            if (checked.length > 0) return checked.map(cb => cb.value.toLowerCase());
-            const select = section.querySelector('select');
-            if (select && select.value) return [select.value.toLowerCase()];
-            return [];
-        };
-
-        const activeLocations = getActiveValues('.filter-section:nth-of-type(1)');
-        const activeExps = getActiveValues('.filter-section:nth-of-type(2)');
-        const activeTypes = getActiveValues('.filter-section:nth-of-type(3)');
-=======
-
-    function getSelectedOptions(keyword) {
-
-        const sections =
-            document.querySelectorAll(".filter-section, .filter-group");
-
-        let selected = [];
-
-        sections.forEach(sec => {
-
-            const heading =
-                (sec.querySelector("h4") ||
-                    sec.querySelector("label") ||
-                    sec.querySelector("h3"))?.textContent.toLowerCase() || "";
-
-            if (!heading.includes(keyword.toLowerCase())) return;
-
-            const checkboxes =
-                sec.querySelectorAll('input[type="checkbox"]:checked');
-
-            checkboxes.forEach(cb => {
-
-                const label =
-                    cb.parentElement.textContent
-                        .trim()
-                        .toLowerCase();
-
-                const cleanName =
-                    label.split("(")[0].trim();
-
-                selected.push(cleanName);
-
-            });
-
-            const select = sec.querySelector("select");
-
-            if (select && select.value &&
-                !select.value.toLowerCase().includes("all")) {
-
-                selected.push(
-                    select.value.toLowerCase().trim()
-                );
-            }
-
-        });
-
-        return selected;
-    }
-
-
-    // ─────────────────────────────────────────────
-    // Part 3: Filtering Logic
-    // ─────────────────────────────────────────────
-
-    function filterJobs() {
-
-        const query =
-            searchInput?.value.toLowerCase().trim() || "";
-
-        const jobCards =
-            document.querySelectorAll(".job-card");
-
-        const activeLocations = getSelectedOptions("location");
-        const activeTypes = getSelectedOptions("type");
-        const activeModes = getSelectedOptions("mode");
-        const activeFunctions = getSelectedOptions("function");
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
         let visibleCount = 0;
 
         jobCards.forEach(card => {
-<<<<<<< HEAD
             const title = card.querySelector("h3")?.innerText.toLowerCase() || "";
             const meta = card.querySelector(".job-meta")?.innerText.toLowerCase() || "";
             const desc = card.querySelector(".job-description")?.innerText.toLowerCase() || "";
@@ -308,78 +163,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             const matchesType = activeTypes.length === 0 || activeTypes.some(t => meta.includes(t));
-=======
-
-            const titleElement =
-                card.querySelector(".job-title") ||
-                card.querySelector("h3");
-
-            const metaElement =
-                card.querySelector(".job-meta-naukri") ||
-                card.querySelector(".job-meta");
-
-            const descElement =
-                card.querySelector(".job-desc-naukri") ||
-                card.querySelector(".job-description");
-
-            if (!titleElement || !metaElement || !descElement) return;
-
-            const title = titleElement.innerText.toLowerCase();
-            const meta = metaElement.innerText.toLowerCase();
-            const desc = descElement.innerText.toLowerCase();
-
-            const tags = Array
-                .from(card.querySelectorAll(".tag, .skill-tag"))
-                .map(t => t.innerText.toLowerCase());
-
-            const matchesQuery =
-                !query ||
-                title.includes(query) ||
-                desc.includes(query) ||
-                tags.some(t => t.includes(query)) ||
-                meta.includes(query);
-
-            const matchesLoc =
-                activeLocations.length === 0 ||
-                activeLocations.some(loc =>
-                    meta.includes(loc)
-                );
-
-            const matchesType =
-                activeTypes.length === 0 ||
-                activeTypes.some(t =>
-                    meta.includes(t)
-                );
-
-            const matchesMode =
-                activeModes.length === 0 ||
-                activeModes.some(m =>
-                    meta.includes(m) ||
-                    desc.includes(m)
-                );
-
-            const matchesFunc =
-                activeFunctions.length === 0 ||
-                activeFunctions.some(func => {
-
-                    const key =
-                        func.split(" ")[0];
-
-                    return (
-                        title.includes(key) ||
-                        desc.includes(key) ||
-                        tags.some(t => t.includes(key))
-                    );
-                });
-
-            if (
-                matchesQuery &&
-                matchesLoc &&
-                matchesType &&
-                matchesMode &&
-                matchesFunc
-            ) {
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
                 card.style.display = "block";
                 visibleCount++;
@@ -419,7 +202,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         });
 
-<<<<<<< HEAD
         const heading = jobListings.querySelector("h2");
         if (heading) {
             heading.textContent = visibleCount === 0 ? "No Jobs Found matching your filters" : `Showing ${visibleCount} Jobs`;
@@ -439,38 +221,3 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
-=======
-    }
-
-    if (searchInput) {
-
-        searchInput.addEventListener("keyup", (e) => {
-
-            if (e.key === "Enter")
-                filterJobs();
-
-        });
-
-    }
-
-
-    // ─────────────────────────────────────────────
-    // Initial Job Count
-    // ─────────────────────────────────────────────
-
-    setTimeout(() => {
-
-        const jobCards =
-            document.querySelectorAll(".job-card");
-
-        const numHeader =
-            document.querySelector(".job-listings h2");
-
-        if (numHeader)
-            numHeader.textContent =
-                `Showing ${jobCards.length} Jobs`;
-
-    }, 200);
-
-});
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f

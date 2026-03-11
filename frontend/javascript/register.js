@@ -25,21 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (imageSubtitle) imageSubtitle.textContent = "Post jobs and connect with thousands of talented candidates";
             if (createAccountBtn) createAccountBtn.textContent = "Create Employer Account";
 
-<<<<<<< HEAD
             // Employer inputs dynamic required toggle
             const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
             employerInputs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.required = true;
             });
-
-=======
-            // Employer fields required
-            ['company_name', 'industry', 'company_size', 'designation'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.required = true;
-            });
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
         } else {
             employerFields.style.opacity = "0";
             employerFields.style.transform = "translateY(-10px)";
@@ -49,13 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (imageSubtitle) imageSubtitle.textContent = "Connect with thousands of employers and discover your perfect career opportunity";
             if (createAccountBtn) createAccountBtn.textContent = "Create Account";
 
-<<<<<<< HEAD
             // Remove required property
             const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
             employerInputs.forEach(id => {
-=======
-            ['company_name', 'industry', 'company_size', 'designation'].forEach(id => {
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
                 const el = document.getElementById(id);
                 if (el) el.required = false;
             });
@@ -68,18 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
         employerFields.style.opacity = "0";
     }
 
-<<<<<<< HEAD
-    // ─── Form Submission ─────────────────────────────────────────────────────
-    const registerForm = document.getElementById("registerForm");
-    if (registerForm) {
-        registerForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-=======
     // Event listener for user type select
     if (userTypeSelect) {
         userTypeSelect.addEventListener("change", () => toggleEmployerFields(userTypeSelect.value));
     }
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
     // Handle URL param ?role=employer
     const urlParams = new URLSearchParams(window.location.search);
@@ -92,22 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.getElementById("registerForm");
     if (!registerForm) return;
 
-<<<<<<< HEAD
-            // Phone length check to prevent HTTP 422 error
-            if (phone.length < 10 || phone.length > 15) {
-                alert("Phone number must be between 10 and 15 digits.");
-                document.getElementById("phone").focus();
-                return;
-            }
-
-            if (password.length < 6) {
-                alert("Password must be at least 6 characters long.");
-                return;
-            }
-=======
     registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
->>>>>>> a40fdfebe27c4604f34940a046c81aa58b0b117f
 
         const firstName = document.getElementById("firstname").value.trim();
         const lastName = document.getElementById("lastname").value.trim();
@@ -123,10 +88,28 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Please fill in all required fields.");
             return;
         }
-        if (phone.length < 10 || phone.length > 15) { alert("Phone number must be 10–15 digits."); return; }
-        if (password.length < 6) { alert("Password must be at least 6 characters."); return; }
-        if (password !== confirmPassword) { alert("Passwords do not match!"); return; }
-        if (!termsChecked) { alert("Please agree to the Terms & Conditions."); return; }
+
+        // Phone length check to prevent HTTP 422 error
+        if (phone.length < 10 || phone.length > 15) {
+            alert("Phone number must be between 10 and 15 digits.");
+            document.getElementById("phone").focus();
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        if (!termsChecked) {
+            alert("Please agree to the Terms & Conditions.");
+            return;
+        }
 
         // Employer-specific validation
         let companyName="", industry="", companySize="", designation="", companyWebsite="";
