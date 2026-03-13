@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const jobListings = document.querySelector(".job-listings");
     const companyHeader = document.querySelector("h1");
-    const searchInput = document.getElementById("jobSearch");
-    const searchBtn = document.getElementById("searchBtn");
-    const filterForm = document.getElementById("filterForm");
-    const applyBtn = document.getElementById("applyFilters");
+    const searchInput = document.getElementById("job-search") || document.getElementById("jobSearch");
+    const searchBtn = document.getElementById("search-btn") || document.getElementById("searchBtn");
+    const filterForm = document.getElementById("filter-form") || document.getElementById("filterForm");
+    const applyBtn = document.getElementById("apply-filters-btn") || document.getElementById("applyFilters");
 
     if (!companyHeader || !jobListings) return;
 
@@ -25,6 +25,56 @@ document.addEventListener("DOMContentLoaded", async () => {
         .trim();
 
     console.log(`🚀 Company Jobs Manager active for: ${companyName}`);
+
+    // --- 📊 Part 0: Dynamic Company Stats ---
+    async function loadCompanyStats() {
+        try {
+            const statsContainer = document.querySelector(".co-overview-content") || document.querySelector(".company-overview");
+            if (!statsContainer) return;
+
+            const response = await fetch(`${getAPIURL()}/admin/stats/company/${encodeURIComponent(companyName)}`);
+            if (!response.ok) return;
+            const stats = await response.json();
+
+            // Create or Find Stats Row
+            let statsRow = document.getElementById("dynamic-company-stats");
+            if (!statsRow) {
+                statsRow = document.createElement("div");
+                statsRow.id = "dynamic-company-stats";
+                statsRow.style.cssText = "display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; padding-top:16px; border-top:1px dashed #e2e8f0;";
+                
+                // Find existing stats row to insert after
+                const existingRow = statsContainer.querySelector("div[style*='display:flex']");
+                if (existingRow) {
+                    existingRow.insertAdjacentElement('afterend', statsRow);
+                } else {
+                    statsContainer.appendChild(statsRow);
+                }
+            }
+
+            statsRow.innerHTML = `
+                <div class="co-stat" style="flex:1; min-width:140px; padding:12px; background:#f8fafc; border-radius:12px; text-align:center;">
+                    <div style="color:#2563eb; font-size:18px; margin-bottom:4px;"><i class="fas fa-users"></i></div>
+                    <div style="font-size:16px; font-weight:700; color:#0f172a;">${stats.total_applied || 0}</div>
+                    <div style="font-size:10px; color:#64748b; font-weight:600; text-transform:uppercase;">People Applied</div>
+                </div>
+                <div class="co-stat" style="flex:1; min-width:140px; padding:12px; background:#f8fafc; border-radius:12px; text-align:center;">
+                    <div style="color:#2563eb; font-size:18px; margin-bottom:4px;"><i class="fas fa-eye"></i></div>
+                    <div style="font-size:16px; font-weight:700; color:#0f172a;">${stats.total_views || 0}</div>
+                    <div style="font-size:10px; color:#64748b; font-weight:600; text-transform:uppercase;">Total Views</div>
+                </div>
+                <div class="co-stat" style="flex:1; min-width:140px; padding:12px; background:#f8fafc; border-radius:12px; text-align:center;">
+                    <div style="color:#059669; font-size:18px; margin-bottom:4px;"><i class="fas fa-check-circle"></i></div>
+                    <div style="font-size:16px; font-weight:700; color:#0f172a;">${stats.hired || 0}</div>
+                    <div style="font-size:10px; color:#64748b; font-weight:600; text-transform:uppercase;">Recently Hired</div>
+                </div>
+            `;
+        } catch (err) {
+            console.warn("Failed to load company stats:", err);
+        }
+    }
+
+    loadCompanyStats();
 
     /** --- 🛠️ Part 1: Fix Static Job Cards --- */
     function updateStaticCards() {

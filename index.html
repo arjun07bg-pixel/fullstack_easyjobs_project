@@ -11,6 +11,49 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/frontend/styles/index.css">
     <link rel="stylesheet" href="/frontend/styles/global_font.css">
+    <style>
+        /* ── Mobile Responsive ── */
+        @media (max-width: 768px) {
+            .header-content { flex-wrap: wrap; gap: 10px; padding: 10px 15px; }
+            .nav-menu { display: none; width: 100%; order: 3; }
+            .nav-menu.open { display: block; }
+            .nav-menu ul { flex-direction: column; gap: 0; padding: 10px 0; }
+            .nav-menu ul li a { padding: 12px 20px; display: block; border-bottom: 1px solid rgba(255,255,255,0.08); }
+            .auth-buttons { order: 2; }
+            .hamburger-btn {
+                display: flex !important;
+                background: rgba(255,255,255,0.1);
+                border: none;
+                color: white;
+                width: 42px;
+                height: 42px;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                cursor: pointer;
+                order: 1;
+                margin-left: auto;
+            }
+            .hero-section { padding: 60px 0 40px; }
+            .hero-content { flex-direction: column; align-items: center; text-align: center; }
+            .hero-text h1 { font-size: 2rem; }
+            .hero-text h3 { font-size: 1rem; }
+            .job-search-form { flex-direction: column; gap: 10px; }
+            .search-input-group { width: 100%; }
+            .stats-bar { flex-wrap: wrap; justify-content: center; gap: 15px; }
+            .categories-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+            .cta-box { flex-direction: column; text-align: center; padding: 30px 20px !important; }
+            .cta-box h2 { font-size: 1.6rem !important; }
+            .footer-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
+        }
+        @media (max-width: 480px) {
+            .categories-grid { grid-template-columns: 1fr; }
+            .hero-text h1 { font-size: 1.6rem; }
+            .stats-bar .stat-item { font-size: 13px; }
+        }
+        .hamburger-btn { display: none; }
+    </style>
 
 </head>
 
@@ -29,7 +72,12 @@
                 Easy<span class="logo-accent">Jobs</span>
             </a>
 
-            <nav class="nav-menu">
+            <!-- Mobile Hamburger -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
                 <ul>
                     <!-- <li><a href="/index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li> -->
                     <li><a href="/frontend/pages/jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a></li>
@@ -198,6 +246,15 @@
 
     <script src="/frontend/javascript/index.js"></script>
     <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script src="/frontend/javascript/notifications.js"></script>
+    <script>
+        // Mobile hamburger toggle
+        document.getElementById('hamburgerBtn')?.addEventListener('click', function() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('open');
+            this.querySelector('i').className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+        });
+    </script>
 
 </body>
 

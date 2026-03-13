@@ -7,6 +7,7 @@ const getAPIURL = () => window.getEasyJobsAPI?.() || "/api";
 let allApplications = [];
 let currentFilter = "all";
 let currentSearch = "";
+let allInterviews = [];  // New global for interviews
 const setE = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
 // ── User Helpers ──
@@ -98,6 +99,11 @@ function buildTableRow(app) {
                 <button class="tbl-btn view" data-action="view" data-id="${app.application_id}">
                     <i class="fas fa-eye"></i> View
                 </button>
+                ${(isAdmin || isEmployer) ? `
+                <button class="tbl-btn schedule-link" data-action="schedule" data-id="${app.application_id}" style="color:#0369a1;background:#f0f9ff;border:1px solid #bae6fd;padding:6px 12px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;">
+                    <i class="fas fa-calendar-plus"></i> Schedule
+                </button>
+                ` : ''}
                 <button class="tbl-btn withdraw" data-action="withdraw" data-id="${app.application_id}">
                     <i class="fas fa-times"></i> ${isAdmin ? 'Delete' : 'Withdraw'}
                 </button>
@@ -139,6 +145,14 @@ window.openAppModal = (id) => {
         ["Submitted At", fmtDate(app.applied_at)]
     ];
 
+    // Check for interview data
+    const interview = allInterviews.find(i => i.application_id == app.application_id);
+    if (interview) {
+        fields.push(["📅 Interview Date", new Date(interview.interview_date).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })]);
+        fields.push(["📍 Location/Link", `<span style="color:#2563eb;font-weight:600;">${interview.location}</span>`]);
+        if (interview.notes) fields.push(["📝 Interview Notes", interview.notes]);
+    }
+
     grid.innerHTML = fields.map(([label, val]) => `
         <div class="modal-field">
             <div class="mf-label">${label}</div>
@@ -158,6 +172,69 @@ window.openAppModal = (id) => {
 
 function closeAppModal() {
     document.getElementById("modal-overlay")?.classList.remove("open");
+}
+
+// ── Schedule Modal Logic ──
+function openScheduleModal(appId) {
+    const app = allApplications.find(a => a.application_id == appId);
+    if (!app) return;
+    
+    const modal = document.getElementById("schedule-modal-overlay");
+    const appIdInput = document.getElementById("schedule-app-id");
+    const sub = document.getElementById("schedule-subtitle");
+    
+    if (appIdInput) appIdInput.value = appId;
+    if (sub) sub.textContent = `Schedule interview for ${app.name} (${app.job_title})`;
+    
+    modal?.classList.add("open");
+}
+
+function closeScheduleModal() {
+    document.getElementById("schedule-modal-overlay")?.classList.remove("open");
+}
+
+async function handleScheduleSubmit(e) {
+    e.preventDefault();
+    const appId = document.getElementById("schedule-app-id").value;
+    const date = document.getElementById("interview-date").value;
+    const loc = document.getElementById("interview-location").value;
+    const notes = document.getElementById("interview-notes").value;
+    
+    if (!appId || !date || !loc) return alert("Please fill required fields");
+
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Scheduling...";
+
+    try {
+        const res = await fetch(`${getAPIURL()}/interviews/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                application_id: parseInt(appId),
+                interview_date: new Date(date).toISOString(),
+                location: loc,
+                notes: notes
+            })
+        });
+
+        if (res.ok) {
+            alert("Interview scheduled successfully!");
+            closeScheduleModal();
+            // Refresh applications to see status change
+            loadApplications();
+        } else {
+            const err = await res.json();
+            alert("Error: " + (err.detail || "Could not schedule interview"));
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Network error. Please try again.");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+    }
 }
 
 // ── Render & Summary ──
@@ -313,6 +390,12 @@ async function loadApplications() {
         
         allApplications = await res.json();
 
+        // Also fetch interviews
+        try {
+            const intRes = await fetch(`${API_BASE}/interviews/`);
+            if (intRes.ok) allInterviews = await intRes.json();
+        } catch(e) { console.warn("Could not fetch interviews", e); }
+
         // Strict role-based filtering
         if (!isAdmin) {
             if (isEmployer) {
@@ -387,6 +470,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = parseInt(btn.dataset.id);
         if (btn.dataset.action === "view") openAppModal(id);
         else if (btn.dataset.action === "withdraw") withdrawApp(id);
+        else if (btn.dataset.action === "schedule") openScheduleModal(id);
+    });
+
+    document.getElementById("schedule-form")?.addEventListener("submit", handleScheduleSubmit);
+    ["schedule-modal-close"].forEach(id => {
+        document.getElementById(id)?.addEventListener("click", closeScheduleModal);
     });
 
     loadApplications();

@@ -142,6 +142,7 @@ function switchTab(tabName) {
         users: ["Talent Database", "Browse all registered candidates on the platform."],
         "post-job": ["Create Listing", "Add a new vacancy to attract top talent."],
         "my-jobs": ["Active Vacancies", "View, edit, or remove your existing job postings."],
+        analytics: ["Analytics Center", "Track platform performance and company rankings."],
     };
 
     const [t, s] = titles[tabName] || ["Dashboard", ""];
@@ -149,6 +150,16 @@ function switchTab(tabName) {
     const subEl = document.getElementById("page-subtitle");
     if (titleEl) titleEl.textContent = t;
     if (subEl) subEl.textContent = s;
+
+    // Special logic for tabs
+    if (tabName === 'analytics') {
+        loadAnalytics();
+    }
+
+    // On Mobile: Close sidebar after selection
+    if (window.innerWidth <= 860) {
+        document.querySelector('.is-sidebar')?.classList.remove('open');
+    }
 }
 
 window.switchTab = switchTab;
@@ -704,3 +715,165 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderUsers(allUsers);
     renderMyJobs(allJobs);
 });
+
+/* ── ANALYTICS CORE FUNCTIONS ───────────────── */
+
+async function loadAnalytics() {
+    const listEl = document.getElementById('company-rankings-list');
+    if (!listEl) return;
+
+    listEl.innerHTML = `<div style="text-align:center; padding:30px;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>`;
+
+    try {
+        // 1. Fetch Admin Stats for Summary
+        const resStats = await fetch(`${getAPIURL()}/admin/stats/`);
+        if (resStats.ok) {
+            const stats = await resStats.json();
+            renderAdminStatsInAnalytics(stats);
+            renderStatusBreakdown(stats.application_status_counts || {
+               pending: stats.pending_jobs_count || 0,
+               shortlisted: stats.shortlisted || 0,
+               rejected: stats.rejected || 0,
+               interview: stats.interview || 0
+            });
+        }
+
+        // 2. Fetch Company Rankings
+        const resRank = await fetch(`${getAPIURL()}/admin/stats/companies/ranking`);
+        if (resRank.ok) {
+            const rankings = await resRank.json();
+            renderCompanyRankings(rankings);
+        }
+    } catch (e) {
+        console.error("Analytics load failed", e);
+    }
+}
+
+function renderAdminStatsInAnalytics(stats) {
+    const row = document.getElementById('admin-stats-row');
+    if (!row) return;
+    
+    // Fallback counts if status_counts not available directly
+    const s = stats.application_status_counts || {
+        shortlisted: stats.shortlisted || 0
+    };
+
+    row.innerHTML = `
+        <div class="stat-card" style="border-left: 4px solid #2563eb;">
+            <div class="stat-icon" style="background:#2563eb15; color:#2563eb;"><i class="fas fa-file-alt"></i></div>
+            <div class="stat-info"><h3>${stats.total_applications || 0}</h3><p>Total Apps</p></div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #16a34a;">
+            <div class="stat-icon" style="background:#16a34a15; color:#16a34a;"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-info"><h3>${s.shortlisted}</h3><p>Shortlisted</p></div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #f59e0b;">
+            <div class="stat-icon" style="background:#f59e0b15; color:#f59e0b;"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-info"><h3>${stats.total_views || 0}</h3><p>Total Views</p></div>
+        </div>
+        <div class="stat-card" style="border-left: 4px solid #6366f1;">
+            <div class="stat-icon" style="background:#6366f115; color:#6366f1;"><i class="fas fa-users"></i></div>
+            <div class="stat-info"><h3>${stats.total_users || 0}</h3><p>Active Users</p></div>
+        </div>
+    `;
+}
+
+function renderCompanyRankings(rankings) {
+    const listEl = document.getElementById('company-rankings-list');
+    if (!listEl) return;
+    if (rankings.length === 0) {
+        listEl.innerHTML = `<p style="text-align:center; color:#94a3b8; padding:20px;">No application data yet.</p>`;
+        return;
+    }
+
+    const maxApps = rankings[0].total_applied || 1;
+
+    listEl.innerHTML = rankings.map((c, i) => {
+        const percentage = (c.total_applied / maxApps) * 100;
+        const colors = ['#f59e0b', '#94a3b8', '#b45309', '#cbd5e1'];
+        const medalColor = colors[i] || '#f8fafc';
+        
+        return `
+            <div class="company-rank-row">
+                <div class="company-rank-num" style="background:${medalColor}; color:${i < 3 ? 'white' : '#64748b'}">${i + 1}</div>
+                <div style="flex:1;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                        <span style="font-weight:700; color:#1e293b;">${c.company_name}</span>
+                        <span style="font-weight:600; color:#2563eb;">${c.total_applied} Apps</span>
+                    </div>
+                    <div style="background:#f1f5f9; height:8px; border-radius:4px; overflow:hidden;">
+                        <div class="analytics-bar" style="width:${percentage}%; background:#2563eb; height:100%;"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderStatusBreakdown(counts) {
+    const el = document.getElementById('status-breakdown-chart');
+    if (!el) return;
+    const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+    
+    const items = [
+        { label: 'Pending', val: counts.pending || 0, color: '#f59e0b' },
+        { label: 'Shortlisted', val: counts.shortlisted || 0, color: '#16a34a' },
+        { label: 'Interview', val: counts.interview || 0, color: '#2563eb' },
+        { label: 'Rejected', val: counts.rejected || 0, color: '#ef4444' }
+    ];
+
+    el.innerHTML = items.map(item => {
+        const pct = ((item.val / total) * 100).toFixed(0);
+        return `
+            <div style="margin-bottom:15px;">
+                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;">
+                    <span style="font-weight:600; color:#475569;">${item.label}</span>
+                    <span style="color:#64748b;">${item.val} (${pct}%)</span>
+                </div>
+                <div style="background:#f1f5f9; height:10px; border-radius:5px; overflow:hidden;">
+                    <div style="width:${pct}%; background:${item.color}; height:100%;"></div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+window.lookupCompany = async function() {
+    const nameInput = document.getElementById('company-lookup-input');
+    const resultEl = document.getElementById('company-detail-result');
+    if (!nameInput || !resultEl) return;
+    const name = nameInput.value.trim();
+    if (!name) return;
+
+    resultEl.innerHTML = `<div style="text-align:center; padding:20px;"><i class="fas fa-spinner fa-spin"></i> Searching...</div>`;
+
+    try {
+        const res = await fetch(`${getAPIURL()}/admin/stats/company/${encodeURIComponent(name)}`);
+        if (!res.ok) throw new Error("Not found");
+        const data = await res.json();
+
+        resultEl.innerHTML = `
+            <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0; animation: fadeIn 0.3s ease;">
+                <h3 style="margin-bottom:15px; display:flex; align-items:center;">
+                    <i class="fas fa-building" style="margin-right:10px; color:#2563eb;"></i> ${data.company_name} Analytics
+                </h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;" class="lookup-grid">
+                    <div style="background:white; padding:15px; border-radius:10px; border:1px solid #f1f5f9;">
+                        <p style="font-size:11px; color:#64748b; margin-bottom:4px; text-transform:uppercase;">Applications</p>
+                        <p style="font-size:20px; font-weight:800; color:#0f172a;">${data.total_applied}</p>
+                    </div>
+                    <div style="background:white; padding:15px; border-radius:10px; border:1px solid #f1f5f9;">
+                        <p style="font-size:11px; color:#64748b; margin-bottom:4px; text-transform:uppercase;">Job Page Views</p>
+                        <p style="font-size:20px; font-weight:800; color:#2563eb;">${data.total_views || 0}</p>
+                    </div>
+                    <div style="background:white; padding:15px; border-radius:10px; border:1px solid #f1f5f9;">
+                        <p style="font-size:11px; color:#64748b; margin-bottom:4px; text-transform:uppercase;">Top Job</p>
+                        <p style="font-size:14px; font-weight:700; color:#0f172a;">${data.top_job_titles[0]?.job_title || 'N/A'}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (e) {
+        resultEl.innerHTML = `<p style="color:#ef4444; padding:10px;"><i class="fas fa-times-circle"></i> No detailed data found for "${name}".</p>`;
+    }
+};

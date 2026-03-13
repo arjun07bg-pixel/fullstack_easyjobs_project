@@ -92,7 +92,9 @@ function updateNavbarProfile() {
     // Final fix for alignment: ensure the header-content doesn't wrap weirdly
     const headerContent = document.querySelector(".header-content");
     if (headerContent) {
-        headerContent.style.flexWrap = "nowrap";
+        if (window.innerWidth > 768) {
+            headerContent.style.flexWrap = "nowrap";
+        }
         headerContent.style.overflow = "visible";
     }
 }

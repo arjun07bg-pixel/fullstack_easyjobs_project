@@ -15,7 +15,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from database.database import Base, engine
-from routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
+from routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs, notifications, stats, interviews
 
 app = FastAPI(
     title="EasyJobs API",
@@ -81,6 +81,9 @@ app.include_router(status.router, prefix="/api")
 app.include_router(top_companies_filters.router, prefix="/api")
 app.include_router(contact.router, prefix="/api")
 app.include_router(saved_jobs.router, prefix="/api")
+app.include_router(notifications.router, prefix="/api")
+app.include_router(stats.router, prefix="/api")
+app.include_router(interviews.router, prefix="/api")
 
 # ── HTML Page Routes ────────────────────────────────────────────
 @app.get("/")

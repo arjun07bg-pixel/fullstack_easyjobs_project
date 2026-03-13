@@ -13,16 +13,26 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let cards = document.querySelectorAll(".company-card");
 
-    // ── "No results" message ──────────────────────────────
     const noResultsMsg = document.createElement("div");
     noResultsMsg.id = "no-results-msg";
-    noResultsMsg.style.cssText = "grid-column:1/-1;text-align:center;padding:60px 20px;display:none;flex-direction:column;align-items:center;gap:15px;";
+    noResultsMsg.style.cssText = "grid-column:1/-1;text-align:center;padding:80px 32px;display:none;flex-direction:column;align-items:center;gap:20px;background:white;border-radius:24px;border:2px dashed #e2e8f0;margin-top:20px;";
     noResultsMsg.innerHTML = `
-        <i class="fas fa-search" style="font-size:3rem;color:#e2e8f0;"></i>
-        <h3 style="color:#1e293b;margin:0;">No companies found</h3>
-        <p style="color:#64748b;margin:0;">Try adjusting your filters or search query.</p>
+        <div style="width:100px; height:100px; background:#f8fafc; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#cbd5e1; font-size:40px;">
+            <i class="fas fa-building"></i>
+        </div>
+        <div>
+            <h3 style="color:#0f172a; font-size:22px; font-weight:700; margin:0 0 10px;">No companies match your filters</h3>
+            <p style="color:#64748b; font-size:15px; margin:0 0 24px; max-width:400px; margin-inline:auto;">We couldn't find any companies matching your current selection. Try broadening your search or clearing all filters.</p>
+            <button id="no-results-clear" style="background:#2563eb; color:white; border:none; border-radius:12px; padding:12px 32px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; transition:0.2s;">
+                <i class="fas fa-undo"></i> Clear All Filters
+            </button>
+        </div>
     `;
     if (grid) grid.appendChild(noResultsMsg);
+    
+    noResultsMsg.querySelector("#no-results-clear")?.addEventListener("click", () => {
+        if (clearBtn) clearBtn.click();
+    });
 
     const applyFilters = () => {
         const query = (searchInput?.value || "").toLowerCase().trim();

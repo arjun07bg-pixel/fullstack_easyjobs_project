@@ -360,7 +360,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (jobs.length === 0) {
             countText.innerText = "No jobs found";
-            jobsContainer.innerHTML = `<div class="no-jobs">No jobs found matching your criteria.</div>`;
+            jobsContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 80px 20px; background: #fff; border-radius: 20px; border: 2px dashed #e2e8f0;">
+                    <div style="width: 80px; height: 80px; background: #f8fafc; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: #cbd5e1; font-size: 32px;">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 style="color: #0f172a; font-size: 20px; font-weight: 700; margin-bottom: 10px;">No matching jobs found</h3>
+                    <p style="color: #64748b; margin-bottom: 25px;">Try adjusting your filters or search terms to find more opportunities.</p>
+                    <button id="no-jobs-clear-btn" style="background: #2563eb; color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                        <i class="fas fa-undo"></i> Clear All Filters
+                    </button>
+                </div>`;
+            
+            document.getElementById("no-jobs-clear-btn")?.addEventListener("click", () => {
+                if (clearBtn) clearBtn.click();
+            });
             return;
         }
 
@@ -434,7 +448,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                             ${savedJobIds.includes(job.job_id) ? '✅ Saved' : '💾 Save'}
                         </button>
 
-                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" class="apply-btn apply-link" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
+                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" 
+                           onclick="if(window.trackJobView) trackJobView(${job.job_id})"
+                           class="apply-btn apply-link" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
                     </div>
                 </div>
             `;

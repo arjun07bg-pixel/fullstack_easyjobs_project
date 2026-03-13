@@ -156,3 +156,16 @@ async function saveJob(jobId, btnElement) {
         showMessage("Network error. Please try again later.\nஇணைய பிழை. மீண்டும் முயற்சிக்கவும்.", "error");
     }
 }
+
+/** ─── 📈 JOB VIEW TRACKER ────────────────── */
+window.trackJobView = async function(jobId) {
+    if (!jobId || isNaN(jobId)) return;
+    try {
+        const API = window.getEasyJobsAPI();
+        // Fire and forget view tracking to the backend
+        fetch(`${API}/jobs/${jobId}/view`, { method: "PATCH" })
+            .catch(err => console.warn("Analytics tracking failed:", err));
+    } catch (e) {
+        // Silent fail for analytics
+    }
+};

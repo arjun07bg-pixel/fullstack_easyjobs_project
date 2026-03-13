@@ -71,3 +71,16 @@ def delete_job(job_id: int, db: Session = Depends(get_db)):
     db.delete(job)
     db.commit()
 
+
+@router.patch("/{job_id}/view")
+def increment_job_view(job_id: int, db: Session = Depends(get_db)):
+    job = db.query(Job).filter(Job.job_id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    if job.views is None:
+        job.views = 0
+    job.views += 1
+    db.commit()
+    return {"message": "View count incremented", "total_views": job.views}
+

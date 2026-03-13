@@ -14,6 +14,7 @@ from models.application import Application
 from schemas.application import ApplicationCreate, ApplicationOut
 from models.user import User
 from models.job import Job
+from models.notification import Notification
 
 router = APIRouter(
     prefix="/applications",
@@ -157,6 +158,27 @@ def patch_application(
 
     db.commit()
     db.refresh(db_application)
+
+    # ── Auto Notification when status changes ──────────────────
+    new_status = updates.get("status")
+    if new_status and db_application.user_id:
+        status_messages = {
+            "shortlisted": ("🎉 Shortlisted!", f"Congratulations! You have been shortlisted for {db_application.job_title} at {db_application.company_name}."),
+            "rejected":    ("Application Update", f"Thank you for applying to {db_application.job_title} at {db_application.company_name}. Unfortunately, you were not selected at this time."),
+            "interview":   ("📅 Interview Scheduled!", f"Great news! You have been invited for an interview for {db_application.job_title} at {db_application.company_name}."),
+            "hired":       ("🏆 You're Hired!", f"Congratulations! You have been selected for {db_application.job_title} at {db_application.company_name}!")
+        }
+        if new_status in status_messages:
+            title, msg = status_messages[new_status]
+            notif = Notification(
+                user_id=db_application.user_id,
+                title=title,
+                message=msg,
+                type="success" if new_status in ["shortlisted", "interview", "hired"] else "info"
+            )
+            db.add(notif)
+            db.commit()
+
     return db_application
 
 # ---------------- DELETE APPLICATION ----------------

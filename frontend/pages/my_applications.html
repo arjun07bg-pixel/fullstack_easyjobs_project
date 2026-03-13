@@ -221,9 +221,85 @@
         }
 
         .resume-link:hover {
-            background: #dbeafe;
             text-decoration: none;
+            background: #dbeafe;
         }
+
+        /* Schedule Modal Styles */
+        .schedule-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+        }
+        .form-group input, .form-group textarea {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #2563eb;
+        }
+        .btn-schedule-submit {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-schedule-submit:hover {
+            background: #1d4ed8;
+        }
+
+        /* ── Mobile Responsive MyApps ── */
+        @media (max-width: 992px) {
+            .myapp-layout { flex-direction: column; gap: 24px; padding: 20px; }
+            .myapp-sidebar { width: 100% !important; order: 1; }
+            .myapp-main { order: 2; }
+            .sidebar-card { width: 100%; }
+        }
+        @media (max-width: 768px) {
+            .header-content { flex-wrap: wrap; gap: 10px; padding: 10px 15px; }
+            .nav-menu { display: none; width: 100%; order: 3; }
+            .nav-menu.open { display: block; }
+            .nav-menu ul { flex-direction: column; gap: 0; padding: 10px 0; }
+            .nav-menu ul li a { padding: 12px 20px; display: block; border-bottom: 1px solid rgba(0,0,0,0.08); }
+            .auth-buttons { order: 2; }
+            .hamburger-btn {
+                display: flex !important;
+                background: #f1f5f9;
+                border: none;
+                color: #475569;
+                width: 42px;
+                height: 42px;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                cursor: pointer;
+                order: 1;
+                margin-left: auto;
+            }
+            .page-title-bar h1 { font-size: 1.5rem; }
+            .ptb-inner { flex-direction: column; gap: 15px; text-align: center; }
+            .ptb-browse-btn { width: 100%; text-align: center; }
+        }
+        .hamburger-btn { display: none; }
     </style>
 </head>
 
@@ -241,7 +317,12 @@
                 </svg>
                 Easy<span class="logo-accent">Jobs</span>
             </a>
-            <nav class="nav-menu">
+            <!-- Mobile Hamburger -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
                 <ul>
                     <li><a href="/index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="/frontend/pages/jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a></li>
@@ -442,10 +523,51 @@
         </div>
     </div>
 
+    <!-- Interview Schedule Modal -->
+    <div class="modal-overlay" id="schedule-modal-overlay">
+        <div class="modal-box" style="max-width: 450px;">
+            <div class="modal-header">
+                <div class="mh-info">
+                    <h2>Schedule Interview</h2>
+                    <p id="schedule-subtitle">Set date and time for the candidate</p>
+                </div>
+                <button class="btn-close" id="schedule-modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form class="schedule-form" id="schedule-form">
+                    <input type="hidden" id="schedule-app-id">
+                    <div class="form-group">
+                        <label>Date & Time</label>
+                        <input type="datetime-local" id="interview-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location / Meeting Link</label>
+                        <input type="text" id="interview-location" placeholder="Zoom link, Google Meet or Office Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes (Optional)</label>
+                        <textarea id="interview-notes" rows="3" placeholder="Additional instructions for the candidate..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-schedule-submit">Confirm Schedule</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="/frontend/javascript/index.js"></script>
     <script src="/frontend/javascript/navbar_manager.js"></script>
     <script src="/frontend/javascript/my_applications.js"></script>
+    <script src="/frontend/javascript/notifications.js"></script>
+    <script>
+        // Mobile hamburger toggle
+        document.getElementById('hamburgerBtn')?.addEventListener('click', function() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('open');
+            const icon = this.querySelector('i');
+            if (icon) icon.className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+        });
+    </script>
 </body>
 
 </html>

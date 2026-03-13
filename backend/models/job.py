@@ -20,3 +20,4 @@ class Job(Base):
     apply_link = Column(String(255), nullable=True)
     required_skills = Column(Text, nullable=True)
     employer_id = Column(Integer, nullable=True)       # ID of the user (employer) who posted this
+    views = Column(Integer, default=0)
