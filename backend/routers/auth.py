@@ -51,12 +51,14 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 def login(credentials: UserSignin, db: Session = Depends(get_db)):
     try:
         clean_email = credentials.email.strip().lower()
+        print(f"Login attempt for: {clean_email}")
 
         # ── Hardcoded Admin Check ──────────────────────────────────────
         ADMIN_EMAIL    = "admin07@gmail.com"
         ADMIN_PASSWORD = "Admin12307"
 
         if clean_email == ADMIN_EMAIL and credentials.password == ADMIN_PASSWORD:
+            print("Admin login successful")
             access_token = create_access_token(
                 data={"sub": ADMIN_EMAIL, "user_id": 0, "role": "admin"},
                 expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -75,13 +77,23 @@ def login(credentials: UserSignin, db: Session = Depends(get_db)):
         # Regular user lookup
         user = db.query(User).filter(User.email.ilike(clean_email)).first()
         
-        if not user or not verify_password(credentials.password, user.password):
+        if not user:
+            print(f"Login Failed: User '{clean_email}' not found in database.")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect email or password",
+                detail=f"Email '{clean_email}' is not registered. Please sign up.",
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
+        if not verify_password(credentials.password, user.password):
+            print(f"Login Failed: Incorrect password for user '{clean_email}'.")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect password. Please try again.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        print(f"User {clean_email} logged in successfully! Role: {user.role}")
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
             data={"sub": str(user.email), "user_id": int(user.user_id), "role": str(user.role)},
@@ -100,5 +112,5 @@ def login(credentials: UserSignin, db: Session = Depends(get_db)):
     except HTTPException as http_exc:
         raise http_exc
     except Exception as e:
-        print(f"Login Error: {str(e)}")
+        print(f"Login Critical Error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Unexpected Server Error: {str(e)}")

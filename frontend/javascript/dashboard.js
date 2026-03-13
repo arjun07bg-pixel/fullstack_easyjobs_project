@@ -1,10 +1,11 @@
 "use strict";
 
-import { API_URL } from "./config.js";
-
 /* ─── CONFIG ────────────────────────────────── */
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { return API_URL || "/api"; };
+const getAPIURL = () => {
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "/api";
+};
 
 let allApps = [];
 let allUsers = [];
@@ -87,14 +88,14 @@ function startClock() {
 function guardAdmin() {
     const userString = localStorage.getItem("user");
     if (!userString) {
-        window.location.href = "./login.html";
+        window.location.href="/frontend/pages/login.html";
         return null;
     }
     const user = JSON.parse(userString);
 
     if (user.role !== "admin" && user.role !== "employer") {
         alert("Access Denied: This area is for authorized accounts only.");
-        window.location.href = "./login.html";
+        window.location.href="/frontend/pages/login.html";
         return null;
     }
 
@@ -454,7 +455,7 @@ function filterUsers() {
 
 /* ─── MODAL ─────────────────────────────────── */
 window.openModal = function (appId) {
-    const app = allApps.find(a => a.application_id === appId);
+    const app = allApps.find(a => a.application_id == appId);
     if (!app) return;
 
     const nm = app.name || "Unknown";
@@ -487,7 +488,7 @@ window.openModal = function (appId) {
         ["Total Experience", app.Total_Experience != null ? app.Total_Experience + " year(s)" : "Fresher"],
         ["Current Salary", app.Current_salary != null ? "₹" + app.Current_salary + " LPA" : "Not Disclosed"],
         ["Notice Period", app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate Joiner" : app.Notice_Period + " days") : "Not Specified"],
-        ["Portfolio", (app.portfolio_link && app.portfolio_link !== "null" && app.portfolio_link.trim() !== "") ? `<a href="${app.portfolio_link.startsWith('http') ? app.portfolio_link : 'http://' + app.portfolio_link}" target="_blank" style="color:#008BDC; text-decoration:underline; display:flex; gap:5px; align-items:center; font-weight: 500;">View Portfolio <i class="fas fa-external-link-alt" style="font-size:10px;"></i></a>` : "Not Provided"],
+        ["Portfolio", (app.portfolio_link && app.portfolio_link !== "null" && app.portfolio_link.trim() !== "") ? `<a href="${app.portfolio_link.startsWith("http") ? app.portfolio_link : 'http://' + app.portfolio_link}" target="_blank" style="color:#008BDC; text-decoration:underline; display:flex; gap:5px; align-items:center; font-weight: 500;">View Portfolio <i class="fas fa-external-link-alt" style="font-size:10px;"></i></a>` : "Not Provided"],
         ["Applied On", fmtDate(app.applied_at)],
     ];
 
@@ -642,7 +643,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("logoutBtn")?.addEventListener("click", () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href="/frontend/pages/login.html";
     });
 
     // Mobile sidebar toggle

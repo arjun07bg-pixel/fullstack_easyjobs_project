@@ -14,6 +14,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentPage = 1;
     const jobsPerPage = 6;
+    let savedJobIds = [];
+
+    const userString = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : {};
+
+    // Fetch saved jobs once to mark them
+    if (user.user_id) {
+        try {
+            const sjRes = await fetch(`${getAPIURL()}/saved-jobs/${user.user_id}`);
+            if (sjRes.ok) {
+                const savedData = await sjRes.json();
+                savedJobIds = savedData.map(j => j.job_id);
+                console.log("Loaded saved job IDs:", savedJobIds);
+            }
+        } catch (err) {
+            console.error("Failed to pre-fetch saved jobs:", err);
+        }
+    }
 
     // Initialize filters from URL parameters
     const initialKeyword = urlParams.get("keyword") || "";
@@ -338,8 +356,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Move renderJobs outside fetchJobs to be clean
     const renderJobs = (jobs) => {
         jobsContainer.innerHTML = "";
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        const isAdmin = user.user_type === "admin";
+        const isAdmin = user.role === "admin";
 
         if (jobs.length === 0) {
             countText.innerText = "No jobs found";
@@ -410,8 +427,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <span class="posted-time" style="font-size: 12.5px; color: #94a3b8;">Posted Just Now</span>
                     <div style="display: flex; gap: 10px;">
                         ${isAdmin ? `<button class="delete-btn" style="background: #fee2e2; color: #ef4444; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;" data-id="${job.job_id}"><i class="fas fa-trash-alt"></i> Delete</button>` : ''}
-                        <button class="save-btn" data-id="${job.job_id}" style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">💾 Save</button>
-                        <a href="./apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || '')}" class="apply-btn" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
+                        
+                        <button class="save-btn" data-id="${job.job_id}" 
+                            ${savedJobIds.includes(job.job_id) ? 'disabled style="color: #16a34a; background: #f0fdf4; border-color: #bbf7d0;"' : 'style="background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;"'} 
+                            style="padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;">
+                            ${savedJobIds.includes(job.job_id) ? '✅ Saved' : '💾 Save'}
+                        </button>
+
+                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" class="apply-btn apply-link" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
                     </div>
                 </div>
             `;
@@ -445,7 +468,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 e.preventDefault();
                 if (!user.user_id) {
                     alert("Please login to save this job.");
-                    window.location.href = "./login.html";
+                    window.location.href="/frontend/pages/login.html";
                     return;
                 }
 
@@ -478,7 +501,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         for (let i = 1; i <= totalPages; i++) {
             const pageBox = document.createElement("a");
-            pageBox.href = "#";
+            pageBox.href="#";
             pageBox.className = `page-btn ${i === currentPage ? 'active' : ''}`;
             pageBox.innerText = i;
 

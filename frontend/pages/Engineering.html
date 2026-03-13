@@ -7,8 +7,8 @@
   <title>Engineering Jobs | EasyJobs - Premium Careers</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles/index.css">
-  <link rel="stylesheet" href="../styles/premium_category.css">
+  <link rel="stylesheet" href="/frontend/styles/index.css">
+  <link rel="stylesheet" href="/frontend/styles/premium_category.css">
 </head>
 
 <body>
@@ -20,16 +20,16 @@
       <nav class="nav-menu">
         <ul>
           <li><a href="/index.html" class="nav-link">Home</a></li>
-          <li><a href="./jobs.html" class="nav-link">Jobs</a></li>
-          <li><a href="./companies.html" class="nav-link">Companies</a></li>
-          <li><a href="./my_applications.html" class="nav-link">Applications</a></li>
-          <li><a href="./profile.html" class="nav-link">Profile</a></li>
-          <li><a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+          <li><a href="/frontend/pages/jobs.html" class="nav-link">Jobs</a></li>
+          <li><a href="/frontend/pages/companies.html" class="nav-link">Companies</a></li>
+          <li><a href="/frontend/pages/my_applications.html" class="nav-link">Applications</a></li>
+          <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+          <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
-        <a href="./register.html" class="btn-register">Register</a>
-        <a href="./login.html" class="btn-login">Login</a>
+        <a href="/frontend/pages/register.html" class="btn-register">Register</a>
+        <a href="/frontend/pages/login.html" class="btn-login">Login</a>
       </div>
     </div>
   </header>
@@ -69,7 +69,7 @@
       <article class="job-card">
         <div class="job-card-header">
           <div>
-            <a href="./apply_home.html?job_id=501" class="job-title">Structural Design Lead (Bridges)</a>
+            <a href="/frontend/pages/apply_home.html?job_id=501&title=Structural%20Design%20Lead%20(Bridges)&company=Larsen%20&%20Toubro&location=Chennai&exp=5-9%20Yrs&salary=14%20-%2026%20LPA" class="job-title">Structural Design Lead (Bridges)</a>
             <div class="company">Larsen & Toubro (L&T)</div>
           </div>
           <div class="company-logo-placeholder">LT</div>
@@ -89,7 +89,7 @@
           <span class="posted-date">Posted 1d ago</span>
           <div style="display: flex; gap: 15px; align-items: center;">
             <button class="save-job-btn-flat" onclick="saveJob(501, this)"><i class="far fa-bookmark"></i> Save</button>
-            <a href="./apply_home.html?job_id=501" class="apply-btn">View Details</a>
+            <a href="/frontend/pages/apply_home.html?job_id=501&title=Structural%20Design%20Lead%20(Bridges)&company=Larsen%20&%20Toubro&location=Chennai&exp=5-9%20Yrs&salary=14%20-%2026%20LPA" class="apply-btn">View Details</a>
           </div>
         </div>
       </article>
@@ -97,7 +97,7 @@
       <article class="job-card">
         <div class="job-card-header">
           <div>
-            <a href="./apply_home.html?job_id=502" class="job-title">Senior Mechanical Designer (EV)</a>
+            <a href="/frontend/pages/apply_home.html?job_id=502&title=Senior%20Mechanical%20Designer%20(EV)&company=Tata%20Motors&location=Pune&exp=4-8%20Yrs&salary=12%20-%2024%20LPA" class="job-title">Senior Mechanical Designer (EV)</a>
             <div class="company">Tata Motors (EV Research)</div>
           </div>
           <div class="company-logo-placeholder">TM</div>
@@ -117,12 +117,68 @@
           <span class="posted-date">Posted 2d ago</span>
           <div style="display: flex; gap: 15px; align-items: center;">
             <button class="save-job-btn-flat" onclick="saveJob(502, this)"><i class="far fa-bookmark"></i> Save</button>
-            <a href="./apply_home.html?job_id=502" class="apply-btn">View Details</a>
+            <a href="/frontend/pages/apply_home.html?job_id=502&title=Senior%20Mechanical%20Designer%20(EV)&company=Tata%20Motors&location=Pune&exp=4-8%20Yrs&salary=12%20-%2024%20LPA" class="apply-btn">View Details</a>
           </div>
         </div>
       </article>
 
     </div>
+
+    <article class="job-card">
+        <div class="job-card-header">
+            <div>
+                <a href="/frontend/pages/apply_home.html?job_id=503&title=Robotics%20&%20Automation%20Engineer&company=Reliance%20Industries&location=Jamnagar&exp=3-7%20Yrs&salary=15%20-%2030%20LPA" class="job-title">Robotics & Automation Engineer</a>
+                <div class="company">Reliance Industries (Digital Hub)</div>
+            </div>
+            <div class="company-logo-placeholder">RI</div>
+        </div>
+        <div class="job-meta-grid">
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Jamnagar</div>
+            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-7 Yrs</div>
+            <div class="meta-item"><i class="fas fa-wallet"></i> 15 - 30 LPA</div>
+        </div>
+        <div class="job-tags">
+            <span class="job-tag">PLC</span>
+            <span class="job-tag">SCADA</span>
+            <span class="job-tag">Industry 4.0</span>
+        </div>
+        <p class="details">Implement next-gen robotics and AI-driven automation systems for the world's largest refining complex.</p>
+        <div class="job-footer">
+            <span class="posted-date">Posted 3d ago</span>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="save-job-btn-flat" onclick="saveJob(503, this)"><i class="far fa-bookmark"></i> Save</button>
+                <a href="/frontend/pages/apply_home.html?job_id=503&title=Robotics%20&%20Automation%20Engineer&company=Reliance%20Industries&location=Jamnagar&exp=3-7%20Yrs&salary=15%20-%2030%20LPA" class="apply-btn">View Details</a>
+            </div>
+        </div>
+    </article>
+
+    <article class="job-card">
+        <div class="job-card-header">
+            <div>
+                <a href="/frontend/pages/apply_home.html?job_id=504&title=Power%20Systems%20Planning%20Engineer&company=PowerGrid%20Corp&location=Gurgaon&exp=5-10%20Yrs&salary=18%20-%2035%20LPA" class="job-title">Power Systems Planning Engineer</a>
+                <div class="company">PowerGrid Corp (India)</div>
+            </div>
+            <div class="company-logo-placeholder">PG</div>
+        </div>
+        <div class="job-meta-grid">
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Gurgaon</div>
+            <div class="meta-item"><i class="fas fa-briefcase"></i> 5-10 Yrs</div>
+            <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 35 LPA</div>
+        </div>
+        <div class="job-tags">
+            <span class="job-tag">Grid Ops</span>
+            <span class="job-tag">Renewable Energy</span>
+            <span class="job-tag">ETAP</span>
+        </div>
+        <p class="details">Strategic planning and optimization of national grid stability and renewable energy integration projects.</p>
+        <div class="job-footer">
+            <span class="posted-date">Posted 4d ago</span>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="save-job-btn-flat" onclick="saveJob(504, this)"><i class="far fa-bookmark"></i> Save</button>
+                <a href="/frontend/pages/apply_home.html?job_id=504&title=Power%20Systems%20Planning%20Engineer&company=PowerGrid%20Corp&location=Gurgaon&exp=5-10%20Yrs&salary=18%20-%2035%20LPA" class="apply-btn">View Details</a>
+            </div>
+        </div>
+    </article>
   </main>
 
   <footer class="main-footer">
@@ -131,9 +187,7 @@
     </div>
   </footer>
 
-  <script src="../javascript/index.js"></script>
-  <script src="../javascript/navbar_manager.js"></script>
-  <script src="../javascript/category_search.js"></script>
-</body>
-
-</html>
+  <script src="/frontend/javascript/index.js"></script>
+  <script src="/frontend/javascript/navbar_manager.js"></script>
+  <script src="/frontend/javascript/category_search.js"></script>
+</body></html>

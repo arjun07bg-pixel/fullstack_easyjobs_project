@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div style="padding:2rem;text-align:center;">
                     <h3>Employers Cannot Apply for Jobs</h3>
                     <p>You are logged in as an Employer.</p>
-                    <a href="./dashboard.html">Go to Dashboard</a>
+                    <a href="/frontend/pages/dashboard.html">Go to Dashboard</a>
                 </div>
             `;
         }
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!hasPhoto || !hasExp || !hasLocation) {
             alert("Please complete your profile before applying.");
             setTimeout(() => {
-                window.location.href = "./profile.html";
+                window.location.href="/frontend/pages/profile.html";
             }, 2000);
             return;
         }
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             e.preventDefault();
             if (!user) {
                 alert("Please login first");
-                window.location.href = "./login.html";
+                window.location.href="/frontend/pages/login.html";
                 return;
             }
             const resumeFile = resumeInput.files[0];
@@ -284,17 +284,35 @@ document.addEventListener("DOMContentLoaded", async () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = "Submitting...";
 
+            // Parse job_id: send null (not 0) for static/company jobs that aren't in the DB
+            const parsedJobId = parseInt(jobId);
+            const safeJobId = (!isNaN(parsedJobId) && parsedJobId > 0) ? parsedJobId : null;
+
+            // Parse numeric fields safely — default to 0 if blank/invalid
+            const expVal = parseInt(document.getElementById("experience").value);
+            const salaryVal = parseInt(document.getElementById("salary").value);
+            const noticeVal = parseInt(document.getElementById("notice_period").value);
+
             const payload = {
                 user_id: user.user_id,
-                job_id: parseInt(jobId) || 0,
+                job_id: safeJobId,
                 name: document.getElementById("full_name").value.trim(),
                 email: document.getElementById("email").value.trim(),
                 phone_number: document.getElementById("phone").value.trim(),
+                Current_Location: document.getElementById("location").value.trim(),
+                Total_Experience: isNaN(expVal) ? 0 : expVal,
+                Current_salary: isNaN(salaryVal) ? 0 : salaryVal,
+                Notice_Period: isNaN(noticeVal) ? 0 : noticeVal,
+                Cover_Letter: document.getElementById("cover_letter").value.trim(),
+                portfolio_link: document.getElementById("portfolio_link").value.trim(),
                 resume: resumeFile.name,
                 company_name: currentJobDetails?.company_name || "",
                 job_title: currentJobDetails?.job_title || "",
+                job_type: currentJobDetails?.job_type || "Full Time",
                 status: "applied"
             };
+
+            console.log("📤 Submitting application:", payload);
 
             try {
                 const response = await fetch(`${API_BASE_URL}/applications/`, {
@@ -303,14 +321,28 @@ document.addEventListener("DOMContentLoaded", async () => {
                     body: JSON.stringify(payload)
                 });
                 if (response.ok) {
-                    alert("Application submitted successfully!");
-                    window.location.href = "./submit.html";
+                    showMessage("Application submitted successfully! ✅", "success");
+                    setTimeout(() => {
+                        window.location.href="/frontend/pages/submit_success.html";
+                    }, 1000);
                 } else {
-                    alert("Submission failed");
+                    let errMsg = "Submission failed";
+                    try {
+                        const errData = await response.json();
+                        errMsg = errData.detail || errMsg;
+                        if (Array.isArray(errMsg)) {
+                            // Pydantic validation errors are arrays
+                            errMsg = errMsg.map(e => `${e.loc?.join(".")}: ${e.msg}`).join("\n");
+                        }
+                    } catch (_) {}
+                    console.error("❌ Application error:", errMsg);
+                    alert("Submission failed:\n" + errMsg);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = "Submit Application";
                 }
             } catch (err) {
-                alert("Network error.");
-            } finally {
+                console.error("Network error:", err);
+                alert("Network error. Please check your connection and try again.");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = "Submit Application";
             }

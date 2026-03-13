@@ -7,6 +7,7 @@ const getAPIURL = () => window.getEasyJobsAPI?.() || "/api";
 let allApplications = [];
 let currentFilter = "all";
 let currentSearch = "";
+const setE = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
 // ── User Helpers ──
 function getLoggedInUser() {
@@ -14,7 +15,10 @@ function getLoggedInUser() {
     for (const k of keys) {
         try {
             const raw = localStorage.getItem(k);
-            if (raw) return JSON.parse(raw);
+            if (raw && raw !== "{}") {
+                const parsed = JSON.parse(raw);
+                if (parsed && (parsed.user_id != null || parsed.role === 'admin')) return parsed;
+            }
         } catch (_) {}
     }
     return null;
@@ -53,11 +57,15 @@ const fmtDate = (str) => {
     return isNaN(d.getTime()) ? "Recently Applied" : d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 };
 
-// ── Build Table Row ──
 function buildTableRow(app) {
     const st = getStatus(app);
     const exp = app.Total_Experience != null ? (app.Total_Experience === 0 ? "Fresher" : `${app.Total_Experience} yr${app.Total_Experience > 1 ? "s" : ""}`) : null;
     const loc = app.Current_Location || "Remote";
+    
+    const user = getLoggedInUser();
+    const isAdmin = user?.role === "admin";
+    const isEmployer = user?.role === "employer";
+    const showApplicant = isAdmin || isEmployer;
 
     return `
     <tr data-id="${app.application_id}">
@@ -70,12 +78,19 @@ function buildTableRow(app) {
                 </div>
             </div>
         </td>
+        ${showApplicant ? `
+        <td>
+            <div style="font-weight:600; color:#1e293b;">${app.name || "Unknown Applicant"}</div>
+            <div style="font-size:0.75rem; color:#64748b;">${app.email || ""}</div>
+        </td>
+        ` : `
         <td>
             <div style="font-size:0.85rem;color:#475569;display:flex;flex-direction:column;gap:4px;">
                 ${exp ? `<span><i class="fas fa-briefcase"></i> ${exp}</span>` : ""}
                 ${loc ? `<span><i class="fas fa-map-marker-alt"></i> ${loc}</span>` : ""}
             </div>
         </td>
+        `}
         <td><div class="status-badge ${st.cls}"><i class="${st.icon}"></i> ${st.label}</div></td>
         <td style="font-size:0.85rem;color:#64748b;white-space:nowrap;">${fmtDate(app.applied_at)}</td>
         <td>
@@ -84,7 +99,7 @@ function buildTableRow(app) {
                     <i class="fas fa-eye"></i> View
                 </button>
                 <button class="tbl-btn withdraw" data-action="withdraw" data-id="${app.application_id}">
-                    <i class="fas fa-times"></i> Withdraw
+                    <i class="fas fa-times"></i> ${isAdmin ? 'Delete' : 'Withdraw'}
                 </button>
             </div>
         </td>
@@ -93,7 +108,7 @@ function buildTableRow(app) {
 
 // ── Modal ──
 window.openAppModal = (id) => {
-    const app = allApplications.find(a => a.application_id === id);
+    const app = allApplications.find(a => a.application_id == id);
     if (!app) return;
 
     const overlay = document.getElementById("modal-overlay");
@@ -119,8 +134,8 @@ window.openAppModal = (id) => {
         ["Total Experience", app.Total_Experience != null ? app.Total_Experience + " Year(s)" : "Fresher"],
         ["Current Salary (LPA)", app.Current_salary != null ? "₹" + app.Current_salary : "N/A"],
         ["Notice Period", app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate" : app.Notice_Period + " Days") : "N/A"],
-        ["Portfolio", app.portfolio_link ? `<a href="${app.portfolio_link}" target="_blank" style="color:var(--primary-blue);text-decoration:underline;">${app.portfolio_link}</a>` : "Not Provided"],
-        ["Resume", app.resume ? `<a href="${app.resume.startsWith('http') ? app.resume : '/backend/uploads/resumes/' + app.resume}" class="resume-link" target="_blank"><i class="fas fa-file-pdf"></i> View Resume</a>` : "No File"],
+        ["Portfolio", (app.portfolio_link && app.portfolio_link !== "null") ? `<a href="${app.portfolio_link.startsWith("http") ? app.portfolio_link : 'http://' + app.portfolio_link}" target="_blank" style="color:var(--primary-blue);text-decoration:underline;">${app.portfolio_link}</a>` : "Not Provided"],
+        ["Resume", (app.resume && app.resume !== "null") ? `<a href="${app.resume.startsWith("http") ? app.resume : '/backend/uploads/resumes/' + app.resume}" class="resume-link" target="_blank"><i class="fas fa-file-pdf"></i> View Resume</a>` : "No File"],
         ["Submitted At", fmtDate(app.applied_at)]
     ];
 
@@ -152,12 +167,14 @@ function updateSummary(apps) {
     const reject = apps.filter(a => deriveStatus(a) === "rejected").length;
     const review = apps.filter(a => !["shortlisted", "rejected"].includes(deriveStatus(a))).length;
 
-    const setE = (id, v) => document.getElementById(id)?.textContent = v;
+    const user = getLoggedInUser();
+    const isAdmin = user?.role === "admin";
+    const isEmployer = user?.role === "employer";
+
     setE("total-count", total);
     setE("applied-count", review);
     setE("shortlisted-count", short);
     setE("rejected-count", reject);
-    setE("result-count", `${total} application${total !== 1 ? "s" : ""}`);
 }
 
 function renderCards() {
@@ -172,11 +189,20 @@ function renderCards() {
     const filtered = allApplications.filter(app => {
         const q = currentSearch.toLowerCase();
         const matchF = currentFilter === "all" || deriveStatus(app) === currentFilter;
-        const matchQ = !q || (app.company_name || "").toLowerCase().includes(q) || (app.job_title || "").toLowerCase().includes(q);
+        const matchQ = !q || 
+            (app.company_name || "").toLowerCase().includes(q) || 
+            (app.job_title || "").toLowerCase().includes(q) ||
+            (app.name || "").toLowerCase().includes(q) ||
+            (app.email || "").toLowerCase().includes(q);
         return matchF && matchQ;
     });
 
-    if (countEl) countEl.textContent = `${filtered.length} result${filtered.length !== 1 ? "s" : ""}`;
+    const user = getLoggedInUser();
+    const isAdmin = user?.role === "admin";
+    const isEmployer = user?.role === "employer";
+    const label = isAdmin ? "Platform Applicants" : isEmployer ? "Received Applications" : "My Applications";
+    
+    if (countEl) countEl.textContent = `${filtered.length} ${label} Found`;
 
     const show = (el, val) => el && (el.style.display = val);
 
@@ -198,7 +224,11 @@ function renderCards() {
 
 // ── Actions ──
 async function withdrawApp(id) {
-    if (!confirm("Are you sure you want to withdraw this application?")) return;
+    const user = getLoggedInUser();
+    const isAdmin = user?.role === "admin";
+    const msg = isAdmin ? "Are you sure you want to delete this application record?" : "Are you sure you want to withdraw this application?";
+    
+    if (!confirm(msg)) return;
     const btn = document.querySelector(`button.withdraw[data-id="${id}"]`);
     if (btn) {
         btn.disabled = true;
@@ -220,32 +250,106 @@ async function withdrawApp(id) {
 async function loadApplications() {
     const user = getLoggedInUser();
     if (!user) {
-        document.getElementById("loading-state")?.style.display = "none";
-        document.getElementById("login-required")?.style.display = "flex";
+        document.getElementById("loading-state").style.display = 'none';
+        document.getElementById("login-required").style.display = "flex";
         return;
     }
 
+    const isAdmin = user.role === "admin";
+    const isEmployer = user.role === "employer";
     const userId = user.user_id || user.id;
+
     try {
         const API_BASE = getAPIURL();
-        const res = await fetch(`${API_BASE}/applications/user/${userId}`);
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        let endpoint = (isAdmin || isEmployer) ? `${API_BASE}/applications/` : `${API_BASE}/applications/user/${userId}`;
+        
+        if (isAdmin || isEmployer) {
+            const banner = document.getElementById("user-banner");
+            const bannerText = banner?.querySelector(".ucb-text");
+            const bannerIcon = banner?.querySelector(".ucb-icon i");
+            if (banner) {
+                banner.style.display = "flex";
+                if (bannerIcon) bannerIcon.className = "fas fa-info-circle";
+                banner.style.background = "#eff6ff";
+                banner.style.borderColor = "#bfdbfe";
+                banner.style.color = "#1e40af";
+            }
+            const tableHeader = document.querySelector(".app-table thead tr th:nth-child(2)");
+            if (tableHeader) tableHeader.textContent = "Applicant Details";
+            if (bannerText) {
+                bannerText.innerHTML = isAdmin 
+                    ? `<strong>Admin Privilege Active</strong> You are viewing all job applications across the entire platform.`
+                    : `<strong>Employer Access</strong> You are viewing applications received for <strong>${user.company_name || 'your company'}</strong>.`;
+            }
+        } else {
+            const banner = document.getElementById("user-banner");
+            const bannerText = banner?.querySelector(".ucb-text");
+            const bannerIcon = banner?.querySelector(".ucb-icon i");
+            if (banner) {
+                banner.style.display = "flex";
+                if (bannerIcon) bannerIcon.className = "fas fa-shield-alt";
+                banner.style.background = "#f8fafc";
+                banner.style.borderColor = "#e2e8f0";
+                banner.style.color = "#475569";
+            }
+            if (bannerText) {
+                bannerText.innerHTML = `<strong>Your Data is Private</strong> As an applicant, you can only see the jobs you have personally applied for.`;
+            }
+        }
+
+        console.log(`📡 Fetching applications from: ${endpoint}`);
+        
+        // Timeout logic - 7 seconds is plenty for a healthy backend
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7000); 
+
+        const res = await fetch(endpoint, { 
+            signal: controller.signal,
+            headers: { 'Accept': 'application/json' }
+        });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) throw new Error(`Server returned error ${res.status}.`);
+        
         allApplications = await res.json();
 
-        document.getElementById("loading-state")?.style.display = "none";
+        // Strict role-based filtering
+        if (!isAdmin) {
+            if (isEmployer) {
+                const empComp = (user.company_name || "").toLowerCase().trim();
+                allApplications = allApplications.filter(a => (a.company_name || "").toLowerCase().trim() === empComp);
+            } else {
+                const userEmail = (user.email || "").toLowerCase().trim();
+                if (userEmail) {
+                    allApplications = allApplications.filter(a => (a.email || "").toLowerCase().trim() === userEmail);
+                }
+            }
+        }
+
+        document.getElementById("loading-state").style.display = "none";
         updateSummary(allApplications);
         renderCards();
+
     } catch (err) {
-        console.error(err);
-        document.getElementById("loading-state")?.innerHTML = `
-            <div style="text-align:center;">
-                <div style="font-size:2.5rem;color:#ef4444;margin-bottom:12px;"><i class="fas fa-exclamation-circle"></i></div>
-                <h3 style="color:#1e293b;margin-bottom:8px;">Could Not Load Applications</h3>
-                <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">Make sure the server is running.<br><code>${err.message}</code></p>
-                <button onclick="loadApplications()" style="background:#2563eb;color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.88rem;">
-                    <i class="fas fa-redo"></i> Retry
-                </button>
-            </div>`;
+        console.error("Load Apps Error:", err);
+        const loadingBox = document.getElementById("loading-state");
+        if (loadingBox) {
+            const isTimeout = err.name === 'AbortError';
+            loadingBox.innerHTML = `
+                <div style="text-align:center; padding: 20px;">
+                    <div style="font-size:2.5rem;color:#ef4444;margin-bottom:12px;"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h3 style="color:#1e293b;margin-bottom:8px;">${isTimeout ? 'Connection Timeout' : 'Connection Failed'}</h3>
+                    <p style="color:#64748b;font-size:0.88rem;margin-bottom:18px;">
+                        ${isTimeout ? 'The server took too long to respond. Please ensure the backend is running.' : err.message}
+                    </p>
+                    <div style="font-family:monospace; font-size:0.75rem; color:#94a3b8; background:#f1f5f9; padding:8px; border-radius:4px; margin-bottom:18px;">
+                        Endpoint: ${getAPIURL()}
+                    </div>
+                    <button onclick="window.location.reload()" style="background:#2563eb;color:#fff;border:none;padding:12px 24px;border-radius:50px;cursor:pointer;font-weight:700;box-shadow: 0 4px 10px rgba(37,99,235,0.2);">
+                        <i class="fas fa-sync-alt"></i> Try Again
+                    </button>
+                </div>`;
+        }
     }
 }
 

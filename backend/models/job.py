@@ -13,4 +13,10 @@ class Job(Base):
     job_type = Column(String(50), nullable=True)       # Full-time / Part-time
     salary = Column(Integer, nullable=True)            # INR
     work_mode = Column(String(50), nullable=True)      # Remote / Onsite / Hybrid
+    category = Column(String(100), nullable=True)      # IT, Sales, etc.
+    vacancies = Column(Integer, nullable=True)
+    deadline = Column(String(50), nullable=True)
+    company_website = Column(String(255), nullable=True)
+    apply_link = Column(String(255), nullable=True)
+    required_skills = Column(Text, nullable=True)
     employer_id = Column(Integer, nullable=True)       # ID of the user (employer) who posted this

@@ -36,13 +36,21 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         )
 
     # 2. Check if the Job ID exists in the real database
+    #    job_id=0 or None both mean it's a static/company job — store as NULL
     safe_job_id = None
     if app.job_id and app.job_id > 0:
         job_exists = db.query(Job).filter(Job.job_id == app.job_id).first()
         if job_exists:
             safe_job_id = app.job_id
         else:
-            print(f"ℹ️ Linking application to static job: {app.job_title} at {app.company_name}")
+            print(f"ℹ️ job_id={app.job_id} not in DB — storing as NULL for static job: {app.job_title} at {app.company_name}")
+
+    # 3. Sanitise numeric fields (guard against NaN coming from JS)
+    def safe_int(val, default=0):
+        try:
+            return int(val) if val is not None else default
+        except (ValueError, TypeError):
+            return default
 
     try:
         new_application = Application(
@@ -57,9 +65,9 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
             portfolio_link=app.portfolio_link,
             resume=app.resume,
             Current_Location=app.Current_Location,
-            Total_Experience=app.Total_Experience,
-            Current_salary=app.Current_salary,
-            Notice_Period=app.Notice_Period,
+            Total_Experience=safe_int(app.Total_Experience),
+            Current_salary=safe_int(app.Current_salary),
+            Notice_Period=safe_int(app.Notice_Period),
             Cover_Letter=app.Cover_Letter,
             job_type=app.job_type
         )

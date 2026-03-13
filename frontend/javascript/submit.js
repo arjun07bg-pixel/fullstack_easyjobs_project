@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            window.location.href = "/index.html";
+            window.location.href="/index.html";
         }
     }, 1000);
 

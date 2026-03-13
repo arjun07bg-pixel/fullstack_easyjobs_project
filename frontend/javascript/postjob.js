@@ -1,3 +1,5 @@
+const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
+
 document.addEventListener("DOMContentLoaded", () => {
     const userString = localStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
@@ -44,6 +46,12 @@ document.addEventListener("DOMContentLoaded", () => {
             work_mode: document.getElementById("work-mode")?.value.trim(),
             experience_level: parseInt(document.getElementById("exp-level")?.value) || 0,
             salary: parseInt(document.getElementById("salary-range")?.value) || 0,
+            category: document.getElementById("job-category")?.value,
+            vacancies: parseInt(document.getElementById("vacancies")?.value) || 1,
+            deadline: document.getElementById("deadline")?.value,
+            company_website: document.getElementById("company-website")?.value.trim(),
+            apply_link: document.getElementById("apply-link")?.value.trim(),
+            required_skills: document.getElementById("required-skills")?.value.trim(),
             description: document.getElementById("job-desc")?.value.trim(),
             employer_id: user?.user_id || null
         };
@@ -77,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </p>
                         <div style="display:flex;gap:15px;justify-content:center;">
                             <button onclick="window.location.reload()" class="btn-register" style="padding:12px 25px;border-radius:50px;">Post Another Job</button>
-                            <a href="${isAdmin ? './dashboard.html' : '/index.html'}" class="btn-login" style="padding:12px 25px;border-radius:50px;text-decoration:none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
+                            <a href="/${isAdmin ? "frontend/pages/dashboard.html" : "index.html"}" class="btn-login" style="padding:12px 25px;border-radius:50px;text-decoration:none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
                         </div>
                     </div>
                 `;

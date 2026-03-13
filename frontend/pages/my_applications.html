@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../styles/index.css">
-    <link rel="stylesheet" href="../styles/my_applications.css">
-    <link rel="stylesheet" href="../styles/global_font.css">
+    <link rel="stylesheet" href="/frontend/styles/index.css">
+    <link rel="stylesheet" href="/frontend/styles/my_applications.css">
+    <link rel="stylesheet" href="/frontend/styles/global_font.css">
 
     <style>
         /* Modern Modal Styles */
@@ -250,7 +250,7 @@
                     <li><a href="/frontend/pages/my_applications.html" class="nav-link active"><i class="fas fa-file-alt"></i> My Applications</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
-                    <li><a href="/frontend/pages/Guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
+                    <li><a href="/frontend/pages/guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
                     <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
                                  class="fas fa-bookmark"></i></a></li>
                 </ul>
@@ -268,7 +268,7 @@
                 <h1><i class="fas fa-briefcase"></i> My Applications</h1>
                 <p>Track and manage your submitted job applications</p>
             </div>
-            <a href="./jobs.html" class="ptb-browse-btn">
+            <a href="/frontend/pages/jobs.html" class="ptb-browse-btn">
                 <i class="fas fa-search"></i> Browse More Jobs
             </a>
         </div>
@@ -322,11 +322,17 @@
 
         <!-- Main Content -->
         <div class="myapp-main">
+            <!-- User Context Banner (Admin/Employer only) -->
+            <div class="user-context-banner" id="user-banner" style="display:none;">
+                <div class="ucb-icon"><i class="fas fa-info-circle"></i></div>
+                <div class="ucb-text"></div>
+            </div>
+
             <!-- Search Bar -->
             <div class="myapp-search-bar">
                 <div class="msb-left">
                     <i class="fas fa-search msb-icon"></i>
-                    <input type="text" id="app-search" placeholder="Search by company or job title...">
+                    <input type="text" id="app-search" placeholder="Search by name, company or job title...">
                 </div>
                 <div class="msb-count" id="result-count">0 results</div>
             </div>
@@ -344,7 +350,7 @@
                 <h3>Login Required</h3>
                 <p>You must be logged in to view your application status. Please sign in to continue.</p>
                 <div class="state-actions">
-                    <a href="./login.html" class="sa-btn primary"><i class="fas fa-sign-in-alt"></i> Login
+                    <a href="/frontend/pages/login.html" class="sa-btn primary"><i class="fas fa-sign-in-alt"></i> Login
                         Now</a>
                 </div>
             </div>
@@ -355,7 +361,7 @@
                 <h3>No Applications Yet</h3>
                 <p>You haven't applied to any jobs yet. Start exploring and apply to your dream companies!</p>
                 <div class="state-actions">
-                    <a href="./jobs.html" class="sa-btn primary"><i class="fas fa-search"></i> Find
+                    <a href="/frontend/pages/jobs.html" class="sa-btn primary"><i class="fas fa-search"></i> Find
                         Jobs</a>
                 </div>
             </div>
@@ -368,16 +374,7 @@
             </div>
 
             <!-- The List -->
-            <div id="applications-list" style="display:none;">
-                <div class="user-context-banner">
-                    <i class="fas fa-shield-alt"></i>
-                    <div class="ucb-text">
-                        <strong>Your Data is Private</strong>
-                        As an applicant, you can only see the jobs you have personally applied for. Only EasyJobs
-                        Administrators and Employers have access to view all applications across the platform.
-                    </div>
-                </div>
-
+            <div id="applications-list" style="display:none; padding-top:10px;">
                 <div class="table-container">
                     <table class="app-table">
                         <thead>
@@ -397,6 +394,19 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
+                <a href="/index.html">Home</a>
+                <a href="/frontend/pages/jobs.html">Find Jobs</a>
+                <a href="/frontend/pages/profile.html">My Profile</a>
+                <a href="/frontend/pages/contact.html">Contact</a>
+            </div>
+            <p style="text-align: center; color: #94a3b8; font-size: 0.9rem;">&copy; 2026 EasyJobs Portal. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- Application Full Details Modal -->
     <div class="modal-overlay" id="modal-overlay">
@@ -433,9 +443,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="../javascript/index.js"></script>
-    <script src="../javascript/navbar_manager.js"></script>
-    <script src="../javascript/my_applications.js"></script>
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script src="/frontend/javascript/my_applications.js"></script>
 </body>
 
 </html>

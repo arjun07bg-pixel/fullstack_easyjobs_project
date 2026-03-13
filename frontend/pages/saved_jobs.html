@@ -28,7 +28,7 @@
                     <li><a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My Applications</a></li>
                     <li><a href="/frontend/pages/profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
-                    <li><a href="/frontend/pages/Guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
+                    <li><a href="/frontend/pages/guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
                     <li><a href="/frontend/pages/saved_jobs.html" class="nav-link active" title="Saved Jobs"><i
                                  class="fas fa-bookmark"></i></a></li>
                 </ul>
@@ -38,7 +38,7 @@
                 <!-- Logged-in structure will be injected by index.js -->
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i>
                     Register</a>
-                <a href="./login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </header>
@@ -71,85 +71,15 @@
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
-                <a href="./contact.html">Contact</a>
+                <a href="/frontend/pages/contact.html">Contact</a>
             </div>
             <p>&copy; 2026 EasyJobs. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="../javascript/index.js"></script>
-    <script src="../javascript/navbar_manager.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('saved-jobs-container');
-            const STORAGE_KEY = 'easyjobs_saved';
-
-            function getSavedJobs() {
-                try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-                catch (e) { return []; }
-            }
-
-            function removeJob(jobId) {
-                const saved = getSavedJobs().filter(j => j.id !== jobId);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
-            }
-
-            function formatDate(isoString) {
-                if (!isoString) return 'Recently';
-                const d = new Date(isoString);
-                return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-            }
-
-            function render() {
-                const jobs = getSavedJobs();
-                if (jobs.length === 0) {
-                    container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="far fa-bookmark"></i>
-                        <p style="font-size:18px; font-weight:600; color:#0f172a; margin:12px 0 6px;">No Saved Jobs Yet</p>
-                        <p style="color:#64748b; margin-bottom:24px;">Browse companies and click the bookmark icon to save jobs here.</p>
-                        <a href="./companies.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:0 auto; padding:12px 28px;">
-                            <i class="fas fa-building"></i>&nbsp; Browse Companies
-                        </a>
-                    </div>`;
-                    return;
-                }
-
-                container.innerHTML = jobs.map((job, idx) => `
-                <div class="job-card" id="saved-card-${idx}" style="flex-direction:column; align-items:flex-start; gap:14px; position:relative;">
-                    <div style="position:absolute; top:16px; right:16px; background:#eff6ff; color:#2563eb; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600;">
-                        <i class="fas fa-bookmark"></i> Saved
-                    </div>
-                    <div class="job-info" style="width:100%;">
-                        <h3 style="color:#0f172a; font-size:18px; margin:0 0 4px;">${job.title || 'Job Title'}</h3>
-                        <p style="color:#2563eb; font-weight:500; margin:0 0 10px;"><i class="fas fa-building"></i> ${job.company || 'Company'}</p>
-                        <p style="color:#64748b; font-size:14px; margin:0 0 10px; line-height:1.6;">${job.desc || ''}</p>
-                        <p style="color:#94a3b8; font-size:12px; margin:0;"><i class="fas fa-calendar-alt"></i> Saved on ${formatDate(job.savedAt)}</p>
-                    </div>
-                    <div class="actions" style="width:100%; justify-content:flex-end;">
-                        <button onclick="removeAndRefresh('${job.id}', ${idx})" class="btn btn-unsave"><i class="fas fa-trash"></i> Remove</button>
-                        <a href="${job.applyLink || '#'}" class="btn btn-apply"><i class="fas fa-paper-plane"></i> Apply Now</a>
-                    </div>
-                </div>
-            `).join('');
-            }
-
-            window.removeAndRefresh = function (jobId, idx) {
-                const card = document.getElementById('saved-card-' + idx);
-                if (card) {
-                    card.style.transition = 'all 0.3s ease';
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateX(30px)';
-                    setTimeout(() => {
-                        removeJob(jobId);
-                        render();
-                    }, 300);
-                }
-            };
-
-            render();
-        });
-    </script>
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script src="/frontend/javascript/saved_jobs.js"></script>
 </body>
 
 </html>

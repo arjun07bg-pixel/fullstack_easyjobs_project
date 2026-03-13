@@ -18,7 +18,7 @@
                 return;
             }
             // Redirect to jobs page with query param
-            window.location.href = `/jobs.html?search=${encodeURIComponent(query)}`;
+            window.location.href = `/frontend/pages/jobs.html?search=${encodeURIComponent(query)}`;
         };
 
         // 3. Handle button click

@@ -1,7 +1,9 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
 const getAPIURL = () => {
     if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
-    return "https://fullstack-easyjobs-project.vercel.app/api";
+    const hostname = window.location.hostname;
+    if (hostname === "127.0.0.1" || hostname === "localhost") return "http://127.0.0.1:8000/api";
+    return "/api";
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,13 +61,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Role-based redirect
                 switch (data.role) {
                     case "admin":
-                        window.location.href = "./pages/dashboard.html";
+                        window.location.href="/frontend/pages/dashboard.html";
                         break;
                     case "employer":
-                        window.location.href = "./pages/Postjob_home.html";
+                        window.location.href="/frontend/pages/postjob_home.html";
                         break;
                     default:
-                        window.location.href = "./index.html";
+                        window.location.href="/index.html";
                 }
             } else {
                 // Handle JSON error response or fallback text error

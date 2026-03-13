@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     alert("Account created successfully! Redirecting to login...");
                 }
-                window.location.href = "./login.html";
+                window.location.href="/frontend/pages/login.html";
 
             } else {
                 if (contentType && contentType.includes("application/json")) {

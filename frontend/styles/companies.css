@@ -105,10 +105,117 @@
     padding: 0 24px 60px;
 }
 
+/* ── Layout ──────────────────────────────────── */
+.company-page-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ── Sidebar ────────────────────────────────── */
+.company-sidebar {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+    position: sticky;
+    top: 100px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.filter-group {
+    margin-bottom: 28px;
+}
+
+.filter-group h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-item {
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.2s;
+}
+
+.filter-item:hover {
+    color: #2563eb;
+}
+
+.filter-item input {
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.clear-filters-btn {
+    width: 100%;
+    padding: 12px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clear-filters-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* ── Filter Chips ────────────────────────────── */
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1.5px solid #dbeafe;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.chip i {
+    cursor: pointer;
+    font-size: 11px;
+}
+
 /* ── Companies Grid ──────────────────────────── */
 .companies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 22px;
 }
 
@@ -354,6 +461,17 @@ p[style*="gridColumn"] {
 @media (max-width: 1024px) {
     .companies-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .company-page-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .company-sidebar {
+        position: static;
+        margin-bottom: 24px;
     }
 }
 

@@ -1,0 +1,2 @@
+import non_existent_bla
+app=1

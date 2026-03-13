@@ -19,6 +19,12 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
         job_type=job.job_type,
         salary=job.salary,
         work_mode=job.work_mode,
+        category=job.category,
+        vacancies=job.vacancies,
+        deadline=job.deadline,
+        company_website=job.company_website,
+        apply_link=job.apply_link,
+        required_skills=job.required_skills,
         employer_id=job.employer_id
     )
 

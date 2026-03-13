@@ -1,21 +1,22 @@
 import os
 import sys
 
-# Ensure the project root is in sys.path so 'backend' package imports work
+# Ensure both the project root and backend folder are in sys.path so imports work
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, FileResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from database.database import Base, engine
 from routers import users, admins, jobs, applications, filters, status, companies, top_companies_filters, auth, contact, saved_jobs
- 
+
 app = FastAPI(
     title="EasyJobs API",
     version="2.0.0",
@@ -27,7 +28,7 @@ app = FastAPI(
 
 from fastapi.exceptions import RequestValidationError
 
-# Handler for expected HTTP errors (like 401 Incorrect Password)
+# ── Exception Handlers ──────────────────────────────────────────
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     return JSONResponse(
@@ -44,13 +45,10 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         headers={"Access-Control-Allow-Origin": "*"}
     )
 
-# Global Exception Handler ONLY for unexpected crashes (500)
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    # If it's already an HTTPException, don't treat it as a crash
     if isinstance(exc, StarletteHTTPException):
         return await http_exception_handler(request, exc)
-        
     print(f"GLOBAL ERROR: {str(exc)}")
     return JSONResponse(
         status_code=500,
@@ -58,37 +56,20 @@ async def global_exception_handler(request: Request, exc: Exception):
         headers={"Access-Control-Allow-Origin": "*"}
     )
 
-# CORS configuration
+# ── CORS ────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://cosmic-bienenstitch-9618bb.netlify.app", 
-        "https://arjun07bg-pixel.github.io",
-        "http://localhost:3000",
-        "http://127.0.0.1:5500"
-    ],
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?",
+    allow_origins=["*"],
+    allow_origin_regex=r"https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Create tables
+# ── Database ────────────────────────────────────────────────────
 Base.metadata.create_all(bind=engine)
 
-# Mount static files with absolute paths
-app.mount("/frontend/javascript", StaticFiles(directory=os.path.join(parent_dir, "frontend", "javascript")), name="javascript")
-app.mount("/frontend/styles", StaticFiles(directory=os.path.join(parent_dir, "frontend", "styles")), name="styles")
-app.mount("/frontend/pages", StaticFiles(directory=os.path.join(parent_dir, "frontend", "pages")), name="pages")
-
-# Use absolute paths for templates
-templates = Jinja2Templates(directory=[parent_dir, os.path.join(parent_dir, "frontend", "pages")])
-
-@app.get("/")
-def root():
-    return {"message": "EasyJobs API Running"}
-
-# Routers
+# ── API Routers (MUST be before static file mounts) ─────────────
 app.include_router(auth.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
 app.include_router(admins.router, prefix="/api")
@@ -100,3 +81,15 @@ app.include_router(status.router, prefix="/api")
 app.include_router(top_companies_filters.router, prefix="/api")
 app.include_router(contact.router, prefix="/api")
 app.include_router(saved_jobs.router, prefix="/api")
+
+# ── HTML Page Routes ────────────────────────────────────────────
+@app.get("/")
+async def root():
+    return FileResponse(os.path.join(parent_dir, "index.html"))
+
+@app.get("/index.html")
+async def index_html():
+    return FileResponse(os.path.join(parent_dir, "index.html"))
+
+# ── Static Files (AFTER all routes) ────────────────────────────
+app.mount("/frontend", StaticFiles(directory=os.path.join(parent_dir, "frontend")), name="frontend")

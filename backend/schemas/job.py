@@ -1,27 +1,3 @@
-# from pydantic import BaseModel
-# from typing import Optional
-
-# class JobBase(BaseModel):
-#     job_title: str
-#     company_name: str
-#     description: Optional[str]
-#     location: Optional[str]
-#     experience_level: Optional[int]
-#     job_type: Optional[str]
-#     salary: Optional[int]
-#     work_mode: Optional[str]
-
-# class JobCreate(JobBase):
-#     pass
-
-# class JobOut(JobBase):
-#     job_id: int
-
-#     class Config:
-#         from_attributes = True
-
-
-
 from pydantic import BaseModel
 from typing import Optional
 
@@ -35,6 +11,12 @@ class JobBase(BaseModel):
     job_type: Optional[str] = None
     salary: Optional[int] = None
     work_mode: Optional[str] = None
+    category: Optional[str] = None
+    vacancies: Optional[int] = None
+    deadline: Optional[str] = None
+    company_website: Optional[str] = None
+    apply_link: Optional[str] = None
+    required_skills: Optional[str] = None
     employer_id: Optional[int] = None
 
 
@@ -53,6 +35,12 @@ class JobUpdate(BaseModel):
     job_type: Optional[str] = None
     salary: Optional[int] = None
     work_mode: Optional[str] = None
+    category: Optional[str] = None
+    vacancies: Optional[int] = None
+    deadline: Optional[str] = None
+    company_website: Optional[str] = None
+    apply_link: Optional[str] = None
+    required_skills: Optional[str] = None
     employer_id: Optional[int] = None
 
 

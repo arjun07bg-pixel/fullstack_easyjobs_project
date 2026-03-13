@@ -1,107 +1,98 @@
 document.addEventListener("DOMContentLoaded", updateNavbarProfile);
 
 function updateNavbarProfile() {
-
     const userString = localStorage.getItem("user");
     if (!userString) return;
 
     const user = JSON.parse(userString);
-    const photo = localStorage.getItem("userProfilePhoto");
     const isEmployer = user.role === "employer";
     const isAdmin = user.role === "admin";
+
+    // Standardize URL checking helper
+    const hasLinkTo = (links, filename) => links.some(a => {
+        const path = a.getAttribute("href") || "";
+        return path.includes(filename);
+    });
 
     const menus = document.querySelectorAll(".nav-menu ul, .category-navbar .nav-links, .nav-links ul");
 
     menus.forEach(menu => {
-
-        if (menu.querySelector(".nav-avatar-item")) return;
+        // Only run once per menu
+        if (menu.getAttribute("data-nav-updated")) return;
+        menu.setAttribute("data-nav-updated", "true");
 
         const links = Array.from(menu.querySelectorAll("a"));
 
-        const profileLink = links.find(a =>
-            a.href.includes("./profile.html") ||
-            a.textContent.toLowerCase().includes("profile")
-        );
+        // Find the profile/user link to use as an insertion point
+        const profileLink = links.find(a => {
+            const path = a.getAttribute("href") || "";
+            return path.includes("profile.html") || a.textContent.toLowerCase().includes("profile");
+        });
 
         if (!profileLink) return;
 
+        // --- Role Specific Logic ---
         if (isEmployer || isAdmin) {
-
+            // Remove seeker-only links (Browse Jobs, Internships)
             links.forEach(a => {
-                if (a !== profileLink && a.parentElement?.tagName.toLowerCase() === "li") {
-                    a.parentElement.remove();
+                const path = a.getAttribute("href") || "";
+                if (path.includes("jobs.html") || path.includes("internship.html")) {
+                    a.parentElement?.remove();
                 }
             });
 
-            if (isAdmin) {
+            // Ensure "Applications" / "Applicants" is visible
+            if (!hasLinkTo(links, "my_applications.html")) {
+                const appsLi = document.createElement("li");
+                appsLi.innerHTML = `<a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> ${isAdmin ? 'All Applicants' : 'Received Apps'}</a>`;
+                menu.insertBefore(appsLi, profileLink.parentElement);
+            } else {
+                // Rename existing link
+                const existingAppBtn = links.find(a => a.getAttribute("href").includes("my_applications.html"));
+                if (existingAppBtn) {
+                     existingAppBtn.innerHTML = `<i class="fas fa-file-alt"></i> ${isAdmin ? 'All Applicants' : 'Received Apps'}`;
+                }
+            }
 
+            if (isAdmin && !hasLinkTo(links, "dashboard.html")) {
                 const dashLi = document.createElement("li");
-                dashLi.innerHTML =
-                    `<a href="./dashboard.html" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                    </a>`;
-
+                dashLi.innerHTML = `<a href="/frontend/pages/dashboard.html" class="nav-link"><i class="fas fa-columns"></i> Dashboard</a>`;
                 menu.insertBefore(dashLi, profileLink.parentElement);
             }
 
-            const postJobLi = document.createElement("li");
-            postJobLi.innerHTML =
-                `<a href="./Postjob_home.html" class="nav-link" style="color:#16a34a;font-weight:700;">
-                    <i class="fas fa-plus-circle"></i> Post Job
-                </a>`;
-
-            menu.insertBefore(postJobLi, profileLink.parentElement);
-
+            if (!hasLinkTo(links, "postjob_home.html")) {
+                const postJobLi = document.createElement("li");
+                postJobLi.innerHTML = `<a href="/frontend/pages/postjob_home.html" class="nav-link" style="color:#16a34a;font-weight:700;"><i class="fas fa-plus-circle"></i> Post Job</a>`;
+                menu.insertBefore(postJobLi, profileLink.parentElement);
+            }
         } else {
-
-            if (!links.some(a => a.href.includes("./saved_jobs.html"))) {
-
+            // SEEKER Logic: Ensure Saved Jobs and My Applications are present
+            if (!hasLinkTo(links, "saved_jobs.html")) {
                 const savedLi = document.createElement("li");
-                savedLi.innerHTML =
-                    `<a href="./saved_jobs.html" class="nav-link">
-                        <i class="fas fa-bookmark"></i>
-                    </a>`;
-
+                savedLi.innerHTML = `<a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`;
                 menu.insertBefore(savedLi, profileLink.parentElement);
             }
 
-            if (!links.some(a => a.href.includes("./my_applications.html"))) {
-
+            if (!hasLinkTo(links, "my_applications.html")) {
                 const appsLi = document.createElement("li");
-                appsLi.innerHTML =
-                    `<a href="./my_applications.html" class="nav-link">
-                        My Applications
-                    </a>`;
-
+                appsLi.innerHTML = `<a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My Applications</a>`;
                 menu.insertBefore(appsLi, profileLink.parentElement);
             }
         }
 
-        const avatarLi = document.createElement("li");
-        avatarLi.classList.add("nav-avatar-item");
-
-        const img = document.createElement("img");
-
-        const initials =
-            `${user.first_name || ""} ${user.last_name || ""}`;
-
-        img.src =
-            photo ||
-            `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random`;
-
-        img.style.width = "32px";
-        img.style.height = "32px";
-        img.style.borderRadius = "50%";
-        img.style.objectFit = "cover";
-
-        const link = document.createElement("a");
-        link.href = "./profile.html";
-        link.innerText = user.first_name;
-        link.classList.add("nav-link");
-
-        avatarLi.append(img, link);
-
-        profileLink.parentElement.replaceWith(avatarLi);
+        // --- Final Avatar Cleanup ---
+        // Instead of duplicating, we'll just let index.js handle the right-side profile buttons 
+        // and only keep the seeker links in the center menu.
+        // We remove the profile list item from the center menu to prevent double "narayanan"
+        if (profileLink.parentElement) {
+             profileLink.parentElement.remove();
+        }
     });
 
+    // Final fix for alignment: ensure the header-content doesn't wrap weirdly
+    const headerContent = document.querySelector(".header-content");
+    if (headerContent) {
+        headerContent.style.flexWrap = "nowrap";
+        headerContent.style.overflow = "visible";
+    }
 }

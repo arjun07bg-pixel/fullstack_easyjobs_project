@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
     if (!userString) {
         alert("Please login to view your profile.");
-        window.location.href = "./login.html";
+        window.location.href="/frontend/pages/login.html";
         return;
     }
 
@@ -54,18 +54,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         companyWebsite: document.getElementById("companyWebsite")
     };
 
-    const headerName = document.getElementById("header-profile-name");
-    const headerSub = document.getElementById("header-profile-sub");
-
     let tempPhotoData = null;
     let tempResumeName = null;
 
     /* ─── Role-Based UI ───────────────────────────────────── */
-    if (userData.role === "employer") {
+    if (userData.role === "employer" || userData.role === "admin") {
         document.querySelectorAll(".seeker-only").forEach(el => el.style.display = "none");
-        if (pref.companyCard) pref.companyCard.style.display = "block";
-        const bioLabel = document.getElementById("bio-label");
-        if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
+        if (userData.role === "employer") {
+            if (pref.companyCard) pref.companyCard.style.display = "block";
+            const bioLabel = document.getElementById("bio-label");
+            if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
+        }
     }
 
     /* ─── Profile Strength ─────────────────────────────────── */
@@ -121,39 +120,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.headerName) {
             const fname = pref.firstName.value.trim() || "User";
             const lname = pref.lastName.value.trim() || "Name";
-            pref.headerName.innerText = userData.role === 'employer' ? (pref.companyName.value || "Company Profile") : `${fname} ${lname}`;
+            if (userData.role === 'employer') {
+                pref.headerName.innerText = pref.companyName.value || "Company Profile";
+            } else if (userData.role === 'admin') {
+                pref.headerName.innerText = "Super Administrator";
+            } else {
+                pref.headerName.innerText = `${fname} ${lname}`;
+            }
         }
         if (pref.headerSub) {
             if (userData.role === 'employer') {
                 pref.headerSub.innerHTML = `<i class="fas fa-building"></i> ${pref.industry.value || "Industry"} | <i class="fas fa-users"></i> ${pref.companySize.value || "Size"}`;
+            } else if (userData.role === 'admin') {
+                pref.headerSub.innerHTML = `<i class="fas fa-shield-alt"></i> Platform Management | <i class="fas fa-check-circle"></i> Verified Admin`;
             } else {
-                pref.headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${pref.designation.value || "Software Engineer"} | <i class="fas fa-map-marker-alt"></i> ${pref.location.value || "Location"}`;
+                pref.headerSub.innerHTML = `<i class="fas fa-briefcase"></i> ${pref.designation.value || "Professional Title"} | <i class="fas fa-map-marker-alt"></i> ${pref.location.value || "Location"}`;
             }
         }
     };
 
     // Role-based visibility
-    if (userData.role === "employer") {
-        document.querySelectorAll(".seeker-only").forEach(el => el.style.display = "none");
-        if (pref.companyCard) pref.companyCard.style.display = "block";
-        const bioLabel = document.getElementById("bio-label");
-        if (bioLabel) bioLabel.innerText = "Company Overview / Mission";
-    }
-
-    // 1. Fetch Latest User Data
-    const fetchUser = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/users/${userId}`);
-            if (response.ok) {
-                const user = await response.json();
-                populateForm(user);
-                updateStrength();
-            }
-        } catch (e) {
-            console.error("Error fetching user data:", e);
-        }
-    };
-
     /* ─── Fetch User Data ─────────────────────────────────── */
     const populateForm = (user) => {
         if (!user) return;
@@ -180,8 +166,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.companySize) pref.companySize.value = user.company_size || "";
         if (pref.companyWebsite) pref.companyWebsite.value = user.company_website || "";
 
-        if (user.image && pref.photoPreview && user.image.length > 100) {
-            pref.photoPreview.innerHTML = `<img src="${user.image}" alt="Profile">`;
+        if (user.image && pref.photoPreview) {
+            const imgSrc = user.image;
+            pref.photoPreview.innerHTML = `<img src="${imgSrc}" alt="Profile">`;
         }
 
         if (user.resume_url && pref.resumeName) {
@@ -189,12 +176,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
+    // 1. Fetch Latest User Data
     const fetchUser = async () => {
         try {
-            const res = await fetch(`${getAPIURL()}/users/${userId}`);
-            if (res.ok) {
-                const user = await res.json();
+            const response = await fetch(`${getAPIURL()}/users/${userId}`);
+            if (response.ok) {
+                const user = await response.json();
                 populateForm(user);
+                updateStrength();
             }
         } catch (e) {
             console.error("Error fetching user data:", e);

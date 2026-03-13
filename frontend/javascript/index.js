@@ -1,10 +1,11 @@
 window.getEasyJobsAPI = () => {
     const hostname = window.location.hostname;
-    // Smart routing: use local backend if running on Live Server, else use Vercel
+    // Local development: use the backend Python server directly
     if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") {
         return "http://127.0.0.1:8000/api";
     }
-    return "https://fullstack-easyjobs-project.vercel.app/api";
+    // On Vercel or any production host: the backend is served on the same domain under /api
+    return "/api";
 };
 
 console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams();
             if (keywordInput.value.trim()) params.set("keyword", keywordInput.value.trim());
             if (locationInput.value.trim()) params.set("location", locationInput.value.trim());
-            window.location.href = `./jobs.html?${params.toString()}`;
+            window.location.href = `/frontend/pages/jobs.html?${params.toString()}`;
         });
     }
 
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
         headerSearchForm.addEventListener("submit", (e) => {
             e.preventDefault();
             if (headerSearchInput.value.trim()) {
-                window.location.href = `./jobs.html?keyword=${encodeURIComponent(headerSearchInput.value.trim())}`;
+                window.location.href = `/frontend/pages/jobs.html?keyword=${encodeURIComponent(headerSearchInput.value.trim())}`;
             }
         });
     }
@@ -49,24 +50,21 @@ document.addEventListener("DOMContentLoaded", () => {
             : `<i class="fas fa-user-circle" style="font-size:1.8rem;color:rgba(255,255,255,0.8);"></i>`;
 
         const actionLink = user.role === 'admin'
-            ? `<a href="./dashboard.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+            ? `<a href="/frontend/pages/dashboard.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
             : user.role === 'employer'
-                ? `<a href="./Postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
+                ? `<a href="/frontend/pages/postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
                 : '';
 
-        const savedJobsIcon = (user.role !== 'admin' && user.role !== 'employer')
-            ? `<a href="./saved_jobs.html" style="color:#cbd5e1;font-size:1.1rem;transition:0.3s;" title="Saved Jobs"><i class="fas fa-bookmark"></i></a>`
-            : '';
+        const savedJobsIcon = ''; // Removed from index.js as it is managed by HTML/navbar_manager
 
         authButtons.innerHTML = `
             <div style="display:flex;align-items:center;gap:15px;">
-                ${savedJobsIcon}
-                <a href="./profile.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;transition:0.3s;padding:5px 10px;border-radius:50px;">
+                <a href="/frontend/pages/profile.html" class="user-profile-link" style="display:flex;align-items:center;gap:10px;text-decoration:none;transition:0.3s;padding:5px 12px;border-radius:50px;background:rgba(255,255,255,0.05);">
                     ${avatarHtml}
-                    <span class="auth-greeting">Hi, ${user.first_name}!</span>
+                    <span class="auth-greeting" style="color:#fff;font-weight:600;font-size:0.9rem;">Hi, ${user.first_name}!</span>
                 </a>
                 ${actionLink}
-                <button id="logoutBtn" style="background:rgba(239,68,68,0.9);color:white;border:none;padding:10px 20px;border-radius:50px;cursor:pointer;font-weight:600;transition:all 0.3s ease;font-size:0.9rem;">Logout</button>
+                <button id="logoutBtn" style="background:rgba(239,68,68,0.9);color:white;border:none;padding:10px 22px;border-radius:50px;cursor:pointer;font-weight:700;transition:all 0.3s ease;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;">Logout</button>
             </div>
         `;
 
@@ -79,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("user");
             localStorage.removeItem("token");
             localStorage.removeItem("userProfilePhoto");
-            window.location.href = "/index.html";
+            window.location.href="/index.html";
         });
     }
 });
@@ -126,7 +124,7 @@ async function saveJob(jobId, btnElement) {
 
     if (!user?.user_id) {
         showMessage("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
-        setTimeout(() => window.location.href = "./login.html", 2000);
+        setTimeout(() => window.location.href="/frontend/pages/login.html", 2000);
         return;
     }
 

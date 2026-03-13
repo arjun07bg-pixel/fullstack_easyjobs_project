@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../styles/index.css">
-    <link rel="stylesheet" href="../styles/top-companies_style.css">
-    <link rel="stylesheet" href="../styles/global_font.css">
+    <link rel="stylesheet" href="/frontend/styles/index.css">
+    <link rel="stylesheet" href="/frontend/styles/top-companies_style.css">
+    <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
 <body>
     <header class="main-header sticky">
@@ -18,14 +18,14 @@
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
-                    <li><a href="./jobs.html" class="nav-link">Find Jobs</a></li>
-                    <li><a href="./companies.html" class="nav-link active">Top Companies</a></li>
-                    <li><a href="./internship.html" class="nav-link">Internships</a></li>
-                    <li><a href="./my_applications.html" class="nav-link">My Applications</a></li>
-                    <li><a href="./profile.html" class="nav-link">Profile</a></li>
-                    <li><a href="./contact.html" class="nav-link">Contact</a></li>
-                    <li><a href="./Guidance.html" class="nav-link">Guidance</a></li>
-                    <li><a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+                    <li><a href="/frontend/pages/companies.html" class="nav-link active">Top Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="/frontend/pages/guidance.html" class="nav-link">Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
                                 class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
@@ -40,7 +40,7 @@
         <div class="banner-container">
             <a href="/frontend/pages/companies.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Companies</a>
             <div class="banner-content">
-                <div class="logo-large">?</div>
+                <div class="logo-large">B</div>
                 <div class="company-info-header">
                     <h1>Accenture Careers</h1>
                     <p>Shape the Future. Find your opportunity in Consulting, Technology, or Operations.</p>
@@ -51,7 +51,7 @@
 
     <div class="breadcrumb"
         style="max-width:1200px; margin:20px auto 0; padding:0 25px; font-size:14px; color:#64748b;">
-        <a href="./companies.html"
+        <a href="/frontend/pages/companies.html"
             style="color:#2563eb; text-decoration:none; display:inline-flex; align-items:center; gap:8px;"><i
                 class="fas fa-chevron-left"></i> Back to Companies</a>
         <span style="margin:0 10px;">/</span>
@@ -185,18 +185,16 @@
                 </div>
             </div>
 
-            <button class="apply-filters-btn">Apply Filters</button>
+            <button id="apply-filters-btn" class="apply-filters-btn">Apply Filters</button>
         </div>
 
         <div class="job-listings">
             <div class="search-bar">
-                <input type="text" placeholder="Search skills, designations, or keywords...">
-                <button class="search-btn">Search</button>
+                <input type="text" id="job-search" placeholder="Search skills, designations, or keywords...">
+                <button id="search-btn" class="search-btn">Search</button>
             </div>
 
-            <div class="listing-header">
-                <h2>Showing Jobs</h2>
-            </div>
+            <div class="listing-header"><h2 id="results-heading">Showing Jobs</h2><button id="clear-filters-btn" style="padding:6px 14px; border-radius:6px; font-size:12px; background:#f1f5f9; border:1px solid #cbd5e1; cursor:pointer;" onclick="clearCompanyFilters()"><i class="fas fa-undo"></i> Clear</button></div>
             
             
             <div class="job-card">
@@ -449,83 +447,16 @@
             <div class="footer-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
-                <a href="./dashboard.html">Employer Dashboard</a>
-                <a href="./contact.html">Contact</a>
+                <a href="/frontend/pages/dashboard.html">Employer Dashboard</a>
+                <a href="/frontend/pages/contact.html">Contact</a>
             </div>
             <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
         </div>
     </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('job-search');
-            const searchBtn = document.getElementById('search-btn');
-            const applyBtn = document.getElementById('apply-filters-btn');
-            const clearBtn = document.getElementById('clear-filters-btn');
-            const heading = document.getElementById('results-heading');
-
-            function filterJobs() {
-                const query = (searchInput.value || '').toLowerCase().trim();
-                const cards = document.querySelectorAll('.job-card');
-
-                const checkedLocs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(1) input:checked')).map(cb => cb.value);
-                const checkedFuncs = Array.from(document.querySelectorAll('.filter-section:nth-of-type(2) input:checked')).map(cb => cb.value);
-                const checkedExps = Array.from(document.querySelectorAll('.filter-section:nth-of-type(3) input:checked')).map(cb => cb.value);
-                const checkedTypes = Array.from(document.querySelectorAll('.filter-section:nth-of-type(4) input:checked')).map(cb => cb.value);
-
-                let visible = 0;
-                cards.forEach(card => {
-                    const title = (card.querySelector('.job-title') ? card.querySelector('.job-title').innerText : '').toLowerCase();
-                    const meta = (card.querySelector('.job-meta-naukri') ? card.querySelector('.job-meta-naukri').innerText : '').toLowerCase();
-                    const desc = (card.querySelector('.job-desc-naukri') ? card.querySelector('.job-desc-naukri').innerText : '').toLowerCase();
-                    const skills = (card.querySelector('.job-skills-naukri') ? card.querySelector('.job-skills-naukri').innerText : '').toLowerCase();
-                    const loc = (card.dataset.location || '').toLowerCase();
-                    const func = (card.dataset.func || '').toLowerCase();
-                    const type = (card.dataset.type || '').toLowerCase();
-                    const expMin = parseInt(card.dataset.expmin || '0');
-                    const expMax = parseInt(card.dataset.expmax || '99');
-                    const combined = title + ' ' + meta + ' ' + desc + ' ' + skills;
-
-                    const matchQuery = !query || combined.includes(query);
-                    const matchLoc = checkedLocs.length === 0 || checkedLocs.some(l => loc.includes(l));
-                    const matchFunc = checkedFuncs.length === 0 || checkedFuncs.some(f => func.includes(f));
-                    const matchType = checkedTypes.length === 0 || checkedTypes.some(t => type.includes(t));
-                    const matchExp = checkedExps.length === 0 || checkedExps.some(e => {
-                        const parts = e.split('-').map(Number);
-                        const lo = parts[0], hi = parts[1];
-                        return (expMin <= hi && expMax >= lo);
-                    });
-
-                    const show = matchQuery && matchLoc && matchFunc && matchType && matchExp;
-                    card.style.display = show ? 'block' : 'none';
-                    if (show) visible++;
-                });
-
-                heading.textContent = 'Showing ' + visible + ' Job' + (visible !== 1 ? 's' : '');
-            }
-
-            function clearFilters() {
-                document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
-                searchInput.value = '';
-                document.querySelectorAll('.job-card').forEach(c => c.style.display = 'block');
-                const total = document.querySelectorAll('.job-card').length;
-                heading.textContent = 'Showing ' + total + ' Jobs';
-            }
-
-            if (searchBtn) searchBtn.addEventListener('click', filterJobs);
-            if (applyBtn) applyBtn.addEventListener('click', filterJobs);
-            if (clearBtn) clearBtn.addEventListener('click', clearFilters);
-            if (searchInput) {
-                searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterJobs(); });
-                searchInput.addEventListener('input', filterJobs);
-            }
-            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', filterJobs);
-            });
-        });
-    </script>
-    <script src="../javascript/bookmark_jobs.js"></script>
-    <script src="../javascript/index.js"></script>
-    <script src="../javascript/navbar_manager.js"></script>
-    <script src="../javascript/company_search_enhancements.js"></script>
+    <script src="/frontend/javascript/index.js"></script>
+    <script src="/frontend/javascript/navbar_manager.js"></script>
+    <script src="/frontend/javascript/company_jobs.js"></script>
+    <script src="/frontend/javascript/company_search_enhancements.js"></script>
+    <script src="/frontend/javascript/bookmark_jobs.js"></script>
 </body>
 </html>

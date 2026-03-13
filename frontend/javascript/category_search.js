@@ -12,7 +12,7 @@ window.saveJob = async function(jobId, btn) {
 
     if (!user.user_id) {
         alert("Please login to save jobs.");
-        window.location.href = "./login.html";
+        window.location.href="/frontend/pages/login.html";
         return;
     }
 
@@ -60,12 +60,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const searchBtn = document.getElementById("categorySearchBtn");
 
     const path = window.location.pathname.toLowerCase();
-
     let category = "";
 
     if (path.includes("it_software")) category = "software";
-    else if (path.includes("sales_marketing")) category = "marketing";
-    else if (path.includes("finance_accounting")) category = "finance";
+    else if (path.includes("sales_and_marketing") || path.includes("sales_marketing")) category = "marketing";
+    else if (path.includes("finance_and_accounting") || path.includes("finance_accounting")) category = "finance";
     else if (path.includes("engineering")) category = "engineering";
 
 
@@ -93,10 +92,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         article.className = "job-card dynamic-job";
         article.setAttribute("data-job-id", job.job_id);
 
+        const applyLink = `/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title || '')}&company=${encodeURIComponent(job.company_name || '')}&location=${encodeURIComponent(job.location || '')}&desc=${encodeURIComponent(job.description || '')}`;
+
         article.innerHTML = `
             <div class="job-card-header">
                 <div>
-                    <a href="./apply_home.html?job_id=${job.job_id}" class="job-title">${job.job_title}</a>
+                    <a href="${applyLink}" class="job-title">${job.job_title}</a>
                     <div class="company">${job.company_name}</div>
                 </div>
                 <div class="company-logo-placeholder">${logoText}</div>
@@ -104,12 +105,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             <div class="job-meta-grid">
                 <div class="meta-item location"><i class="fas fa-map-marker-alt"></i> ${job.location || 'India'}</div>
-                <div class="meta-item"><i class="fas fa-briefcase"></i> 0-3 Yrs</div>
-                <div class="meta-item"><i class="fas fa-wallet"></i> ${job.salary || '10 - 18'} LPA</div>
+                <div class="meta-item"><i class="fas fa-briefcase"></i> ${job.experience_level || '0-3'} Yrs</div>
+                <div class="meta-item"><i class="fas fa-wallet"></i> ${job.salary || 'Not Disclosed'}</div>
             </div>
 
             <div class="job-tags">
-                <span class="job-tag">Full Time</span>
+                <span class="job-tag">${job.job_type || 'Full Time'}</span>
                 <span class="job-tag">${category.toUpperCase()}</span>
                 <span class="job-tag">Verified</span>
             </div>
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <i class="far fa-bookmark"></i> Save
                     </button>
 
-                    <a href="./apply_home.html?job_id=${job.job_id}" class="apply-btn">
+                    <a href="${applyLink}" class="apply-btn">
                     View Details
                     </a>
 
@@ -230,7 +231,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 jobsContainer.appendChild(box);
 
             }
-
         } else if (existingNoResults) {
 
             existingNoResults.remove();
@@ -275,10 +275,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     const text = (j.job_title + (j.description || "")).toLowerCase();
 
-                    if (category === "software") return /software|developer|it|tech|web/i.test(text);
-                    if (category === "marketing") return /marketing|sales|growth|brand/i.test(text);
-                    if (category === "finance") return /finance|account|audit|tax/i.test(text);
-                    if (category === "engineering") return /engineer|civil|mechanical|structural/i.test(text);
+                    if (category === "software") return /software|developer|it|tech|web|frontend|backend|fullstack|qa|node|react|java/i.test(text);
+                    if (category === "marketing") return /marketing|sales|growth|brand|executive|seo|social|ppc|content/i.test(text);
+                    if (category === "finance") return /finance|account|audit|tax|ca|analyst|billing|treasury|budget/i.test(text);
+                    if (category === "engineering") return /engineer|civil|mechanical|structural|design|electrical|industrial/i.test(text);
 
                     return false;
 

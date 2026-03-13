@@ -1,4 +1,4 @@
-import { API_URL } from "./config.js";
+
 
 /**
  * EasyJobs - Company Page Search Enhancements
@@ -9,7 +9,7 @@ import { API_URL } from "./config.js";
  */
 
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { return API_URL || "/api"; };
+const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); return "/api"; };
 
 (function () {
     'use strict';
@@ -22,9 +22,9 @@ const getAPIURL = () => { return API_URL || "/api"; };
 
         if (!jobListings) return;
 
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
         // FEATURE 1: AUTOCOMPLETE SUGGESTIONS
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
         function buildSuggestions() {
             const pool = new Set();
@@ -147,9 +147,9 @@ const getAPIURL = () => { return API_URL || "/api"; };
 
         }
 
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
         // FEATURE 2: "NO JOBS FOUND"
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
         function showNoResults(query) {
 
@@ -166,7 +166,7 @@ const getAPIURL = () => { return API_URL || "/api"; };
             ].join(';');
 
             div.innerHTML = `
-                <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+                <div style="font-size:48px; margin-bottom:16px;">ðŸ”</div>
                 <h3 style="font-size:18px; font-weight:700; color:#0f172a; margin:0 0 8px;">
                     No Jobs Found
                 </h3>
@@ -217,9 +217,9 @@ const getAPIURL = () => { return API_URL || "/api"; };
             if (existing) existing.remove();
         }
 
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
         // FEATURE 3: FILTER CHIPS
-        // ══════════════════════════════════════════════════════════════════════
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
         const chipsContainer = document.createElement('div');
 
@@ -346,3 +346,115 @@ const getAPIURL = () => { return API_URL || "/api"; };
     });
 
 })();
+
+        // Global Filter Function for Company Pages
+        function filterJobs() {
+            const searchInput = document.getElementById('job-search');
+            const heading = document.getElementById('results-heading');
+            
+            const query = (searchInput ? searchInput.value || '' : '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.job-card');
+
+            // Find sections by header text to avoid nth-child issues
+            const findSection = (text) => {
+                return Array.from(document.querySelectorAll('.filter-section'))
+                    .find(s => s.querySelector('h4')?.innerText.toLowerCase().includes(text.toLowerCase()));
+            };
+
+            const locSec = findSection('location');
+            const expSec = findSection('experience');
+            const typeSec = findSection('job type');
+
+            const checkedLocs = locSec ? Array.from(locSec.querySelectorAll('input:checked')).map(cb => cb.value.toLowerCase()) : [];
+            const checkedExps = expSec ? Array.from(expSec.querySelectorAll('select')).map(sel => sel.value.toLowerCase()).filter(v => v) : [];
+            const checkedTypes = typeSec ? Array.from(typeSec.querySelectorAll('input:checked')).map(cb => cb.value.toLowerCase()) : [];
+
+            let visible = 0;
+            cards.forEach(card => {
+                const title = (card.querySelector('h3')?.innerText || "").toLowerCase();
+                const desc = (card.querySelector('.job-description')?.innerText || "").toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.innerText.toLowerCase()).join(" ");
+                
+                const locText = card.querySelector('.location') ? card.querySelector('.location').innerText.toLowerCase() : '';
+                const typeText = card.querySelector('.type') ? card.querySelector('.type').innerText.toLowerCase() : '';
+                const expText = card.querySelector('.exp') ? card.querySelector('.exp').innerText.toLowerCase() : '';
+
+                const matchQuery = !query || title.includes(query) || desc.includes(query) || tags.includes(query);
+                const matchLoc = checkedLocs.length === 0 || checkedLocs.some(l => locText.includes(l));
+                
+                const matchExp = checkedExps.length === 0 || checkedExps.some(e => {
+                    if (e === 'all levels') return true;
+                    if (e === 'fresher' && expText.includes('fresher')) return true;
+                    // Match age ranges like "1-3" in "1-3 years"
+                    return expText.includes(e) || e.includes(expText.replace('years','').replace('yr','').trim());
+                });
+
+                const matchType = checkedTypes.length === 0 || checkedTypes.some(t => typeText.includes(t));
+
+                const show = matchQuery && matchLoc && matchExp && matchType;
+                
+                if (!card.classList.contains('fetching-spinner')) {
+                    card.style.display = show ? 'block' : 'none';
+                    if (show) visible++;
+                }
+            });
+
+            if (heading) {
+                heading.textContent = 'Showing ' + visible + ' Job' + (visible !== 1 ? 's' : '');
+            }
+
+            // Also check for empty state
+            if (visible === 0 && cards.length > 0) {
+                showNoResults(query);
+            } else {
+                removeNoResults();
+            }
+        }
+
+        // Expose to window for inline onclick handler
+        window.clearCompanyFilters = function() {
+            const searchInput = document.getElementById('job-search');
+            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.sidebar select').forEach(sel => sel.value = '');
+            if (searchInput) searchInput.value = '';
+            
+            filterJobs();
+            if (window.refreshFilterChips) window.refreshFilterChips();
+        };
+
+        // Attach listeners when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const applyBtn = document.getElementById('apply-filters-btn');
+            const searchBtn = document.getElementById('search-btn');
+            const searchInputLocal = document.getElementById('job-search');
+
+            if (applyBtn) applyBtn.addEventListener('click', filterJobs);
+            if (searchBtn) searchBtn.addEventListener('click', filterJobs);
+            
+            if (searchInputLocal) {
+                searchInputLocal.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') filterJobs();
+                });
+                searchInputLocal.addEventListener('input', () => {
+                    filterJobs();
+                    if (window.refreshFilterChips) window.refreshFilterChips();
+                });
+            }
+            
+            document.querySelectorAll('.sidebar input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    filterJobs();
+                    if (window.refreshFilterChips) window.refreshFilterChips();
+                });
+            });
+            document.querySelectorAll('.sidebar select').forEach(sel => {
+                sel.addEventListener('change', () => {
+                    filterJobs();
+                    if (window.refreshFilterChips) window.refreshFilterChips();
+                });
+            });
+
+            // Make refreshFilterChips available globally
+            window.refreshFilterChips = refreshFilterChips;
+        });
+
