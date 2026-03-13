@@ -44,6 +44,28 @@ class UserUpdate(BaseModel):
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
+    company_name: Optional[str] = None
+    company_size: Optional[str] = None
+    industry: Optional[str] = None
+    company_website: Optional[str] = None
+
+class OTPVerify(BaseModel):
+    email: EmailStr
+    otp: str = Field(..., min_length=6, max_length=6)
+    image: Optional[str] = None
+    bio: Optional[str] = None
+    location: Optional[str] = None
+    experience: Optional[int] = None
+    salary: Optional[int] = None
+    skills: Optional[str] = None
+    resume_url: Optional[str] = None
+    education: Optional[str] = None
+    projects: Optional[str] = None
+    linkedin_url: Optional[str] = None
+    github_url: Optional[str] = None
+    gender: Optional[str] = None
+    dob: Optional[str] = None
+    designation: Optional[str] = None
     # Employer fields:
     company_name: Optional[str] = None
     company_size: Optional[str] = None

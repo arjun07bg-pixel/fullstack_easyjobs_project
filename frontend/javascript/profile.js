@@ -70,37 +70,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     /* ─── Profile Strength ─────────────────────────────────── */
     const updateStrength = () => {
         // 1. Define fields based on role
-        const commonFields = [
+        const seekerFields = [
             pref.firstName, pref.lastName, pref.phone, pref.location,
-            pref.bio, pref.linkedinUrl, pref.githubUrl, pref.gender, pref.dob
+            pref.bio, pref.linkedinUrl, pref.githubUrl, pref.gender, pref.dob,
+            pref.designation, pref.skills, pref.education, pref.projects
         ];
 
-        const roleFields = userData.role === 'employer'
-            ? [pref.companyName, pref.industry, pref.companySize, pref.companyWebsite]
-            : [pref.designation, pref.experience, pref.salary, pref.skills, pref.education, pref.projects];
-
-        const allCheckFields = [...commonFields, ...roleFields];
-
         let filled = 0;
-        allCheckFields.forEach(f => {
-            if (f && f.value && f.value.trim() !== "") {
-                filled++;
-            }
+        seekerFields.forEach(f => {
+            if (f && f.value && f.value.trim() !== "") filled++;
         });
 
-        // 2. Add for email (always), photo, and resume (seeker only)
+        // Add 5 special fields (Email, Experience, Salary, Photo, Resume)
         filled += 1; // Email is always there if logged in
 
         const user = JSON.parse(localStorage.getItem("user") || "{}");
-        if ((user.image && user.image.length > 100) || tempPhotoData) filled++;
+        // Experience & Salary (allow 0, but not null/empty)
+        if (pref.experience && pref.experience.value !== "" && pref.experience.value !== null) filled++;
+        if (pref.salary && pref.salary.value !== "" && pref.salary.value !== null) filled++;
 
-        let totalBonus = 2; // Email + Photo
-        if (userData.role !== 'employer') {
-            totalBonus += 1; // Resume for seekers
-            if ((user.resume_url && user.resume_url.trim() !== "") || tempResumeName) filled++;
-        }
+        // Photo & Resume (check both current file and existing URL)
+        const hasPhoto = (user.image && user.image.length > 100) || tempPhotoData;
+        const hasResume = (user.resume_url && user.resume_url.trim() !== "") || tempResumeName;
 
-        const totalFields = allCheckFields.length + totalBonus;
+        if (hasPhoto) filled++;
+        if (hasResume) filled++;
+
+        const totalFields = 18; // 13 seekerFields + 5 (Email, Exp, Sal, Photo, Resume)
         const percent = Math.min(100, Math.round((filled / totalFields) * 100));
 
         // 3. Update UI Elements
@@ -268,7 +264,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                     localStorage.setItem("user", JSON.stringify(updatedUser));
                     pref.saveBtn.innerHTML = `<i class="fas fa-check-circle"></i> Profile Updated!`;
                     pref.saveBtn.style.background = "#22c55e";
-                    setTimeout(() => window.location.reload(), 1000);
+                    updateStrength();
+                    const currentStrength = parseInt(pref.strengthPercent ? pref.strengthPercent.innerText : "0");
+                    if (currentStrength === 100) {
+                        alert("🎉 வாழ்த்துக்கள்! உங்கள் Profile 100% வெற்றிகரமாக பூர்த்தியானது. நீங்கள் இப்போது வேலைகளுக்கு விண்ணப்பிக்கலாம்.\n\nCongratulations! Your Profile is 100% complete. You can now apply for jobs!");
+                        window.location.href = "/index.html";
+                    } else {
+                        setTimeout(() => window.location.reload(), 1000);
+                    }
                 } else {
                     const error = await res.json();
                     alert("Error: " + (error.detail || "Failed to update profile"));

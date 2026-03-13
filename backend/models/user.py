@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
 from database.database import Base
 
 class User(Base):
@@ -32,6 +32,11 @@ class User(Base):
     company_size = Column(String(50), nullable=True)   # e.g. "1-10", "11-50", "51-200", etc.
     industry = Column(String(100), nullable=True)
     company_website = Column(String(255), nullable=True)
+
+    # OTP System for Double Authentication
+    otp_code = Column(String(10), nullable=True)
+    otp_expiry = Column(DateTime, nullable=True) 
+    is_verified = Column(Boolean, default=False)
 
 
 

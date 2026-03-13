@@ -143,6 +143,7 @@ function switchTab(tabName) {
         "post-job": ["Create Listing", "Add a new vacancy to attract top talent."],
         "my-jobs": ["Active Vacancies", "View, edit, or remove your existing job postings."],
         analytics: ["Analytics Center", "Track platform performance and company rankings."],
+        interviews: ["Scheduled Interviews", "Manage and view all upcoming candidate meetings."],
     };
 
     const [t, s] = titles[tabName] || ["Dashboard", ""];
@@ -154,6 +155,9 @@ function switchTab(tabName) {
     // Special logic for tabs
     if (tabName === 'analytics') {
         loadAnalytics();
+    }
+    if (tabName === 'interviews') {
+        fetchInterviews();
     }
 
     // On Mobile: Close sidebar after selection
@@ -599,6 +603,80 @@ window.openModal = function (appId) {
         btnReject.parentNode.replaceChild(newBtn, btnReject);
         newBtn.addEventListener("click", () => updateAppStatus("rejected"));
     }
+
+    /** 📅 INTERVIEW SCHEDULER LOGIC **/
+    const intBtn = document.getElementById("btn-interview-modal");
+    const intOverlay = document.getElementById("interview-modal-overlay");
+    const intClose = document.getElementById("close-interview-modal");
+    const intForm = document.getElementById("schedule-interview-form");
+
+    if (intBtn && intOverlay && intClose && intForm) {
+        // 1. Reset overlays (hide interview modal initially)
+        intOverlay.style.display = "none";
+
+        // 2. Open Scheduler
+        const newIntBtn = intBtn.cloneNode(true);
+        intBtn.parentNode.replaceChild(newIntBtn, intBtn);
+        newIntBtn.addEventListener("click", () => {
+            document.getElementById("int-application-id").value = appId;
+            if (intOverlay) {
+                intOverlay.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            }
+        });
+
+        // 3. Close Scheduler
+        intClose.onclick = () => {
+            if (intOverlay) intOverlay.style.display = "none";
+            document.body.style.overflow = "auto";
+        };
+        intOverlay.onclick = (e) => {
+            if (e.target === intOverlay) {
+                intOverlay.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        };
+
+        // 4. Submit Form
+        intForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const submitBtn = intForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scheduling...';
+
+            const payload = {
+                application_id: parseInt(document.getElementById("int-application-id").value),
+                interview_date: document.getElementById("int-datetime").value,
+                location: document.getElementById("int-location").value,
+                notes: document.getElementById("int-notes").value
+            };
+
+            try {
+                const API = getAPIURL();
+                const res = await fetch(`${API}/interviews/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    alert("✅ Interview scheduled and candidate notified!");
+                    intOverlay.style.display = "none";
+                    closeModal();
+                    await fetchApplications();
+                } else {
+                    const err = await res.json();
+                    alert("Error: " + (err.detail || "Failed to schedule interview"));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server error connecting to interview API.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Confirm & Notify Candidate";
+            }
+        };
+    }
     if (btnDel) {
         const newBtn = btnDel.cloneNode(true);
         btnDel.parentNode.replaceChild(newBtn, btnDel);
@@ -877,3 +955,62 @@ window.lookupCompany = async function() {
         resultEl.innerHTML = `<p style="color:#ef4444; padding:10px;"><i class="fas fa-times-circle"></i> No detailed data found for "${name}".</p>`;
     }
 };
+
+/* ─── INTERVIEW TAB LOGIC ──────────────────── */
+async function fetchInterviews() {
+    const tbody = document.getElementById("interviews-tbody");
+    if (!tbody) return;
+
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-spin"></i> Loading schedule...</td></tr>';
+
+    try {
+        const API = getAPIURL();
+        const res = await fetch(`${API}/interviews/`);
+        if (!res.ok) throw new Error("Fetch failed");
+        const interviews = await res.json();
+        
+        if (interviews.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#94a3b8;">No interviews scheduled yet.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = interviews.map(it => {
+            const app = allApps.find(a => a.application_id === it.application_id) || {};
+            const dateStr = new Date(it.interview_date).toLocaleString('en-IN', {
+                day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+            
+            return `
+                <tr>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div style="width:32px; height:32px; border-radius:8px; background:${grad(app.first_name)}; color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;">${initials(app.first_name)}</div>
+                            <span style="font-weight:600; color:#1e293b;">${app.first_name || 'Candidate'} ${app.last_name || ''}</span>
+                        </div>
+                    </td>
+                    <td style="color:#475569; font-weight:500;">${app.job_title || 'Unknown Job'}</td>
+                    <td><span style="background:#eff6ff; color:#2563eb; padding:5px 10px; border-radius:6px; font-weight:600; font-size:13px;">${dateStr}</span></td>
+                    <td><div style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#64748b; font-size:13px;">${it.location || 'Online'}</div></td>
+                    <td><span class="status-label status-pending"><i class="fas fa-calendar-check"></i> Scheduled</span></td>
+                    <td>
+                        <button onclick="cancelInterview(${it.id})" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:6px; font-weight:600; cursor:pointer; font-size:12px;"><i class="fas fa-trash"></i> Cancel</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#ef4444;">Error loading interviews.</td></tr>';
+    }
+}
+
+window.cancelInterview = async (id) => {
+    if(!confirm("Cancel this interview?")) return;
+    try {
+        const res = await fetch(`${getAPIURL()}/interviews/${id}`, { method: "DELETE" });
+        if(res.ok) {
+            alert("Interview cancelled successfully.");
+            fetchInterviews();
+        }
+    } catch(e) { alert("Failed to cancel."); }
+}

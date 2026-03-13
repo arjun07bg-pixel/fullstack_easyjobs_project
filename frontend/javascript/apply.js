@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const res = await fetch(`${getAPIURL()}/users/${user.user_id}`);
             if (res.ok) {
                 const latestUser = await res.json();
+                
                 // Update form with latest data
                 if (document.getElementById("full_name")) document.getElementById("full_name").value = `${latestUser.first_name} ${latestUser.last_name || ''}`.trim();
                 if (document.getElementById("email")) document.getElementById("email").value = latestUser.email || "";
@@ -54,8 +55,51 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (document.getElementById("experience") && latestUser.experience !== null) document.getElementById("experience").value = latestUser.experience;
                 if (document.getElementById("salary") && latestUser.salary) document.getElementById("salary").value = latestUser.salary;
                 
-                // Update localStorage as well to keep it in sync
+                // Update localStorage
                 localStorage.setItem("user", JSON.stringify({ ...user, ...latestUser }));
+
+                // --- 🔒 STRICT 100% PROFILE COMPLETENESS CHECK 🔒 ---
+                const u = { ...user, ...latestUser };
+                const seekerFields = [
+                    { key: 'first_name', label: 'First Name' },
+                    { key: 'last_name', label: 'Last Name' },
+                    { key: 'phone_number', label: 'Phone' },
+                    { key: 'location', label: 'Location' },
+                    { key: 'bio', label: 'Bio/Summary' },
+                    { key: 'linkedin_url', label: 'LinkedIn Link' },
+                    { key: 'github_url', label: 'GitHub/Portfolio Link' },
+                    { key: 'gender', label: 'Gender' },
+                    { key: 'dob', label: 'Date of Birth' },
+                    { key: 'designation', label: 'Job Title/Designation' },
+                    { key: 'skills', label: 'Skills' },
+                    { key: 'education', label: 'Education' },
+                    { key: 'projects', label: 'Projects' }
+                ];
+                
+                let missingFieldsList = [];
+                seekerFields.forEach(f => {
+                    const val = u[f.key];
+                    if (val === null || val === undefined || String(val).trim() === "") {
+                        missingFieldsList.push(f.label);
+                    }
+                });
+
+                // Number fields (Experience & Salary - strictly check for null/undefined/empty)
+                if (u.experience === null || u.experience === undefined || String(u.experience).trim() === "") missingFieldsList.push("Experience");
+                if (u.salary === null || u.salary === undefined || String(u.salary).trim() === "") missingFieldsList.push("Salary");
+
+                // Files & Critical
+                if (!u.email || u.email.trim() === "") missingFieldsList.push("Email");
+                if (!u.image || u.image.length < 100) missingFieldsList.push("Profile Photo");
+                if (!u.resume_url || u.resume_url.trim() === "") missingFieldsList.push("Resume/CV");
+
+                if (missingFieldsList.length > 0) {
+                    const msg = `உங்களுடைய Profile இன்னும் 100% பூர்த்தியாகவில்லை!\n\nவிடுபட்டவை (Missing): ${missingFieldsList.join(", ")}\n\nவிண்ணப்பிக்கும் முன் இவற்றை 100% பூர்த்தி செய்யவும்.`;
+                    alert(msg);
+                    window.location.href="/frontend/pages/profile.html";
+                } else {
+                    console.log("✅ Profile is 100% complete! Application allowed.");
+                }
             }
         } catch (err) {
             console.error("Error fetching latest user details:", err);
@@ -64,6 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fill user info if logged in (Initial load from localStorage)
     if (user) {
+        // ... Fill basic details
         if (document.getElementById("full_name")) document.getElementById("full_name").value = `${user.first_name} ${user.last_name || ''}`.trim();
         if (document.getElementById("email")) document.getElementById("email").value = user.email || "";
         if (document.getElementById("phone") && user.phone_number) document.getElementById("phone").value = user.phone_number;
@@ -71,20 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
         if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
 
-        // --- 🔒 PROFILE COMPLETENESS CHECK 🔒 ---
-        const hasPhoto = (user.image && user.image.length > 100);
-        const hasExp = (user.experience !== null && user.experience !== undefined);
-        const hasLocation = (user.location && user.location.trim() !== "");
-
-        if (!hasPhoto || !hasExp || !hasLocation) {
-            alert("Please complete your profile before applying.");
-            setTimeout(() => {
-                window.location.href="/frontend/pages/profile.html";
-            }, 2000);
-            return;
-        }
-        
-        // Fetch latest in background to be 100% sure
+        // Perform the check via the fetchLatestUser function
         fetchLatestUser();
     }
 

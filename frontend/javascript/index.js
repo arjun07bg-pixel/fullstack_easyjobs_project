@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- GLOBAL HELPERS ---
-function showMessage(message, type = "info") {
+function showMessage(message, type = "info", isDebug = false) {
     const messageDiv = document.createElement("div");
     const colors = {
         error: { bg: "#fef2f2", text: "#dc2626", border: "#dc2626" },
@@ -91,7 +91,7 @@ function showMessage(message, type = "info") {
         info: { bg: "#eff6ff", text: "#2563eb", border: "#2563eb" }
     }[type] || { bg: "#eff6ff", text: "#2563eb", border: "#2563eb" };
 
-    messageDiv.style.cssText = `
+    let css = `
         position: fixed; top: 25px; right: 25px; padding:1.2rem 1.8rem;
         background:${colors.bg}; color:${colors.text};
         border-left:5px solid ${colors.border}; border-radius:12px;
@@ -99,6 +99,12 @@ function showMessage(message, type = "info") {
         max-width:420px; font-family:'Poppins',sans-serif;
         font-size:0.95rem; font-weight:500; animation: toastIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
     `;
+
+    if(isDebug) {
+        css += "border: 2px solid #6366f1; background: #f5f3ff; color: #4338ca; box-shadow: 0 0 20px rgba(99,102,241,0.3);";
+    }
+
+    messageDiv.style.cssText = css;
 
     if (!document.getElementById('toast-styles')) {
         const styleTag = document.createElement('style');
@@ -113,10 +119,13 @@ function showMessage(message, type = "info") {
     messageDiv.innerHTML = message.replace(/\n/g, '<br>');
     document.body.appendChild(messageDiv);
 
+    // If it's a debug OTP, keep it for 60 seconds (1 minute), else 4.5 seconds
+    const duration = isDebug ? 60000 : 4500;
+
     setTimeout(() => {
         messageDiv.style.animation = "toastOut 0.4s forwards";
         setTimeout(() => messageDiv.remove(), 400);
-    }, 4500);
+    }, duration);
 }
 
 async function saveJob(jobId, btnElement) {

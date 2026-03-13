@@ -1,25 +1,28 @@
-// Utility to get the correct API URL (Port 8000 for Python backend)
+// Final Unified Login Logic with 2FA/OTP support
 const getAPIURL = () => {
     if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
     const hostname = window.location.hostname;
-    if (hostname === "127.0.0.1" || hostname === "localhost") return "http://127.0.0.1:8000/api";
+    if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") return "http://127.0.0.1:8000/api";
     return "/api";
 };
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
+    const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+    const backToLogin = document.getElementById("backToLogin");
+    
+    const loginForm = document.getElementById("loginForm");
+    const otpSection = document.getElementById("otpSection");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const otpInput = document.getElementById("otp");
+    let timerInterval = null;
+
     if (!loginBtn) return;
 
+    // --- STEP 1: INITIAL LOGIN ATTEMPT ---
     loginBtn.addEventListener("click", async (e) => {
         e.preventDefault();
-
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
-
-        if (!emailInput || !passwordInput) {
-            console.error("Email or Password input not found!");
-            return;
-        }
 
         const email = emailInput.value.trim();
         const password = passwordInput.value;
@@ -29,73 +32,125 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters long.");
-            return;
-        }
-
-        const loginData = { email, password };
-
-        // UI feedback
-        const originalText = loginBtn.innerText;
-        loginBtn.innerText = "Logging in...";
+        loginBtn.innerText = "Processing...";
         loginBtn.disabled = true;
 
         try {
-            const API_BASE_URL = getAPIURL();
-            console.log("Attempting login to:", `${API_BASE_URL}/auth/login`);
-
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            const API = getAPIURL();
+            const response = await fetch(`${API}/auth/login`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                body: JSON.stringify(loginData)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
             });
 
-            const contentType = response.headers.get("content-type");
+            const data = await response.json();
 
-            if (response.ok && contentType?.includes("application/json")) {
-                const data = await response.json();
-                localStorage.setItem("token", data.access_token);
-                localStorage.setItem("user", JSON.stringify(data));
-
-                // Role-based redirect
-                switch (data.role) {
-                    case "admin":
-                        window.location.href="/frontend/pages/dashboard.html";
-                        break;
-                    case "employer":
-                        window.location.href="/frontend/pages/postjob_home.html";
-                        break;
-                    default:
-                        window.location.href="/index.html";
+            if (response.ok) {
+                // Check if OTP is required (2FA flow)
+                if (data.status === "otp_required") {
+                    loginForm.style.display = "none";
+                    otpSection.style.display = "block";
+                    document.getElementById("otpMsg").innerText = `A 6-digit code was sent to ${data.email}`;
+                    
+                    if (data.debug_otp && window.showMessage) {
+                        window.showMessage(`[DEV MODE] Verification Code for ${data.email}: ${data.debug_otp}`, "info", true);
+                    }
+                    startTimer();
+                } else {
+                    // Direct login (e.g. Admin or if 2FA disabled)
+                    handleLoginSuccess(data);
                 }
             } else {
-                // Handle JSON error response or fallback text error
-                let errorMsg = "Login Failed: ";
-                if (contentType?.includes("application/json")) {
-                    const error = await response.json();
-                    if (typeof error.detail === "string") errorMsg += error.detail;
-                    else if (Array.isArray(error.detail))
-                        errorMsg += error.detail.map(err => `${err.loc.join('.')}: ${err.msg}`).join(", ");
-                    else errorMsg += "Invalid credentials or data.";
-                } else {
-                    const textError = await response.text();
-                    console.error("Server Error:", textError);
-                    errorMsg += "The backend encountered an unexpected issue (500).";
-                }
-                alert(errorMsg);
-                loginBtn.innerText = originalText;
+                alert(data.detail || "Login Failed. Please check your credentials.");
+                loginBtn.innerText = "Login";
                 loginBtn.disabled = false;
             }
         } catch (err) {
-            console.error("Fetch Error:", err);
-
-            // Helpful error message that differentiates between deployed and local logic
-            let errorAlert = `Network Error: ${err.message}\nPlease check your internet connection or try again later.`;
-
-            alert(errorAlert);
-            loginBtn.innerText = originalText;
+            console.error(err);
+            alert("Server connection error.");
+            loginBtn.innerText = "Login";
             loginBtn.disabled = false;
         }
     });
+
+    // --- STEP 2: OTP VERIFICATION ---
+    verifyOtpBtn?.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const otp = otpInput.value.trim();
+
+        if (otp.length !== 6) {
+            alert("Please enter a valid 6-digit code.");
+            return;
+        }
+
+        verifyOtpBtn.innerText = "Verifying...";
+        verifyOtpBtn.disabled = true;
+
+        try {
+            const API = getAPIURL();
+            const res = await fetch(`${API}/auth/verify-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                handleLoginSuccess(data);
+            } else {
+                alert(data.detail || "Invalid or expired code.");
+                verifyOtpBtn.innerText = "Verify & Login";
+                verifyOtpBtn.disabled = false;
+            }
+        } catch (err) {
+            alert("Verification failed.");
+            verifyOtpBtn.innerText = "Verify & Login";
+            verifyOtpBtn.disabled = false;
+        }
+    });
+
+    // Back button
+    backToLogin?.addEventListener("click", () => {
+        clearInterval(timerInterval);
+        otpSection.style.display = "none";
+        loginForm.style.display = "block";
+        loginBtn.innerText = "Login";
+        loginBtn.disabled = false;
+    });
+
+    function startTimer() {
+        let timeLeft = 50;
+        const timerEl = document.getElementById("timerCount");
+        if (!timerEl) return;
+        
+        timerEl.innerText = timeLeft;
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerEl.innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("OTP Expired! Please try logging in again.");
+                backToLogin?.click();
+            }
+        }, 1000);
+    }
+
+    function handleLoginSuccess(data) {
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user", JSON.stringify(data));
+
+        // Global success message
+        if (window.showMessage) {
+            window.showMessage(`Welcome back, ${data.first_name}! Success.`, "success");
+        }
+
+        setTimeout(() => {
+            if (data.role === "admin") window.location.href = "/frontend/pages/dashboard.html";
+            else if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
+            else window.location.href = "/index.html";
+        }, 300);
+    }
 });

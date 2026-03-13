@@ -1,46 +1,30 @@
 "use strict";
 
-/* ─── Utility ─────────────────────────────────────────────── */
-const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
+const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "http://127.0.0.1:8000/api";
 
-/* ─── DOM Ready ──────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
     const userTypeSelect = document.getElementById("usertype");
     const employerFields = document.getElementById("employerFields");
     const createAccountBtn = document.getElementById("createAccountBtn");
-    const formSubtitle = document.getElementById("formSubtitle");
-    const imageSubtitle = document.getElementById("imageSubtitle");
+    const verifySignupOtpBtn = document.getElementById("verifySignupOtpBtn");
+    const registerForm = document.getElementById("registerForm");
+    const otpSection = document.getElementById("otpSection");
+    const otpInput = document.getElementById("signup-otp");
+    const emailInput = document.getElementById("email");
+    let timerInterval = null;
 
     /* ─── Show/Hide Employer Fields ────────────────────────── */
     const toggleEmployerFields = (selectedType) => {
         if (!employerFields) return;
         if (selectedType === "employer") {
             employerFields.style.display = "block";
-            setTimeout(() => {
-                employerFields.style.opacity = "1";
-                employerFields.style.transform = "translateY(0)";
-            }, 10);
-
-            if (formSubtitle) formSubtitle.textContent = "Set up your employer account to start hiring";
-            if (imageSubtitle) imageSubtitle.textContent = "Post jobs and connect with thousands of talented candidates";
-            if (createAccountBtn) createAccountBtn.textContent = "Create Employer Account";
-
-            // Employer inputs dynamic required toggle
             const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
             employerInputs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.required = true;
             });
         } else {
-            employerFields.style.opacity = "0";
-            employerFields.style.transform = "translateY(-10px)";
-            setTimeout(() => employerFields.style.display = "none", 300);
-
-            if (formSubtitle) formSubtitle.textContent = "Start your journey to find the perfect job";
-            if (imageSubtitle) imageSubtitle.textContent = "Connect with thousands of employers and discover your perfect career opportunity";
-            if (createAccountBtn) createAccountBtn.textContent = "Create Account";
-
-            // Remove required property
+            employerFields.style.display = "none";
             const employerInputs = ['company_name', 'industry', 'company_size', 'designation'];
             employerInputs.forEach(id => {
                 const el = document.getElementById(id);
@@ -49,84 +33,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Initial hide
-    if (employerFields) {
-        employerFields.style.display = "none";
-        employerFields.style.opacity = "0";
-    }
-
-    // Event listener for user type select
     if (userTypeSelect) {
         userTypeSelect.addEventListener("change", () => toggleEmployerFields(userTypeSelect.value));
     }
 
-    // Handle URL param ?role=employer
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('role') === 'employer') {
-        if (userTypeSelect) userTypeSelect.value = 'employer';
-        toggleEmployerFields('employer');
-    }
-
-    /* ─── Form Submission ─────────────────────────────────── */
-    const registerForm = document.getElementById("registerForm");
-    if (!registerForm) return;
-
-    registerForm.addEventListener("submit", async (e) => {
+    /* ─── STEP 1: Form Submission (Sign Up) ───────────────── */
+    registerForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const firstName = document.getElementById("firstname").value.trim();
         const lastName = document.getElementById("lastname").value.trim();
-        const email = document.getElementById("email").value.trim();
+        const email = emailInput.value.trim();
         const phone = document.getElementById("phone").value.trim();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmpassword").value;
-        const userType = userTypeSelect ? userTypeSelect.value : "";
-        const termsChecked = document.getElementById("terms").checked;
+        const userType = userTypeSelect.value;
 
-        // Basic validation
-        if (!firstName || !lastName || !email || !phone || !password || !confirmPassword || !userType) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-
-        // Phone length check to prevent HTTP 422 error
-        if (phone.length < 10 || phone.length > 15) {
-            alert("Phone number must be between 10 and 15 digits.");
-            document.getElementById("phone").focus();
-            return;
-        }
-
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters long.");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        if (!termsChecked) {
-            alert("Please agree to the Terms & Conditions.");
-            return;
-        }
-
-        // Employer-specific validation
-        let companyName="", industry="", companySize="", designation="", companyWebsite="";
-        if (userType === "employer") {
-            companyName = document.getElementById("company_name")?.value.trim() || "";
-            industry = document.getElementById("industry")?.value || "";
-            companySize = document.getElementById("company_size")?.value || "";
-            designation = document.getElementById("designation")?.value.trim() || "";
-            companyWebsite = document.getElementById("company_website")?.value.trim() || "";
-
-            if (!companyName) { alert("Please enter your Company Name."); return; }
-            if (!industry) { alert("Please select your Industry."); return; }
-            if (!companySize) { alert("Please select your Company Size."); return; }
-            if (!designation) { alert("Please enter your Designation."); return; }
-        }
-
-        // Payload
         const payload = {
             first_name: firstName,
             last_name: lastName,
@@ -135,64 +57,105 @@ document.addEventListener("DOMContentLoaded", () => {
             password,
             confirm_password: confirmPassword,
             role: userType,
-            image: "",
-            designation: designation || null,
-            bio: userType === "employer" ? `Hiring for ${companyName}` : "",
-            company_name: companyName || null,
-            company_size: companySize || null,
-            industry: industry || null,
-            company_website: companyWebsite || null
+            designation: document.getElementById("designation")?.value.trim() || null,
+            company_name: document.getElementById("company_name")?.value.trim() || null,
+            company_size: document.getElementById("company_size")?.value || null,
+            industry: document.getElementById("industry")?.value || null,
+            company_website: document.getElementById("company_website")?.value.trim() || null
         };
 
-        const originalText = createAccountBtn.innerText;
-        createAccountBtn.innerText = "Creating...";
+        createAccountBtn.innerText = "Creating Account...";
         createAccountBtn.disabled = true;
 
         try {
             const response = await fetch(`${getAPIURL()}/auth/signup`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
 
-            const contentType = response.headers.get("content-type");
+            const data = await response.json();
 
-            if (response.ok) {
-                if (userType === "employer") {
-                    localStorage.setItem("employer_company_info", JSON.stringify({
-                        company_name: companyName,
-                        industry,
-                        company_size: companySize,
-                        designation,
-                        company_website: companyWebsite
-                    }));
-                    alert(`Employer account created! Welcome, ${firstName}. You can now post jobs.`);
-                } else {
-                    alert("Account created successfully! Redirecting to login...");
+            if (response.ok && data.status === "otp_required") {
+                // Show OTP Section
+                registerForm.style.display = "none";
+                otpSection.style.display = "block";
+                document.getElementById("otpMsg").innerText = `A 6-digit verification code was sent to ${data.email}`;
+
+                if (data.debug_otp && window.showMessage) {
+                    window.showMessage(`[DEV MODE] Verification Code for ${data.email}: ${data.debug_otp}`, "info", true);
                 }
-                window.location.href="/frontend/pages/login.html";
-
+                startTimer();
             } else {
-                if (contentType && contentType.includes("application/json")) {
-                    const error = await response.json();
-                    let msg = "Registration Failed: ";
-                    if (typeof error.detail === "string") msg += error.detail;
-                    else if (Array.isArray(error.detail)) msg += error.detail.map(err => `${err.loc.join(".")}: ${err.msg}`).join(", ");
-                    else msg += "Check your inputs.";
-                    alert(msg);
-                } else {
-                    const textError = await response.text();
-                    console.error("Server Error:", textError);
-                    alert("Server Error: 500. Please check backend logs.");
-                }
-                createAccountBtn.innerText = originalText;
+                alert(data.detail || "Registration Failed.");
+                createAccountBtn.innerText = "Create Account";
                 createAccountBtn.disabled = false;
             }
         } catch (err) {
-            console.error("Fetch Error:", err);
-            alert(`Network Error: ${err.message}\nMake sure backend is running (uvicorn).`);
-            createAccountBtn.innerText = originalText;
+            alert("Connection error. Is backend running?");
+            createAccountBtn.innerText = "Create Account";
             createAccountBtn.disabled = false;
         }
     });
+
+    /* ─── STEP 2: OTP Verification ────────────────────────── */
+    verifySignupOtpBtn?.addEventListener("click", async () => {
+        const email = emailInput.value.trim();
+        const otp = otpInput.value.trim();
+
+        if (otp.length !== 6) {
+            alert("Please enter exactly 6 digits.");
+            return;
+        }
+
+        verifySignupOtpBtn.innerText = "Verifying...";
+        verifySignupOtpBtn.disabled = true;
+
+        try {
+            const res = await fetch(`${getAPIURL()}/auth/verify-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                // Auto-login or redirect
+                localStorage.setItem("token", data.access_token);
+                localStorage.setItem("user", JSON.stringify(data));
+                alert("Email verified! Welcome to EasyJobs.");
+                
+                if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
+                else window.location.href = "/index.html";
+            } else {
+                alert(data.detail || "Invalid code.");
+                verifySignupOtpBtn.innerText = "Verify & Complete Registration";
+                verifySignupOtpBtn.disabled = false;
+            }
+        } catch (err) {
+            alert("Verification failed.");
+            verifySignupOtpBtn.innerText = "Verify & Complete Registration";
+            verifySignupOtpBtn.disabled = false;
+        }
+    });
+
+    function startTimer() {
+        let timeLeft = 50;
+        const timerEl = document.getElementById("timerCount");
+        if (!timerEl) return;
+        
+        timerEl.innerText = timeLeft;
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerEl.innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("OTP Expired! Please try registering again.");
+                location.reload(); 
+            }
+        }, 1000);
+    }
 });

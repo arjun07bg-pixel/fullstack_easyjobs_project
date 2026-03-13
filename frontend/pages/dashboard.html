@@ -105,6 +105,9 @@
             <a href="#" class="nav-item" onclick="switchTab('analytics')">
                 <i class="fas fa-chart-bar"></i> Analytics
             </a>
+            <a href="#" class="nav-item" onclick="switchTab('interviews')">
+                <i class="fas fa-calendar-check"></i> Interviews
+            </a>
         </nav>
 
 
@@ -282,6 +285,35 @@
             </div>
         </div>
 
+        <!-- Interviews Tab -->
+        <div id="tab-interviews" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Scheduled Interviews</h2>
+                        <p style="color: #64748b; font-size: 14px;">Keep track of all upcoming candidate meetings.</p>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>CANDIDATE</th>
+                                <th>JOB TITLE</th>
+                                <th>INTERVIEW DATE</th>
+                                <th>LOCATION / LINK</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="interviews-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Post Job Tab -->
         <div id="tab-post-job" class="tab-content" style="display:none;">
             <div class="table-card" style="padding: 40px; border-radius: 24px;">
@@ -402,6 +434,8 @@
             <div class="modal-action-bar">
                 <button class="btn-primary" id="btn-shortlist" style="background: var(--success);"><i
                         class="fas fa-check-circle"></i> Shortlist Candidate</button>
+                <button class="btn-primary" id="btn-interview-modal" style="background: #6366f1;"><i
+                        class="fas fa-calendar-plus"></i> Schedule Interview</button>
                 <button class="btn-primary" id="btn-reject" style="background: var(--danger);"><i
                         class="fas fa-times-circle"></i> Mark as Not Selected</button>
                 <a href="#" id="modal-resume-link" target="_blank"
@@ -410,6 +444,37 @@
                 </a>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Interview Scheduler Modal -->
+    <div class="modal-overlay" id="interview-modal-overlay" style="z-index: 10001; background: rgba(0,0,0,0.4);">
+        <div class="modal-content" style="max-width: 450px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin:0; font-size:22px; font-weight:800; color:#1e293b;"><i class="fas fa-calendar-alt" style="color:#6366f1; margin-right:10px;"></i> Schedule Interview</h3>
+                <button id="close-interview-modal" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:20px;"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <form id="schedule-interview-form" style="display: flex; flex-direction: column; gap: 20px;">
+                <input type="hidden" id="int-application-id">
+                
+                <div>
+                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Interview Date & Time</label>
+                    <input type="datetime-local" id="int-datetime" required style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'">
+                </div>
+                
+                <div>
+                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Location / Meeting Link</label>
+                    <input type="text" id="int-location" placeholder="e.g. Google Meet Link or Office Address" required style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'">
+                </div>
+                
+                <div>
+                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Additional Notes (Optional)</label>
+                    <textarea id="int-notes" placeholder="Any specific instructions for the candidate..." style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; resize:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'"></textarea>
+                </div>
+                
+                <button type="submit" style="background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Confirm & Notify Candidate</button>
+            </form>
         </div>
     </div>
 
