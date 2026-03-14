@@ -178,3 +178,48 @@ window.trackJobView = async function(jobId) {
         // Silent fail for analytics
     }
 };
+
+/** ─── ☁️ CLOUDINARY FILE UPLOADER ────────────────── */
+window.uploadFileToCloudinary = async (file) => {
+    if (!file) return null;
+    
+    // Cloudinary Config (Professional cloud setup for EasyJobs)
+    const CLOUD_NAME = "dnv3n6p7a"; 
+    const UPLOAD_PRESET = "easyjobs_uploads"; 
+    const URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`;
+    
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    
+    try {
+        const response = await fetch(URL, {
+            method: "POST",
+            body: formData
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            console.log("✅ Cloudinary Success:", data.secure_url);
+            return data.secure_url; 
+        } else {
+            const err = await response.json();
+            console.error("❌ Cloudinary Error Details:", err);
+            
+            console.group("🛠️ HOW TO FIX CLOUDINARY UPLOAD:");
+            console.info("1. Go to Cloudinary -> Settings -> Upload");
+            console.info(`2. Ensure 'unsigned' settings allow uploads.`);
+            console.info(`3. Ensure 'easyjobs_uploads' preset is created under 'Unsigned' mode.`);
+            console.info(`4. Current Cloud Name: ${CLOUD_NAME}`);
+            console.groupEnd();
+
+            if (err.error && err.error.message.includes("preset")) {
+                console.warn("⚠️ CLOUDINARY LOG: 'easyjobs_uploads' preset may not exist.");
+            }
+            return null;
+        }
+    } catch (err) {
+        console.error("🔴 Cloudinary Network Error:", err);
+        return null;
+    }
+};

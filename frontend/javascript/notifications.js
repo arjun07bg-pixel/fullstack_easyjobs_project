@@ -17,35 +17,43 @@
         // Don't inject twice
         if (document.getElementById("notif-bell-wrapper")) return;
 
-        const authButtons = document.querySelector(".auth-buttons");
-        if (!authButtons) return;
+        // Try to find a place to put the bell
+        let insertionPoint = document.querySelector(".auth-buttons") || 
+                         document.querySelector(".header-content") ||
+                         document.querySelector(".page-header > div:last-child") || // Dashboard
+                         document.querySelector(".main-header .container");
+                         
+        if (!insertionPoint) {
+            console.warn("Notification system: No insertion point found for bell.");
+            return;
+        }
 
         // Create bell wrapper
         const wrapper = document.createElement("div");
         wrapper.id = "notif-bell-wrapper";
-        wrapper.style.cssText = "position:relative; display:inline-flex; align-items:center;";
+        wrapper.style.cssText = "position:relative; display:inline-flex; align-items:center; margin-right: 15px;";
 
         wrapper.innerHTML = `
             <button id="notif-bell-btn" title="Notifications" style="
-                background: rgba(255,255,255,0.1);
-                border: none;
-                color: white;
-                width: 42px;
-                height: 42px;
-                border-radius: 50%;
+                background: rgba(37, 99, 235, 0.1);
+                border: 1px solid rgba(37, 99, 235, 0.2);
+                color: #2563eb;
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
                 cursor: pointer;
                 font-size: 18px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                transition: background 0.3s;
+                transition: all 0.3s;
             ">
                 <i class="fas fa-bell"></i>
                 <span id="notif-badge" style="
                     position: absolute;
-                    top: -2px;
-                    right: -2px;
+                    top: -5px;
+                    right: -5px;
                     background: #ef4444;
                     color: white;
                     font-size: 10px;
@@ -57,7 +65,7 @@
                     align-items: center;
                     justify-content: center;
                     padding: 0 4px;
-                    border: 2px solid transparent;
+                    box-shadow: 0 0 0 2px white;
                 ">0</span>
             </button>
 
@@ -65,54 +73,79 @@
             <div id="notif-panel" style="
                 display: none;
                 position: absolute;
-                top: 52px;
-                right: -10px;
+                top: 50px;
+                right: 0;
                 width: 360px;
-                max-height: 480px;
+                max-height: 520px;
                 background: white;
-                border-radius: 16px;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-                z-index: 99999;
+                border-radius: 20px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+                z-index: 999999;
                 overflow: hidden;
-                animation: notifSlideIn 0.25s ease;
+                animation: notifSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
                 border: 1px solid #e2e8f0;
             ">
                 <div style="
-                    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-                    padding: 16px 20px;
+                    background: white;
+                    padding: 20px;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    border-bottom: 1px solid #f1f5f9;
                 ">
-                    <span style="color:white; font-weight:700; font-size:15px;">
-                        <i class="fas fa-bell" style="margin-right:8px;"></i>Notifications
+                    <span style="color:#1e293b; font-weight:800; font-size:16px;">
+                        Notifications
                     </span>
                     <button id="notif-mark-all" style="
-                        background: rgba(255,255,255,0.15);
+                        background: #f1f5f9;
                         border: none;
-                        color: white;
+                        color: #475569;
                         font-size: 11px;
-                        font-weight: 600;
-                        padding: 4px 10px;
-                        border-radius: 6px;
+                        font-weight: 700;
+                        padding: 6px 12px;
+                        border-radius: 8px;
                         cursor: pointer;
+                        transition: 0.2s;
                     ">Mark All Read</button>
                 </div>
                 <div id="notif-list" style="
                     overflow-y: auto;
                     max-height: 380px;
+                    background: #fff;
                 "></div>
+                <div style="padding: 12px; text-align: center; border-top: 1px solid #f1f5f9; background: #f8fafc;">
+                    <a href="/frontend/pages/notifications.html" style="color: #2563eb; font-weight: 700; font-size: 13px; text-decoration: none; display: block; padding: 8px;">
+                        View All Notifications <i class="fas fa-arrow-right" style="margin-left:5px; font-size:10px;"></i>
+                    </a>
+                </div>
             </div>
         `;
 
-        // Insert before auth buttons
-        authButtons.insertAdjacentElement("beforebegin", wrapper);
+        // Style tweak for dark backgrounds
+        const isDarkHeader = !!document.querySelector(".main-header.sticky");
+        if (isDarkHeader) {
+            const btn = wrapper.querySelector("#notif-bell-btn");
+            btn.style.color = "white";
+            btn.style.background = "rgba(255,255,255,0.1)";
+            btn.style.border = "none";
+        }
+
+        // Insert before insertion point children
+        if (insertionPoint.classList.contains("auth-buttons")) {
+             insertionPoint.insertAdjacentElement("beforebegin", wrapper);
+        } else {
+             insertionPoint.appendChild(wrapper);
+        }
 
         // Bell click - toggle panel
         document.getElementById("notif-bell-btn").addEventListener("click", (e) => {
             e.stopPropagation();
             const panel = document.getElementById("notif-panel");
             const isOpen = panel.style.display === "block";
+            
+            // Close other dropdowns if any
+            document.querySelectorAll("#notif-panel").forEach(p => p.style.display = "none");
+            
             panel.style.display = isOpen ? "none" : "block";
             if (!isOpen) loadNotifications();
         });
@@ -201,6 +234,8 @@
             }
         } catch (e) { /* silent */ }
     }
+    // Expose to window for standalone page to use
+    window.fetchUnreadCount = fetchUnreadCount;
 
     /* ── Update Badge Number ─────────────────────────────────── */
     function updateBadge(count) {

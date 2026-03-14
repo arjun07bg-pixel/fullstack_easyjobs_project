@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (document.getElementById("location") && latestUser.location) document.getElementById("location").value = latestUser.location;
                 if (document.getElementById("experience") && latestUser.experience !== null) document.getElementById("experience").value = latestUser.experience;
                 if (document.getElementById("salary") && latestUser.salary) document.getElementById("salary").value = latestUser.salary;
+                if (document.getElementById("portfolio_link") && latestUser.portfolio_link) document.getElementById("portfolio_link").value = latestUser.portfolio_link;
                 
                 // Update localStorage
                 localStorage.setItem("user", JSON.stringify({ ...user, ...latestUser }));
@@ -115,6 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (document.getElementById("location") && user.location) document.getElementById("location").value = user.location;
         if (document.getElementById("experience") && user.experience !== null) document.getElementById("experience").value = user.experience;
         if (document.getElementById("salary") && user.salary) document.getElementById("salary").value = user.salary;
+        if (document.getElementById("portfolio_link") && user.portfolio_link) document.getElementById("portfolio_link").value = user.portfolio_link;
 
         // Perform the check via the fetchLatestUser function
         fetchLatestUser();
@@ -311,10 +313,38 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
             const resumeFile = resumeInput.files[0];
-            if (!resumeFile) { alert("Please upload a resume."); return; }
+            if (resumeFile && resumeFile.size > 2 * 1024 * 1024) {
+                alert("Resume file size should be less than 2MB.\nResume கோப்பு 2MB-க்கும் குறைவாக இருக்க வேண்டும்.");
+                return;
+            }
+            let finalResumeUrl = user.resume_url || ""; // Default to profile resume
+
+            // VALIDATION: Must have either a new file OR an existing profile resume
+            if (!resumeFile && !finalResumeUrl) {
+                alert("Please upload a resume or add one to your profile first.\nதயவுசெய்து Resume-ஐ பதிவேற்றவும் அல்லது உங்கள் Profile-இல் சேர்க்கவும்.");
+                return;
+            }
 
             submitBtn.disabled = true;
-            submitBtn.innerHTML = "Submitting...";
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            // If user selected a NEW resume file on this form, upload it first
+            if (resumeFile) {
+                console.log("☁️ Uploading new resume to Cloudinary...");
+                const uploadedUrl = await window.uploadFileToCloudinary(resumeFile);
+                if (uploadedUrl) {
+                    finalResumeUrl = uploadedUrl;
+                } else {
+                    console.warn("Resume upload failed, falling back to profile default if exists.");
+                    if (!finalResumeUrl) {
+                        alert("Resume upload failed and no profile default found. Please try again.\nResume பதிவேற்றம் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.");
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = "Submit Application";
+                        return;
+                    }
+                    alert("Resume upload failed. Using your profile's saved resume instead.\nResume பதிவேற்றம் தோல்வியடைந்தது. உங்கள் Profile-இல் உள்ள Resume பயன்படுத்தப்படும்.");
+                }
+            }
 
             // Parse job_id: send null (not 0) for static/company jobs that aren't in the DB
             const parsedJobId = parseInt(jobId);
@@ -337,7 +367,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 Notice_Period: isNaN(noticeVal) ? 0 : noticeVal,
                 Cover_Letter: document.getElementById("cover_letter").value.trim(),
                 portfolio_link: document.getElementById("portfolio_link").value.trim(),
-                resume: resumeFile.name,
+                resume: finalResumeUrl,
                 company_name: currentJobDetails?.company_name || "",
                 job_title: currentJobDetails?.job_title || "",
                 job_type: currentJobDetails?.job_type || "Full Time",

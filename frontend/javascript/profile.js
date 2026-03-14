@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         projects: document.getElementById("projects"),
         linkedinUrl: document.getElementById("linkedinUrl"),
         githubUrl: document.getElementById("githubUrl"),
+        portfolioLink: document.getElementById("portfolioLink"),
         gender: document.getElementById("gender"),
         dob: document.getElementById("dob"),
         photoInput: document.getElementById("photoInput"),
@@ -153,6 +154,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pref.projects) pref.projects.value = user.projects || "";
         if (pref.linkedinUrl) pref.linkedinUrl.value = user.linkedin_url || "";
         if (pref.githubUrl) pref.githubUrl.value = user.github_url || "";
+        if (pref.portfolioLink) pref.portfolioLink.value = user.portfolio_link || "";
         if (pref.dob) pref.dob.value = user.dob || "";
         if (pref.gender) pref.gender.value = user.gender || "";
 
@@ -189,27 +191,42 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     /* ─── File Uploads ───────────────────────────────────── */
     if (pref.photoInput) {
-        pref.photoInput.addEventListener("change", e => {
+        pref.photoInput.addEventListener("change", async e => {
             const file = e.target.files[0];
             if (!file) return;
             if (file.size > 2 * 1024 * 1024) return alert("Image size should be < 2MB");
-            const reader = new FileReader();
-            reader.onload = ev => {
-                tempPhotoData = ev.target.result;
-                pref.photoPreview.innerHTML = `<img src="${tempPhotoData}" alt="Preview">`;
+
+            // Upload to Cloudinary immediately
+            pref.photoPreview.innerHTML = `<div class="upload-spinner"><i class="fas fa-spinner fa-spin"></i></div>`;
+            const uploadedUrl = await window.uploadFileToCloudinary(file);
+
+            if (uploadedUrl) {
+                tempPhotoData = uploadedUrl;
+                pref.photoPreview.innerHTML = `<img src="${uploadedUrl}" alt="Preview">`;
                 updateStrength();
-            };
-            reader.readAsDataURL(file);
+            } else {
+                alert("Photo upload failed. Please try again.");
+                pref.photoPreview.innerHTML = userData.image ? `<img src="${userData.image}">` : `<i class="fas fa-user"></i>`;
+            }
         });
     }
 
     if (pref.resumeInput) {
-        pref.resumeInput.addEventListener("change", e => {
+        pref.resumeInput.addEventListener("change", async e => {
             const file = e.target.files[0];
             if (!file) return;
-            tempResumeName = file.name;
-            pref.resumeName.innerText = "New Upload: " + file.name;
-            updateStrength();
+
+            pref.resumeName.innerText = "⏳ Uploading Resume...";
+            const uploadedUrl = await window.uploadFileToCloudinary(file);
+
+            if (uploadedUrl) {
+                tempResumeName = uploadedUrl;
+                pref.resumeName.innerText = "✅ Resume Uploaded!";
+                updateStrength();
+            } else {
+                alert("Resume upload failed.");
+                pref.resumeName.innerText = "Upload Failed";
+            }
         });
     }
 
@@ -242,6 +259,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 projects: pref.projects.value.trim(),
                 linkedin_url: pref.linkedinUrl.value.trim(),
                 github_url: pref.githubUrl.value.trim(),
+                portfolio_link: pref.portfolioLink.value.trim(),
                 gender: pref.gender.value,
                 dob: pref.dob.value,
                 image: tempPhotoData || userData.image || "",

@@ -41,6 +41,7 @@ class UserUpdate(BaseModel):
     projects: Optional[str] = None
     linkedin_url: Optional[str] = None
     github_url: Optional[str] = None
+    portfolio_link: Optional[str] = None
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
@@ -63,6 +64,7 @@ class OTPVerify(BaseModel):
     projects: Optional[str] = None
     linkedin_url: Optional[str] = None
     github_url: Optional[str] = None
+    portfolio_link: Optional[str] = None
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
@@ -90,6 +92,7 @@ class UserOut(BaseModel):
     projects: Optional[str] = None
     linkedin_url: Optional[str] = None
     github_url: Optional[str] = None
+    portfolio_link: Optional[str] = None
     gender: Optional[str] = None
     dob: Optional[str] = None
     designation: Optional[str] = None
