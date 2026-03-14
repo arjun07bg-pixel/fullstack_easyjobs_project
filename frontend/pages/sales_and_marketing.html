@@ -20,7 +20,6 @@
     <header class="main-header sticky">
         <div class="container header-content">
             <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
-
             <nav class="nav-menu">
                 <ul>
                     <li><a href="/index.html" class="nav-link">Home</a></li>
@@ -31,13 +30,9 @@
                     <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
                     <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
                     <li><a href="/frontend/pages/guidance.html" class="nav-link">Guidance</a></li>
-                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
-                                class="fas fa-bookmark"></i></a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
-
-            
-
             <div class="auth-buttons">
                 <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -53,10 +48,24 @@
 
     <header class="category-header">
         <div class="container">
-            <h1><i class="fas fa-chart-line"></i> Sales & Marketing</h1>
-            <p>Your Gateway to Sales & Marketing Careers</p>
+            <h1><i class="fas fa-chart-line"></i> Sales & Marketing Jobs</h1>
+            <p>Your Gateway to Top Sales & Marketing Careers in India</p>
         </div>
     </header>
+
+    <div class="category-search-container">
+        <div class="search-box-wrapper">
+            <div class="search-input-group role-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+            </div>
+            <div class="search-input-group location-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+            </div>
+            <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+        </div>
+    </div>
 
     <main>
         <section class="hero-section">
@@ -79,369 +88,117 @@
             <p class="section-subtitle"
                 style="text-align: center; color: var(--slate-400); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
                 Accelerate your brand & revenue with India's most prestigious firms.</p>
-            <section class="job-list">
+            <section class="job-list" id="jobs-container">
                 <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(311, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-bullhorn"></i> Digital Marketing Manager</div>
-                    <div class="company">BrandBoost Solutions</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-                    <div class="salary">₹6 - 12 LPA</div>
-                    <div class="job-meta">
+                    <div class="job-card-header">
+                        <div>
+                            <a href="/frontend/pages/apply_home.html?job_id=301&title=Digital+Marketing+Manager&company=BrandBoost+Solutions&location=Bangalore&salary=%E2%82%B912+-+22+LPA&exp=5-8+Yrs" class="job-title">Digital Marketing Manager</a>
+                            <div class="company">BrandBoost Solutions</div>
+                        </div>
+                        <div class="company-logo-placeholder">BB</div>
+                    </div>
+                    <div class="job-meta-grid">
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+                        <div class="meta-item"><i class="fas fa-briefcase"></i> 5-8 Yrs</div>
+                        <div class="meta-item"><i class="fas fa-wallet"></i> 12 - 22 LPA</div>
+                    </div>
+                    <div class="job-tags">
+                        <span class="job-tag">SEO/SEM</span>
+                        <span class="job-tag">Growth</span>
+                        <span class="job-tag">Strategy</span>
+                    </div>
+                    <p class="details">Lead multi-channel digital marketing campaigns and drive brand visibility across global markets.</p>
+                    <div class="job-footer">
+                        <span class="posted-date">Posted 2h ago</span>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button class="save-job-btn-flat" onclick="saveJob(301, this)"><i class="far fa-bookmark"></i> Save</button>
+                            <a href="/frontend/pages/apply_home.html?job_id=301&title=Digital+Marketing+Manager&company=BrandBoost+Solutions&location=Bangalore&salary=%E2%82%B912+-+22+LPA" class="apply-btn">View Details</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="job-card">
+                    <div class="job-card-header">
+                        <div>
+                            <a href="/frontend/pages/apply_home.html?job_id=302&title=Enterprise+Sales+Director&company=GrowthMax&location=Mumbai&salary=%E2%82%B925+-+45+LPA&exp=10-15+Yrs" class="job-title">Enterprise Sales Director</a>
+                            <div class="company">GrowthMax Enterprises</div>
+                        </div>
+                        <div class="company-logo-placeholder">GE</div>
+                    </div>
+                    <div class="job-meta-grid">
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Mumbai</div>
+                        <div class="meta-item"><i class="fas fa-briefcase"></i> 10-15 Yrs</div>
+                        <div class="meta-item"><i class="fas fa-wallet"></i> 25 - 45 LPA</div>
+                    </div>
+                    <div class="job-tags">
+                        <span class="job-tag">B2B Sales</span>
+                        <span class="job-tag">Leadership</span>
+                        <span class="job-tag">Enterprise</span>
+                    </div>
+                    <p class="details">Manage high-value enterprise accounts and lead the national sales team to exceed quarterly revenue targets.</p>
+                    <div class="job-footer">
+                        <span class="posted-date">Posted 5h ago</span>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button class="save-job-btn-flat" onclick="saveJob(302, this)"><i class="far fa-bookmark"></i> Save</button>
+                            <a href="/frontend/pages/apply_home.html?job_id=302&title=Enterprise+Sales+Director&company=GrowthMax&location=Mumbai&salary=%E2%82%B925+-+45+LPA" class="apply-btn">View Details</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="job-card">
+                    <div class="job-card-header">
+                        <div>
+                            <a href="/frontend/pages/apply_home.html?job_id=303&title=Brand+Head&company=VenturePro&location=Delhi&salary=%E2%82%B918+-+32+LPA&exp=8-12+Yrs" class="job-title">Brand Head</a>
+                            <div class="company">VenturePro Consulting</div>
+                        </div>
+                        <div class="company-logo-placeholder">VP</div>
+                    </div>
+                    <div class="job-meta-grid">
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Delhi</div>
+                        <div class="meta-item"><i class="fas fa-briefcase"></i> 8-12 Yrs</div>
+                        <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 32 LPA</div>
+                    </div>
+                    <div class="job-tags">
+                        <span class="job-tag">Branding</span>
+                        <span class="job-tag">Creative</span>
+                        <span class="job-tag">PR</span>
+                    </div>
+                    <p class="details">Define and maintain brand identity across all touchpoints, managing multi-million dollar creative budgets.</p>
+                    <div class="job-footer">
+                        <span class="posted-date">Posted 1d ago</span>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button class="save-job-btn-flat" onclick="saveJob(303, this)"><i class="far fa-bookmark"></i> Save</button>
+                            <a href="/frontend/pages/apply_home.html?job_id=303&title=Brand+Head&company=VenturePro&location=Delhi&salary=%E2%82%B918+-+32+LPA" class="apply-btn">View Details</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="job-card">
+                    <div class="job-card-header">
+                        <div>
+                            <a href="/frontend/pages/apply_home.html?job_id=304&title=SEO+Growth+Specialist&company=SearchPro+Digital&location=Remote&salary=%E2%82%B98+-+15+LPA&exp=3-6+Yrs" class="job-title">SEO Growth Specialist</a>
+                            <div class="company">SearchPro Digital</div>
+                        </div>
+                        <div class="company-logo-placeholder">SD</div>
+                    </div>
+                    <div class="job-meta-grid">
+                        <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Remote</div>
                         <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
+                        <div class="meta-item"><i class="fas fa-wallet"></i> 8 - 15 LPA</div>
                     </div>
-                    <p class="details">Lead digital campaigns across SEO, SEM, social media, and email marketing.
-                        Drive
-                        brand awareness and customer engagement.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=311&title=Digital+Marketing+Manager&company=BrandBoost+Solutions&location=Bangalore%2C+India&salary=%E2%82%B96+-+12+LPA&desc=Lead+digital+campaigns+across+SEO%2C+SEM%2C+social+media%2C+and+email+marketing.+Drive+brand+awareness+and+customer+engagement.&exp=3-6+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(312, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-handshake"></i> Sales Executive</div>
-                    <div class="company">GrowthMax Enterprises</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-                    <div class="salary">₹3 - 6 LPA + Incentives</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 1-3 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
+                    <div class="job-tags">
+                        <span class="job-tag">Technical SEO</span>
+                        <span class="job-tag">Analytics</span>
+                        <span class="job-tag">Content</span>
                     </div>
-                    <p class="details">Generate leads and close deals with B2B and B2C clients. Build strong
-                        customer
-                        relationships and exceed sales targets.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=312&title=Sales+Executive&company=GrowthMax+Enterprises&location=Mumbai%2C+India&salary=%E2%82%B93+-+6+LPA+%2B+Incentives&desc=Generate+leads+and+close+deals+with+B2B+and+B2C+clients.+Build+strong+customer+relationships+and+exceed+sales+targets.&exp=1-3+Yrs&type=Full+Time&mode=On-site"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(313, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-search-dollar"></i> SEO Specialist</div>
-                    <div class="company">SearchPro Digital</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Delhi, India</div>
-                    <div class="salary">₹4 - 8 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
+                    <p class="details">Optimize platform architecture and content for search dominance, leveraging advanced data-driven SEO tactics.</p>
+                    <div class="job-footer">
+                        <span class="posted-date">Posted 2d ago</span>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <button class="save-job-btn-flat" onclick="saveJob(304, this)"><i class="far fa-bookmark"></i> Save</button>
+                            <a href="/frontend/pages/apply_home.html?job_id=304&title=SEO+Growth+Specialist&company=SearchPro+Digital&location=Remote&salary=%E2%82%B98+-+15+LPA" class="apply-btn">View Details</a>
+                        </div>
                     </div>
-                    <p class="details">Optimize websites for search engines. Conduct keyword research, link
-                        building,
-                        and
-                        technical SEO audits.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=313&title=SEO+Specialist&company=SearchPro+Digital&location=Delhi%2C+India&salary=%E2%82%B94+-+8+LPA&desc=Optimize+websites+for+search+engines.+Conduct+keyword+research%2C+link+building%2C+and+technical+SEO+audits.&exp=2-5+Yrs&type=Full+Time&mode=Remote"
-                        class="apply-btn">Apply Now</a>
-                </article>
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(314, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-share-alt"></i> Social Media Manager</div>
-                    <div class="company">SocialSphere Agency</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-                    <div class="salary">₹5 - 9 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Create and manage social media strategies across platforms. Engage audiences
-                        and
-                        grow brand presence online.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=314&title=Social+Media+Manager&company=SocialSphere+Agency&location=Hyderabad%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Create+and+manage+social+media+strategies+across+platforms.+Engage+audiences+and+grow+brand+presence+online.&exp=2-5+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(315, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-rocket"></i> Business Development Manager</div>
-                    <div class="company">VenturePro Consulting</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-                    <div class="salary">₹7 - 14 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 4-8 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-                    </div>
-                    <p class="details">Identify new business opportunities and partnerships. Develop strategic plans
-                        to
-                        expand market reach and revenue.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=315&title=Business+Development+Manager&company=VenturePro+Consulting&location=Pune%2C+India&salary=%E2%82%B97+-+14+LPA&desc=Identify+new+business+opportunities+and+partnerships.+Develop+strategic+plans+to+expand+market+reach+and+revenue.&exp=4-8+Yrs&type=Full+Time&mode=On-site"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(316, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-paint-brush"></i> Content Marketing Specialist</div>
-                    <div class="company">ContentCraft Studios</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</div>
-                    <div class="salary">₹4 - 7 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 1-4 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-                    </div>
-                    <p class="details">Create compelling content for blogs, websites, and marketing campaigns. Drive
-                        engagement through storytelling.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=316&title=Content+Marketing+Specialist&company=ContentCraft+Studios&location=Chennai%2C+India&salary=%E2%82%B94+-+7+LPA&desc=Create+compelling+content+for+blogs%2C+websites%2C+and+marketing+campaigns.+Drive+engagement+through+storytelling.&exp=1-4+Yrs&type=Full+Time&mode=Remote"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(317, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-user-tie"></i> Account Manager</div>
-                    <div class="company">ClientFirst Solutions</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-                    <div class="salary">₹5 - 10 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Manage key client accounts and ensure customer satisfaction. Upsell services
-                        and
-                        maintain long-term relationships.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=317&title=Account+Manager&company=ClientFirst+Solutions&location=Bangalore%2C+India&salary=%E2%82%B95+-+10+LPA&desc=Manage+key+client+accounts+and+ensure+customer+satisfaction.+Upsell+services+and+maintain+long-term+relationships.&exp=2-5+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(318, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-ad"></i> PPC Specialist</div>
-                    <div class="company">AdMax Digital</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-                    <div class="salary">₹4 - 8 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-                    </div>
-                    <p class="details">Manage paid advertising campaigns on Google Ads, Facebook, and other
-                        platforms.
-                        Optimize ROI and conversions.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=318&title=PPC+Specialist&company=AdMax+Digital&location=Mumbai%2C+India&salary=%E2%82%B94+-+8+LPA&desc=Manage+paid+advertising+campaigns+on+Google+Ads%2C+Facebook%2C+and+other+platforms.+Optimize+ROI+and+conversions.&exp=2-5+Yrs&type=Full+Time&mode=Remote"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(319, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-envelope"></i> Email Marketing Manager</div>
-                    <div class="company">MailStream Pro</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Delhi, India</div>
-                    <div class="salary">₹5 - 9 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Design and execute email marketing campaigns. Segment audiences and analyze
-                        campaign performance metrics.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=319&title=Email+Marketing+Manager&company=MailStream+Pro&location=Delhi%2C+India&salary=%E2%82%B95+-+9+LPA&desc=Design+and+execute+email+marketing+campaigns.+Segment+audiences+and+analyze+campaign+performance+metrics.&exp=2-5+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(320, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-store"></i> Retail Sales Manager</div>
-                    <div class="company">RetailHub India</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-                    <div class="salary">₹4 - 8 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-                    </div>
-                    <p class="details">Oversee retail store operations and sales teams. Drive sales performance and
-                        ensure excellent customer service.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=320&title=Retail+Sales+Manager&company=RetailHub+India&location=Pune%2C+India&salary=%E2%82%B94+-+8+LPA&desc=Oversee+retail+store+operations+and+sales+teams.+Drive+sales+performance+and+ensure+excellent+customer+service.&exp=3-6+Yrs&type=Full+Time&mode=On-site"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(321, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-chart-bar"></i> Market Research Analyst</div>
-                    <div class="company">InsightData Analytics</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-                    <div class="salary">₹4 - 7 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Conduct market research and analyze consumer trends. Provide data-driven
-                        insights to support marketing strategies.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=321&title=Market+Research+Analyst&company=InsightData+Analytics&location=Hyderabad%2C+India&salary=%E2%82%B94+-+7+LPA&desc=Conduct+market+research+and+analyze+consumer+trends.+Provide+data-driven+insights+to+support+marketing+strategies.&exp=2-5+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(322, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-crown"></i> Brand Manager</div>
-                    <div class="company">BrandVision Corp</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</div>
-                    <div class="salary">₹7 - 13 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 4-8 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-                    </div>
-                    <p class="details">Develop and execute brand strategies. Manage brand positioning, messaging,
-                        and brand identity across all touchpoints.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=322&title=Brand+Manager&company=BrandVision+Corp&location=Chennai%2C+India&salary=%E2%82%B97+-+13+LPA&desc=Develop+and+execute+brand+strategies.+Manage+brand+positioning%2C+messaging%2C+and+brand+identity.&exp=4-8+Yrs&type=Full+Time&mode=On-site"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(323, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-phone"></i> Telesales Representative</div>
-                    <div class="company">CallConnect Solutions</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Bangalore, India</div>
-                    <div class="salary">₹15 - 35 LPA + Incentives</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 0-2 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-                    </div>
-                    <p class="details">Make outbound calls to potential customers. Pitch products and services, and
-                        close sales over the phone.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=323&title=Telesales+Representative&company=CallConnect+Solutions&location=Bangalore%2C+India&salary=%E2%82%B915+-+35+LPA+%2B+Incentives&desc=Make+outbound+calls+to+potential+customers.+Pitch+products+and+services%2C+and+close+sales+over+the+phone.&exp=0-2+Yrs&type=Full+Time&mode=Remote"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(324, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-users"></i> Customer Success Manager</div>
-                    <div class="company">ClientCare Pro</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
-                    <div class="salary">₹5 - 10 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Ensure customer satisfaction and retention. Onboard new clients and provide
-                        ongoing support and guidance.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=324&title=Customer+Success+Manager&company=ClientCare+Pro&location=Mumbai%2C+India&salary=%E2%82%B95+-+10+LPA&desc=Ensure+customer+satisfaction+and+retention.+Onboard+new+clients+and+provide+ongoing+support+and+guidance.&exp=2-5+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(325, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-globe"></i> International Sales Manager</div>
-                    <div class="company">GlobalTrade Exports</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Delhi, India</div>
-                    <div class="salary">₹12 - 25 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 5-10 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> On-site</div>
-                    </div>
-                    <p class="details">Manage international sales operations and expand global market presence. Build
-                        relationships with overseas clients.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=325&title=International+Sales+Manager&company=GlobalTrade+Exports&location=Delhi%2C+India&salary=%E2%82%B912+-+25+LPA&desc=Manage+international+sales+operations+and+expand+global+market+presence.+Build+relationships+with+overseas+clients.&exp=5-10+Yrs&type=Full+Time&mode=On-site"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(326, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-video"></i> Video Marketing Specialist</div>
-                    <div class="company">VideoVibe Studios</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Pune, India</div>
-                    <div class="salary">₹4 - 8 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 1-4 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Create engaging video content for marketing campaigns. Manage video production and distribution across platforms.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=326&title=Video+Marketing+Specialist&company=VideoVibe+Studios&location=Pune%2C+India&salary=%E2%82%B94+-+8+LPA&desc=Create+engaging+video+content+for+marketing+campaigns.+Manage+video+production+and+distribution+across+platforms.&exp=1-4+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(327, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-briefcase"></i> Channel Sales Manager</div>
-                    <div class="company">PartnerNet Solutions</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Hyderabad, India</div>
-                    <div class="salary">₹6 - 12 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 3-7 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Remote</div>
-                    </div>
-                    <p class="details">Develop and manage channel partner relationships. Drive revenue through indirect sales channels.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=327&title=Channel+Sales+Manager&company=PartnerNet+Solutions&location=Hyderabad%2C+India&salary=%E2%82%B96+-+12+LPA&desc=Develop+and+manage+channel+partner+relationships.+Drive+revenue+through+indirect+sales+channels.&exp=3-7+Yrs&type=Full+Time&mode=Remote"
-                        class="apply-btn">Apply Now</a>
-                </article>
-
-                <article class="job-card">
-                    <div class="job-card-tag">New Post</div>
-                    <button class="save-job-btn" onclick="saveJob(328, this)" style="position: absolute; top: 35px; right: 30px; background: none; border: none; color: var(--slate-400); cursor: pointer; font-size: 1.4rem; transition: 0.3s; z-index: 20;">
-                        <i class="far fa-bookmark"></i>
-                    </button>
-                    <div class="job-title"><i class="fas fa-mobile-alt"></i> Performance Marketing Manager</div>
-                    <div class="company">MetricsFirst Digital</div>
-                    <div class="location"><i class="fas fa-map-marker-alt"></i> Chennai, India</div>
-                    <div class="salary">₹6 - 11 LPA</div>
-                    <div class="job-meta">
-                        <div class="meta-item"><i class="fas fa-briefcase"></i> 2-6 Yrs</div>
-                        <div class="meta-item"><i class="fas fa-clock"></i> Full Time</div>
-                        <div class="meta-item"><i class="fas fa-home"></i> Hybrid</div>
-                    </div>
-                    <p class="details">Drive measurable results through performance-based marketing campaigns. Optimize CPA, CPC, and conversion rates.</p>
-                    <a href="/frontend/pages/apply_home.html?job_id=328&title=Performance+Marketing+Manager&company=MetricsFirst+Digital&location=Chennai%2C+India&salary=%E2%82%B96+-+11+LPA&desc=Drive+measurable+results+through+performance-based+marketing+campaigns.+Optimize+CPA%2C+CPC%2C+and+conversion+rates.&exp=2-6+Yrs&type=Full+Time&mode=Hybrid"
-                        class="apply-btn">Apply Now</a>
                 </article>
             </section>
 
@@ -581,4 +338,5 @@
     <script src="/frontend/javascript/index.js"></script>
     <script src="/frontend/javascript/navbar_manager.js"></script>
     <script src="/frontend/javascript/category_search.js"></script>
+    <script src="/frontend/javascript/notifications.js"></script>
 </body></html>

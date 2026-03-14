@@ -5,49 +5,68 @@ const getAPIURL = () => {
     return "/api"; 
 };
 
+// Global showNotification logic - tries to use index.js showMessage or fallbacks to alert
+const notify = (msg, type = "info") => {
+    if (window.showMessage) {
+        window.showMessage(msg, type);
+    } else {
+        alert(msg);
+    }
+};
+
 // Global saveJob logic
 window.saveJob = async function(jobId, btn) {
-
     const user = JSON.parse(localStorage.getItem("user") || "{}");
 
     if (!user.user_id) {
-        alert("Please login to save jobs.");
-        window.location.href="/frontend/pages/login.html";
+        notify("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
+        setTimeout(() => window.location.href="/frontend/pages/login.html", 2000);
         return;
     }
 
     const API_BASE_URL = getAPIURL();
 
     try {
-
         const res = await fetch(`${API_BASE_URL}/saved-jobs/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 user_id: user.user_id,
-                job_id: jobId
+                job_id: parseInt(jobId)
             })
         });
 
         if (res.ok) {
-
-            btn.innerHTML = '<i class="fas fa-check"></i> Saved';
-            btn.style.color = "#1faa59";
-            btn.style.fontWeight = "700";
-
-            alert("Job saved successfully!");
-
+            if (btn) {
+                // Handle different button styles (static icon-only vs dynamic text-based)
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    btn.style.color = "#2563eb";
+                }
+                btn.disabled = true;
+                
+                // If it's the flat button with text
+                if (btn.classList.contains('save-job-btn-flat')) {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Saved';
+                    btn.style.color = "#1faa59";
+                }
+            }
+            notify("Job saved successfully! ✓\nவேலை வெற்றிகரமாக சேமிக்கப்பட்டது! ✓", "success");
         } else {
-
             const err = await res.json();
-            alert(err.detail || "Already saved or error occurred.");
-
+            if (res.status === 400) {
+                notify("You have already saved this job.\nஇந்த வேலையை நீங்கள் ஏற்கனவே சேமித்து வைத்துள்ளீர்கள்.", "info");
+            } else if (res.status === 404) {
+                notify(err.detail || "Job not found in database.\nவேலை தரவுதளத்தில் இல்லை.", "warning");
+            } else {
+                notify("Unable to save job at this time. Please try again.\nஇப்போது வேலையைச் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.", "error");
+            }
         }
-
     } catch (e) {
-
-        alert("Server connection error.");
-
+        console.error("Save job error:", e);
+        notify("Network error. Please try again later.\nஇணைய பிழை. மீண்டும் முயற்சிக்கவும்.", "error");
     }
 };
 
@@ -118,29 +137,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p class="details">${cleanDesc(job.description)}</p>
             
             <div class="job-footer">
-
-                <span class="posted-date">Posted Just Now</span>
-
+                <span class="posted-date">Posted Recently</span>
                 <div style="display: flex; gap: 15px; align-items: center;">
-
                     ${isAdmin ? `
                     <button class="save-job-btn-flat" 
                     style="color:#ff4d4d;" 
                     onclick="adminDel(${job.job_id}, this)">
                     <i class="fas fa-trash"></i> Delete
                     </button>` : ''}
-
-                    <button class="save-job-btn-flat" 
-                    onclick="saveJob(${job.job_id}, this)">
-                    <i class="far fa-bookmark"></i> Save
+                    <button class="save-job-btn-flat" onclick="saveJob(${job.job_id}, this)">
+                        <i class="far fa-bookmark"></i> Save
                     </button>
-
-                    <a href="${applyLink}" class="apply-btn">
-                    View Details
-                    </a>
-
+                    <a href="${applyLink}" class="apply-btn">View Details</a>
                 </div>
-
             </div>
         `;
 

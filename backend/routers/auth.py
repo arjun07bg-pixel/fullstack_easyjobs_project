@@ -10,7 +10,7 @@ import string
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-@router.post("/signup", response_model=UserOut, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=dict, status_code=status.HTTP_201_CREATED)
 def signup(user: UserCreate, db: Session = Depends(get_db)):
     # 1. Check if user exists (Normalized email)
     clean_email = user.email.strip().lower()
@@ -22,42 +22,49 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     if user.password != user.confirm_password:
         raise HTTPException(status_code=400, detail="Passwords do not match")
 
-    # 3. Create new user with HASHED password
     hashed_password = get_password_hash(user.password)
-    
-    new_user = User(
-        first_name=user.first_name,
-        last_name=user.last_name,
-        email=clean_email,
-        password=hashed_password,
-        phone_number=user.phone_number,
-        role=user.role,
-        image=user.image or "",
-        bio=user.bio or "",
-        designation=user.designation or "",
-        company_name=user.company_name,
-        company_size=user.company_size,
-        industry=user.industry,
-        company_website=user.company_website,
-        is_verified=False # Must verify with OTP
-    )
 
-    # Generate OTP for registration
-    otp = ''.join(random.choices(string.digits, k=6))
-    new_user.otp_code = otp
-    new_user.otp_expiry = datetime.utcnow() + timedelta(minutes=5)
+    try:
+        new_user = User(
+            first_name=user.first_name,
+            last_name=user.last_name,
+            email=clean_email,
+            password=hashed_password,
+            phone_number=user.phone_number,
+            role=user.role,
+            image=user.image or "",
+            bio=user.bio or "",
+            designation=user.designation or "",
+            company_name=user.company_name,
+            company_size=user.company_size,
+            industry=user.industry,
+            company_website=user.company_website,
+            is_verified=False
+        )
 
-    db.add(new_user)
-    db.commit()
-    
-    print(f"DEBUG: Signup OTP for {clean_email} is {otp}")
-    
-    return {
-        "status": "otp_required",
-        "message": "Verify your email to complete registration.",
-        "email": clean_email,
-        "debug_otp": otp
-    }
+        # Generate OTP
+        otp = ''.join(random.choices(string.digits, k=6))
+        new_user.otp_code = otp
+        new_user.otp_expiry = datetime.utcnow() + timedelta(minutes=10) # 10 minutes
+
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        
+        print(f"DEBUG: Signup OTP for {clean_email} is {otp}")
+        
+        return {
+            "status": "otp_required",
+            "message": "Verification code sent! Please check your email.",
+            "email": clean_email,
+            "debug_otp": otp
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Registration failed: {str(e)}\nபதிவு தோல்வியடைந்தது: {str(e)}"
+        )
 
 @router.post("/login")
 def login(credentials: UserSignin, db: Session = Depends(get_db)):
@@ -131,6 +138,20 @@ def verify_otp(data: OTPVerify, db: Session = Depends(get_db)):
     user.otp_code = None
     user.otp_expiry = None
     db.commit()
+
+    # ── Welcome Notification (After first time verification) ─────
+    try:
+        from models.notification import Notification
+        welcome_notif = Notification(
+            user_id=user.user_id,
+            title="Welcome to EasyJobs! 👋",
+            message=f"Hi {user.first_name}, your email is verified! Start exploring jobs and internships today.\nEasyJobs-க்கு உங்களை வரவேற்கிறோம்! வேலைகளைத் தேடத் தொடங்குங்கள்.",
+            type="success"
+        )
+        db.add(welcome_notif)
+        db.commit()
+    except Exception as e:
+        print(f"⚠️ Welcome notification failed: {e}")
 
     # Generate Token
     access_token = create_access_token(

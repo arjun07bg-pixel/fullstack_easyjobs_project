@@ -50,6 +50,20 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
+    # ── Welcome Notification ──────────────────────────────────
+    try:
+        from models.notification import Notification
+        welcome_notif = Notification(
+            user_id=new_user.user_id,
+            title="Welcome to EasyJobs! 👋",
+            message=f"Hi {new_user.first_name}, thanks for joining us! Start exploring and applying for your dream jobs today.\nEasyJobs-க்கு உங்களை வரவேற்கிறோம்! உங்கள் கனவு வேலைகளைத் தேடி விண்ணப்பிக்கத் தொடங்குங்கள்.",
+            type="info"
+        )
+        db.add(welcome_notif)
+        db.commit()
+    except Exception as e:
+        print(f"⚠️ Welcome notification failed: {e}")
+
     return new_user
 
 

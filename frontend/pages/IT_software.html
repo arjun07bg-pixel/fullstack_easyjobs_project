@@ -9,34 +9,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/frontend/styles/index.css">
   <link rel="stylesheet" href="/frontend/styles/premium_category.css">
+  <link rel="stylesheet" href="/frontend/styles/global_font.css">
 </head>
 
 <body>
   <header class="main-header sticky">
     <div class="container header-content">
-      <a href="/index.html" class="logo">
-        <i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span>
-      </a>
+      <a href="/index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
       <nav class="nav-menu">
         <ul>
           <li><a href="/index.html" class="nav-link">Home</a></li>
-          <li><a href="/frontend/pages/jobs.html" class="nav-link">Jobs</a></li>
-          <li><a href="/frontend/pages/companies.html" class="nav-link">Companies</a></li>
-          <li><a href="/frontend/pages/my_applications.html" class="nav-link">Applications</a></li>
+          <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+          <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
+          <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+          <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
           <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+          <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+          <li><a href="/frontend/pages/guidance.html" class="nav-link">Guidance</a></li>
           <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
-        <a href="/frontend/pages/register.html" class="btn-register">Register</a>
-        <a href="/frontend/pages/login.html" class="btn-login">Login</a>
+        <a href="/frontend/pages/register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="/frontend/pages/login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
       </div>
     </div>
   </header>
 
+  <div class="breadcrumb">
+    <a href="/index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
+    <span class="separator">/</span>
+    <span class="current">IT & Software</span>
+  </div>
+
   <header class="category-header">
     <div class="container">
-      <h1>IT & Software Jobs</h1>
+      <h1><i class="fas fa-laptop-code"></i> IT & Software Jobs</h1>
       <p>Discover 3,500+ premium tech opportunities from top MNCs & startups</p>
     </div>
   </header>
@@ -55,14 +63,23 @@
     </div>
   </div>
 
-  <main class="container">
+  <main>
     <section class="hero-section">
-      <div class="stats-container">
-        <div class="stat-box"><span class="number">3.5k+</span><span class="label">Live Jobs</span></div>
-        <div class="stat-box"><span class="number">850+</span><span class="label">Companies</span></div>
-        <div class="stat-box"><span class="number">22k+</span><span class="label">Placements</span></div>
+      <div class="container">
+        <h2>Start Your Tech Career Today</h2>
+        <p>Explore exciting opportunities in software development, cloud computing, and AI across India's silicon valleys.</p>
+        <div class="stats-container">
+          <div class="stat-box"><span class="number">3.5k+</span><span class="label">Live Jobs</span></div>
+          <div class="stat-box"><span class="number">850+</span><span class="label">Companies Hired</span></div>
+          <div class="stat-box"><span class="number">22k+</span><span class="label">Successful Placements</span></div>
+        </div>
       </div>
     </section>
+
+    <div class="container">
+      <h2 class="section-title">Featured IT & Software Positions</h2>
+      <p class="section-subtitle" style="text-align: center; color: var(--text-muted); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
+        Work with the world's most innovative technology companies.</p>
 
     <div class="job-list" id="jobs-container">
       
@@ -182,11 +199,125 @@
         </div>
       </article>
 
+    <div style="text-align: center; margin-bottom: 100px;">
+        <a href="/frontend/pages/jobs.html?keyword=IT" class="apply-btn"
+            style="width: auto; padding: 18px 50px; display: inline-block;">
+            View All IT & Software Jobs <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
+        </a>
     </div>
-  </main>
+</div>
+
+<div class="container">
+    <div class="skills-section">
+        <h2 class="section-title">Essential Tech Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> Frontend Development</h3>
+                <ul>
+                    <li>React.js & Next.js Frameworks</li>
+                    <li>TypeScript & Core JavaScript</li>
+                    <li>HTML5, CSS3 & Tailwind CSS</li>
+                    <li>Responsive Web Design</li>
+                    <li>State Management (Redux/Zustand)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-server"></i> Backend & Cloud</h3>
+                <ul>
+                    <li>Node.js, Python or Java</li>
+                    <li>RESTful APIs & Microservices</li>
+                    <li>AWS, Azure or Google Cloud</li>
+                    <li>SQL & NoSQL Databases</li>
+                    <li>Docker & Kubernetes</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-brain"></i> Emerging Tech</h3>
+                <ul>
+                    <li>Artificial Intelligence & ML</li>
+                    <li>Cybersecurity Fundamentals</li>
+                    <li>Data Structures & Algorithms</li>
+                    <li>DevOps & CI/CD Pipelines</li>
+                    <li>Version Control (Git/GitHub)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="career-path-section">
+        <h2 class="section-title">IT Career Progression</h2>
+        <div class="career-level">
+            <h3><i class="fas fa-seedling"></i> Junior Level (0-2 Years)</h3>
+            <p>Software Engineer Trainee or Junior Developer. Focus on coding fundamentals and bug fixes. <strong>₹4 – 10 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-arrow-up"></i> Mid Level (3-7 Years)</h3>
+            <p>Senior Software Engineer or Tech Lead. Responsibility for module architecture and team mentoring. <strong>₹15 – 35 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-star"></i> Senior Level (8–15 Years)</h3>
+            <p>Solutions Architect or Engineering Manager. Strategic decision making and multi-product oversight. <strong>₹40 – 75 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-crown"></i> Expert Level (15+ Years)</h3>
+            <p>CTO or VP of Engineering. Driving global tech strategy and organizational innovation. <strong>₹100+ LPA.</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="companies-section">
+        <h2 class="section-title">Top Global Tech Employers</h2>
+        <div class="companies-grid">
+            <div class="company-logo">Google</div>
+            <div class="company-logo">Microsoft</div>
+            <div class="company-logo">Amazon</div>
+            <div class="company-logo">Meta</div>
+            <div class="company-logo">TCS</div>
+            <div class="company-logo">Infosys</div>
+            <div class="company-logo">Apple</div>
+            <div class="company-logo">Adobe</div>
+        </div>
+    </div>
+</div>
+
+<section class="content-section featured-categories">
+    <div class="container">
+        <h2 class="section-title">Explore Other Sectors</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <i class="fas fa-chart-line category-icon"></i>
+                <h3>Sales & Marketing</h3>
+                <p>1,800+ Openings</p>
+                <a href="/frontend/pages/sales_and_marketing.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-dollar-sign category-icon"></i>
+                <h3>Finance & Accounting</h3>
+                <p>1,100+ Openings</p>
+                <a href="/frontend/pages/finance_and_accounting.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-tools category-icon"></i>
+                <h3>Engineering</h3>
+                <p>2,500+ Openings</p>
+                <a href="/frontend/pages/engineering.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
 
   <footer class="main-footer">
     <div class="container">
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/frontend/pages/jobs.html">Find Jobs</a>
+        <a href="/frontend/pages/contact.html">Contact Us</a>
+        <a href="/frontend/pages/profile.html">My Profile</a>
+      </div>
       <p>&copy; 2026 EasyJobs Portal. Built for Success.</p>
     </div>
   </footer>
@@ -194,6 +325,7 @@
   <script src="/frontend/javascript/index.js"></script>
   <script src="/frontend/javascript/navbar_manager.js"></script>
   <script src="/frontend/javascript/category_search.js"></script>
+  <script src="/frontend/javascript/notifications.js"></script>
 </body>
 
 </html>

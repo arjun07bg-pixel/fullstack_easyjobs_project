@@ -76,6 +76,20 @@ def apply_job(app: ApplicationCreate, db: Session = Depends(get_db)):
         db.add(new_application)
         db.commit()
         db.refresh(new_application)
+
+        # ── Notification for successful apply ──────────────────────
+        try:
+            notif = Notification(
+                user_id=new_application.user_id,
+                title="Application Sent! 🚀",
+                message=f"You successfully applied for {new_application.job_title} at {new_application.company_name}.\n{new_application.job_title} பதவிக்கு {new_application.company_name}-ல் வெற்றිකரமாக விண்ணப்பித்துள்ளீர்கள்.",
+                type="success"
+            )
+            db.add(notif)
+            db.commit()
+        except Exception as ne:
+            print(f"⚠️ Notification trigger failed: {str(ne)}")
+
         return new_application
     except Exception as e:
         db.rollback()

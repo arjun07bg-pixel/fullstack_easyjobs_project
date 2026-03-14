@@ -87,7 +87,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 startTimer();
             } else {
-                alert(data.detail || "Registration Failed.");
+                let errorMsg = "Registration Failed.";
+                if (data.detail) {
+                    if (typeof data.detail === "string") {
+                        errorMsg = data.detail;
+                    } else if (Array.isArray(data.detail)) {
+                        errorMsg = data.detail.map(err => `${err.loc.join('.')}: ${err.msg}`).join('\n');
+                    } else if (typeof data.detail === "object") {
+                        errorMsg = JSON.stringify(data.detail);
+                    }
+                }
+                alert(errorMsg);
                 createAccountBtn.innerText = "Create Account";
                 createAccountBtn.disabled = false;
             }
