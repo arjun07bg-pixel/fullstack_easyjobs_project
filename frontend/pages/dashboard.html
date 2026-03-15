@@ -15,13 +15,21 @@
             .is-sidebar {
                 position: fixed !important;
                 left: -280px;
-                top: 0; bottom: 0;
+                top: 0;
+                bottom: 0;
                 z-index: 9999;
                 transition: left 0.3s ease;
                 width: 260px !important;
             }
-            .is-sidebar.open { left: 0 !important; }
-            .main-panel { margin-left: 0 !important; }
+
+            .is-sidebar.open {
+                left: 0 !important;
+            }
+
+            .main-panel {
+                margin-left: 0 !important;
+            }
+
             .mobile-top-bar {
                 display: flex !important;
                 align-items: center;
@@ -32,20 +40,49 @@
                 position: sticky;
                 top: 0;
                 z-index: 100;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             }
-            .page-header { display: none; }
-            .stats-row { grid-template-columns: repeat(2, 1fr) !important; }
-            .table-container { overflow-x: auto; }
-            #post-job-form { grid-template-columns: 1fr !important; }
-            #post-job-form > div[style*="span 2"] { grid-column: span 1 !important; }
+
+            .page-header {
+                display: none;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            #post-job-form {
+                grid-template-columns: 1fr !important;
+            }
+
+            #post-job-form>div[style*="span 2"] {
+                grid-column: span 1 !important;
+            }
         }
+
         @media (max-width: 520px) {
-            .stats-row { grid-template-columns: 1fr !important; }
-            .modal-content { width: 95% !important; margin: 20px auto !important; }
-            .detail-grid { grid-template-columns: 1fr !important; }
+            .stats-row {
+                grid-template-columns: 1fr !important;
+            }
+
+            .modal-content {
+                width: 95% !important;
+                margin: 20px auto !important;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr !important;
+            }
         }
-        .mobile-top-bar { display: none; }
+
+        .mobile-top-bar {
+            display: none;
+        }
+
         .sidebar-toggle-btn {
             background: #f1f5f9;
             border: none;
@@ -59,10 +96,33 @@
             font-size: 16px;
             color: #475569;
         }
+
         /* Analytics Charts */
-        .analytics-bar { height: 24px; border-radius: 6px; transition: width 0.8s ease; }
-        .company-rank-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
-        .company-rank-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink:0; }
+        .analytics-bar {
+            height: 24px;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+
+        .company-rank-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .company-rank-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
     </style>
 
     <!-- Auth Guard -->
@@ -195,7 +255,14 @@
                     <div class="label">Pending Review</div>
                     <div class="value" id="stat-under-review" style="color: #1976d2;">0</div>
                 </div>
-
+                <div class="stat-card">
+                    <div class="label">Rejected</div>
+                    <div class="value" id="stat-rejected" style="color: #dc2626;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Registered Candidates</div>
+                    <div class="value" id="stat-total-users" style="color: #6366f1;">0</div>
+                </div>
             </div>
 
             <!-- Recent Applicants Table -->
@@ -285,12 +352,89 @@
             </div>
         </div>
 
+        <!-- Talent Database Tab -->
+        <div id="tab-users" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Talent Database</h2>
+                        <p style="color: #64748b; font-size: 14px;">Browse and search all registered candidates on the platform.</p>
+                    </div>
+                </div>
+                <div style="padding: 10px 20px; border-bottom: 1px solid #f1f5f9;">
+                    <input type="text" id="user-search" placeholder="Search by name, email or skills..." 
+                           style="width: 100%; padding: 12px 20px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; font-size: 15px;">
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>CANDIDATE</th>
+                                <th>EMAIL</th>
+                                <th>ROLE</th>
+                                <th>LOCATION</th>
+                                <th>SKILLS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="tab-analytics" class="tab-content" style="display:none;">
+            <!-- Simple Platform Stats row for Admin -->
+            <div id="admin-stats-row" class="stats-row" style="margin-bottom: 25px;">
+                <!-- Filled by JS -->
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px;">
+                <div class="table-card">
+                    <div class="card-header">
+                        <h2>Top Companies (By Applications)</h2>
+                    </div>
+                    <div id="company-rankings-list" style="padding: 10px 20px;">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="card-header">
+                        <h2>Application Status Breakdown</h2>
+                    </div>
+                    <div id="status-breakdown-chart" style="padding: 20px;">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card" style="margin-top: 25px;">
+                <div class="card-header">
+                    <h2>Advanced Company Analytics Tool</h2>
+                </div>
+                <div style="padding: 20px;">
+                    <div style="display: flex; gap:15px; margin-bottom: 25px;">
+                        <input type="text" id="company-lookup-input" placeholder="Enter company name..." 
+                               style="flex:1; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; outline:none;">
+                        <button onclick="lookupCompany()" class="btn-primary" style="padding: 12px 30px;">
+                            <i class="fas fa-search"></i> Analyze Company
+                        </button>
+                    </div>
+                    <div id="company-detail-result"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Interviews Tab -->
         <div id="tab-interviews" class="tab-content" style="display:none;">
             <div class="table-card">
                 <div class="card-header">
                     <div>
-                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Scheduled Interviews</h2>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Scheduled
+                            Interviews</h2>
                         <p style="color: #64748b; font-size: 14px;">Keep track of all upcoming candidate meetings.</p>
                     </div>
                 </div>
@@ -449,31 +593,50 @@
 
     <!-- Interview Scheduler Modal -->
     <div class="modal-overlay" id="interview-modal-overlay" style="z-index: 10001; background: rgba(0,0,0,0.4);">
-        <div class="modal-content" style="max-width: 450px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+        <div class="modal-content"
+            style="max-width: 450px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h3 style="margin:0; font-size:22px; font-weight:800; color:#1e293b;"><i class="fas fa-calendar-alt" style="color:#6366f1; margin-right:10px;"></i> Schedule Interview</h3>
-                <button id="close-interview-modal" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:20px;"><i class="fas fa-times"></i></button>
+                <h3 style="margin:0; font-size:22px; font-weight:800; color:#1e293b;"><i class="fas fa-calendar-alt"
+                        style="color:#6366f1; margin-right:10px;"></i> Schedule Interview</h3>
+                <button id="close-interview-modal"
+                    style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:20px;"><i
+                        class="fas fa-times"></i></button>
             </div>
-            
+
             <form id="schedule-interview-form" style="display: flex; flex-direction: column; gap: 20px;">
                 <input type="hidden" id="int-application-id">
-                
+
                 <div>
-                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Interview Date & Time</label>
-                    <input type="datetime-local" id="int-datetime" required style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'">
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Interview
+                        Date & Time</label>
+                    <input type="datetime-local" id="int-datetime" required
+                        style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'">
                 </div>
-                
+
                 <div>
-                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Location / Meeting Link</label>
-                    <input type="text" id="int-location" placeholder="e.g. Google Meet Link or Office Address" required style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'">
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Location
+                        / Meeting Link</label>
+                    <input type="text" id="int-location" placeholder="e.g. Google Meet Link or Office Address" required
+                        style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'">
                 </div>
-                
+
                 <div>
-                    <label style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Additional Notes (Optional)</label>
-                    <textarea id="int-notes" placeholder="Any specific instructions for the candidate..." style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; resize:none; transition:0.3s;" onfocus="this.style.borderColor='#6366f1'"></textarea>
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Additional
+                        Notes (Optional)</label>
+                    <textarea id="int-notes" placeholder="Any specific instructions for the candidate..."
+                        style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; resize:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'"></textarea>
                 </div>
-                
-                <button type="submit" style="background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Confirm & Notify Candidate</button>
+
+                <button type="submit"
+                    style="background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px;"
+                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Confirm & Notify
+                    Candidate</button>
             </form>
         </div>
     </div>
@@ -484,12 +647,12 @@
     <script src="/frontend/javascript/notifications.js"></script>
     <script>
         // Mobile sidebar toggle
-        document.getElementById('sidebarToggleMobile')?.addEventListener('click', function() {
+        document.getElementById('sidebarToggleMobile')?.addEventListener('click', function () {
             const sb = document.querySelector('.is-sidebar');
             sb?.classList.toggle('open');
         });
         // Close sidebar on outside click (mobile overlay)
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const sb = document.querySelector('.is-sidebar');
             const btn = document.getElementById('sidebarToggleMobile');
             if (sb && window.innerWidth <= 860 && sb.classList.contains('open')

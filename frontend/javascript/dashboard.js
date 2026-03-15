@@ -88,14 +88,14 @@ function startClock() {
 function guardAdmin() {
     const userString = localStorage.getItem("user");
     if (!userString) {
-        window.location.href="/frontend/pages/login.html";
+        window.location.href = "/frontend/pages/login.html";
         return null;
     }
     const user = JSON.parse(userString);
 
     if (user.role !== "admin" && user.role !== "employer") {
         alert("Access Denied: This area is for authorized accounts only.");
-        window.location.href="/frontend/pages/login.html";
+        window.location.href = "/frontend/pages/login.html";
         return null;
     }
 
@@ -106,6 +106,10 @@ function guardAdmin() {
         if (myJobsLink) {
             myJobsLink.innerHTML = '<i class="fas fa-list-alt"></i> Manage All Jobs';
         }
+    } else {
+        // Hide Admin-only features from Employers
+        const adminLinks = document.querySelectorAll('[onclick*="switchTab(\'users\')"], [onclick*="switchTab(\'analytics\')"]');
+        adminLinks.forEach(link => link.style.display = "none");
     }
 
     const profileCard = document.getElementById("employer-profile-card");
@@ -374,21 +378,29 @@ function renderUsers(data) {
 
     tbody.innerHTML = data.map((u, i) => {
         const nm = `${u.first_name || ""} ${u.last_name || ""}`.trim() || "User";
+        const email = u.email || "No Email";
+        const location = u.location || "Online";
         return `
-<tr style="transition:0.3s;">
-    <td>
-        <div class="candidate-info">
-            <div class="cand-avatar" style="background:linear-gradient(135deg, ${grad(nm)})">${nm[0]}</div>
-            <div class="cand-details">
-                <span class="name">${nm}</span>
-            </div>
-        </div>
-    </td>
-    <td><i class="far fa-envelope" style="color:var(--text-muted); margin-right:8px;"></i>${v(u.email)}</td>
-    <td><span class="status-label ${u.role === 'admin' ? 'status-shortlisted' : 'status-pending'}">${u.role || "user"}</span></td>
-    <td><i class="fas fa-map-marker-alt" style="color:var(--text-muted); margin-right:8px;"></i>${v(u.location)}</td>
-    <td><div style="display:flex; flex-wrap:wrap; gap:5px;">${(u.skills || "").split(',').map(s => `<span style="background:#f1f5f9; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600; color:#475569;">${s.trim()}</span>`).join('')}</div></td>
-</tr>`;
+            <tr style="transition:0.3s; border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 15px 20px;">
+                    <div class="candidate-info">
+                        <div class="cand-avatar" style="background:linear-gradient(135deg, ${grad(nm)}); width:38px; height:38px; font-size:14px;">${nm[0]}</div>
+                        <div class="cand-details">
+                            <span class="name" style="font-weight:700; color:#1e293b;">${nm}</span>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding: 15px 20px; font-weight:500; color:#64748b;"><i class="far fa-envelope" style="margin-right:8px; opacity:0.7;"></i>${email}</td>
+                <td style="padding: 15px 20px;">
+                    <span class="status-label ${u.role === 'admin' ? 'status-shortlisted' : 'status-pending'}" style="font-size:11px; font-weight:700; padding:4px 10px;">${(u.role || "user").toUpperCase()}</span>
+                </td>
+                <td style="padding: 15px 20px; font-weight:500; color:#64748b;"><i class="fas fa-map-marker-alt" style="margin-right:8px; opacity:0.7;"></i>${location}</td>
+                <td style="padding: 15px 20px;">
+                    <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                        ${(u.skills || "").split(',').filter(s => s.trim()).map(s => `<span style="background:#eff6ff; padding:3px 10px; border-radius:100px; font-size:11px; font-weight:700; color:#2563eb; border:1px solid #dbeafe;">${s.trim()}</span>`).join('') || '<span style="color:#94a3b8; font-style:italic; font-size:12px;">No skills listed</span>'}
+                    </div>
+                </td>
+            </tr>`;
     }).join("");
 }
 
@@ -732,7 +744,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("logoutBtn")?.addEventListener("click", () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        window.location.href="/frontend/pages/login.html";
+        window.location.href = "/frontend/pages/login.html";
     });
 
     // Mobile sidebar toggle
@@ -808,8 +820,8 @@ async function loadAnalytics() {
         if (resStats.ok) {
             const stats = await resStats.json();
             renderAdminStatsInAnalytics(stats);
-            renderStatusBreakdown(stats.application_status_counts || {
-               pending: stats.pending_jobs_count || 0,
+            renderStatusBreakdown({
+               pending: stats.applied || 0,
                shortlisted: stats.shortlisted || 0,
                rejected: stats.rejected || 0,
                interview: stats.interview || 0
@@ -830,26 +842,26 @@ async function loadAnalytics() {
 function renderAdminStatsInAnalytics(stats) {
     const row = document.getElementById('admin-stats-row');
     if (!row) return;
-    
+
     // Fallback counts if status_counts not available directly
     const s = stats.application_status_counts || {
         shortlisted: stats.shortlisted || 0
     };
 
     row.innerHTML = `
-        <div class="stat-card" style="border-left: 4px solid #2563eb;">
+        <div class="stat-card admin-stats-card" style="border-left: 4px solid #2563eb;">
             <div class="stat-icon" style="background:#2563eb15; color:#2563eb;"><i class="fas fa-file-alt"></i></div>
             <div class="stat-info"><h3>${stats.total_applications || 0}</h3><p>Total Apps</p></div>
         </div>
-        <div class="stat-card" style="border-left: 4px solid #16a34a;">
+        <div class="stat-card admin-stats-card" style="border-left: 4px solid #16a34a;">
             <div class="stat-icon" style="background:#16a34a15; color:#16a34a;"><i class="fas fa-check-circle"></i></div>
-            <div class="stat-info"><h3>${s.shortlisted}</h3><p>Shortlisted</p></div>
+            <div class="stat-info"><h3>${stats.shortlisted || 0}</h3><p>Shortlisted</p></div>
         </div>
-        <div class="stat-card" style="border-left: 4px solid #f59e0b;">
+        <div class="stat-card admin-stats-card" style="border-left: 4px solid #f59e0b;">
             <div class="stat-icon" style="background:#f59e0b15; color:#f59e0b;"><i class="fas fa-chart-line"></i></div>
             <div class="stat-info"><h3>${stats.total_views || 0}</h3><p>Total Views</p></div>
         </div>
-        <div class="stat-card" style="border-left: 4px solid #6366f1;">
+        <div class="stat-card admin-stats-card" style="border-left: 4px solid #6366f1;">
             <div class="stat-icon" style="background:#6366f115; color:#6366f1;"><i class="fas fa-users"></i></div>
             <div class="stat-info"><h3>${stats.total_users || 0}</h3><p>Active Users</p></div>
         </div>
@@ -870,17 +882,22 @@ function renderCompanyRankings(rankings) {
         const percentage = (c.total_applied / maxApps) * 100;
         const colors = ['#f59e0b', '#94a3b8', '#b45309', '#cbd5e1'];
         const medalColor = colors[i] || '#f8fafc';
-        
+
         return `
-            <div class="company-rank-row">
-                <div class="company-rank-num" style="background:${medalColor}; color:${i < 3 ? 'white' : '#64748b'}">${i + 1}</div>
-                <div style="flex:1;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-                        <span style="font-weight:700; color:#1e293b;">${c.company_name}</span>
-                        <span style="font-weight:600; color:#2563eb;">${c.total_applied} Apps</span>
-                    </div>
-                    <div style="background:#f1f5f9; height:8px; border-radius:4px; overflow:hidden;">
-                        <div class="analytics-bar" style="width:${percentage}%; background:#2563eb; height:100%;"></div>
+            <div class="company-rank-row" style="padding: 15px 0;">
+                <div class="company-rank-num" style="background:${medalColor}; color:${i < 3 ? 'white' : '#64748b'}; width: 32px; height: 32px; font-size: 14px; box-shadow: ${i < 3 ? '0 4px 10px ' + medalColor + '40' : 'none'}">${i + 1}</div>
+                <div style="flex:1; margin-left: 12px; display: flex; align-items: flex-start; gap: 12px;">
+                    <img src="${c.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.company_name)}&background=f1f5f9&color=2563eb&bold=true&rounded=true`}" 
+                         style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover; border: 1px solid #e2e8f0; background: #fff;"
+                         onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(c.company_name)}&background=f1f5f9&color=2563eb&bold=true&rounded=true'">
+                    <div style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items: center; margin-bottom:10px;">
+                            <span style="font-weight:700; color:#1e293b; font-size: 15px;">${c.company_name}</span>
+                            <span style="font-weight:700; color:#2563eb; background: #eff6ff; padding: 4px 12px; border-radius: 8px; font-size: 13px;">${c.total_applied} Apps</span>
+                        </div>
+                        <div style="background:#f1f5f9; height:8px; border-radius:10px; overflow:hidden;">
+                            <div class="analytics-bar" style="width:${percentage}%; background: linear-gradient(90deg, #2563eb, #3b82f6); height:100%; border-radius: 10px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -892,7 +909,7 @@ function renderStatusBreakdown(counts) {
     const el = document.getElementById('status-breakdown-chart');
     if (!el) return;
     const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
-    
+
     const items = [
         { label: 'Pending', val: counts.pending || 0, color: '#f59e0b' },
         { label: 'Shortlisted', val: counts.shortlisted || 0, color: '#16a34a' },
@@ -903,20 +920,23 @@ function renderStatusBreakdown(counts) {
     el.innerHTML = items.map(item => {
         const pct = ((item.val / total) * 100).toFixed(0);
         return `
-            <div style="margin-bottom:15px;">
-                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;">
-                    <span style="font-weight:600; color:#475569;">${item.label}</span>
-                    <span style="color:#64748b;">${item.val} (${pct}%)</span>
+            <div style="margin-bottom:25px;">
+                <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; align-items: center;">
+                    <span style="font-weight:700; color:#475569; display:flex; align-items:center; gap:8px;">
+                        <span style="width:10px; height:10px; border-radius:2px; background:${item.color};"></span>
+                        ${item.label}
+                    </span>
+                    <span style="font-weight:700; color:#1e293b; background: #f8fafc; padding: 2px 10px; border-radius: 6px; border: 1px solid #e2e8f0;">${item.val} <small style="color:#64748b; margin-left:4px; font-weight:600;">(${pct}%)</small></span>
                 </div>
-                <div style="background:#f1f5f9; height:10px; border-radius:5px; overflow:hidden;">
-                    <div style="width:${pct}%; background:${item.color}; height:100%;"></div>
+                <div style="background:#f1f5f9; height:12px; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9;">
+                    <div style="width:${pct}%; background:${item.color}; height:100%; border-radius:100px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);"></div>
                 </div>
             </div>
         `;
     }).join('');
 }
 
-window.lookupCompany = async function() {
+window.lookupCompany = async function () {
     const nameInput = document.getElementById('company-lookup-input');
     const resultEl = document.getElementById('company-detail-result');
     if (!nameInput || !resultEl) return;
@@ -932,8 +952,10 @@ window.lookupCompany = async function() {
 
         resultEl.innerHTML = `
             <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0; animation: fadeIn 0.3s ease;">
-                <h3 style="margin-bottom:15px; display:flex; align-items:center;">
-                    <i class="fas fa-building" style="margin-right:10px; color:#2563eb;"></i> ${data.company_name} Analytics
+                <h3 style="margin-bottom:15px; display:flex; align-items:center; gap: 12px;">
+                    <img src="${data.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.company_name)}&background=2563eb&color=fff&bold=true&rounded=true`}" 
+                         style="width: 32px; height: 32px; border-radius: 6px; object-fit: cover;">
+                    ${data.company_name} Analytics
                 </h3>
                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;" class="lookup-grid">
                     <div style="background:white; padding:15px; border-radius:10px; border:1px solid #f1f5f9;">
@@ -968,7 +990,7 @@ async function fetchInterviews() {
         const res = await fetch(`${API}/interviews/`);
         if (!res.ok) throw new Error("Fetch failed");
         const interviews = await res.json();
-        
+
         if (interviews.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:40px; color:#94a3b8;">No interviews scheduled yet.</td></tr>';
             return;
@@ -979,13 +1001,13 @@ async function fetchInterviews() {
             const dateStr = new Date(it.interview_date).toLocaleString('en-IN', {
                 day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
             });
-            
+
             return `
                 <tr>
                     <td>
                         <div style="display:flex; align-items:center; gap:10px;">
-                            <div style="width:32px; height:32px; border-radius:8px; background:${grad(app.first_name)}; color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;">${initials(app.first_name)}</div>
-                            <span style="font-weight:600; color:#1e293b;">${app.first_name || 'Candidate'} ${app.last_name || ''}</span>
+                            <div style="width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg, ${grad(app.name)}); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;">${initials(app.name)}</div>
+                            <span style="font-weight:600; color:#1e293b;">${app.name || 'Candidate'}</span>
                         </div>
                     </td>
                     <td style="color:#475569; font-weight:500;">${app.job_title || 'Unknown Job'}</td>
@@ -1005,12 +1027,12 @@ async function fetchInterviews() {
 }
 
 window.cancelInterview = async (id) => {
-    if(!confirm("Cancel this interview?")) return;
+    if (!confirm("Cancel this interview?")) return;
     try {
         const res = await fetch(`${getAPIURL()}/interviews/${id}`, { method: "DELETE" });
-        if(res.ok) {
+        if (res.ok) {
             alert("Interview cancelled successfully.");
             fetchInterviews();
         }
-    } catch(e) { alert("Failed to cancel."); }
+    } catch (e) { alert("Failed to cancel."); }
 }

@@ -18,11 +18,8 @@ def get_admin_stats(db: Session = Depends(get_db)):
     total_apps       = db.query(Application).count()
     total_views      = db.query(func.sum(Job.views)).scalar() or 0
 
-    # Pending approvals
-    pending_companies = db.query(Company).filter(Company.status == "pending").count()
-    pending_jobs      = db.query(Job).filter(Job.status == "pending").count()
-
     # Applications by status
+    applied     = db.query(Application).filter(Application.status == "applied").count()
     shortlisted = db.query(Application).filter(Application.status == "shortlisted").count()
     rejected    = db.query(Application).filter(Application.status == "rejected").count()
     interview   = db.query(Application).filter(Application.status == "interview").count()
@@ -33,9 +30,7 @@ def get_admin_stats(db: Session = Depends(get_db)):
         "total_jobs":        total_jobs,
         "total_applications": total_apps,
         "total_views":       total_views,
-        "pending_approvals": pending_companies + pending_jobs,
-        "pending_companies": pending_companies,
-        "pending_jobs":      pending_jobs,
+        "applied":           applied,
         "shortlisted":       shortlisted,
         "rejected":          rejected,
         "interview":         interview
@@ -75,6 +70,14 @@ def get_company_stats(company_name: str, db: Session = Depends(get_db)):
 
     top_jobs = sorted(job_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
+    # Try to find a logo from an employer user with this company name
+    employer = db.query(User).filter(
+        User.role == "employer",
+        User.company_name == company_name,
+        User.image != None
+    ).first()
+    logo = employer.image if employer else None
+
     return {
         "company_name":  company_name,
         "total_applied": total,
@@ -84,6 +87,7 @@ def get_company_stats(company_name: str, db: Session = Depends(get_db)):
         "interview":     interview,
         "hired":         hired,
         "rejected":      rejected,
+        "logo":          logo,
         "top_job_titles": [{"job_title": t, "count": c} for t, c in top_jobs]
     }
 
@@ -99,4 +103,21 @@ def get_company_rankings(db: Session = Depends(get_db)):
      .limit(10)\
      .all()
 
-    return [{"company_name": r.company_name, "total_applied": r.total_applied} for r in results]
+    ranked_data = []
+    for r in results:
+        # Try to find a logo from an employer user with this company name
+        employer = db.query(User).filter(
+            User.role == "employer",
+            User.company_name == r.company_name,
+            User.image != None
+        ).first()
+        
+        logo = employer.image if employer else None
+        
+        ranked_data.append({
+            "company_name": r.company_name,
+            "total_applied": r.total_applied,
+            "logo": logo
+        })
+
+    return ranked_data
