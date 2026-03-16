@@ -14,15 +14,41 @@
     <style>
         /* ── Mobile Responsive ── */
         @media (max-width: 768px) {
-            .header-content { flex-wrap: wrap; gap: 10px; padding: 10px 15px; }
-            .nav-menu { display: none; width: 100%; order: 3; }
-            .nav-menu.open { display: block; }
-            .nav-menu ul { flex-direction: column; gap: 0; padding: 10px 0; }
-            .nav-menu ul li a { padding: 12px 20px; display: block; border-bottom: 1px solid rgba(255,255,255,0.08); }
-            .auth-buttons { order: 2; }
+            .header-content {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+
+            .nav-menu {
+                display: none;
+                width: 100%;
+                order: 3;
+            }
+
+            .nav-menu.open {
+                display: block;
+            }
+
+            .nav-menu ul {
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-menu ul li a {
+                padding: 12px 20px;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .auth-buttons {
+                order: 2;
+            }
+
             .hamburger-btn {
                 display: flex !important;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 border: none;
                 color: white;
                 width: 42px;
@@ -35,24 +61,79 @@
                 order: 1;
                 margin-left: auto;
             }
-            .hero-section { padding: 60px 0 40px; }
-            .hero-content { flex-direction: column; align-items: center; text-align: center; }
-            .hero-text h1 { font-size: 2rem; }
-            .hero-text h3 { font-size: 1rem; }
-            .job-search-form { flex-direction: column; gap: 10px; }
-            .search-input-group { width: 100%; }
-            .stats-bar { flex-wrap: wrap; justify-content: center; gap: 15px; }
-            .categories-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
-            .cta-box { flex-direction: column; text-align: center; padding: 30px 20px !important; }
-            .cta-box h2 { font-size: 1.6rem !important; }
-            .footer-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+            .hero-section {
+                padding: 60px 0 40px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text h3 {
+                font-size: 1rem;
+            }
+
+            .job-search-form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-input-group {
+                width: 100%;
+            }
+
+            .stats-bar {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .cta-box {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px !important;
+            }
+
+            .cta-box h2 {
+                font-size: 1.6rem !important;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
         }
+
         @media (max-width: 480px) {
-            .categories-grid { grid-template-columns: 1fr; }
-            .hero-text h1 { font-size: 1.6rem; }
-            .stats-bar .stat-item { font-size: 13px; }
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 1.6rem;
+            }
+
+            .stats-bar .stat-item {
+                font-size: 13px;
+            }
         }
-        .hamburger-btn { display: none; }
+
+        .hamburger-btn {
+            display: none;
+        }
     </style>
 
 </head>
@@ -80,14 +161,22 @@
             <nav class="nav-menu" id="navMenu">
                 <ul>
                     <!-- <li><a href="/index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li> -->
-                    <li><a href="/frontend/pages/jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a></li>
-                    <li><a href="/frontend/pages/companies.html" class="nav-link"><i class="fas fa-building"></i> Companies</a></li>
-                    <li><a href="/frontend/pages/internship.html" class="nav-link"><i class="fas fa-user-graduate"></i> Internships</a></li>
-                    <li><a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My Applications</a></li>
-                    <li><a href="/frontend/pages/profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
-                    <li><a href="/frontend/pages/contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
-                    <li><a href="/frontend/pages/guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
-                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+                    <li><a href="/frontend/pages/jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a>
+                    </li>
+                    <li><a href="/frontend/pages/companies.html" class="nav-link"><i class="fas fa-building"></i>
+                            Companies</a></li>
+                    <li><a href="/frontend/pages/internship.html" class="nav-link"><i class="fas fa-user-graduate"></i>
+                            Internships</a></li>
+                    <li><a href="/frontend/pages/my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i>
+                            My Applications</a></li>
+                    <li><a href="/frontend/pages/profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li><a href="/frontend/pages/contact.html" class="nav-link"><i class="fas fa-envelope"></i>
+                            Contact</a></li>
+                    <li><a href="/frontend/pages/guidance.html" class="nav-link"><i class="fas fa-info-circle"></i>
+                            Guidance</a></li>
+                    <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
                 </ul>
             </nav>
 
@@ -138,24 +227,50 @@
             <h4 class="logo-wall-title">TRUSTED BY 500+ WORLD-CLASS COMPANIES</h4>
             <div class="logo-slider">
                 <div class="logo-track">
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/accenture/accenture-ar21.svg" alt="Accenture"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/intel/intel-ar21.svg" alt="Intel"></div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
+                            alt="Microsoft"></div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+                            alt="Netflix"></div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/accenture/accenture-ar21.svg"
+                            alt="Accenture"></div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM">
+                    </div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/intel/intel-ar21.svg"
+                            alt="Intel"></div>
 
                     <!-- Duplicate for seamless loop -->
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple"></div>
-                    <div class="logo-item"><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/accenture/accenture-ar21.svg" alt="Accenture"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM"></div>
-                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/intel/intel-ar21.svg" alt="Intel"></div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg"
+                            alt="Microsoft"></div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
+                    </div>
+                    <div class="logo-item"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+                            alt="Netflix"></div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/accenture/accenture-ar21.svg"
+                            alt="Accenture"></div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/ibm/ibm-ar21.svg" alt="IBM">
+                    </div>
+                    <div class="logo-item"><img src="https://www.vectorlogo.zone/logos/intel/intel-ar21.svg"
+                            alt="Intel"></div>
                 </div>
             </div>
         </div>
@@ -249,7 +364,7 @@
     <script src="/frontend/javascript/notifications.js"></script>
     <script>
         // Mobile hamburger toggle
-        document.getElementById('hamburgerBtn')?.addEventListener('click', function() {
+        document.getElementById('hamburgerBtn')?.addEventListener('click', function () {
             const nav = document.getElementById('navMenu');
             nav.classList.toggle('open');
             this.querySelector('i').className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
