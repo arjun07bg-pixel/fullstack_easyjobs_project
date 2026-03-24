@@ -50,16 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
             : `<i class="fas fa-user-circle" style="font-size:1.8rem;color:rgba(255,255,255,0.8);"></i>`;
 
         const actionLink = user.role === 'admin'
-            ? `<a href="/frontend/pages/dashboard.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
+            ? `<a href="frontend/pages/dashboard.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-columns"></i> Dashboard</a>`
             : user.role === 'employer'
-                ? `<a href="/frontend/pages/postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
+                ? `<a href="frontend/pages/postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
                 : '';
 
         const savedJobsIcon = ''; // Removed from index.js as it is managed by HTML/navbar_manager
 
         authButtons.innerHTML = `
             <div style="display:flex;align-items:center;gap:15px;">
-                <a href="/frontend/pages/profile.html" class="user-profile-link" style="display:flex;align-items:center;gap:10px;text-decoration:none;transition:0.3s;padding:5px 12px;border-radius:50px;background:rgba(255,255,255,0.05);">
+                <a href="frontend/pages/profile.html" class="user-profile-link" style="display:flex;align-items:center;gap:10px;text-decoration:none;transition:0.3s;padding:5px 12px;border-radius:50px;background:rgba(255,255,255,0.05);">
                     ${avatarHtml}
                     <span class="auth-greeting" style="color:#fff;font-weight:600;font-size:0.9rem;">Hi, ${user.first_name}!</span>
                 </a>
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem("user");
             localStorage.removeItem("token");
             localStorage.removeItem("userProfilePhoto");
-            window.location.href="/index.html";
+            window.location.href="index.html";
         });
     }
 });
@@ -133,7 +133,7 @@ async function saveJob(jobId, btnElement) {
 
     if (!user?.user_id) {
         showMessage("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
-        setTimeout(() => window.location.href="/frontend/pages/login.html", 2000);
+        setTimeout(() => window.location.href="frontend/pages/login.html", 2000);
         return;
     }
 

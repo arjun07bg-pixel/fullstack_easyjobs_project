@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!user || !user.user_id) {
         console.warn("No user found, redirecting to login.");
-        window.location.href="/frontend/pages/login.html";
+        window.location.href="frontend/pages/login.html";
         return;
     }
 
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="empty-state">
                         <i class="far fa-bookmark" style="font-size: 3rem; color:#64748b;"></i>
                         <p>You haven't saved any jobs yet.</p>
-                        <a href="/frontend/pages/jobs.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:20px auto;">Browse Jobs</a>
+                        <a href="frontend/pages/jobs.html" class="btn btn-apply" style="display:inline-flex; width:auto; margin:20px auto;">Browse Jobs</a>
                     </div>
                 `;
                 return;
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                     <div class="actions">
-                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location || "Remote")}&type=${encodeURIComponent(job.job_type || 'Full Time')}" class="btn btn-apply">Apply Now</a>
+                        <a href="frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location || "Remote")}&type=${encodeURIComponent(job.job_type || 'Full Time')}" class="btn btn-apply">Apply Now</a>
                         <button onclick="unsaveJob(${job.job_id})" class="btn btn-unsave"><i class="fas fa-trash"></i> Remove</button>
                     </div>
                 </div>

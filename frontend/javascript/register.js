@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("user", JSON.stringify(data));
                 alert("Email verified! Welcome to EasyJobs.");
                 
-                if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
+                if (data.role === "employer") window.location.href = "frontend/pages/postjob_home.html";
                 else window.location.href = "/index.html";
             } else {
                 alert(data.detail || "Invalid code.");

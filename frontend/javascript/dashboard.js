@@ -88,14 +88,14 @@ function startClock() {
 function guardAdmin() {
     const userString = localStorage.getItem("user");
     if (!userString) {
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "frontend/pages/login.html";
         return null;
     }
     const user = JSON.parse(userString);
 
     if (user.role !== "admin" && user.role !== "employer") {
         alert("Access Denied: This area is for authorized accounts only.");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "frontend/pages/login.html";
         return null;
     }
 
@@ -744,7 +744,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("logoutBtn")?.addEventListener("click", () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "frontend/pages/login.html";
     });
 
     // Mobile sidebar toggle

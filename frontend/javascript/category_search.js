@@ -20,7 +20,7 @@ window.saveJob = async function(jobId, btn) {
 
     if (!user.user_id) {
         notify("Please login to save this job.\nJob-ஐ சேமிக்க லாகின் செய்யவும்.", "error");
-        setTimeout(() => window.location.href="/frontend/pages/login.html", 2000);
+        setTimeout(() => window.location.href="frontend/pages/login.html", 2000);
         return;
     }
 

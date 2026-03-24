@@ -148,8 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         setTimeout(() => {
-            if (data.role === "admin") window.location.href = "/frontend/pages/dashboard.html";
-            else if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
+            if (data.role === "admin") window.location.href = "frontend/pages/dashboard.html";
+            else if (data.role === "employer") window.location.href = "frontend/pages/postjob_home.html";
             else window.location.href = "/index.html";
         }, 300);
     }

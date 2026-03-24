@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
     if (!userString) {
         alert("Please login to view your profile.");
-        window.location.href="/frontend/pages/login.html";
+        window.location.href="frontend/pages/login.html";
         return;
     }
 

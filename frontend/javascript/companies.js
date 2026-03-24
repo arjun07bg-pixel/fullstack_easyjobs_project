@@ -110,4 +110,4 @@ document.addEventListener("DOMContentLoaded", () => {
             if (link?.href) window.location.href = link.href;
         });
     });
-});
+});

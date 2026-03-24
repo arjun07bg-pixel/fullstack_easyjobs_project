@@ -114,7 +114,7 @@
                     background: #fff;
                 "></div>
                 <div style="padding: 12px; text-align: center; border-top: 1px solid #f1f5f9; background: #f8fafc;">
-                    <a href="/frontend/pages/notifications.html" style="color: #2563eb; font-weight: 700; font-size: 13px; text-decoration: none; display: block; padding: 8px;">
+                    <a href="frontend/pages/notifications.html" style="color: #2563eb; font-weight: 700; font-size: 13px; text-decoration: none; display: block; padding: 8px;">
                         View All Notifications <i class="fas fa-arrow-right" style="margin-left:5px; font-size:10px;"></i>
                     </a>
                 </div>
