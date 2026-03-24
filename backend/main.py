@@ -95,4 +95,5 @@ async def index_html():
     return FileResponse(os.path.join(parent_dir, "index.html"))
 
 # ── Static Files (AFTER all routes) ────────────────────────────
+app.mount("/uploads", StaticFiles(directory=os.path.join(current_dir, "uploads")), name="uploads")
 app.mount("/frontend", StaticFiles(directory=os.path.join(parent_dir, "frontend")), name="frontend")

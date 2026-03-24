@@ -141,7 +141,7 @@ window.openAppModal = (id) => {
         ["Current Salary (LPA)", app.Current_salary != null ? "₹" + app.Current_salary : "N/A"],
         ["Notice Period", app.Notice_Period != null ? (app.Notice_Period === 0 ? "Immediate" : app.Notice_Period + " Days") : "N/A"],
         ["Portfolio", (app.portfolio_link && app.portfolio_link !== "null") ? `<a href="${app.portfolio_link.startsWith("http") ? app.portfolio_link : 'http://' + app.portfolio_link}" target="_blank" style="color:var(--primary-blue);text-decoration:underline;">${app.portfolio_link}</a>` : "Not Provided"],
-        ["Resume", (app.resume && app.resume !== "null") ? `<a href="${app.resume.startsWith("http") ? app.resume : '/backend/uploads/resumes/' + app.resume}" class="resume-link" target="_blank"><i class="fas fa-file-pdf"></i> View Resume</a>` : "No File"],
+        ["Resume", (app.resume && app.resume !== "null") ? `<a href="${app.resume.startsWith("http") ? app.resume : (getAPIURL() + '/uploads/resumes/' + app.resume)}" class="resume-link" target="_blank"><i class="fas fa-file-pdf"></i> View Resume</a>` : "No File"],
         ["Submitted At", fmtDate(app.applied_at)]
     ];
 
