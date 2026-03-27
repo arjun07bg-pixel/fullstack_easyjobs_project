@@ -2,6 +2,7 @@
 const getAPIURL = () => {
     if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
     const hostname = window.location.hostname;
+    // Force port 8000 for local dev if not explicitly handled
     if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") return "http://127.0.0.1:8000/api";
     return "/api";
 };
@@ -67,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error(err);
-            alert("Server connection error.");
+            alert("Could not connect to the Backend. Please ensure you have run 'python main.py' in your terminal and it is running on port 8000.");
             loginBtn.innerText = "Login";
             loginBtn.disabled = false;
         }
@@ -148,8 +149,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         setTimeout(() => {
-            if (data.role === "admin") window.location.href = "frontend/pages/dashboard.html";
-            else if (data.role === "employer") window.location.href = "frontend/pages/postjob_home.html";
+            if (data.role === "admin") window.location.href = "/frontend/pages/dashboard.html";
+            else if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
             else window.location.href = "/index.html";
         }, 300);
     }

@@ -448,7 +448,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             ${savedJobIds.includes(job.job_id) ? '✅ Saved' : '💾 Save'}
                         </button>
 
-                        <a href="frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" 
+                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" 
                            onclick="if(window.trackJobView) trackJobView(${job.job_id})"
                            class="apply-btn apply-link" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
                     </div>
@@ -484,7 +484,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 e.preventDefault();
                 if (!user.user_id) {
                     alert("Please login to save this job.");
-                    window.location.href="frontend/pages/login.html";
+                    window.location.href="/frontend/pages/login.html";
                     return;
                 }
 

@@ -102,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 createAccountBtn.disabled = false;
             }
         } catch (err) {
-            alert("Connection error. Is backend running?");
+            console.error(err);
+            alert("Could not connect to the Backend. Please ensure you have run 'python main.py' in your terminal and it is running on port 8000.");
             createAccountBtn.innerText = "Create Account";
             createAccountBtn.disabled = false;
         }
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("user", JSON.stringify(data));
                 alert("Email verified! Welcome to EasyJobs.");
                 
-                if (data.role === "employer") window.location.href = "frontend/pages/postjob_home.html";
+                if (data.role === "employer") window.location.href = "/frontend/pages/postjob_home.html";
                 else window.location.href = "/index.html";
             } else {
                 alert(data.detail || "Invalid code.");

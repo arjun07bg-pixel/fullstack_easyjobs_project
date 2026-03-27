@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="job-footer">
                         <span class="posted-date">Posted via API</span>
                         <div class="action-btns">
-                            <a href="frontend/pages/apply_home.html?job_id=${job.job_id}" class="apply-link">Apply Now</a>
+                            <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}" class="apply-link">Apply Now</a>
                             <button class="comp-save-btn" data-id="${job.job_id}"><i class="far fa-bookmark"></i> Save</button>
                         </div>
                     </div>

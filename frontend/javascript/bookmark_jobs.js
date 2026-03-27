@@ -107,9 +107,9 @@
             <div style="background:white;padding:30px;border-radius:16px;text-align:center;max-width:380px;width:90%;">
                 <h2>Login to Save Jobs</h2>
                 <p>Please login or register to save jobs.</p>
-                <a href="frontend/pages/login.html">Login</a>
+                <a href="/frontend/pages/login.html">Login</a>
                 <br><br>
-                <a href="frontend/pages/register.html">Create Account</a>
+                <a href="/frontend/pages/register.html">Create Account</a>
             </div>
         `;
 

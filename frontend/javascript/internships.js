@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 e.preventDefault();
                 if (!user.user_id) {
                     alert("Please login to save this internship.");
-                    window.location.href="frontend/pages/login.html";
+                    window.location.href="/frontend/pages/login.html";
                     return;
                 }
                 
