@@ -1,5 +1,7 @@
 // Utility to get the correct API URL (Port 8000 for Python backend)
-const getAPIURL = () => { if (window.getEasyJobsAPI) return window.getEasyJobsAPI(); return "/api"; };
+const getAPIURL = () => {
+    return "http://127.0.0.1:8000/api"
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
     const jobList = document.querySelector(".job-list");

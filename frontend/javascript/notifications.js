@@ -7,7 +7,9 @@
 (function () {
     "use strict";
 
-    const API = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
+    const API = () => {
+    return "http://127.0.0.1:8000/api"
+};
 
     /* ── Inject Notification Bell into Navbar ────────────────── */
     function injectNotificationBell() {
