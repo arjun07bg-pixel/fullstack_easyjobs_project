@@ -1,10 +1,6 @@
 // Final Unified Login Logic with 2FA/OTP support
 const getAPIURL = () => {
-    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
-    const hostname = window.location.hostname;
-    // Force port 8000 for local dev if not explicitly handled
-    if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") return "http://127.0.0.1:8000/api";
-    return "/api";
+    return "http://127.0.0.1:8000/api"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
