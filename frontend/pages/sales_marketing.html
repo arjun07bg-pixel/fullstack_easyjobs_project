@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sales & Marketing Jobs | EasyJobs - Premium Careers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="../styles/premium_category.css">
+</head>
+
+<body>
+  <header class="main-header sticky">
+    <div class="container header-content">
+      <a href="../../index.html" class="logo">
+        <i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span>
+      </a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="../../index.html" class="nav-link">Home</a></li>
+          <li><a href="../jobs.html" class="nav-link">Jobs</a></li>
+          <li><a href="../companies.html" class="nav-link">Companies</a></li>
+          <li><a href="../my_applications.html" class="nav-link">Applications</a></li>
+          <li><a href="../profile.html" class="nav-link">Profile</a></li>
+          <li><a href="../saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="../register.html" class="btn-register">Register</a>
+        <a href="../login.html" class="btn-login">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <header class="category-header">
+    <div class="container">
+      <h1>Sales & Marketing Jobs</h1>
+      <p>Drive growth and build world-class brands with India's leaders</p>
+    </div>
+  </header>
+
+  <div class="category-search-container">
+    <div class="search-box-wrapper">
+      <div class="search-input-group role-group">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+      </div>
+      <div class="search-input-group location-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+      </div>
+      <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="hero-section">
+      <div class="stats-container">
+        <div class="stat-box"><span class="number">2.8k+</span><span class="label">Live Jobs</span></div>
+        <div class="stat-box"><span class="number">620+</span><span class="label">Companies</span></div>
+        <div class="stat-box"><span class="number">18k+</span><span class="label">Placements</span></div>
+      </div>
+    </section>
+
+    <div class="job-list" id="jobs-container">
+      
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=301&title=Senior%20Digital%20Marketing%20Manager&company=Hindustan%20Unilever%20(HUL)&location=Mumbai&exp=6-10%20Yrs&salary=20%20-%2035%20LPA" class="job-title">Senior Digital Marketing Manager</a>
+            <div class="company">Hindustan Unilever (HUL)</div>
+          </div>
+          <div class="company-logo-placeholder">HU</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Mumbai</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 6-10 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 20 - 35 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Performance Marketing</span>
+          <span class="job-tag">FMCG</span>
+          <span class="job-tag">SEO/SEM</span>
+        </div>
+        <p class="details">Lead end-to-end digital transformation and performance marketing strategy for premium global brands. Expertise in data-driven marketing is a must.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(301, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=302&title=Enterprise%20Sales%20Lead&company=Salesforce%20India&location=Bangalore&exp=5-9%20Yrs&salary=25%20-%2042%20LPA" class="job-title">Enterprise Sales Lead</a>
+            <div class="company">Salesforce India</div>
+          </div>
+          <div class="company-logo-placeholder">SF</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 5-9 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 25 - 42 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">B2B Sales</span>
+          <span class="job-tag">SaaS</span>
+          <span class="job-tag">Global Accounts</span>
+        </div>
+        <p class="details">Drive high-value enterprise sales and manage strategic client relationships for our industry-leading CRM platform.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 3d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(302, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2026 EasyJobs Portal. Drive Results.</p>
+    </div>
+  </footer>
+
+  <script src="../javascript/index.js"></script>
+  <script src="../javascript/navbar_manager.js"></script>
+  <script src="../javascript/category_search.js"></script>
+</body></html>

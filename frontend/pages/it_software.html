@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IT & Software Jobs | EasyJobs - Premium Careers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="../styles/premium_category.css">
+  <link rel="stylesheet" href="../styles/global_font.css">
+</head>
+
+<body>
+  <header class="main-header sticky">
+    <div class="container header-content">
+      <a href="../../index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="../../index.html" class="nav-link">Home</a></li>
+          <li><a href="./jobs.html" class="nav-link">Find Jobs</a></li>
+          <li><a href="./companies.html" class="nav-link">Top Companies</a></li>
+          <li><a href="./internship.html" class="nav-link">Internships</a></li>
+          <li><a href="./my_applications.html" class="nav-link">My Applications</a></li>
+          <li><a href="./profile.html" class="nav-link">Profile</a></li>
+          <li><a href="./contact.html" class="nav-link">Contact</a></li>
+          <li><a href="./guidance.html" class="nav-link">Guidance</a></li>
+          <li><a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="../register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="../login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="../../index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
+    <span class="separator">/</span>
+    <span class="current">IT & Software</span>
+  </div>
+
+  <header class="category-header">
+    <div class="container">
+      <h1><i class="fas fa-laptop-code"></i> IT & Software Jobs</h1>
+      <p>Discover 3,500+ premium tech opportunities from top MNCs & startups</p>
+    </div>
+  </header>
+
+  <div class="category-search-container">
+    <div class="search-box-wrapper">
+      <div class="search-input-group role-group">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+      </div>
+      <div class="search-input-group location-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+      </div>
+      <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <h2>Start Your Tech Career Today</h2>
+        <p>Explore exciting opportunities in software development, cloud computing, and AI across India's silicon valleys.</p>
+        <div class="stats-container">
+          <div class="stat-box"><span class="number">3.5k+</span><span class="label">Live Jobs</span></div>
+          <div class="stat-box"><span class="number">850+</span><span class="label">Companies Hired</span></div>
+          <div class="stat-box"><span class="number">22k+</span><span class="label">Successful Placements</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <h2 class="section-title">Featured IT & Software Positions</h2>
+      <p class="section-subtitle" style="text-align: center; color: var(--text-muted); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
+        Work with the world's most innovative technology companies.</p>
+
+    <div class="job-list" id="jobs-container">
+      
+      <!-- Professional Job Card 1 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=201&title=Senior%20Frontend%20Developer%20(React/Next.js)&company=Google%20India&location=Bangalore&exp=4-7%20Yrs&salary=25%20-%2045%20LPA" class="job-title">Senior Frontend Developer (React/Next.js)</a>
+            <div class="company">Google India</div>
+          </div>
+          <div class="company-logo-placeholder">GO</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 4-7 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 25 - 45 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">React</span>
+          <span class="job-tag">TypeScript</span>
+          <span class="job-tag">Remote Friendly</span>
+        </div>
+        <p class="details">Work on some of the world's most high-scale products. We are looking for engineers with deep expertise in modern frontend frameworks and performance optimization.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2h ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(201, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=201&title=Senior%20Frontend%20Developer%20(React/Next.js)&company=Google%20India&location=Bangalore&exp=4-7%20Yrs&salary=25%20-%2045%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Professional Job Card 2 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=202&title=Backend%20Lead%20(Java/Spring%20Boot)&company=Amazon%20Dev%20Center&location=Hyderabad&exp=5-8%20Yrs&salary=30%20-%2055%20LPA" class="job-title">Backend Lead (Java/Spring Boot)</a>
+            <div class="company">Amazon Dev Center</div>
+          </div>
+          <div class="company-logo-placeholder">AM</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Hyderabad</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 5-8 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 30 - 55 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Java</span>
+          <span class="job-tag">AWS</span>
+          <span class="job-tag">Microservices</span>
+        </div>
+        <p class="details">Lead the architecture and development of scalable cloud-native microservices. Deep understanding of distributed systems and Java ecosystem is required.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 5h ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(202, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=202&title=Backend%20Lead%20(Java/Spring%20Boot)&company=Amazon%20Dev%20Center&location=Hyderabad&exp=5-8%20Yrs&salary=30%20-%2055%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Professional Job Card 3 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=203&title=Full%20Stack%20Web%20Developer%20(MERN)&company=Microsoft%20Corporation&location=Pune%20/%20Remote&exp=2-5%20Yrs&salary=18%20-%2035%20LPA" class="job-title">Full Stack Web Developer (MERN)</a>
+            <div class="company">Microsoft Corporation</div>
+          </div>
+          <div class="company-logo-placeholder">MS</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Pune / Remote</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 35 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Node.js</span>
+          <span class="job-tag">React</span>
+          <span class="job-tag">NoSQL</span>
+        </div>
+        <p class="details">Collaborate on building next-gen productivity tools. Experience with cloud platforms and end-to-end feature ownership is highly valued.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 1d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(203, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=203&title=Full%20Stack%20Web%20Developer%20(MERN)&company=Microsoft%20Corporation&location=Pune%20/%20Remote&exp=2-5%20Yrs&salary=18%20-%2035%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Professional Job Card 4 -->
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=204&title=Cloud%20DevOps%20Engineer&company=NVIDIA%20India&location=Bangalore&exp=3-6%20Yrs&salary=22%20-%2040%20LPA" class="job-title">Cloud DevOps Engineer</a>
+            <div class="company">NVIDIA India</div>
+          </div>
+          <div class="company-logo-placeholder">NV</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 3-6 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 22 - 40 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Kubernetes</span>
+          <span class="job-tag">Terraform</span>
+          <span class="job-tag">CI/CD</span>
+        </div>
+        <p class="details">Manage large-scale computing clusters and streamline deployment workflows. Experience with AI infrastructure or high-performance computing is a plus.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(204, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=204&title=Cloud%20DevOps%20Engineer&company=NVIDIA%20India&location=Bangalore&exp=3-6%20Yrs&salary=22%20-%2040%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+    <div style="text-align: center; margin-bottom: 100px;">
+        <a href="/frontend/pages/jobs.html" class="apply-btn"
+            style="width: auto; padding: 18px 50px; display: inline-block;">
+            View All IT & Software Jobs <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="skills-section">
+        <h2 class="section-title">Essential Tech Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> Frontend Development</h3>
+                <ul>
+                    <li>React.js & Next.js Frameworks</li>
+                    <li>TypeScript & Core JavaScript</li>
+                    <li>HTML5, CSS3 & Tailwind CSS</li>
+                    <li>Responsive Web Design</li>
+                    <li>State Management (Redux/Zustand)</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-server"></i> Backend & Cloud</h3>
+                <ul>
+                    <li>Node.js, Python or Java</li>
+                    <li>RESTful APIs & Microservices</li>
+                    <li>AWS, Azure or Google Cloud</li>
+                    <li>SQL & NoSQL Databases</li>
+                    <li>Docker & Kubernetes</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-brain"></i> Emerging Tech</h3>
+                <ul>
+                    <li>Artificial Intelligence & ML</li>
+                    <li>Cybersecurity Fundamentals</li>
+                    <li>Data Structures & Algorithms</li>
+                    <li>DevOps & CI/CD Pipelines</li>
+                    <li>Version Control (Git/GitHub)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="career-path-section">
+        <h2 class="section-title">IT Career Progression</h2>
+        <div class="career-level">
+            <h3><i class="fas fa-seedling"></i> Junior Level (0-2 Years)</h3>
+            <p>Software Engineer Trainee or Junior Developer. Focus on coding fundamentals and bug fixes. <strong>₹4 – 10 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-arrow-up"></i> Mid Level (3-7 Years)</h3>
+            <p>Senior Software Engineer or Tech Lead. Responsibility for module architecture and team mentoring. <strong>₹15 – 35 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-star"></i> Senior Level (8–15 Years)</h3>
+            <p>Solutions Architect or Engineering Manager. Strategic decision making and multi-product oversight. <strong>₹40 – 75 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-crown"></i> Expert Level (15+ Years)</h3>
+            <p>CTO or VP of Engineering. Driving global tech strategy and organizational innovation. <strong>₹100+ LPA.</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="companies-section">
+        <h2 class="section-title">Top Global Tech Employers</h2>
+        <div class="companies-grid">
+            <div class="company-logo">Google</div>
+            <div class="company-logo">Microsoft</div>
+            <div class="company-logo">Amazon</div>
+            <div class="company-logo">Meta</div>
+            <div class="company-logo">TCS</div>
+            <div class="company-logo">Infosys</div>
+            <div class="company-logo">Apple</div>
+            <div class="company-logo">Adobe</div>
+        </div>
+    </div>
+</div>
+
+<section class="content-section featured-categories">
+    <div class="container">
+        <h2 class="section-title">Explore Other Sectors</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <i class="fas fa-chart-line category-icon"></i>
+                <h3>Sales & Marketing</h3>
+                <p>1,800+ Openings</p>
+                <a href="/frontend/pages/sales_and_marketing.html " class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-dollar-sign category-icon"></i>
+                <h3>Finance & Accounting</h3>
+                <p>1,100+ Openings</p>
+                <a href="/frontend/pages/finance_accounting.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-tools category-icon"></i>
+                <h3>Engineering</h3>
+                <p>2,500+ Openings</p>
+                <a href="/frontend/pages/engineering.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../index.html">Home</a>
+        <a href="../jobs.html">Find Jobs</a>
+        <a href="../contact.html">Contact Us</a>
+        <a href="../profile.html">My Profile</a>
+      </div>
+      <p>&copy; 2026 EasyJobs Portal. Built for Success.</p>
+    </div>
+  </footer>
+
+  <script src="../javascript/index.js""></script>
+  <script src="../javascript/navbar_manager.js""></script>
+  <script src="../javascript/category_search.js""></script>
+  <script src="../javascript/notifications.js""></script>
+</body>
+
+</html>

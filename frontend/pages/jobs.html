@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Find Jobs | EasyJobs - Simple, Fast, Convenient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../../index.css"> -->
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="../styles/jobs.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
+    <style>
+        /* ── Mobile Responsive Jobs ── */
+        @media (max-width: 992px) {
+            .main-container { flex-direction: column; gap: 20px; }
+            .filter-sidebar { width: 100% !important; order: 1; }
+            .jobs-section { order: 2; }
+            .filter-sidebar .filter-section { display: none; }
+            .filter-sidebar.open .filter-section { display: block; }
+            .filter-sidebar h3 { cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+            .filter-sidebar h3::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
+            .filter-sidebar.open h3::after { content: '\f077'; }
+        }
+        @media (max-width: 768px) {
+            .header-content { flex-wrap: wrap; gap: 10px; padding: 10px 15px; }
+            .nav-menu { display: none; width: 100%; order: 3; }
+            .nav-menu.open { display: block; }
+            .nav-menu ul { flex-direction: column; gap: 0; padding: 10px 0; }
+            .nav-menu ul li a { padding: 12px 20px; display: block; border-bottom: 1px solid rgba(255,255,255,0.08); }
+            .auth-buttons { order: 2; }
+            .hamburger-btn {
+                display: flex !important;
+                background: rgba(255,255,255,0.1);
+                border: none;
+                color: white;
+                width: 42px;
+                height: 42px;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                cursor: pointer;
+                order: 1;
+                margin-left: auto;
+            }
+        }
+        .hamburger-btn { display: none; }
+    </style>
+
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="../../index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span
+                    class="logo-accent">Jobs</span></a>
+
+
+
+            <!-- Mobile Hamburger -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="./jobs.html" class="nav-link active"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                    <li><a href="./companies.html" class="nav-link"><i class="fas fa-building"></i> Companies</a></li>
+                    <li><a href="./internship.html" class="nav-link"><i class="fas fa-user-graduate"></i> Internships</a></li>
+                    <li><a href="./my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My Applications</a></li>
+                    <li><a href="./profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="./contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="./guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
+                    <li><a href="./saved_jobs.html" class="nav-link" title="Saved Jobs"><i
+                                 class="fas fa-bookmark"></i></a></li>
+                </ul>
+            </nav>
+
+
+
+            <div class="auth-buttons">
+                <a href="../register.html" class="btn-register"><i class="fas fa-user-plus"></i>
+                    Register</a>
+                <a href="../login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
+        <span class="separator">/</span>
+        <span class="current">Find Jobs</span>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar">
+            <div class="filter-section">
+                <h3><i class="fas fa-search-plus"></i> Search Filters</h3>
+                <div class="search-box">
+                    <input type="text" id="keyword-search" placeholder="Keywords (e.g. React, UX)">
+                </div>
+                <div class="search-box">
+                    <input type="text" id="location-search" placeholder="Location (City, State)">
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-layer-group"></i> Experience Level</h3>
+                <select id="exp-select">
+                    <option value="">Any Experience</option>
+                    <option value="0">Fresher (0-1 year)</option>
+                    <option value="1">Junior (1-2 years)</option>
+                    <option value="3">Mid-Level (3-5 years)</option>
+                    <option value="5">Senior (5+ years)</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-briefcase"></i> Job Type</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="job_type" value="Full Time"> Full Time</label>
+                    <label><input type="checkbox" name="job_type" value="Part Time"> Part Time</label>
+                    <label><input type="checkbox" name="job_type" value="Contract"> Contract</label>
+                    <label><input type="checkbox" name="job_type" value="Internship"> Internship</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3><i class="fas fa-house-laptop"></i> Work Mode</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="work_mode" value="On-site"> On-site</label>
+                    <label><input type="checkbox" name="work_mode" value="Remote"> Remote</label>
+                    <label><input type="checkbox" name="work_mode" value="Hybrid"> Hybrid</label>
+                </div>
+            </div>
+
+            <button class="apply-btn" id="applyFiltersBtn">Apply Filters <i class="fas fa-filter"></i></button>
+            <button class="clear-btn" id="clearAllBtn">Clear All Filters</button>
+        </aside>
+
+        <!-- Jobs Section -->
+        <section class="jobs-section">
+            <div class="jobs-header">
+                <div>
+                    <h2>Available Jobs</h2>
+                    <p class="jobs-count" id="jobs-count-text">Loading jobs...</p>
+                </div>
+                <select class="sort-dropdown">
+                    <option>Most Recent</option>
+                    <option>Salary: High to Low</option>
+                    <option>Salary: Low to High</option>
+                    <option>Experience Level</option>
+                </select>
+            </div>
+
+            <!-- Dynamic Jobs Container -->
+            <div id="jobs-container">
+                <div style="text-align: center; padding: 60px 20px; grid-column: 1/-1;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">?</div>
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Loading Jobs...</h3>
+                    <p style="color: #666;">Please wait while we fetch the latest job openings for you.</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination-container"></div>
+        </section>
+    </div>
+
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="dashboard.html">Employer Dashboard</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <p>&copy; 2026 EasyJobs. All rights reserved. | Simple, Fast, Convenient.</p>
+        </div>
+    </footer>
+
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/jobs.js"></script>
+    <script src="../javascript/notifications.js"></script>
+    <script>
+        // Mobile hamburger toggle
+        document.getElementById('hamburgerBtn')?.addEventListener('click', function() {
+            const nav = document.getElementById('navMenu');
+            nav.classList.toggle('open');
+            this.querySelector('i').className = nav.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+        });
+        // Collapse filters toggle
+        document.querySelector('.filter-sidebar h3')?.addEventListener('click', function() {
+            this.parentElement.parentElement.classList.toggle('open');
+        });
+    </script>
+</body>
+
+</html>

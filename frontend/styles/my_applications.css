@@ -1,0 +1,660 @@
+/* ================================================================
+   MY APPLICATIONS PAGE - TABLE STYLE
+   EasyJobs | Clean, Professional, Simple
+   ================================================================ */
+
+/* ───── Page Title Bar ───── */
+.page-title-bar {
+    background: linear-gradient(130deg, #062e7f 0%, #1a52cc 60%, #2563eb 100%);
+    padding: 28px 0;
+    color: #fff;
+}
+
+.ptb-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ptb-left h1 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.ptb-left h1 i {
+    font-size: 1.3rem;
+    opacity: 0.85;
+}
+
+.ptb-left p {
+    font-size: 0.88rem;
+    opacity: 0.78;
+    margin: 0;
+}
+
+.ptb-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.ptb-browse-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ───── Two-Column Layout ───── */
+.myapp-layout {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    align-items: start;
+    min-height: calc(100vh - 450px); /* Ensures page doesn't feel empty */
+}
+
+/* ───── LEFT SIDEBAR ───── */
+.myapp-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sidebar-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.sidebar-card-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sidebar-card-title i {
+    color: #2563eb;
+    font-size: 0.8rem;
+}
+
+/* Summary rows */
+.summary-list {
+    padding: 10px 0;
+}
+
+.summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    font-size: 0.84rem;
+    color: #374151;
+    border-bottom: 1px solid #f8fafc;
+    transition: background 0.15s;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-row:hover {
+    background: #f8fafc;
+}
+
+.summary-row.review {
+    color: #1d4ed8;
+}
+
+.summary-row.shortlisted {
+    color: #15803d;
+}
+
+.summary-row.rejected {
+    color: #b91c1c;
+}
+
+.sum-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.sum-label i {
+    font-size: 0.75rem;
+}
+
+.sum-count {
+    font-weight: 800;
+    font-size: 1rem;
+    min-width: 26px;
+    text-align: right;
+}
+
+#sum-total .sum-count {
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+/* Side filter buttons */
+.filter-list {
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.side-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.18s;
+}
+
+.side-filter-btn i {
+    font-size: 0.8rem;
+    width: 16px;
+    text-align: center;
+}
+
+.side-filter-btn:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.side-filter-btn.active {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    color: #1d4ed8;
+    font-weight: 700;
+    border-left: 3px solid #2563eb;
+}
+
+/* Quick links */
+.quick-links {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.quick-links li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: #475569;
+    text-decoration: none;
+    transition: all 0.18s;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.quick-links li:last-child a {
+    border-bottom: none;
+}
+
+.quick-links li a i {
+    color: #2563eb;
+    font-size: 0.8rem;
+    width: 16px;
+}
+
+.quick-links li a:hover {
+    background: #f8fafc;
+    color: #2563eb;
+    padding-left: 22px;
+}
+
+/* ───── MAIN CONTENT ───── */
+.myapp-main {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Search Bar */
+.myapp-search-bar {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+.msb-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.msb-icon {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.myapp-search-bar input {
+    border: none;
+    outline: none;
+    font-size: 0.88rem;
+    font-family: 'Poppins', sans-serif;
+    color: #374151;
+    width: 100%;
+    background: transparent;
+}
+
+.myapp-search-bar input::placeholder {
+    color: #adb5c8;
+}
+
+.msb-count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+    background: #f1f5f9;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* ───── STATE BOXES ───── */
+.state-box {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 60px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 320px;
+    margin-bottom: 40px;
+}
+
+.state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 4px;
+}
+
+.state-icon.lock {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.state-icon.folder {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.state-icon.search {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.state-box h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.state-box p {
+    font-size: 0.88rem;
+    color: #64748b;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 340px;
+}
+
+.state-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Loading spinner */
+.loader-ring {
+    width: 46px;
+    height: 46px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+    margin-bottom: 6px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ───── TABLE LAYOUT ───── */
+.table-container {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* For rounded corners with table */
+    width: 100%;
+    overflow-x: auto;
+}
+
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.app-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.app-table th {
+    padding: 16px 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.app-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.2s ease;
+}
+
+.app-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.app-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.app-table td {
+    padding: 18px 20px;
+    font-size: 0.9rem;
+    color: #334155;
+    vertical-align: middle;
+}
+
+/* Job & Company Info in Table */
+.td-job-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.td-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.td-job-text h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.td-job-text p {
+    font-size: 0.85rem;
+    color: #2563eb;
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Status Badge */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-badge.applied {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.status-badge.shortlisted {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.status-badge.rejected {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.status-badge.interview {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+/* Actions in Table */
+.td-actions {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.tbl-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tbl-btn.view {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.tbl-btn.view:hover {
+    background: #dbeafe;
+}
+
+.tbl-btn.withdraw {
+    background: #fff;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+}
+
+.tbl-btn.withdraw:hover {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+/* App user context wrapper */
+.user-context-banner {
+    background: #eff6ff;
+    color: #1e40af;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    border-left: 4px solid #3b82f6;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.user-context-banner i {
+    font-size: 1.2rem;
+    color: #2563eb;
+    margin-top: 2px;
+}
+
+.ucb-text strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+
+/* ───── STATE ACTION BUTTONS ───── */
+.sa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sa-btn.primary {
+    background: #2563eb;
+    color: #fff;
+    border: 2px solid #2563eb;
+}
+
+.sa-btn.primary:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.sa-btn.secondary {
+    background: #fff;
+    color: #374151;
+    border: 2px solid #e2e8f0;
+}
+
+.sa-btn.secondary:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+/* ───── RESPONSIVE ───── */
+@media (max-width: 900px) {
+    .myapp-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .myapp-sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .app-table th:nth-child(2),
+    .app-table td:nth-child(2) {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .myapp-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .app-table th:nth-child(4),
+    .app-table td:nth-child(4) {
+        display: none;
+    }
+
+    .td-actions {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

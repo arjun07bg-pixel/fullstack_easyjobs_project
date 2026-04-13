@@ -1,0 +1,212 @@
+:root {
+    --is-blue: #008BDC;
+    --is-text: #333;
+    --is-muted: #666;
+    --is-bg: #f8f8f8;
+    --is-border: #eee;
+    --is-card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+body.internshala-clone {
+    background-color: var(--is-bg);
+    color: var(--is-text);
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.is-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* Sidebar Filters */
+.is-sidebar {
+    width: 280px;
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    border: 1px solid var(--is-border);
+}
+
+.is-sidebar h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group {
+    margin-bottom: 25px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.filter-group input[type="text"],
+.filter-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+/* Internship Cards List */
+.is-content {
+    flex: 1;
+}
+
+.is-card {
+    background: white;
+    border: 1px solid var(--is-border);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: 0.2s;
+    position: relative;
+    cursor: pointer;
+}
+
+.is-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.is-card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.is-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.is-company {
+    color: var(--is-muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.is-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border: 1px solid #f0f0f0;
+    padding: 2px;
+}
+
+.is-location {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.is-details-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: var(--is-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.is-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.is-tag {
+    background: #f1f1f1;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--is-muted);
+}
+
+.is-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--is-border);
+    padding-top: 15px;
+}
+
+.is-view-btn {
+    color: var(--is-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Banner/Heading */
+.is-heading {
+    text-align: center;
+    padding: 40px 0;
+    background: white;
+    border-bottom: 1px solid var(--is-border);
+}
+
+.is-heading h1 {
+    font-size: 28px;
+    color: #222;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .is-container {
+        flex-direction: column;
+    }
+
+    .is-sidebar {
+        width: 100%;
+        position: static;
+    }
+
+    .is-details-row {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}

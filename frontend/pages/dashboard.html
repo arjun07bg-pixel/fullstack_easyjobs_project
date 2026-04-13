@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard | EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/internshala_recruiter.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
+    <style>
+        /* ── Dashboard Mobile Responsive ── */
+        @media (max-width: 860px) {
+            .is-sidebar {
+                position: fixed !important;
+                left: -280px;
+                top: 0;
+                bottom: 0;
+                z-index: 9999;
+                transition: left 0.3s ease;
+                width: 260px !important;
+            }
+
+            .is-sidebar.open {
+                left: 0 !important;
+            }
+
+            .main-panel {
+                margin-left: 0 !important;
+            }
+
+            .mobile-top-bar {
+                display: flex !important;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 20px;
+                background: white;
+                border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            }
+
+            .page-header {
+                display: none;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            #post-job-form {
+                grid-template-columns: 1fr !important;
+            }
+
+            #post-job-form>div[style*="span 2"] {
+                grid-column: span 1 !important;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .stats-row {
+                grid-template-columns: 1fr !important;
+            }
+
+            .modal-content {
+                width: 95% !important;
+                margin: 20px auto !important;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .mobile-top-bar {
+            display: none;
+        }
+
+        .sidebar-toggle-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: #475569;
+        }
+
+        /* Analytics Charts */
+        .analytics-bar {
+            height: 24px;
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+
+        .company-rank-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .company-rank-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+
+    <!-- Auth Guard -->
+    <script>
+        (function () {
+            const user = JSON.parse(localStorage.getItem("user") || "{}");
+            if (user.role !== "admin" && user.role !== "employer") {
+                window.location.replace("login.html");
+            }
+        })();
+    </script>
+</head>
+
+<body class="recruiter-clone">
+
+    <!-- Sidebar -->
+    <aside class="is-sidebar">
+        <div class="sidebar-header">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-briefcase"></i> Easy<span>jobs</span>
+            </a>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#" class="nav-item active" onclick="switchTab('overview')">
+                <i class="fas fa-th-large"></i> Dashboard Overview
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('applications')">
+                <i class="fas fa-user-tie"></i> Candidate Applications
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('post-job')">
+                <i class="fas fa-plus-square"></i> Create New Listing
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('my-jobs')">
+                <i class="fas fa-briefcase"></i> Active Vacancies
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('users')">
+                <i class="fas fa-database"></i> Talent Database
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('analytics')">
+                <i class="fas fa-chart-bar"></i> Analytics
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('interviews')">
+                <i class="fas fa-calendar-check"></i> Interviews
+            </a>
+        </nav>
+
+
+        <div class="sidebar-footer">
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <main class="main-panel">
+
+        <!-- Mobile Top Bar -->
+        <div class="mobile-top-bar">
+            <button class="sidebar-toggle-btn" id="sidebarToggleMobile">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span style="font-weight:700; color:#0f172a; font-size:16px;">
+                <i class="fas fa-briefcase" style="color:#2563eb; margin-right:6px;"></i>EasyJobs Dashboard
+            </span>
+        </div>
+
+        <header class="page-header">
+            <div class="page-title">
+                <h1 id="page-title">Employer Dashboard</h1>
+                <p id="page-subtitle">Streamline your hiring process and manage talent.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div id="topbar-time"
+                    style="font-size: 15px; font-weight: 700; color: var(--text-muted); background: white; padding: 10px 18px; border-radius: 12px; box-shadow: var(--card-shadow);">
+                </div>
+                <div
+                    style="background: white; color: var(--primary); padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: var(--card-shadow); display: flex; align-items: center; gap: 10px; border: 1px solid var(--border);">
+                    <i class="fas fa-user-circle" style="font-size: 20px;"></i> <span id="tb-admin-name">Employer
+                        Account</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Section -->
+        <div id="tab-overview" class="tab-content active">
+            <!-- Company Profile Card (Only for Employers) -->
+            <div id="employer-profile-card" class="table-card"
+                style="margin-bottom: 25px; display: none; background: linear-gradient(135deg, #f8fafc, #eff6ff); border-left: 5px solid #008BDC;">
+                <div style="padding: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div id="profile-card-icon"
+                            style="width: 60px; height: 60px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                            🏢</div>
+                        <div>
+                            <h2 id="profile-card-name" style="margin: 0; font-size: 20px; color: #1e293b;">Company Name
+                            </h2>
+                            <p id="profile-card-industry" style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;"><i
+                                    class="fas fa-industry"></i> Industry</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 40px; text-align: right;">
+                        <div>
+                            <div
+                                style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Size</div>
+                            <div id="profile-card-size" style="font-weight: 600; color: #334155;">—</div>
+                        </div>
+                        <div>
+                            <div
+                                style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Website</div>
+                            <div id="profile-card-web" style="font-weight: 600; color: #008BDC;">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="label">Total Applications</div>
+                    <div class="value" id="stat-total-apps">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Shortlisted</div>
+                    <div class="value" id="stat-shortlisted" style="color: #2e7d32;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Pending Review</div>
+                    <div class="value" id="stat-under-review" style="color: #1976d2;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Rejected</div>
+                    <div class="value" id="stat-rejected" style="color: #dc2626;">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Registered Candidates</div>
+                    <div class="value" id="stat-total-users" style="color: #6366f1;">0</div>
+                </div>
+            </div>
+
+            <!-- Recent Applicants Table -->
+            <div class="table-card">
+                <div class="card-header">
+                    <h2>Recent Candidate Applications</h2>
+                    <button class="btn-primary" style="padding: 8px 20px; font-size: 13px;"
+                        onclick="switchTab('applications')">View All Candidates</button>
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>Candidate Detail</th>
+                                <th>Target Position</th>
+                                <th>Applied Date</th>
+                                <th>Experience</th>
+                                <th>Current Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-tbody">
+                            <!-- JS will inject rows here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Tab -->
+        <div id="tab-applications" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <h2>All Applicants Detailed List</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="app-search" placeholder="Search candidate..."
+                            style="padding: 8px; border: 1px solid #eee; border-radius: 4px;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>CANDIDATE</th>
+                                <th>JOB/INTERNSHIP</th>
+                                <th>PHONE</th>
+                                <th>LOCATION</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-apps-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- My Jobs Tab -->
+        <div id="tab-my-jobs" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <h2>Manage My Job Postings</h2>
+                    <button class="btn-primary" onclick="switchTab('post-job')"
+                        style="background:#008BDC; color:white; border:none; padding:8px 15px; border-radius:4px; font-weight:600; cursor:pointer;">+
+                        Post New</button>
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>JOB TITLE</th>
+                                <th>COMPANY</th>
+                                <th>LOCATION</th>
+                                <th>TYPE</th>
+                                <th>SALARY</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-jobs-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Talent Database Tab -->
+        <div id="tab-users" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Talent Database</h2>
+                        <p style="color: #64748b; font-size: 14px;">Browse and search all registered candidates on the platform.</p>
+                    </div>
+                </div>
+                <div style="padding: 10px 20px; border-bottom: 1px solid #f1f5f9;">
+                    <input type="text" id="user-search" placeholder="Search by name, email or skills..." 
+                           style="width: 100%; padding: 12px 20px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; font-size: 15px;">
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>CANDIDATE</th>
+                                <th>EMAIL</th>
+                                <th>ROLE</th>
+                                <th>LOCATION</th>
+                                <th>SKILLS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="tab-analytics" class="tab-content" style="display:none;">
+            <!-- Simple Platform Stats row for Admin -->
+            <div id="admin-stats-row" class="stats-row" style="margin-bottom: 25px;">
+                <!-- Filled by JS -->
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px;">
+                <div class="table-card">
+                    <div class="card-header">
+                        <h2>Top Companies (By Applications)</h2>
+                    </div>
+                    <div id="company-rankings-list" style="padding: 10px 20px;">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="card-header">
+                        <h2>Application Status Breakdown</h2>
+                    </div>
+                    <div id="status-breakdown-chart" style="padding: 20px;">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card" style="margin-top: 25px;">
+                <div class="card-header">
+                    <h2>Advanced Company Analytics Tool</h2>
+                </div>
+                <div style="padding: 20px;">
+                    <div style="display: flex; gap:15px; margin-bottom: 25px;">
+                        <input type="text" id="company-lookup-input" placeholder="Enter company name..." 
+                               style="flex:1; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; outline:none;">
+                        <button onclick="lookupCompany()" class="btn-primary" style="padding: 12px 30px;">
+                            <i class="fas fa-search"></i> Analyze Company
+                        </button>
+                    </div>
+                    <div id="company-detail-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interviews Tab -->
+        <div id="tab-interviews" class="tab-content" style="display:none;">
+            <div class="table-card">
+                <div class="card-header">
+                    <div>
+                        <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 5px;">Scheduled
+                            Interviews</h2>
+                        <p style="color: #64748b; font-size: 14px;">Keep track of all upcoming candidate meetings.</p>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="recruiter-table">
+                        <thead>
+                            <tr>
+                                <th>CANDIDATE</th>
+                                <th>JOB TITLE</th>
+                                <th>INTERVIEW DATE</th>
+                                <th>LOCATION / LINK</th>
+                                <th>STATUS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="interviews-tbody">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Job Tab -->
+        <div id="tab-post-job" class="tab-content" style="display:none;">
+            <div class="table-card" style="padding: 40px; border-radius: 24px;">
+                <div style="margin-bottom: 30px;">
+                    <h2 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">Post New
+                        Opportunity</h2>
+                    <p style="color: var(--text-muted); font-size: 15px;">Fill in the details below to publish a new job
+                        or internship vacancy.</p>
+                </div>
+
+                <form id="post-job-form" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Job
+                            Title <span style="color:red;">*</span></label>
+                        <input type="text" id="pj-title" placeholder="e.g. Senior Software Engineer" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Company
+                            Name <span style="color:red;">*</span></label>
+                        <input type="text" id="pj-company" placeholder="Auto-filled from profile" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px; background: #f8fafc;">
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Location
+                            <span style="color:red;">*</span></label>
+                        <input type="text" id="pj-location" placeholder="e.g. Bangalore or Remote" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Exp
+                            Requirement (Years) <span style="color:red;">*</span></label>
+                        <input type="number" id="pj-exp" placeholder="e.g. 2" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Salary/Stipend
+                            (LPA) <span style="color:red;">*</span></label>
+                        <input type="number" id="pj-salary" placeholder="e.g. 6" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px;">
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Job
+                            Type <span style="color:red;">*</span></label>
+                        <select id="pj-type" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px; background: white;">
+                            <option value="Full Time">Full Time Role</option>
+                            <option value="Internship">Internship / Trainee</option>
+                            <option value="Part Time">Part Time Work</option>
+                            <option value="Contract">Contractual / Freelance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Working
+                            Mode <span style="color:red;">*</span></label>
+                        <select id="pj-mode" required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px; background: white;">
+                            <option value="In-Office">In-Office (Direct)</option>
+                            <option value="Remote">Work From Home (Remote)</option>
+                            <option value="Hybrid">Hybrid (Flexible)</option>
+                        </select>
+                    </div>
+                    <div style="grid-column: span 2;">
+                        <label
+                            style="display:block; font-size:13px; font-weight:700; color:#475569; margin-bottom:8px; text-transform: uppercase; letter-spacing: 0.5px;">Job
+                            Description & Requirements <span style="color:red;">*</span></label>
+                        <textarea id="pj-desc" rows="6"
+                            placeholder="Describe the role, responsibilities, and qualifications..." required
+                            style="width:100%; padding:14px; border:1px solid var(--border); border-radius:12px; font-size: 15px; font-family: inherit;"></textarea>
+                    </div>
+                    <div style="grid-column: span 2; display: flex; justify-content: flex-end; padding-top: 10px;">
+                        <button type="submit" id="pj-submit" class="btn-primary"
+                            style="padding: 16px 45px; font-size: 16px;">
+                            <i class="fas fa-paper-plane" style="margin-right: 10px;"></i> Publish Job Listing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Detailed Application Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="modal-close"><i class="fas fa-times"></i></span>
+
+            <div class="modal-header-info">
+                <div id="modal-avatar" class="cand-avatar"
+                    style="width: 80px; height: 80px; font-size: 32px; border-radius: 20px;">A</div>
+                <div style="flex: 1;">
+                    <h2 id="modal-name" style="margin: 0 0 5px 0; font-size: 28px; font-weight: 800; color: #0f172a;">
+                        Applicant Name</h2>
+                    <p id="modal-company"
+                        style="margin: 0 0 15px 0; color: var(--text-muted); font-size: 16px; font-weight: 500;">
+                        Applying for: Software Engineer</p>
+                    <div id="modal-status-badge"></div>
+                </div>
+            </div>
+
+            <div class="detail-grid" id="modal-grid">
+                <!-- JS will fill -->
+            </div>
+
+            <div class="cover-letter-box" id="modal-cover-section">
+                <h4><i class="fas fa-quote-left" style="color: var(--primary); margin-right: 8px;"></i> Candidate Cover
+                    Letter / Statement</h4>
+                <p id="modal-cover-text" style="color: #475569; line-height: 1.7; font-size: 15px;"></p>
+            </div>
+
+            <div class="modal-action-bar">
+                <button class="btn-primary" id="btn-shortlist" style="background: var(--success);"><i
+                        class="fas fa-check-circle"></i> Shortlist Candidate</button>
+                <button class="btn-primary" id="btn-interview-modal" style="background: #6366f1;"><i
+                        class="fas fa-calendar-plus"></i> Schedule Interview</button>
+                <button class="btn-primary" id="btn-reject" style="background: var(--danger);"><i
+                        class="fas fa-times-circle"></i> Mark as Not Selected</button>
+                <a href="#" id="modal-resume-link" target="_blank"
+                    style="margin-left:auto; display:flex; align-items:center; gap:10px; background: var(--primary-light); color: var(--primary); padding: 12px 25px; border-radius: 12px; font-weight: 700; text-decoration:none; transition: var(--transition);">
+                    <i class="fas fa-file-download"></i> Download Resume
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Interview Scheduler Modal -->
+    <div class="modal-overlay" id="interview-modal-overlay" style="z-index: 10001; background: rgba(0,0,0,0.4);">
+        <div class="modal-content"
+            style="max-width: 450px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin:0; font-size:22px; font-weight:800; color:#1e293b;"><i class="fas fa-calendar-alt"
+                        style="color:#6366f1; margin-right:10px;"></i> Schedule Interview</h3>
+                <button id="close-interview-modal"
+                    style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:20px;"><i
+                        class="fas fa-times"></i></button>
+            </div>
+
+            <form id="schedule-interview-form" style="display: flex; flex-direction: column; gap: 20px;">
+                <input type="hidden" id="int-application-id">
+
+                <div>
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Interview
+                        Date & Time</label>
+                    <input type="datetime-local" id="int-datetime" required
+                        style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'">
+                </div>
+
+                <div>
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Location
+                        / Meeting Link</label>
+                    <input type="text" id="int-location" placeholder="e.g. Google Meet Link or Office Address" required
+                        style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'">
+                </div>
+
+                <div>
+                    <label
+                        style="display:block; margin-bottom:8px; font-weight:600; color:#475569; font-size:14px;">Additional
+                        Notes (Optional)</label>
+                    <textarea id="int-notes" placeholder="Any specific instructions for the candidate..."
+                        style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px; font-family:inherit; outline:none; resize:none; transition:0.3s;"
+                        onfocus="this.style.borderColor='#6366f1'"></textarea>
+                </div>
+
+                <button type="submit"
+                    style="background: #6366f1; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px;"
+                    onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Confirm & Notify
+                    Candidate</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/dashboard.js"></script>
+    <script src="../javascript/notifications.js"></script>
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('sidebarToggleMobile')?.addEventListener('click', function () {
+            const sb = document.querySelector('.is-sidebar');
+            sb?.classList.toggle('open');
+        });
+        // Close sidebar on outside click (mobile overlay)
+        document.addEventListener('click', function (e) {
+            const sb = document.querySelector('.is-sidebar');
+            const btn = document.getElementById('sidebarToggleMobile');
+            if (sb && window.innerWidth <= 860 && sb.classList.contains('open')
+                && !sb.contains(e.target) && !btn?.contains(e.target)) {
+                sb.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+
+</html>

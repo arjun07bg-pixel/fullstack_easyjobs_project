@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Jobs - EasyJobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="../styles/saved_jobs.css">
+    <link rel="stylesheet" href="../styles/global_font.css">
+</head>
+
+<body>
+    <header class="main-header sticky">
+        <div class="container header-content">
+            <a href="../../index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span
+                    class="logo-accent">Jobs</span></a>
+
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="../../index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="./jobs.html" class="nav-link"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                    <li><a href="./companies.html" class="nav-link"><i class="fas fa-building"></i> Companies</a></li>
+                    <li><a href="./internship.html" class="nav-link"><i class="fas fa-user-graduate"></i>
+                            Internships</a></li>
+                    <li><a href="./my_applications.html" class="nav-link"><i class="fas fa-file-alt"></i> My
+                            Applications</a></li>
+                    <li><a href="./profile.html" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="./contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="./guidance.html" class="nav-link"><i class="fas fa-info-circle"></i> Guidance</a></li>
+                    <li><a href="./saved_jobs.html" class="nav-link active" title="Saved Jobs"><i
+                                class="fas fa-bookmark"></i></a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <!-- Logged-in structure will be injected by index.js -->
+                <a href="../register.html" class="btn-register"><i class="fas fa-user-plus"></i>
+                    Register</a>
+                <a href="../login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="../../index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
+        <span class="separator">/</span>
+        <span class="current">Saved Jobs</span>
+    </div>
+
+    <div class="container main-content">
+        <div class="header-section">
+            <div class="header-title">
+                <i class="fas fa-bookmark"></i>
+                <h1>My Saved Jobs</h1>
+            </div>
+            <p class="header-subtitle">Track and manage the opportunities you've saved for later.</p>
+        </div>
+
+        <div id="saved-jobs-container" class="jobs-list">
+            <div class="empty-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading your saved jobs...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer" style="margin-top: 60px;">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <p>&copy; 2026 EasyJobs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../javascript/index.js"></script>
+    <script src="../javascript/navbar_manager.js"></script>
+    <script src="../javascript/saved_jobs.js"></script>
+    <script src="../javascript/notifications.js"></script>
+</body>
+
+</html>

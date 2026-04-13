@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finance & Accounting Jobs | EasyJobs - Premium Careers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="../styles/premium_category.css">
+</head>
+
+<body>
+  <header class="main-header sticky">
+    <div class="container header-content">
+      <a href="../../index.html" class="logo">
+        <i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span>
+      </a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="../../index.html" class="nav-link">Home</a></li>
+          <li><a href="/frontend/pages/jobs.html" class="nav-link">Jobs</a></li>
+          <li><a href="/frontend/pages/companies.html" class="nav-link">Companies</a></li>
+          <li><a href="/frontend/pages/my_applications.html" class="nav-link">Applications</a></li>
+          <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+          <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="../register.html" class="btn-register">Register</a>
+        <a href="../login.html" class="btn-login">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <header class="category-header">
+    <div class="container">
+      <h1>Finance & Accounting Jobs</h1>
+      <p>Secure your future with top financial institutions and global accounting firms</p>
+    </div>
+  </header>
+
+  <div class="category-search-container">
+    <div class="search-box-wrapper">
+      <div class="search-input-group role-group">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+      </div>
+      <div class="search-input-group location-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+      </div>
+      <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="hero-section">
+      <div class="stats-container">
+        <div class="stat-box"><span class="number">1.5k+</span><span class="label">Live Jobs</span></div>
+        <div class="stat-box"><span class="number">210+</span><span class="label">BFSI Top Firms</span></div>
+        <div class="stat-box"><span class="number">9k+</span><span class="label">Careers Started</span></div>
+      </div>
+    </section>
+
+    <div class="job-list" id="jobs-container">
+      
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=" class="job-title">Financial Analyst (Global Markets)</a>
+            <div class="company">Goldman Sachs India</div>
+          </div>
+          <div class="company-logo-placeholder">GS</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 2-5 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 15 - 28 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Financial Modeling</span>
+          <span class="job-tag">Valuation</span>
+          <span class="job-tag">Excel Mastery</span>
+        </div>
+        <p class="details">Provide strategic financial insights and perform detailed valuation modeling for global portfolios in a high-growth environment.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 1d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(401, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=" class="job-title">Senior Chartered Accountant (Audit)</a>
+            <div class="company">Deloitte India</div>
+          </div>
+          <div class="company-logo-placeholder">DE</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Gurgaon</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 5-8 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 32 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">Statutory Audit</span>
+          <span class="job-tag">GST Compliance</span>
+          <span class="job-tag">Ind AS</span>
+        </div>
+        <p class="details">Lead complex audit engagements and provide global tax advisory services for Fortune 500 clients with high accuracy.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 3d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(402, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2026 EasyJobs Portal. Future Secure.</p>
+    </div>
+  </footer>
+
+  <script src="../javascript/index.js"></script>
+  <script src="../javascript/navbar_manager.js"></script>
+  <script src="../javascript/category_search.js"></script>
+</body></html>

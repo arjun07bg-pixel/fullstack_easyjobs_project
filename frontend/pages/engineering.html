@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engineering Jobs | EasyJobs - Premium Careers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../index.css">
+  <link rel="stylesheet" href="../styles/premium_category.css">
+  <link rel="stylesheet" href="../styles/global_font.css">
+</head>
+
+<body>
+  <header class="main-header sticky">
+    <div class="container header-content">
+      <a href="../../index.html" class="logo"><i class="fas fa-briefcase"></i> Easy<span class="logo-accent">Jobs</span></a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="../../index.html" class="nav-link">Home</a></li>
+          <li><a href="/frontend/pages/jobs.html" class="nav-link">Find Jobs</a></li>
+          <li><a href="/frontend/pages/companies.html" class="nav-link">Top Companies</a></li>
+          <li><a href="/frontend/pages/internship.html" class="nav-link">Internships</a></li>
+          <li><a href="/frontend/pages/my_applications.html" class="nav-link">My Applications</a></li>
+          <li><a href="/frontend/pages/profile.html" class="nav-link">Profile</a></li>
+          <li><a href="/frontend/pages/contact.html" class="nav-link">Contact</a></li>
+          <li><a href="/frontend/pages/guidance.html" class="nav-link">Guidance</a></li>
+          <li><a href="/frontend/pages/saved_jobs.html" class="nav-link" title="Saved Jobs"><i class="fas fa-bookmark"></i></a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="../register.html" class="btn-register"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="../login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="../../index.html"><i class="fas fa-chevron-left"></i> Back to Home</a>
+    <span class="separator">/</span>
+    <span class="current">Engineering</span>
+  </div>
+
+  <header class="category-header">
+    <div class="container">
+      <h1><i class="fas fa-tools"></i> Core Engineering Jobs</h1>
+      <p>Build the foundation of tomorrow with India's largest infrastructure and manufacturing giants</p>
+    </div>
+  </header>
+
+  <div class="category-search-container">
+    <div class="search-box-wrapper">
+      <div class="search-input-group role-group">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roleSearchInput" placeholder="Job Title, Skills, or Role">
+      </div>
+      <div class="search-input-group location-group">
+        <i class="fas fa-map-marker-alt"></i>
+        <input type="text" id="locationSearchInput" placeholder="Location, City, or Remote">
+      </div>
+      <button class="search-btn" id="categorySearchBtn">Find Jobs</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <h2>Engineering the Future</h2>
+        <p>Explore opportunities in civil, mechanical, electrical, and robotics engineering with India's industrial leaders.</p>
+        <div class="stats-container">
+          <div class="stat-box"><span class="number">3.2k+</span><span class="label">Live Jobs</span></div>
+          <div class="stat-box"><span class="number">420+</span><span class="label">Companies Hiring</span></div>
+          <div class="stat-box"><span class="number">25k+</span><span class="label">Successful Placements</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <h2 class="section-title">Featured Engineering Positions</h2>
+      <p class="section-subtitle" style="text-align: center; color: var(--text-muted); margin-top: -20px; margin-bottom: 50px; font-size: 1.1rem; font-weight: 500;">
+        Contribute to mega-projects and technological innovations.</p>
+
+    <div class="job-list" id="jobs-container">
+      
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=501&title=Structural%20Design%20Lead%20(Bridges)&company=Larsen%20&%20Toubro&location=Chennai&exp=5-9%20Yrs&salary=14%20-%2026%20LPA" class="job-title">Structural Design Lead (Bridges)</a>
+            <div class="company">Larsen & Toubro (L&T)</div>
+          </div>
+          <div class="company-logo-placeholder">LT</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Chennai</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 5-9 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 14 - 26 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">STAAD.Pro</span>
+          <span class="job-tag">Civil Engg</span>
+          <span class="job-tag">Complex Structures</span>
+        </div>
+        <p class="details">Lead structural engineering teams for mega infrastructure projects including metros and cable-stayed bridges nationally.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 1d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(501, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=501&title=Structural%20Design%20Lead%20(Bridges)&company=Larsen%20&%20Toubro&location=Chennai&exp=5-9%20Yrs&salary=14%20-%2026%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="job-card">
+        <div class="job-card-header">
+          <div>
+            <a href="../apply_home.html?job_id=502&title=Senior%20Mechanical%20Designer%20(EV)&company=Tata%20Motors&location=Pune&exp=4-8%20Yrs&salary=12%20-%2024%20LPA" class="job-title">Senior Mechanical Designer (EV)</a>
+            <div class="company">Tata Motors (EV Research)</div>
+          </div>
+          <div class="company-logo-placeholder">TM</div>
+        </div>
+        <div class="job-meta-grid">
+          <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Pune</div>
+          <div class="meta-item"><i class="fas fa-briefcase"></i> 4-8 Yrs</div>
+          <div class="meta-item"><i class="fas fa-wallet"></i> 12 - 24 LPA</div>
+        </div>
+        <div class="job-tags">
+          <span class="job-tag">CATIA</span>
+          <span class="job-tag">R&D</span>
+          <span class="job-tag">EV Systems</span>
+        </div>
+        <p class="details">Innovate and design energy-efficient powertrain systems for India's leading EV platforms in a state-of-the-art research facility.</p>
+        <div class="job-footer">
+          <span class="posted-date">Posted 2d ago</span>
+          <div style="display: flex; gap: 15px; align-items: center;">
+            <button class="save-job-btn-flat" onclick="saveJob(502, this)"><i class="far fa-bookmark"></i> Save</button>
+            <a href="../apply_home.html?job_id=502&title=Senior%20Mechanical%20Designer%20(EV)&company=Tata%20Motors&location=Pune&exp=4-8%20Yrs&salary=12%20-%2024%20LPA" class="apply-btn">View Details</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <article class="job-card">
+        <div class="job-card-header">
+            <div>
+                <a href="../apply_home.html?job_id=503&title=Robotics%20&%20Automation%20Engineer&company=Reliance%20Industries&location=Jamnagar&exp=3-7%20Yrs&salary=15%20-%2030%20LPA" class="job-title">Robotics & Automation Engineer</a>
+                <div class="company">Reliance Industries (Digital Hub)</div>
+            </div>
+            <div class="company-logo-placeholder">RI</div>
+        </div>
+        <div class="job-meta-grid">
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Jamnagar</div>
+            <div class="meta-item"><i class="fas fa-briefcase"></i> 3-7 Yrs</div>
+            <div class="meta-item"><i class="fas fa-wallet"></i> 15 - 30 LPA</div>
+        </div>
+        <div class="job-tags">
+            <span class="job-tag">PLC</span>
+            <span class="job-tag">SCADA</span>
+            <span class="job-tag">Industry 4.0</span>
+        </div>
+        <p class="details">Implement next-gen robotics and AI-driven automation systems for the world's largest refining complex.</p>
+        <div class="job-footer">
+            <span class="posted-date">Posted 3d ago</span>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="save-job-btn-flat" onclick="saveJob(503, this)"><i class="far fa-bookmark"></i> Save</button>
+                <a href="../apply_home.html?job_id=503&title=Robotics%20&%20Automation%20Engineer&company=Reliance%20Industries&location=Jamnagar&exp=3-7%20Yrs&salary=15%20-%2030%20LPA" class="apply-btn">View Details</a>
+            </div>
+        </div>
+    </article>
+
+    <article class="job-card">
+        <div class="job-card-header">
+            <div>
+                <a href="../apply_home.html?job_id=504&title=Power%20Systems%20Planning%20Engineer&company=PowerGrid%20Corp&location=Gurgaon&exp=5-10%20Yrs&salary=18%20-%2035%20LPA" class="job-title">Power Systems Planning Engineer</a>
+                <div class="company">PowerGrid Corp (India)</div>
+            </div>
+            <div class="company-logo-placeholder">PG</div>
+        </div>
+        <div class="job-meta-grid">
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i> Gurgaon</div>
+            <div class="meta-item"><i class="fas fa-briefcase"></i> 5-10 Yrs</div>
+            <div class="meta-item"><i class="fas fa-wallet"></i> 18 - 35 LPA</div>
+        </div>
+        <div class="job-tags">
+            <span class="job-tag">Grid Ops</span>
+            <span class="job-tag">Renewable Energy</span>
+            <span class="job-tag">ETAP</span>
+        </div>
+        <p class="details">Strategic planning and optimization of national grid stability and renewable energy integration projects.</p>
+        <div class="job-footer">
+            <span class="posted-date">Posted 4d ago</span>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="save-job-btn-flat" onclick="saveJob(504, this)"><i class="far fa-bookmark"></i> Save</button>
+                <a href="../apply_home.html?job_id=504&title=Power%20Systems%20Planning%20Engineer&company=PowerGrid%20Corp&location=Gurgaon&exp=5-10%20Yrs&salary=18%20-%2035%20LPA" class="apply-btn">View Details</a>
+            </div>
+        </div>
+    </article>
+  </div>
+
+    <div style="text-align: center; margin-bottom: 100px;">
+        <a href="/frontend/pages/jobs.html" class="apply-btn"
+            style="width: auto; padding: 18px 50px; display: inline-block;">
+            View All Engineering Jobs <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="skills-section">
+        <h2 class="section-title">Core Engineering Skillsets</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-drafting-pencil"></i> Design & Modeling</h3>
+                <ul>
+                    <li>AutoCAD & SolidWorks</li>
+                    <li>CATIA / NX Design</li>
+                    <li>STAAD.Pro & ETABS</li>
+                    <li>BIM (Building Info Modeling)</li>
+                    <li>FEA & Simulation Tools</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-industry"></i> Production & Ops</h3>
+                <ul>
+                    <li>Lean Manufacturing & Six Sigma</li>
+                    <li>Supply Chain Management</li>
+                    <li>Quality Control (ISO Standards)</li>
+                    <li>EHS & Safety Protocols</li>
+                    <li>Inventory & Resource Planning</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-microchip"></i> Automation & EL</h3>
+                <ul>
+                    <li>PLC & SCADA Programming</li>
+                    <li>Robotics & Control Systems</li>
+                    <li>Embedded Systems Design</li>
+                    <li>Renewable Energy Integration</li>
+                    <li>Industry 4.0 Fundamentals</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="career-path-section">
+        <h2 class="section-title">Engineering Career Milestones</h2>
+        <div class="career-level">
+            <h3><i class="fas fa-seedling"></i> Graduate Level (0-2 Years)</h3>
+            <p>Graduate Engineer Trainee (GET). Learning site operations and technical design fundamentals. <strong>₹3.5 – 7 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-arrow-up"></i> Project Level (3-7 Years)</h3>
+            <p>Project Engineer or Design Lead. Leading specific projects or manufacturing units independently. <strong>₹10 – 22 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-star"></i> Management Level (8–15 Years)</h3>
+            <p>Project Manager or Principal Consultant. Strategic planning for large-scale infrastructure. <strong>₹30 – 55 LPA.</strong></p>
+        </div>
+        <div class="career-level">
+            <h3><i class="fas fa-crown"></i> Leadership Level (15+ Years)</h3>
+            <p>VP of Engineering or Operations Director. Driving enterprise-wide growth and industrial standards. <strong>₹70 – 120+ LPA.</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="companies-section">
+        <h2 class="section-title">Top Industrial Hubs & Employers</h2>
+        <div class="companies-grid">
+            <div class="company-logo">L&T</div>
+            <div class="company-logo">Tata Motors</div>
+            <div class="company-logo">Reliance</div>
+            <div class="company-logo">Adani Group</div>
+            <div class="company-logo">BHEL</div>
+            <div class="company-logo">Mahindra</div>
+            <div class="company-logo">Siemens</div>
+            <div class="company-logo">Bosch</div>
+        </div>
+    </div>
+</div>
+
+<section class="content-section featured-categories">
+    <div class="container">
+        <h2 class="section-title">Explore Other Sectors</h2>
+        <div class="categories-grid">
+            <div class="category-card">
+                <i class="fas fa-laptop-code category-icon"></i>
+                <h3>IT & Software</h3>
+                <p>3,200+ Openings</p>
+                <a href="/frontend/pages/it_software.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-chart-line category-icon"></i>
+                <h3>Sales & Marketing</h3>
+                <p>1,800+ Openings</p>
+                <a href="/frontend/pages/sales_and_marketing.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-dollar-sign category-icon"></i>
+                <h3>Finance & Accounting</h3>
+                <p>1,100+ Openings</p>
+                <a href="/frontend/pages/finance_accounting.html" class="btn-view-jobs">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="../../index.html">Home</a>
+        <a href="../jobs.html">Find Jobs</a>
+        <a href="../contact.html">Contact Us</a>
+        <a href="../profile.html">My Profile</a>
+      </div>
+      <p>&copy; 2026 EasyJobs Portal. Engineering Growth.</p>
+    </div>
+  </footer>
+
+  <script src="../javascript/index.js""></script>
+  <script src="../javascript/navbar_manager.js""></script>
+  <script src="../javascript/category_search.js""></script>
+  <script src="../javascript/notifications.js""></script>
+</body></html>
