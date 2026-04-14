@@ -10,3 +10,5 @@ document.addEventListener("DOMContentLoaded", () => {
     // Example: Dynamically updating "EasyJobs" success stats if needed
     // const stats = fetchStats(); 
 });
+
+

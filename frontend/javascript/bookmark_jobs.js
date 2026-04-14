@@ -103,13 +103,15 @@
             'backdrop-filter:blur(4px)'
         ].join(';');
 
+        const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+        const pathDepth = isTopCompanyPage ? '../' : './';
+
         overlay.innerHTML = `
             <div style="background:white;padding:30px;border-radius:16px;text-align:center;max-width:380px;width:90%;">
                 <h2>Login to Save Jobs</h2>
                 <p>Please login or register to save jobs.</p>
-                <a href="/frontend/pages/login.html">Login</a>
-                <br><br>
-                <a href="/frontend/pages/register.html">Create Account</a>
+                <a href="${pathDepth}login.html" style="display:block; background:#2563eb; color:white; padding:12px; border-radius:8px; text-decoration:none; margin-bottom:10px; font-weight:600;">Login</a>
+                <a href="${pathDepth}register.html" style="display:block; color:#2563eb; text-decoration:none; font-size:14px;">Create Account</a>
             </div>
         `;
 

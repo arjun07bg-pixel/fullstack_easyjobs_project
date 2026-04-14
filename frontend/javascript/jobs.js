@@ -403,6 +403,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             const tags = getSkillsByTitle(job.job_title);
             const tagHtml = tags.map(t => `<span class="tag">${t}</span>`).join("");
+            const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+            const pathDepth = isTopCompanyPage ? '../' : './';
 
             card.innerHTML = `
                 <div class="job-card-header">
@@ -448,7 +450,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             ${savedJobIds.includes(job.job_id) ? '✅ Saved' : '💾 Save'}
                         </button>
 
-                        <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" 
+                        <a href="${pathDepth}apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title)}&company=${encodeURIComponent(job.company_name)}&location=${encodeURIComponent(job.location)}&type=${encodeURIComponent(job.job_type)}&experience=${encodeURIComponent(job.experience_level)}&desc=${encodeURIComponent(job.description || "")}" 
                            onclick="if(window.trackJobView) trackJobView(${job.job_id})"
                            class="apply-btn apply-link" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 10px 22px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-block;">Apply Now</a>
                     </div>

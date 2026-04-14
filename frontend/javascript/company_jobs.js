@@ -101,7 +101,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     desc: desc,
                     mode: 'On-site'
                 });
-                link.href = `/frontend/pages/apply_home.html?${params.toString()}`;
+                // Detect depth to point to apply_home correctly
+                const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+                const pathDepth = isTopCompanyPage ? '../' : './';
+                console.log(`🔗 Link fix applied: ${pathDepth}apply_home.html (TopCompany? ${isTopCompanyPage})`);
+                link.href = `${pathDepth}apply_home.html?${params.toString()}`;
             }
 
             // Save logic for static cards (Uses local storage fallback if no ID)
@@ -141,27 +145,29 @@ document.addEventListener("DOMContentLoaded", async () => {
                 card.setAttribute("data-type", job.job_type || "Full-Time");
                 card.setAttribute("data-location", (job.location || "Remote").toLowerCase());
                 
-                card.innerHTML = `
-                    <h3>${job.job_title}</h3>
-                    <span class="comp-name">${job.company_name}</span>
-                    <p class="job-meta">
-                        <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location || 'Remote'}</span> |
-                        <span class="type"><i class="fas fa-briefcase"></i> ${job.job_type || 'Full-Time'}</span> |
-                        <span class="exp"><i class="fas fa-history"></i> ${job.experience_level}+ years</span>
-                    </p>
-                    <p class="job-description">${job.description || 'Join our team to drive innovation and excellence.'}</p>
-                    <div class="job-tags">
-                        <span class="tag">Recent</span>
-                        <span class="tag">${job.job_type || 'Full-Time'}</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="posted-date">Posted via API</span>
-                        <div class="action-btns">
-                            <a href="/frontend/pages/apply_home.html?job_id=${job.job_id}" class="apply-link">Apply Now</a>
-                            <button class="comp-save-btn" data-id="${job.job_id}"><i class="far fa-bookmark"></i> Save</button>
-                        </div>
-                    </div>
-                `;
+                                        const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+                                        const pathDepth = isTopCompanyPage ? '../' : './';
+                                        card.innerHTML = `
+                                <h3>${job.job_title}</h3>
+                                <span class="comp-name">${job.company_name}</span>
+                                <p class="job-meta">
+                                    <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location || 'Remote'}</span> |
+                                    <span class="type"><i class="fas fa-briefcase"></i> ${job.job_type || 'Full-Time'}</span> |
+                                    <span class="exp"><i class="fas fa-history"></i> ${job.experience_level}+ years</span>
+                                </p>
+                                <p class="job-description">${job.description || 'Join our team to drive innovation and excellence.'}</p>
+                                <div class="job-tags">
+                                    <span class="tag">Recent</span>
+                                    <span class="tag">${job.job_type || 'Full-Time'}</span>
+                                </div>
+                                <div class="job-footer">
+                                    <span class="posted-date">Posted via API</span>
+                                    <div class="action-btns">
+                                        <a href="${pathDepth}apply_home.html?job_id=${job.job_id}" class="apply-link">Apply Now</a>
+                                        <button class="comp-save-btn" data-id="${job.job_id}"><i class="far fa-bookmark"></i> Save</button>
+                                    </div>
+                                </div>
+                            `;
 
                 // Handle Save for dynamic card
                 const saveBtn = card.querySelector(".comp-save-btn");

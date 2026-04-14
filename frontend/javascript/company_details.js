@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h2>Company Not Found</h2>
                 <p>
                 We couldn't find details for the company you requested.
-                <a href="/frontend/pages/companies.html">Browse Top Companies</a>
+                <a href="./companies.html">Browse Top Companies</a>
                 </p>
             </div>`;
         }

@@ -111,7 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         article.className = "job-card dynamic-job";
         article.setAttribute("data-job-id", job.job_id);
 
-        const applyLink = `/frontend/pages/apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title || '')}&company=${encodeURIComponent(job.company_name || '')}&location=${encodeURIComponent(job.location || '')}&desc=${encodeURIComponent(job.description || '')}`;
+        const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+        const pathDepth = isTopCompanyPage ? '../' : './';
+        const applyLink = `${pathDepth}apply_home.html?job_id=${job.job_id}&title=${encodeURIComponent(job.job_title || '')}&company=${encodeURIComponent(job.company_name || '')}&location=${encodeURIComponent(job.location || '')}&desc=${encodeURIComponent(job.description || '')}`;
 
         article.innerHTML = `
             <div class="job-card-header">

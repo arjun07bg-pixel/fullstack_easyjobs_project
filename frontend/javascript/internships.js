@@ -89,7 +89,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         let html = "";
         filtered.forEach(intern => {
             const isSaved = savedJobIds.includes(intern.job_id);
-            const applyLink = `/frontend/pages/apply_home.html?job_id=${intern.job_id}&title=${encodeURIComponent(intern.job_title)}&company=${encodeURIComponent(intern.company_name)}&location=${encodeURIComponent(intern.location)}&stipend=${intern.salary || 0}&type=Internship`;
+            const isTopCompanyPage = window.location.pathname.toLowerCase().indexOf('top-companies') > -1;
+            const pathDepth = isTopCompanyPage ? '../' : './';
+            const applyLink = `${pathDepth}apply_home.html?job_id=${intern.job_id}&title=${encodeURIComponent(intern.job_title)}&company=${encodeURIComponent(intern.company_name)}&location=${encodeURIComponent(intern.location)}&stipend=${intern.salary || 0}&type=Internship`;
 
             const cardHtml = `
             <div class="is-card">
