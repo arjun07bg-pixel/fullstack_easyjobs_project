@@ -1,5 +1,3 @@
-import API_URL from "./config";
-
 /* ─── Utility ─────────────────────────────────────────────── */
 const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "/api";
 
@@ -8,7 +6,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userString = localStorage.getItem("user");
     if (!userString) {
         alert("Please login to view your profile.");
-        window.location.href="./login.html";
+        const prefix = window.getEasyJobsPathPrefix ? window.getEasyJobsPathPrefix() : "../../";
+        window.location.href = `${prefix}frontend/pages/login.html`;
         return;
     }
 
@@ -115,10 +114,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // 4. ALSO update Header Text dynamically while typing
         if (pref.headerName) {
-            const fname = pref.firstName.value.trim() || "User";
-            const lname = pref.lastName.value.trim() || "Name";
+            const fname = pref.firstName ? pref.firstName.value.trim() : "User";
+            const lname = pref.lastName ? pref.lastName.value.trim() : "Name";
             if (userData.role === 'employer') {
-                pref.headerName.innerText = pref.companyName.value || "Company Profile";
+                pref.headerName.innerText = (pref.companyName && pref.companyName.value) ? pref.companyName.value : "Company Profile";
             } else if (userData.role === 'admin') {
                 pref.headerName.innerText = "Super Administrator";
             } else {
@@ -166,18 +165,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (user.image && pref.photoPreview) {
             const imgSrc = user.image;
-            pref.photoPreview.innerHTML = `<img src="${imgSrc}" alt="Profile">`;
+            // PRESERVE OVERLAY: Remove previous icon/img but keep overlay
+            pref.photoPreview.querySelectorAll('img, i').forEach(el => el.remove());
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = "Profile";
+            pref.photoPreview.prepend(img);
         }
 
         if (user.resume_url && pref.resumeName) {
-            pref.resumeName.innerText = user.resume_url;
+            pref.resumeName.innerText = "Resume Uploaded";
+            pref.resumeName.style.color = "#16a34a";
         }
     };
 
     // 1. Fetch Latest User Data
     const fetchUser = async () => {
         try {
-            const response = await fetch(`${API_URL}/users/${userId}`);
+            const response = await fetch(`${getAPIURL()}/users/${userId}`);
             if (response.ok) {
                 const user = await response.json();
                 populateForm(user);
@@ -197,16 +202,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (file.size > 2 * 1024 * 1024) return alert("Image size should be < 2MB");
 
             // Upload to Cloudinary immediately
-            pref.photoPreview.innerHTML = `<div class="upload-spinner"><i class="fas fa-spinner fa-spin"></i></div>`;
+            // Show loading spinner
+            const spinner = document.createElement('div');
+            spinner.className = 'upload-spinner';
+            spinner.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            pref.photoPreview.prepend(spinner);
+            
             const uploadedUrl = await window.uploadFileToCloudinary(file);
 
+            spinner.remove();
             if (uploadedUrl) {
                 tempPhotoData = uploadedUrl;
-                pref.photoPreview.innerHTML = `<img src="${uploadedUrl}" alt="Preview">`;
+                pref.photoPreview.querySelectorAll('img, i').forEach(el => el.remove());
+                const img = document.createElement('img');
+                img.src = uploadedUrl;
+                img.alt = "Preview";
+                pref.photoPreview.prepend(img);
                 updateStrength();
-            } else {
-                alert("Photo upload failed. Please try again.");
-                pref.photoPreview.innerHTML = userData.image ? `<img src="${userData.image}">` : `<i class="fas fa-user"></i>`;
             }
         });
     }
@@ -217,15 +229,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!file) return;
 
             pref.resumeName.innerText = "⏳ Uploading Resume...";
+            pref.resumeName.style.color = "#2563eb";
             const uploadedUrl = await window.uploadFileToCloudinary(file);
 
             if (uploadedUrl) {
                 tempResumeName = uploadedUrl;
                 pref.resumeName.innerText = "✅ Resume Uploaded!";
+                pref.resumeName.style.color = "#16a34a";
                 updateStrength();
             } else {
-                alert("Resume upload failed.");
                 pref.resumeName.innerText = "Upload Failed";
+                pref.resumeName.style.color = "#dc2626";
             }
         });
     }
@@ -271,7 +285,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
 
             try {
-                const res = await fetch(`${API_URL}/users/${userId}`, {
+                const res = await fetch(`${getAPIURL()}/users/${userId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
@@ -286,7 +300,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const currentStrength = parseInt(pref.strengthPercent ? pref.strengthPercent.innerText : "0");
                     if (currentStrength === 100) {
                         alert("🎉 வாழ்த்துக்கள்! உங்கள் Profile 100% வெற்றிகரமாக பூர்த்தியானது. நீங்கள் இப்போது வேலைகளுக்கு விண்ணப்பிக்கலாம்.\n\nCongratulations! Your Profile is 100% complete. You can now apply for jobs!");
-                        window.location.href = "../../index.html";
+                        const prefix = window.getEasyJobsPathPrefix ? window.getEasyJobsPathPrefix() : "../../";
+                        window.location.href = `${prefix}index.html`;
                     } else {
                         setTimeout(() => window.location.reload(), 1000);
                     }

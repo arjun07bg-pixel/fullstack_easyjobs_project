@@ -22,11 +22,11 @@ class User(Base):
     # New Fields for Comprehensive Profile
     education = Column(Text, nullable=True) # JSON or comma separated details
     projects = Column(Text, nullable=True)
-    linkedin_url = Column(String(255), nullable=True)
-    github_url = Column(String(255), nullable=True)
-    portfolio_link = Column(String(500), nullable=True)
-    gender = Column(String(20), nullable=True)
-    dob = Column(String(50), nullable=True)
+    linkedin_url = Column(String(500), nullable=True)
+    github_url = Column(String(500), nullable=True)
+    portfolio_link = Column(Text, nullable=True)
+    gender = Column(String(100), nullable=True)
+    dob = Column(String(100), nullable=True)
     designation = Column(String(255), nullable=True)
     # Employer-specific fields
     company_name = Column(String(200), nullable=True)

@@ -23,8 +23,9 @@ console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);
 // Global Helper to handle relative paths across different directory levels (Home vs Pages vs Top Companies)
 window.getEasyJobsPathPrefix = () => {
     const path = window.location.pathname.toLowerCase();
-    if (path.indexOf('top-companies') > -1) return "../../";
-    if (path.indexOf('/pages/') > -1) return "../";
+    // Handle the specific folder structure of this project
+    if (path.indexOf('top-companies') > -1) return "../../../";
+    if (path.indexOf('/pages/') > -1) return "../../";
     return ""; // Root level (index.html)
 };
 
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (keywordInput.value.trim()) params.set("keyword", keywordInput.value.trim());
             if (locationInput.value.trim()) params.set("location", locationInput.value.trim());
             const prefix = window.getEasyJobsPathPrefix();
+            // Consistent navigation: prefix + target path from root
             window.location.href = `${prefix}frontend/pages/jobs.html?${params.toString()}`;
         });
     }
@@ -75,8 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
             : user.role === 'employer'
                 ? `<a href="${prefix}frontend/pages/postjob_home.html" class="btn-login" style="padding:10px 20px;font-size:0.9rem;"><i class="fas fa-plus-circle"></i> Post a Job</a>`
                 : '';
-
-        const savedJobsIcon = ''; // Removed from index.js as it is managed by HTML/navbar_manager
 
         authButtons.innerHTML = `
             <div style="display:flex;align-items:center;gap:15px;">
@@ -205,9 +205,17 @@ window.trackJobView = async function (jobId) {
 window.uploadFileToCloudinary = async (file) => {
     if (!file) return null;
 
-    // Cloudinary Config (Professional cloud setup for EasyJobs)
-    const CLOUD_NAME = "dnv3n6p7a";
-    const UPLOAD_PRESET = "easyjobs_uploads";
+    // --- Helper for Base64 Fallback ---
+    const getBase64 = (f) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(f);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    // Cloudinary Config
+    const CLOUD_NAME = "da9i6m47u"; 
+    const UPLOAD_PRESET = "ml_default";
     const URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`;
 
     const formData = new FormData();
@@ -215,33 +223,41 @@ window.uploadFileToCloudinary = async (file) => {
     formData.append("upload_preset", UPLOAD_PRESET);
 
     try {
-        const response = await fetch(URL, {
-            method: "POST",
-            body: formData
-        });
+        console.log("☁️ Attempting Cloudinary Upload...");
+        const response = await fetch(URL, { method: "POST", body: formData });
 
         if (response.ok) {
             const data = await response.json();
-            console.log("✅ Cloudinary Success:", data.secure_url);
             return data.secure_url;
         } else {
-            const err = await response.json();
-            console.error("❌ Cloudinary Error Details:", err);
-
-            console.group("🛠️ HOW TO FIX CLOUDINARY UPLOAD:");
-            console.info("1. Go to Cloudinary -> Settings -> Upload");
-            console.info(`2. Ensure 'unsigned' settings allow uploads.`);
-            console.info(`3. Ensure 'easyjobs_uploads' preset is created under 'Unsigned' mode.`);
-            console.info(`4. Current Cloud Name: ${CLOUD_NAME}`);
-            console.groupEnd();
-
-            if (err.error && err.error.message.includes("preset")) {
-                console.warn("⚠️ CLOUDINARY LOG: 'easyjobs_uploads' preset may not exist.");
+            console.warn("⚠️ Cloudinary Primary failed. Trying Fallback Account...");
+            const FALLBACK_CLOUD = "dnv3n6p7a";
+            const FALLBACK_PRESET = "easyjobs_uploads";
+            const FALLBACK_URL = `https://api.cloudinary.com/v1_1/${FALLBACK_CLOUD}/upload`;
+            
+            const fallbackData = new FormData();
+            fallbackData.append("file", file);
+            fallbackData.append("upload_preset", FALLBACK_PRESET);
+            
+            const fallbackRes = await fetch(FALLBACK_URL, { method: "POST", body: fallbackData });
+            if (fallbackRes.ok) {
+                const data = await fallbackRes.json();
+                return data.secure_url;
             }
-            return null;
+
+            // --- 🚀 FINAL RELIABLE FALLBACK: Base64 🚀 ---
+            console.log("🛠️ Cloudinary failed. Using Base64 Local Storage fallback.");
+            const base64Data = await getBase64(file);
+            
+            // Limit size for Base64 (to prevent DB issues if it's too huge, though columns are TEXT)
+            if (base64Data.length > 1000000) { // Approx 1MB
+                // Still allow it, but warn
+                console.warn("Base64 string is large.");
+            }
+            return base64Data;
         }
     } catch (err) {
-        console.error("🔴 Cloudinary Network Error:", err);
-        return null;
+        console.error("🔴 Network Error. Using Base64 fallback.", err);
+        return await getBase64(file);
     }
 };
