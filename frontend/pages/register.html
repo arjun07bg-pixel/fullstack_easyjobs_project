@@ -72,7 +72,7 @@
                         <label for="usertype">I am a <span class="required-star">*</span></label>
                         <select id="usertype" name="usertype" required>
                             <option value=">Select user type</option>
-                            <option value="jobseeker">Job Seeker</option>
+                            <option value=" jobseeker">Job Seeker</option>
                             <option value="employer">Employer</option>
                         </select>
                     </div>
@@ -95,7 +95,7 @@
                                 <label for="industry">Industry <span class="required-star">*</span></label>
                                 <select id="industry" name="industry">
                                     <option value=">Select industry</option>
-                                    <option value="IT & Software">IT &amp; Software</option>
+                                    <option value=" IT & Software">IT &amp; Software</option>
                                     <option value="Finance & Banking">Finance &amp; Banking</option>
                                     <option value="Healthcare">Healthcare</option>
                                     <option value="Education">Education</option>
@@ -112,7 +112,7 @@
                                 <label for="company_size">Company Size <span class="required-star">*</span></label>
                                 <select id="company_size" name="company_size">
                                     <option value=">Select size</option>
-                                    <option value="1-10">1-10 employees</option>
+                                    <option value=" 1-10">1-10 employees</option>
                                     <option value="11-50">11-50 employees</option>
                                     <option value="51-200">51-200 employees</option>
                                     <option value="201-500">201-500 employees</option>
@@ -144,17 +144,25 @@
                     <button type="submit" id="createAccountBtn" class="signup-btn">Create Account</button>
                 </form>
 
-                <div id="otpSection" style="display: none; border: 2px solid #6366f1; padding: 25px; border-radius: 20px; background: #fdfcff; margin-top: 20px;">
+                <div id="otpSection"
+                    style="display: none; border: 2px solid #6366f1; padding: 25px; border-radius: 20px; background: #fdfcff; margin-top: 20px;">
                     <div class="signup-header" style="text-align: center; margin-bottom: 20px;">
                         <h2 style="font-size: 20px; color: #1e293b;">Verify Your Email</h2>
-                        <p id="otpMsg" style="color: #64748b; font-size: 14px;">A 6-digit code was sent to your email.</p>
-                        <div id="otpTimer" style="margin-top: 10px; font-weight: 700; color: #ef4444; font-size: 14px;">Time remaining: <span id="timerCount">50</span>s</div>
+                        <p id="otpMsg" style="color: #64748b; font-size: 14px;">A 6-digit code was sent to your email.
+                        </p>
+                        <div id="otpTimer" style="margin-top: 10px; font-weight: 700; color: #ef4444; font-size: 14px;">
+                            Time remaining: <span id="timerCount">50</span>s</div>
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="signup-otp" style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Enter 6-digit Code</label>
-                        <input type="text" id="signup-otp" maxlength="6" placeholder="######" style="width: 100%; padding: 12px; text-align: center; letter-spacing: 5px; font-weight: 800; font-size: 24px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; transition: 0.3s;" onfocus="this.style.borderColor='#6366f1'">
+                        <label for="signup-otp"
+                            style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569;">Enter 6-digit
+                            Code</label>
+                        <input type="text" id="signup-otp" maxlength="6" placeholder="######"
+                            style="width: 100%; padding: 12px; text-align: center; letter-spacing: 5px; font-weight: 800; font-size: 24px; border: 1.5px solid #e2e8f0; border-radius: 12px; outline: none; transition: 0.3s;"
+                            onfocus="this.style.borderColor='#6366f1'">
                     </div>
-                    <button type="button" id="verifySignupOtpBtn" class="signup-btn" style="background: #10b981;">Verify & Complete Registration</button>
+                    <button type="button" id="verifySignupOtpBtn" class="signup-btn" style="background: #10b981;">Verify
+                        & Complete Registration</button>
                 </div>
 
                 <div class="divider">

@@ -111,7 +111,7 @@ function showMessage(message, type = "info", isDebug = false) {
         font-size:0.95rem; font-weight:500; animation: toastIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
     `;
 
-    if(isDebug) {
+    if (isDebug) {
         css += "border: 2px solid #6366f1; background: #f5f3ff; color: #4338ca; box-shadow: 0 0 20px rgba(99,102,241,0.3);";
     }
 
@@ -179,7 +179,7 @@ async function saveJob(jobId, btnElement) {
 }
 
 /** ─── 📈 JOB VIEW TRACKER ────────────────── */
-window.trackJobView = async function(jobId) {
+window.trackJobView = async function (jobId) {
     if (!jobId || isNaN(jobId)) return;
     try {
         const API = window.getEasyJobsAPI();
@@ -194,30 +194,30 @@ window.trackJobView = async function(jobId) {
 /** ─── ☁️ CLOUDINARY FILE UPLOADER ────────────────── */
 window.uploadFileToCloudinary = async (file) => {
     if (!file) return null;
-    
+
     // Cloudinary Config (Professional cloud setup for EasyJobs)
-    const CLOUD_NAME = "dnv3n6p7a"; 
-    const UPLOAD_PRESET = "easyjobs_uploads"; 
+    const CLOUD_NAME = "dnv3n6p7a";
+    const UPLOAD_PRESET = "easyjobs_uploads";
     const URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`;
-    
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);
-    
+
     try {
         const response = await fetch(URL, {
             method: "POST",
             body: formData
         });
-        
+
         if (response.ok) {
             const data = await response.json();
             console.log("✅ Cloudinary Success:", data.secure_url);
-            return data.secure_url; 
+            return data.secure_url;
         } else {
             const err = await response.json();
             console.error("❌ Cloudinary Error Details:", err);
-            
+
             console.group("🛠️ HOW TO FIX CLOUDINARY UPLOAD:");
             console.info("1. Go to Cloudinary -> Settings -> Upload");
             console.info(`2. Ensure 'unsigned' settings allow uploads.`);

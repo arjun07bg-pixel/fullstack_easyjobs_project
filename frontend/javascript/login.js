@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.getElementById("loginBtn");
     const verifyOtpBtn = document.getElementById("verifyOtpBtn");
     const backToLogin = document.getElementById("backToLogin");
-    
+
     const loginForm = document.getElementById("loginForm");
     const otpSection = document.getElementById("otpSection");
     const emailInput = document.getElementById("email");
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     loginForm.style.display = "none";
                     otpSection.style.display = "block";
                     document.getElementById("otpMsg").innerText = `A 6-digit code was sent to ${data.email}`;
-                    
+
                     if (data.debug_otp && window.showMessage) {
                         window.showMessage(`[DEV MODE] Verification Code for ${data.email}: ${data.debug_otp}`, "info", true);
                     }
@@ -120,10 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let timeLeft = 50;
         const timerEl = document.getElementById("timerCount");
         if (!timerEl) return;
-        
+
         timerEl.innerText = timeLeft;
         if (timerInterval) clearInterval(timerInterval);
-        
+
         timerInterval = setInterval(() => {
             timeLeft--;
             timerEl.innerText = timeLeft;

@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("token", data.access_token);
                 localStorage.setItem("user", JSON.stringify(data));
                 alert("Email verified! Welcome to EasyJobs.");
-                
+
                 if (data.role === "employer") window.location.href = "postjob_home.html";
                 else window.location.href = "../../index.html";
             } else {
@@ -155,17 +155,17 @@ document.addEventListener("DOMContentLoaded", () => {
         let timeLeft = 50;
         const timerEl = document.getElementById("timerCount");
         if (!timerEl) return;
-        
+
         timerEl.innerText = timeLeft;
         if (timerInterval) clearInterval(timerInterval);
-        
+
         timerInterval = setInterval(() => {
             timeLeft--;
             timerEl.innerText = timeLeft;
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 alert("OTP Expired! Please try registering again.");
-                location.reload(); 
+                location.reload();
             }
         }, 1000);
     }

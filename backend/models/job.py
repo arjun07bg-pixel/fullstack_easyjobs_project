@@ -10,12 +10,12 @@ class Job(Base):
     description = Column(Text, nullable=True)
     location = Column(String(100), nullable=True)
     experience_level = Column(Integer, nullable=True)  # years
-    job_type = Column(String(50), nullable=True)       # Full-time / Part-time
+    job_type = Column(String(255), nullable=True)       # Full-time / Part-time
     salary = Column(Integer, nullable=True)            # INR
-    work_mode = Column(String(50), nullable=True)      # Remote / Onsite / Hybrid
+    work_mode = Column(String(255), nullable=True)      # Remote / Onsite / Hybrid
     category = Column(String(100), nullable=True)      # IT, Sales, etc.
     vacancies = Column(Integer, nullable=True)
-    deadline = Column(String(50), nullable=True)
+    deadline = Column(String(255), nullable=True)
     company_website = Column(String(255), nullable=True)
     apply_link = Column(String(255), nullable=True)
     required_skills = Column(Text, nullable=True)

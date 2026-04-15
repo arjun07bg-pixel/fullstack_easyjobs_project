@@ -71,31 +71,53 @@ def fix_database():
                 # 2.2 Detailed Column Checks
                 tables_to_check = {
                     "users": [
-                        ("phone_number", "VARCHAR(20) DEFAULT 'Not Provided'"),
+                        ("phone_number", "VARCHAR(50) DEFAULT 'Not Provided'"),
                         ("image", "TEXT"),
                         ("bio", "TEXT"),
-                        ("location", "VARCHAR(150)"),
+                        ("location", "VARCHAR(255)"),
                         ("experience", "INTEGER"),
                         ("salary", "INTEGER"),
                         ("skills", "TEXT"),
                         ("resume_url", "TEXT"),
-                        ("company_name", "VARCHAR(200)"),
-                        ("role", "VARCHAR(50) DEFAULT 'user'")
+                        ("company_name", "VARCHAR(255)"),
+                        ("company_size", "VARCHAR(150)"),
+                        ("industry", "VARCHAR(255)"),
+                        ("company_website", "VARCHAR(500)"),
+                        ("designation", "VARCHAR(255)"),
+                        ("role", "VARCHAR(100) DEFAULT 'user'"),
+                        ("gender", "VARCHAR(50)"),
+                        ("dob", "VARCHAR(100)"),
+                        ("education", "TEXT"),
+                        ("projects", "TEXT"),
+                        ("linkedin_url", "VARCHAR(255)"),
+                        ("github_url", "VARCHAR(255)"),
+                        ("portfolio_link", "VARCHAR(500)")
                     ],
                     "applications": [
-                        ("job_title", "VARCHAR(200)"),
-                        ("name", "VARCHAR(200)"),
-                        ("email", "VARCHAR(200)"),
+                        ("job_title", "VARCHAR(255)"),
+                        ("name", "VARCHAR(255)"),
+                        ("email", "VARCHAR(255)"),
                         ("phone_number", "VARCHAR(50)"),
                         ("portfolio_link", "VARCHAR(500)"),
                         ("resume", "VARCHAR(500)"),
-                        ("Current_Location", "VARCHAR(200)"),
+                        ("Current_Location", "VARCHAR(255)"),
                         ("Total_Experience", "INTEGER"),
                         ("Current_salary", "INTEGER"),
                         ("Notice_Period", "INTEGER"),
                         ("Cover_Letter", "TEXT"),
-                        ("job_type", "VARCHAR(50) DEFAULT 'Full Time'"),
+                        ("job_type", "VARCHAR(100) DEFAULT 'Full Time'"),
                         ("applied_at", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+                    ],
+                    "jobs": [
+                        ("job_title", "VARCHAR(255)"),
+                        ("company_name", "VARCHAR(255)"),
+                        ("location", "VARCHAR(255)"),
+                        ("job_type", "VARCHAR(255)"),
+                        ("work_mode", "VARCHAR(255)"),
+                        ("category", "VARCHAR(255)"),
+                        ("deadline", "VARCHAR(255)"),
+                        ("company_website", "VARCHAR(500)"),
+                        ("apply_link", "VARCHAR(500)")
                     ]
                 }
 
@@ -103,12 +125,22 @@ def fix_database():
                     print(f"Fixing table: {table}")
                     for col_name, col_type in columns:
                         try:
+                            # 1. Ensure Column Exists
                             check_query = text(f"SELECT column_name FROM information_schema.columns WHERE table_name='{table}' AND column_name='{col_name.lower()}'")
                             result = conn.execute(check_query).fetchone()
                             if not result:
-                                print(f"  + Missing: {col_name}")
+                                print(f"  + Adding missing column: {col_name}")
                                 conn.execute(text(f'ALTER TABLE {table} ADD COLUMN IF NOT EXISTS "{col_name}" {col_type}'))
                                 conn.commit()
+                            else:
+                                # 2. Force Type Update (to handle "value too long" errors)
+                                # e.g. change VARCHAR(50) to VARCHAR(255)
+                                if "VARCHAR" in col_type.upper() or "TEXT" in col_type.upper():
+                                    print(f"  * Updating type for: {col_name}")
+                                    # Extract pure type without DEFAULT
+                                    pure_type = col_type.split("DEFAULT")[0].strip()
+                                    conn.execute(text(f'ALTER TABLE {table} ALTER COLUMN "{col_name}" TYPE {pure_type}'))
+                                    conn.commit()
                         except Exception as col_err:
                             print(f"  ! Error on {table}.{col_name}: {col_err}")
 
@@ -118,9 +150,9 @@ def fix_database():
                     conn.commit()
                 except: pass
 
-            print("✅ Supabase/PostgreSQL schema check complete.")
+            print("[SUCCESS] Supabase/PostgreSQL schema check complete.")
         except Exception as e:
-            print(f"❌ Supabase Fix Error: {e}")
+            print(f"[ERROR] Supabase Fix Error: {e}")
 
 if __name__ == "__main__":
     fix_database()
