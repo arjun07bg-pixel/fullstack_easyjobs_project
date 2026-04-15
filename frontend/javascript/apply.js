@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div style="padding:2rem;text-align:center;">
                     <h3>Employers Cannot Apply for Jobs</h3>
                     <p>You are logged in as an Employer.</p>
-                    <a href="/frontend/pages/dashboard.html">Go to Dashboard</a>
+                    <a href="dashboard.html">Go to Dashboard</a>
                 </div>
             `;
         }
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (missingFieldsList.length > 0) {
                     const msg = `உங்களுடைய Profile இன்னும் 100% பூர்த்தியாகவில்லை!\n\nவிடுபட்டவை (Missing): ${missingFieldsList.join(", ")}\n\nவிண்ணப்பிக்கும் முன் இவற்றை 100% பூர்த்தி செய்யவும்.`;
                     alert(msg);
-                    window.location.href="/frontend/pages/profile.html";
+                    window.location.href="profile.html";
                 } else {
                     console.log("✅ Profile is 100% complete! Application allowed.");
                 }
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             e.preventDefault();
             if (!user) {
                 alert("Please login first");
-                window.location.href="/frontend/pages/login.html";
+                window.location.href="login.html";
                 return;
             }
             const resumeFile = resumeInput.files[0];
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (response.ok) {
                     showMessage("Application submitted successfully! ✅", "success");
                     setTimeout(() => {
-                        window.location.href="/frontend/pages/submit_success.html";
+                        window.location.href="submit_success.html";
                     }, 1000);
                 } else {
                     let errMsg = "Submission failed";

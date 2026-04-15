@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(formData)
             });
 
-            let detail = "Server error";
             if (response.ok) {
                 if (typeof showMessage === "function") showMessage("Job Posted Successfully! ✓", "success");
                 else alert("Job Posted Successfully! ✓");
@@ -85,17 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
                         </p>
                         <div style="display:flex;gap:15px;justify-content:center;">
                             <button onclick="window.location.reload()" class="btn-register" style="padding:12px 25px;border-radius:50px;">Post Another Job</button>
-                            <a href="/${isAdmin ? "frontend/pages/dashboard.html" : "index.html"}" class="btn-login" style="padding:12px 25px;border-radius:50px;text-decoration:none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
+                            <a href="${isAdmin ? "dashboard.html" : "../../index.html"}" class="btn-login" style="padding:12px 25px;border-radius:50px;text-decoration:none;">Go to ${isAdmin ? 'Dashboard' : 'Home'}</a>
                         </div>
                     </div>
                 `;
             } else {
-                try { detail = (await response.json()).detail || detail; } catch { }
+                let detail = "Server error";
+                if (response.status === 404) {
+                    detail = "API Endpoint not found. If you are on GitHub Pages, ensure your backend is deployed and API_URL is updated in index.js.";
+                } else {
+                    try { const data = await response.json(); detail = data.detail || detail; } catch { }
+                }
                 typeof showMessage === "function" ? showMessage(`Failed to post: ${detail}`, "error") : alert(`Failed: ${detail}`);
             }
         } catch (err) {
             console.error("Post job error:", err);
-            typeof showMessage === "function" ? showMessage("Network Error. Ensure backend is running.", "error") : alert("Network error.");
+            let msg = "Network Error. Ensure your backend is running and supports HTTPS (required for GitHub Pages).";
+            typeof showMessage === "function" ? showMessage(msg, "error") : alert(msg);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnHtml;

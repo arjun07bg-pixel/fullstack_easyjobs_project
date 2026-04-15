@@ -1,6 +1,7 @@
 // Final Unified Login Logic with 2FA/OTP support
 const getAPIURL = () => {
-    return "http://127.0.0.1:8000/api"
+    if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+    return "/api"; 
 };
 
 document.addEventListener("DOMContentLoaded", () => {

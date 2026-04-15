@@ -1,11 +1,21 @@
 window.getEasyJobsAPI = () => {
     const hostname = window.location.hostname;
-    // Local development: use the backend Python server directly
-    if (hostname === "127.0.0.1" || hostname === "localhost" || hostname === "") {
+    const isLocal = hostname === "127.0.0.1" || hostname === "localhost" || hostname === "";
+    
+    // ---------------------------------------------------------
+    // 🌍 PRODUCTION BACKEND URL
+    // If you have deployed your backend (e.g. to Render, Railway, or Vercel), 
+    // paste the URL here. Example: "https://your-api.onrender.com/api"
+    const PRODUCTION_API_URL = "https://easyjobs-production-api.up.railway.app/api"; 
+    // ---------------------------------------------------------
+
+    if (isLocal) {
         return "http://127.0.0.1:8000/api";
     }
-    // On Vercel or any production host: the backend is served on the same domain under /api
-    return "/api";
+
+    // On GitHub Pages or other hosting, use the production URL if set
+    // Otherwise fall back to a relative path /api
+    return PRODUCTION_API_URL || "/api";
 };
 
 console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);

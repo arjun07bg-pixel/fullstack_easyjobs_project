@@ -6,7 +6,8 @@
  */
 document.addEventListener("DOMContentLoaded", () => {
     const getAPIURL = () => {
-    return "http://127.0.0.1:8000/api"
+        if (window.getEasyJobsAPI) return window.getEasyJobsAPI();
+        return "/api"; 
     };
     const API_BASE_URL = getAPIURL();
 
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!user || !user.user_id) {
         console.warn("No user found, redirecting to login.");
-        window.location.href="/frontend/pages/login.html";
+        window.location.href="login.html";
         return;
     }
 
