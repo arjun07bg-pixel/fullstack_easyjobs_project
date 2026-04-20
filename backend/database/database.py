@@ -18,7 +18,8 @@ try:
     if "sqlite" in DATABASE_URL:
         engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
     else:
-        engine = create_engine(DATABASE_URL)
+        # Supabase and other cloud DBs benefit from pool_pre_ping=True to handle stale connections
+        engine = create_engine(DATABASE_URL, pool_pre_ping=True)
         
     # Test connection
     with engine.connect() as conn:

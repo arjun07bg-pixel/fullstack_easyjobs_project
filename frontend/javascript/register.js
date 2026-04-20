@@ -1,6 +1,8 @@
 "use strict";
 
-const getAPIURL = () => window.getEasyJobsAPI ? window.getEasyJobsAPI() : "http://127.0.0.1:8000/api";
+const getAPIURL = () => {
+    return window.getEasyJobsAPI ? window.getEasyJobsAPI() : "http://127.0.0.1:8000/api";
+};
 
 document.addEventListener("DOMContentLoaded", () => {
     const userTypeSelect = document.getElementById("usertype");
