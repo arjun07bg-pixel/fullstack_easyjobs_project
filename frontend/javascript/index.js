@@ -6,7 +6,7 @@ window.getEasyJobsAPI = () => {
     // ---------------------------------------------------------
     // 🌍 PRODUCTION BACKEND URL
     // Update this if your Vercel URL changes (Check Vercel Dashboard -> Visit)
-    const PRODUCTION_API_URL = "https://fullstack-easyjobs-project.vercel.app/api"; 
+    const PRODUCTION_API_URL = "https://fullstack-easyjobs-project-arjun07bg-pixels-projects.vercel.app/api"; 
     // ---------------------------------------------------------
 
     if (isLocal) {
