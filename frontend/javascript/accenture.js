@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const API_BASE_URL = getAPIURL();
             const response = await fetch(`${API_BASE_URL}/jobs/`);
             if (!response.ok) throw new Error("Failed to fetch jobs");
-
             const allJobs = await response.json();
             const accentureJobs = allJobs.filter(job =>
                 job.company_name.toLowerCase().includes("accenture")
