@@ -1,13 +1,10 @@
 import os
 import sys
 
-# Ensure both the project root and backend folder are in sys.path so imports work
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
+# Add backend directory to sys.path to ensure local imports work
+parent_dir = os.path.dirname(os.path.abspath(__file__))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
-if current_dir not in sys.path:
-    sys.path.insert(0, current_dir)
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
@@ -66,7 +63,14 @@ app.add_middleware(
 )
 
 # ── Database ────────────────────────────────────────────────────
-Base.metadata.create_all(bind=engine)
+# Create database tables lazily on startup to prevent crashing on Vercel
+@app.on_event("startup")
+def startup_event():
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables initialized.")
+    except Exception as e:
+        print(f"❌ Database initialization failed: {e}")
 
 # ── API Routers (MUST be before static file mounts) ─────────────
 app.include_router(auth.router, prefix="/api")
