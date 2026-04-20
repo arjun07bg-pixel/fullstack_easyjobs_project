@@ -89,14 +89,51 @@ app.include_router(stats.router, prefix="/api")
 app.include_router(interviews.router, prefix="/api")
 
 # ── HTML Page Routes ────────────────────────────────────────────
+project_root = os.path.dirname(parent_dir)
+
 @app.get("/")
 async def root():
-    return FileResponse(os.path.join(parent_dir, "index.html"))
+    # Try different possible locations for index.html
+    possible_paths = [
+        os.path.join(project_root, "index.html"),
+        os.path.join(os.getcwd(), "index.html"),
+        "index.html"
+    ]
+    for path in possible_paths:
+        if os.path.exists(path):
+            return FileResponse(path)
+    
+    return JSONResponse({
+        "error": "index.html not found", 
+        "cwd": os.getcwd(), 
+        "root": project_root
+    }, status_code=404)
 
 @app.get("/index.html")
 async def index_html():
-    return FileResponse(os.path.join(parent_dir, "index.html"))
+    return await root()
 
 # ── Static Files (AFTER all routes) ────────────────────────────
-app.mount("/uploads", StaticFiles(directory=os.path.join(current_dir, "uploads")), name="uploads")
-app.mount("/frontend", StaticFiles(directory=os.path.join(parent_dir, "frontend")), name="frontend")
+# Use /tmp for uploads on Vercel
+if os.getenv("VERCEL"):
+    uploads_dir = "/tmp/uploads"
+else:
+    uploads_dir = os.path.join(project_root, "uploads")
+
+if not os.path.exists(uploads_dir):
+    try:
+        os.makedirs(uploads_dir, exist_ok=True)
+    except Exception as e:
+        print(f"Warning: Could not create uploads dir: {e}")
+
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+
+# Frontend static files (HTML/JS/CSS)
+frontend_dir = os.path.join(project_root, "frontend")
+if os.path.exists(frontend_dir):
+    app.mount("/frontend", StaticFiles(directory=frontend_dir), name="frontend")
+else:
+    # Fallback to local search if project_root is weird
+    alt_frontend = os.path.join(os.getcwd(), "frontend")
+    if os.path.exists(alt_frontend):
+         app.mount("/frontend", StaticFiles(directory=alt_frontend), name="frontend")

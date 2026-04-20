@@ -26,10 +26,16 @@ try:
         pass
 except Exception as e:
     # Use absolute path for sqlite db
-    DB_PATH = os.path.join(BASE_DIR, "easyjobs.db")
+    # On Vercel, the only writable directory is /tmp
+    if os.getenv("VERCEL"):
+        DB_PATH = "/tmp/easyjobs.db"
+    else:
+        DB_PATH = os.path.join(BASE_DIR, "easyjobs.db")
+        
     DATABASE_URL = f"sqlite:///{DB_PATH}"
-    print(f"⚠️ Falling back to local SQLite: {DATABASE_URL}")
+    print(f"⚠️ Falling back to SQLite: {DATABASE_URL}")
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
 
 SessionLocal = sessionmaker(
     autocommit=False,
