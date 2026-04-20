@@ -1,11 +1,11 @@
 window.getEasyJobsAPI = () => {
     const hostname = window.location.hostname;
     const isLocal = hostname === "127.0.0.1" || hostname === "localhost" || hostname === "";
+    const isVercel = hostname.includes("vercel.app");
     
     // ---------------------------------------------------------
     // 🌍 PRODUCTION BACKEND URL
-    // If you have deployed your backend (e.g. to Render, Railway, or Vercel), 
-    // paste the URL here. Example: "https://your-api.onrender.com/api"
+    // Update this if your Vercel URL changes (Check Vercel Dashboard -> Visit)
     const PRODUCTION_API_URL = "https://fullstack-easyjobs-project.vercel.app/api"; 
     // ---------------------------------------------------------
 
@@ -13,9 +13,13 @@ window.getEasyJobsAPI = () => {
         return "http://127.0.0.1:8000/api";
     }
 
-    // On GitHub Pages or other hosting, use the production URL if set
-    // Otherwise fall back to a relative path /api
-    return PRODUCTION_API_URL || "/api";
+    if (isVercel) {
+        // Use relative path when hosted on Vercel for better reliability
+        return "/api";
+    }
+
+    // On GitHub Pages or other hosting, use the absolute production URL
+    return PRODUCTION_API_URL;
 };
 
 console.log(`🚀 EasyJobs API Target: ${window.getEasyJobsAPI()}`);

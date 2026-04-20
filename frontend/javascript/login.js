@@ -65,7 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error(err);
-            alert("Could not connect to the Backend. Please ensure you have run 'python main.py' in your terminal and it is running on port 8000.");
+            const isGitHub = window.location.hostname.includes("github.io");
+            if (isGitHub) {
+                alert("🔴 Could not connect to the Backend from GitHub Pages.\n\n1. Ensure your Vercel Backend is active.\n2. Check if the Vercel URL in index.js is correct.\n3. Verify that your Database (Supabase) is connected.");
+            } else {
+                alert("🔴 Could not connect to the Backend. Please ensure your Python server is running on port 8000.");
+            }
             loginBtn.innerText = "Login";
             loginBtn.disabled = false;
         }
