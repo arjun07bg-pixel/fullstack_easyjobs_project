@@ -6,7 +6,7 @@ window.getEasyJobsAPI = () => {
     // 🌍 PRODUCTION BACKEND URL
     // If you have deployed your backend (e.g. to Render, Railway, or Vercel), 
     // paste the URL here. Example: "https://your-api.onrender.com/api"
-    const PRODUCTION_API_URL = "https://easyjobs-production-api.up.railway.app/api"; 
+    const PRODUCTION_API_URL = "https://fullstack-easyjobs-project.vercel.app/api"; 
     // ---------------------------------------------------------
 
     if (isLocal) {
